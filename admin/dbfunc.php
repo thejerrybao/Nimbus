@@ -1,5 +1,5 @@
 <?php 
-/** Project Name: Nimbus (Report Form System)
+/** Project Name: Nimbus (Circle K Report Form System)
  ** Administration Backend (dbfunc.php)
  **
  ** Author: Jerry Bao (thejerrybao@gmail.com)
