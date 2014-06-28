@@ -1,6 +1,6 @@
 <?php 
 /** Project Name: Nimbus (Circle K Report Form System)
- ** Database Functions (dbfunc.php)
+ ** Roster Administration (roster.php)
  **
  ** Author: Jerry Bao (jbao@berkeley.edu)
  ** Author: Robert Rodriguez (rob.rodriguez@berkeley.edu)
