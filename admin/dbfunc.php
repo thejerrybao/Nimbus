@@ -33,8 +33,10 @@ class DatabaseFunctions {
         $this->$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
+    // destruct to destroy conection to database at end
     public function __destruct() { $this->$db = null; }
 
+    // get all dues paid member information
     public function getDuesPaidMembers() {
 
         $duesPaid = array();
@@ -60,6 +62,7 @@ class DatabaseFunctions {
         return $duesPaid;
     }
 
+    // get event data with event ID
     private function getEventInfo($event_id) {
         $query = $this->$db->prepare('SELECT * FROM `events`
             WHERE event_id=:event_id');
@@ -71,6 +74,7 @@ class DatabaseFunctions {
         return $query->fetch();
     }
 
+    // get ID of all events a user has attended
     private function getUserEventsID($user_id) {
 
         $userEventsID = array();
@@ -86,6 +90,7 @@ class DatabaseFunctions {
         return $userEventsID
     }
 
+    // get user hours of an event; returns all hour types
     public function getUserHoursByEventID($user_id, $event_id) {
 
         $hours = array();
@@ -116,7 +121,9 @@ class DatabaseFunctions {
         return $hours
     }
 
-    public function getHours($typeHours, $user_id = null) {
+    // get total hours of the club or a user
+    // can specify what type of hours or all hours (service, admin, social, all)
+    public function getTotal($typeHours, $user_id = null) {
 
         $totalHours = array();
         $totalHours["service_hours"] = $totalHours["admin_hours"] = $totalHours["social_hours"] = 0.0
@@ -154,7 +161,7 @@ class DatabaseFunctions {
                 $totalHours["admin_hours"] += $row->social_hours * $numNonOverride
             }
         }
-        
+
         else {
 
             $userEventsID = $self->getUserEventsID($user_id);
