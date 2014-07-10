@@ -20,7 +20,8 @@ class DatabaseFunctions {
 
     private static $db;
 
-    function __construct() {
+    // construct to connect to database
+    public function __construct() {
         try {
             $this->$db = new PDO("mysql:host=" . MYSQL_HOST . ";dbname=" . MYSQL_DB, MYSQL_USER, MYSQL_PASS);
         }
@@ -30,6 +31,39 @@ class DatabaseFunctions {
 
         $this->$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $this->$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+
+    public function __destruct() {
+        $this->$db = null;
+    }
+
+    public function getDuesPaidMembers() {
+
+        $duesPaid = array();
+
+        $query = $this->$db->prepare('SELECT * FROM `users` WHERE dues_paid=:dues_paid ORDER BY `last_name` ASC');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':dues_paid' => 1
+            ));
+
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+
+            $duesPaid[] = array(
+                "user_id" => $row->user_id,
+                "first_name" => $row->first_name,
+                "last_name" => $row->last_name,
+                "email" => $row->email,
+                "phone" => $row->phone
+            );
+        }
+
+        return $duesPaid;
+    }
+
+    public function getServiceHours($user_id = 0) {
+
     }
 }
 
