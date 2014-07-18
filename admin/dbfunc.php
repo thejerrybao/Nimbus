@@ -241,20 +241,20 @@ class DatabaseFunctions {
         if ($query->execute(array(
             ':name' => $eventData['name'],
             ':chair_id' => $eventData['chair_id'],
-            ':start_datetime' => $eventData['start_datetime'],
-            ':end_datetime' => $eventData['end_datetime'],
+            ':start_datetime' => date("Y-m-d H:i:s", $eventData['start_datetime'],
+            ':end_datetime' => date("Y-m-d H:i:s", $eventData['end_datetime']),
             ':description' => $eventData['description'],
             ':location' => $eventData['location'],
             ':meeting_location' => $eventData['meeting_location'],
             ':all_day' => $eventData['all_day'],
             ':online_signups' => $eventData['online_signups'],
-            ':online_end_datetime' => $eventData['online_end_datetime'],
+            ':online_end_datetime' => date("Y-m-d H:i:s", $eventData['online_end_datetime']),
             ':status' => $eventData['status']))) { return "Event " . $eventData['name'] . " was successfully created!"; }
         else { return "An Error has Occurred! Error: " . $db->errorInfo(); }
     }
 
     // get today's events
-    // Assumes the date given is in UnixDateTime and is at  the Date  at 00:00:00
+    // Assumes the date given is in UnixDateTime and is at the Date at 00:00:00
     // Finds events that start at the date at 00:00:00 to the next day at 00:00:00 
     public function getEventsByDate($date) {
 
@@ -263,26 +263,21 @@ class DatabaseFunctions {
         $dateEnd = strtotime('+1 day', $date);
 
         $query = $this->$db->prepare('SELECT * FROM `events`
-            WHERE start_datetime >= FROM_UNIXTIME($dateBegin) AND FROM_UNIXTIME($dateEnd) <= $dateEnd' );
+            WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND FROM_UNIXTIME(:dateEnd) <= end_datetime' );
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
-            ':event_id' => $event_id,
-            ':name' => $name,
-            ':start_datetime' => $start_datetime,
-            ':end_datetime' => $end_datetime,
-            ':meeting_location' => $meeting_location,
-            ':location' => $location,
-            ':status' => $status));
+            ':dateBegin' => $dateBegin,
+            ':dateEnd' => $dateEnd));
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
             $events[] = array(
                 'event_id' => $row->event_id,
                 'name' => $row->name,
-                'start_datetime' => $row->$start_datetime,
-                'end_datetime' => $row->$end_datetime,
-                'meeting_location' => $row->$meeting_location,
-                'location' => $row->$location,
-                'status' => $row->$status);
+                'start_datetime' => strtotime($row->start_datetime),
+                'end_datetime' => strtotime($row->end_datetime),
+                'meeting_location' => $row->meeting_location,
+                'location' => $row->location,
+                'status' => $row->status);
         }
 
         return $events;
@@ -298,26 +293,21 @@ class DatabaseFunctions {
         $dateEnd = strtotime('+1 month', $date);
 
         $query = $this->$db->prepare('SELECT * FROM `events`
-            WHERE start_datetime >= FROM_UNIXTIME($dateBegin) AND FROM_UNIXTIME($dateEnd) <= $dateEnd' );
+            WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND FROM_UNIXTIME(:dateEnd) <= end_datetime' );
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
-            ':event_id' => $event_id,
-            ':name' => $name,
-            ':start_datetime' => $start_datetime,
-            ':end_datetime' => $end_datetime,
-            ':meeting_location' => $meeting_location,
-            ':location' => $location,
-            ':status' => $status));
+            ':dateBegin' => $dateBegin,
+            ':dateEnd' => $dateEnd));
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
             $events[] = array(
                 'event_id' => $row->event_id,
                 'name' => $row->name,
-                'start_datetime' => $row->$start_datetime,
-                'end_datetime' => $row->$end_datetime,
-                'meeting_location' => $row->$meeting_location,
-                'location' => $row->$location,
-                'status' => $row->$status);
+                'start_datetime' => strtotime($row->start_datetime),
+                'end_datetime' => strtotime($row->end_datetime),
+                'meeting_location' => $row->meeting_location,
+                'location' => $row->location,
+                'status' => $row->status);
         }
 
         return $events;
@@ -550,6 +540,24 @@ class DatabaseFunctions {
     // change event information
     public function changeEvent($event_id, $eventData) {
 
+        $query = $this->$db->prepare('UPDATE `events`
+            SET name=:name, chair_id=:chair_id, start_datetime=:start_datetime, end_datetime=:end_datetime,
+            description=:description, location=:location, meeting_location=:meeting_location,
+            all_day=:all_day, online_signups=:online_signups, online_end_datetime=:online_end_datetime, status=:status
+            WHERE event_id=:event_id');
+        if ($query->execute(array(
+            ':name' => $eventData['name'],
+            ':chair_id' => $eventData['chair_id'],
+            ':start_datetime' => date("Y-m-d H:m:s", $eventData['start_datetime']),
+            ':end_datetime' => date("Y-m-d H:m:s", $eventData['end_datetime']),
+            ':description' => $eventData['description'],
+            ':location' => $eventData['location'],
+            ':meeting_location' => $eventData['meeting_location'],
+            ':all_day' => $eventData['all_day'],
+            ':online_signups' => $eventData['online_signups'],
+            ':online_end_datetime' => date("Y-m-d H:m:s", $eventData['online_end_datetime']),
+            ':status' => $eventData['status']))) { return "Event " . $eventData['name'] . " was successfully changed!"; }
+        else { return "An Error has Occurred! Error: " . $db->errorInfo(); }
     }
 }
 
