@@ -499,6 +499,7 @@ class DatabaseFunctions {
                     SET active = 0
                     WHERE user_id=:user_id');   
             }
+        }
         if ($query->execute(array(
             ':user_id' => $user_id))) { return "Successfully changed active statuses."; }
     }
@@ -528,7 +529,7 @@ class DatabaseFunctions {
         $query = $this->$db->prepare('INSERT INTO `committees`
             VALUES ("", :name)');
         if ($query->execute(array(
-            ':name' => $name))) { return "Successfully added " . $name " committee!"; }
+            ':name' => $name))) { return "Successfully added " . $name . " committee!"; }
         else { return "An error has occurred! Error: " . $db->errorInfo(); }
     }
 
@@ -538,7 +539,7 @@ class DatabaseFunctions {
         $query = $this->$db->prepare('DELETE FROM `committees`
             WHERE :committee_id = $committee_id');
         if ($query->execute(array(
-            ':committee_id' => $committee_id))) { return "Successfully deleted " . $name " committee!";
+            ':committee_id' => $committee_id))) { return "Successfully deleted " . $name . " committee!";
         } else { return "An error has occurred! Error: " . $db->errorInfo(); }
     }
 
