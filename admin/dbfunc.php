@@ -445,14 +445,76 @@ class DatabaseFunctions {
         else { return "An error has occurred! Error: " . $db->errorInfo(); }
     }
 
+    // change first/last name 
+    public function changeName($user_id, $first_name, $last_name) {
+
+    }
+
+    // change email
+    public function changeEmail($user_id, $email) {
+
+    }
+
     // change phone number
-    public function changePhoneNumber($phone) {
+    public function changePhoneNumber($user_id, $phone) {
 
     }
 
-    public function changePassword($password) {
+    // change password
+    public function changePassword($user_id, $password) {
 
     }
+
+    // change membership from active to non-active and vice-versa
+    public function changeActiveMembership($user_ids) {
+
+    }
+
+    // change status from dues-paid to non-dues-paid and vice-versa
+    public function changeDuesPaidMembership($user_ids) {
+
+    }
+
+    // add a committee
+    public function addCommittee($name) {
+
+    }
+
+    // delete a committee
+    public function deleteCommittee($committee_id) {
+
+    }
+
+    // add a committee member to a committee
+    public function addCommitteeMembers($committee_id, $user_ids) {
+
+    }
+
+    // remove a committee member to a committee
+    public function deleteCommitteeMembers($committee_id, $user_ids) {
+        
+    }
+
+    // get members
+    public function getCommitteeMembers($committee_id) {
+
+    }
+
+    // changes users override hours
+    public function changeOverrideHours($event_id, $overrideUsers) {
+
+    }
+
+    // delete users override hours
+    public function deleteOverrideHours($event_id, $user_ids) {
+
+    }
+
+    // change event information
+    public function changeEvent($event_id, $eventData) {
+
+    }
+
 }
 
 ?>
