@@ -517,6 +517,7 @@ class DatabaseFunctions {
                     SET dues_paid = 0
                     WHERE user_id=:user_id');   
             }
+        }
         if ($query->execute(array(
             ':user_id' => $user_id))) { return "Successfully changed dues-paid statuses."; }
     }
