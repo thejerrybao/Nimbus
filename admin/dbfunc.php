@@ -327,14 +327,6 @@ class DatabaseFunctions {
                 VALUES ("", :event_id, :user_id, :service_hours, :admin_hours, :social_hours)');
 
             if ($query->execute(array(
-<<<<<<< HEAD
-            ':event_id' => $event_id,
-            ':user_id' => $value['user_id'],
-            ':service_hours' => $value['service_hours'],
-            ':admin_hours' => $value['admin_hours'],
-            ':social_hours' => $value['social_hours']
-            ))) else { return "An error has occurred! Error: " . $db->errorInfo(); } 
-=======
                 ':event_id' => $event_id,
                 ':user_id' => $user['user_id'],
                 ':service_hours' => $user['service_hours'],
@@ -345,8 +337,7 @@ class DatabaseFunctions {
             } 
             else { 
                 return "An error has Occurred! Error: " . $db->errorInfo(); 
-            } 
->>>>>>> FETCH_HEAD
+            }
         }
     }
 
