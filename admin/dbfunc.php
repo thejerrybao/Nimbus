@@ -45,8 +45,7 @@ class DatabaseFunctions {
             WHERE dues_paid=:dues_paid ORDER BY `last_name` ASC');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
-            ':dues_paid' => 1
-            ));
+            ':dues_paid' => 1));
 
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
@@ -56,8 +55,7 @@ class DatabaseFunctions {
                 "first_name" => $row->first_name,
                 "last_name" => $row->last_name,
                 "email" => $row->email,
-                "phone" => $row->phone
-            );
+                "phone" => $row->phone);
         }
 
         return $duesPaid;
@@ -72,8 +70,7 @@ class DatabaseFunctions {
             WHERE user_id=:user_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
-            ':user_id' => $user_id
-            ));     
+            ':user_id' => $user_id));     
         if ($query->rowCount() == 0) { return false; }
         $row = $query->fetch();
         $userInfo['user_id'] = $row->user_id;
@@ -98,8 +95,7 @@ class DatabaseFunctions {
             WHERE event_id=:event_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
-            ':event_id' => $event_id
-            ));
+            ':event_id' => $event_id));
 
         if ($query->rowCount() == 0) { return false; }
         $row = $query->fetch();
@@ -293,7 +289,7 @@ class DatabaseFunctions {
                 'end_datetime' => $row->$end_datetime,
                 'meeting_location' => $row->$meeting_location,
                 'location' => $row->$location,
-                'status' => $row->$status
+                'status' => $row->$status);
         }
 
         return $events;
@@ -329,7 +325,7 @@ class DatabaseFunctions {
                 'end_datetime' => $row->$end_datetime,
                 'meeting_location' => $row->$meeting_location,
                 'location' => $row->$location,
-                'status' => $row->$status
+                'status' => $row->$status);
         }
 
         return $events;
@@ -358,8 +354,7 @@ class DatabaseFunctions {
                 'first_name' => $userInfo['first_name'],
                 'last_name' => $userInfo['last_name'],
                 'email' => $userInfo['email'],
-                'phone' => $userInfo['phone']
-                );
+                'phone' => $userInfo['phone']);
         }
 
         return $eventAttendees;
@@ -390,7 +385,7 @@ class DatabaseFunctions {
 
     // register user
     public function registerUser($userData) {
-        
+
         $query = $this->$db->prepare('INSERT INTO `users` 
             VALUES ("", :user_id, :first_name, :last_name, :username, :password, :email, :phone, 0, 0, 1)');
 
