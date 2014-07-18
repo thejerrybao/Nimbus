@@ -263,7 +263,25 @@ class DatabaseFunctions {
 
     // get today's events
     public function getEventByDate($date) {
+        $events = array();
+        $dateBegin = $date;
+        $dateEnd = strtotime('+1 day', $date);
 
+        $query = $this->$db->prepare('SELECT * FROM `events` WHERE start_datetime >= FROM_UNIXTIME($dateBegin) AND FROM_UNIXTIME($dateEnd) <= $dateEnd' );
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':event_id' => $event_id,
+            ':name' => $name,
+            ':start_datetime' => $start_datetime,
+            ':end_datetime' => $end_datetime,
+            ':meeting_location' => $meeting_location,
+            ':location' => $location,
+            ':status' => $status
+            ));
+        if ($query->rowCount() == 0) { return false; }
+        
+
+        return $events;
     }
 
     // get month's events
