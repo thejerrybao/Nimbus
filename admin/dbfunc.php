@@ -204,16 +204,16 @@ class DatabaseFunctions {
                     $totalHours['social_hours'] += $rowOverrideHours->social_hours;
                 }
 
-                $totalHours['service_hours'] += $row->service_hours * $numNonOverride
-                $totalHours['admin_hours'] += $row->admin_hours * $numNonOverride
-                $totalHours['social_hours'] += $row->social_hours * $numNonOverride
+                $totalHours['service_hours'] += $row->service_hours * $numNonOverride;
+                $totalHours['admin_hours'] += $row->admin_hours * $numNonOverride;
+                $totalHours['social_hours'] += $row->social_hours * $numNonOverride;
             }
         } else {
 
             $userEventsID = $self->getUserEventsID($user_id);
             foreach ($userEventsID as $event_id) {
                 
-                $hours = $this->getUserHoursByEventID($user_id, $event_id)
+                $hours = $this->getUserHoursByEventID($user_id, $event_id);
                 $totalHours['service_hours'] += $hours['service_hours'];
                 $totalHours['admin_hours'] += $hours['admin_hours'];
                 $totalHours['social_hours'] += $hours['social_hours'];
@@ -241,7 +241,7 @@ class DatabaseFunctions {
         if ($query->execute(array(
             ':name' => $eventData['name'],
             ':chair_id' => $eventData['chair_id'],
-            ':start_datetime' => date("Y-m-d H:i:s", $eventData['start_datetime'],
+            ':start_datetime' => date("Y-m-d H:i:s", $eventData['start_datetime']),
             ':end_datetime' => date("Y-m-d H:i:s", $eventData['end_datetime']),
             ':description' => $eventData['description'],
             ':location' => $eventData['location'],
@@ -411,13 +411,13 @@ class DatabaseFunctions {
     public function changeUserAccess($user_id, $access) {
 
         if ($access == 0) {
-            $accessValue = 'General Member'
+            $accessValue = 'General Member';
         } else if ($access == 1) {
-            $accessValue = 'Board Member'
+            $accessValue = 'Board Member';
         } else if ($access == 2) {
-            $accessValue = 'Secretary'
+            $accessValue = 'Secretary';
         } else { 
-            $accessValue = 'Technology Chair'
+            $accessValue = 'Technology Chair';
         }
 
         $userInfo = $this->getUserInfo($user_id);
@@ -536,7 +536,7 @@ class DatabaseFunctions {
                 'email' => $userInfo['email']);
         }
 
-        return $committeeMembers
+        return $committeeMembers;
     }
 
     // changes users override hours
