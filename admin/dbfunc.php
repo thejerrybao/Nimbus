@@ -134,8 +134,7 @@ class DatabaseFunctions {
             WHERE user_id=:user_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
-            ':user_id' => $user_id
-            ));
+            ':user_id' => $user_id));
 
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) { $userEventsID[] = $row->event_id; }
@@ -152,8 +151,7 @@ class DatabaseFunctions {
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':event_id' => $event_id,
-            ':user_id' => $user_id
-            ));
+            ':user_id' => $user_id));
 
         if ($query->rowCount() == 0) {
 
@@ -198,8 +196,7 @@ class DatabaseFunctions {
                         FROM `event_override_hours` WHERE event_id=:event_id');
                     $queryOverrideHours->setFetchMode(PDO::FETCH_OBJ);
                     $queryOverrideHours->execute(array(
-                        ':event_id' => $row->event_id
-                    ));
+                        ':event_id' => $row->event_id));
 
                     $rowOverrideHours = $queryOverrideHours->fetch();
                     $totalHours['service_hours'] += $rowOverrideHours->service_hours;
@@ -252,8 +249,7 @@ class DatabaseFunctions {
             ':all_day' => $eventData['all_day'],
             ':online_signups' => $eventData['online_signups'],
             ':online_end_datetime' => $eventData['online_end_datetime'],
-            ':status' => $eventData['status']
-            ))) { return "Event " . $eventData['name'] . " was successfully created!"; }
+            ':status' => $eventData['status']))) { return "Event " . $eventData['name'] . " was successfully created!"; }
         else { return "An Error has Occurred! Error: " . $db->errorInfo(); }
     }
 
@@ -276,8 +272,7 @@ class DatabaseFunctions {
             ':end_datetime' => $end_datetime,
             ':meeting_location' => $meeting_location,
             ':location' => $location,
-            ':status' => $status
-            ));
+            ':status' => $status));
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
             $events[] = array(
@@ -312,8 +307,7 @@ class DatabaseFunctions {
             ':end_datetime' => $end_datetime,
             ':meeting_location' => $meeting_location,
             ':location' => $location,
-            ':status' => $status
-            ));
+            ':status' => $status));
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
             $events[] = array(
@@ -366,11 +360,11 @@ class DatabaseFunctions {
 
         $eventAttendees = array();
 
-        $query = $this->$db->prepare('SELECT * FROM `event_attendees` WHERE event_id=:event_id');
+        $query = $this->$db->prepare('SELECT * FROM `event_attendees`
+            WHERE event_id=:event_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
-            ':event_id' => $event_id
-            ));
+            ':event_id' => $event_id));
 
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
@@ -397,8 +391,7 @@ class DatabaseFunctions {
                 ':user_id' => $user['user_id'],
                 ':service_hours' => $user['service_hours'],
                 ':admin_hours' => $user['admin_hours'],
-                ':social_hours' => $user['social_hours']
-                ))) { 
+                ':social_hours' => $user['social_hours']))) { 
                 continue; 
             } else { return "An error has Occurred! Error: " . $db->errorInfo(); }
         }
@@ -498,6 +491,24 @@ class DatabaseFunctions {
     // get members
     public function getCommitteeMembers($committee_id) {
 
+        $committeeMembers = array();
+
+        $query = $this->$db->prepare('SELECT * FROM `committee_members`
+            WHERE committee_id=:committee_id');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':committee_id' => $committee_id));
+
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+            $userInfo = $this->getUserInfo($row->user_id);
+            $committeeMembers[] = array(
+                'first_name' => $userInfo['first_name'],
+                'last_name' => $userInfo['last_name'],
+                'email' => $userInfo['email']);
+        }
+
+        return $committeeMembers
     }
 
     // changes users override hours
