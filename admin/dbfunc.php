@@ -231,6 +231,10 @@ class DatabaseFunctions {
     // add overridd hours for users
     public function addOverrideHours($event_id, $overrideUsers) {
 
+        INSERT INTO event_override_hours
+        VALUES ()
+
+
     }
 
     // register user
