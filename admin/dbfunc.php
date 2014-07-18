@@ -205,8 +205,8 @@ class DatabaseFunctions {
                 }
 
                 $totalHours['service_hours'] += $row->service_hours * $numNonOverride
-                $totalHours['social_hours'] += $row->admin_hours * $numNonOverride
-                $totalHours['admin_hours'] += $row->social_hours * $numNonOverride
+                $totalHours['admin_hours'] += $row->admin_hours * $numNonOverride
+                $totalHours['social_hours'] += $row->social_hours * $numNonOverride
             }
         } else {
 
@@ -476,7 +476,7 @@ class DatabaseFunctions {
 
     // change password
     public function changePassword($user_id, $password) {
-        
+
         $query = $this->$db->prepare('UPDATE users
             SET password=:password
             WHERE user_id=:user_id');
