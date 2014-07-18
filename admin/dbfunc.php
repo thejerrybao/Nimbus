@@ -488,11 +488,37 @@ class DatabaseFunctions {
 
     // change membership from active to non-active and vice-versa
     public function changeActiveMembership($user_ids) {
+        foreach ($user_id as $user_ids) {
+            $userInfo = $this->getUserInfo($user_id);
+            if(user_id['active'] == 0){
+              $query = $this->$db->prepare('UPDATE users SET active = 1
+                WHERE user_id=:user_id');   
+            } 
+            elseif (user_id['active'] == 1) {
+                $query = $this->$db->prepare('UPDATE users SET active = 0
+                WHERE user_id=:user_id');   
+            }
+        if($query=>execute(array( ':user_id' => $user_id, ':active' => $active))){
+            return "Successfully changed Active status."
+        }
 
     }
 
     // change status from dues-paid to non-dues-paid and vice-versa
     public function changeDuesPaidMembership($user_ids) {
+        foreach ($user_id as $user_ids) {
+            $userInfo = $this->getUserInfo($user_id);
+            if(user_id['dues_paid'] == 0){
+              $query = $this->$db->prepare('UPDATE users SET dues_paid = 1
+                WHERE user_id=:user_id');   
+            } 
+            elseif (user_id['dues_paid'] == 1) {
+                $query = $this->$db->prepare('UPDATE users SET dues_paid = 0
+                WHERE user_id=:user_id');   
+            }
+        if($query=>execute(array( ':user_id' => $user_id, ':dues_paid' => $dues_paid))){
+            return "Successfully changed dues-paid status."
+        }
 
     }
 
