@@ -402,13 +402,13 @@ class DatabaseFunctions {
     public function changeUserAccess($user_id, $access) {
 
         if ($access == 0) {
-            $accessValue = 'general member',
+            $accessValue = 'General Member',
             else if ($access == 1) {
-                $accessValue = 'board member',
+                $accessValue = 'Board Member',
             } else if ($access == 2) {
-                $accessValue = 'secretary',
+                $accessValue = 'Secretary',
             } else { 
-                $accessValue = 'technology chair'
+                $accessValue = 'Technology Chair'
             }
         };
 
@@ -416,7 +416,6 @@ class DatabaseFunctions {
 
         $query = $this->$db->prepare('UPDATE users SET access=:access
             WHERE user_id=:user_id');
-
         if ($query->execute(array(
             ':user_id' => $user_id,
             ':access' => $access))) { return "Successfully changed access for " . $userInfo[first_name] . $userInfo[last_name] . "to " . $accessValue; }
