@@ -327,14 +327,6 @@ class DatabaseFunctions {
                 VALUES ("", :event_id, :user_id, :service_hours, :admin_hours, :social_hours)');
 
             if ($query->execute(array(
-<<<<<<< HEAD
-            ':event_id' => $event_id,
-            ':user_id' => $value['user_id'],
-            ':service_hours' => $value['service_hours'],
-            ':admin_hours' => $value['admin_hours'],
-            ':social_hours' => $value['social_hours']
-            ))) else { return "An error has occurred! Error: " . $db->errorInfo(); } 
-=======
                 ':event_id' => $event_id,
                 ':user_id' => $user['user_id'],
                 ':service_hours' => $user['service_hours'],
@@ -346,7 +338,6 @@ class DatabaseFunctions {
             else { 
                 return "An error has Occurred! Error: " . $db->errorInfo(); 
             } 
->>>>>>> FETCH_HEAD
         }
     }
 
@@ -368,7 +359,28 @@ class DatabaseFunctions {
     }
 
     // change user access
-    public function changeUserAccess($user_id) {
+    public function changeUserAccess($user_id, $access) {
+
+        if ($access==0) {
+            $accessValue='general member',
+            else if ($access==1) {
+                $accessValue='board member',
+            } else if ($access==2) {
+                $accessValue='secretary',
+            } else {$accessValue='technology chair'}
+        };
+
+        $userInfo = $this->getUserInfo($user_id);
+
+        $query = $this->$db->prepare('UPDATE users SET access=:access
+            WHERE user_id=:user_id');
+
+        if ($query->execute(array(
+            ':user_id' => $user_id,
+            ':access' => $access))) { return "Successfully changed access for " . $userInfo[first_name] . $userInfo[last_name] . "to " . $accessValue; }
+        else {
+            return "An error has occurred! Error: " . $db->errorInfo();
+        }
 
     }
 }
