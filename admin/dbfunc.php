@@ -383,11 +383,8 @@ class DatabaseFunctions {
             } 
             else { 
                 return "An error has Occurred! Error: " . $db->errorInfo(); 
-<<<<<<< HEAD
-            } 
-=======
+
             }
->>>>>>> FETCH_HEAD
         }
     }
 
