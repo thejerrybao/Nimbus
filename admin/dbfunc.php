@@ -146,7 +146,7 @@ class DatabaseFunctions {
 
         $hours = array();
 
-        $query = $this->$db->prepare('SELECT * FROM `event_override_hours` 
+        $query = $this->$db->prepare('SELECT * FROM `event_override_hours`
             WHERE event_id=:event_id AND user_id=:user_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
@@ -235,7 +235,7 @@ class DatabaseFunctions {
     // creates an event
     public function createEvent($eventData) {
 
-        $query = $this->$db->prepare('INSERT INTO `events` 
+        $query = $this->$db->prepare('INSERT INTO `events`
             VALUES ("", :name, :chair_id, :start_datetime, :end_datetime, :description, :location, :meeting_location,
                 :all_day, :online_signups, :online_end_datetime, :status, 0, 0, "", "", "", 0, 0, 0, 0, 0)');
         if ($query->execute(array(
@@ -330,7 +330,8 @@ class DatabaseFunctions {
         if ($eventInfo['access'] != 2){
             return "This event is not completed.";
         } else {
-            $query = $this->$db->prepare('UPDATE events SET status = 3
+            $query = $this->$db->prepare('UPDATE events
+                SET status = 3
                 WHERE event_id=:event_id');
             if ($query->execute(array(
                 ':event_id' => $event_id))){
@@ -346,7 +347,8 @@ class DatabaseFunctions {
         if ($eventInfo['access'] != 1){
             return "This event is not in post-event status.";
         } else {
-            $query = $this->$db->prepare('UPDATE events SET status = 2
+            $query = $this->$db->prepare('UPDATE events
+                SET status = 2
                 WHERE event_id=:event_id');
             if ($query->execute(array(
                 ':event_id' => $event_id))){
@@ -383,7 +385,7 @@ class DatabaseFunctions {
     public function addOverrideHours($event_id, $overrideUsers) {
 
         foreach ($overrideUsers as $user) {
-            $query = $this->$db->prepare('INSERT INTO `event_override_hours` 
+            $query = $this->$db->prepare('INSERT INTO `event_override_hours`
                 VALUES ("", :event_id, :user_id, :service_hours, :admin_hours, :social_hours)');
 
             if ($query->execute(array(
@@ -400,7 +402,7 @@ class DatabaseFunctions {
     // register user
     public function registerUser($userData) {
 
-        $query = $this->$db->prepare('INSERT INTO `users` 
+        $query = $this->$db->prepare('INSERT INTO `users`
             VALUES ("", :user_id, :first_name, :last_name, :username, :password, :email, 0, :phone, 0, 0, 1)');
 
         if ($query->execute(array(
@@ -430,7 +432,8 @@ class DatabaseFunctions {
 
         $userInfo = $this->getUserInfo($user_id);
 
-        $query = $this->$db->prepare('UPDATE users SET access=:access
+        $query = $this->$db->prepare('UPDATE users
+            SET access=:access
             WHERE user_id=:user_id');
         if ($query->execute(array(
             ':user_id' => $user_id,
@@ -514,18 +517,40 @@ class DatabaseFunctions {
     // changes users override hours
     public function changeOverrideHours($event_id, $overrideUsers) {
 
+        foreach ($overrideUsers as $user) {
+            $query = $this->$db->prepare('UPDATE `event_override_hours`
+                SET service_hours=:service_hours, admin_hours=:admin_hours, social_hours=:social_hours
+                WHERE user_id=:user_id');
+
+            if ($query->execute(array(
+                ':user_id' => $user['user_id'],
+                ':service_hours' => $user['service_hours'],
+                ':admin_hours' => $user['admin_hours'],
+                ':social_hours' => $user['social_hours']))) { 
+                continue; 
+            } else { return "An error has Occurred! Error: " . $db->errorInfo(); }
+        }
     }
 
     // delete users override hours
     public function deleteOverrideHours($event_id, $user_ids) {
 
+        foreach ($overrideUsers as $user) {
+            $query = $this->$db->prepare('DELETE FROM `event_override_hours`
+                WHERE event_id=:event_id AND user_id=:user_id');
+
+            if ($query->execute(array(
+                ':event_id' => $event_id,
+                ':user_id' => $user_id))) { 
+                continue; 
+            } else { return "An error has Occurred! Error: " . $db->errorInfo(); }
+        }
     }
 
     // change event information
     public function changeEvent($event_id, $eventData) {
 
     }
-
 }
 
 ?>
