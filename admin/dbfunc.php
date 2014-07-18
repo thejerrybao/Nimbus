@@ -425,14 +425,13 @@ class DatabaseFunctions {
     public function changeUserAccess($user_id, $access) {
 
         if ($access == 0) {
-            $accessValue = 'General Member',
-            else if ($access == 1) {
-                $accessValue = 'Board Member',
-            } else if ($access == 2) {
-                $accessValue = 'Secretary',
-            } else { 
-                $accessValue = 'Technology Chair'
-            }
+            $accessValue = 'General Member'
+        } else if ($access == 1) {
+            $accessValue = 'Board Member'
+        } else if ($access == 2) {
+            $accessValue = 'Secretary'
+        } else { 
+            $accessValue = 'Technology Chair'
         }
 
         $userInfo = $this->getUserInfo($user_id);
@@ -443,6 +442,15 @@ class DatabaseFunctions {
             ':user_id' => $user_id,
             ':access' => $access))) { return "Successfully changed access for " . $userInfo[first_name] . $userInfo[last_name] . "to " . $accessValue; }
         else { return "An error has occurred! Error: " . $db->errorInfo(); }
+    }
+
+    // change phone number
+    public function changePhoneNumber($phone) {
+
+    }
+
+    public function changePassword($password) {
+
     }
 }
 
