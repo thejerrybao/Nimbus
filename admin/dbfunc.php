@@ -159,16 +159,16 @@ class DatabaseFunctions {
         if ($query->rowCount() == 0) {
 
             $event = $this->getEventInfo($event_id);
-            $hours["service_hours"] = $event['service_hours'];
-            $hours["admin_hours"] = $event['admin_hours'];
-            $hours["social_hours"] = $event['social_hours'];
+            $hours['service_hours'] = $event['service_hours'];
+            $hours['admin_hours'] = $event['admin_hours'];
+            $hours['social_hours'] = $event['social_hours'];
         }
         else { 
 
             $row = $query->fetch();
-            $hours["service_hours"] = $row->service_hours; 
-            $hours["admin_hours"] = $row->admin_hours;
-            $hours["social_hours"] = $row->social_hours;  
+            $hours['service_hours'] = $row->service_hours; 
+            $hours['admin_hours'] = $row->admin_hours;
+            $hours['social_hours'] = $row->social_hours;  
         }
 
         return $hours
@@ -179,7 +179,7 @@ class DatabaseFunctions {
     public function getTotal($typeHours, $user_id = null) {
 
         $totalHours = array();
-        $totalHours["service_hours"] = $totalHours["admin_hours"] = $totalHours["social_hours"] = 0.0
+        $totalHours['service_hours'] = $totalHours['admin_hours'] = $totalHours['social_hours'] = 0.0
 
         if (!$user_id) {
 
@@ -204,14 +204,14 @@ class DatabaseFunctions {
                     ));
 
                     $rowOverrideHours = $queryOverrideHours->fetch();
-                    $totalHours["service_hours"] += $rowOverrideHours->service_hours;
-                    $totalHours["admin_hours"] += $rowOverrideHours->admin_hours;
-                    $totalHours["social_hours"] += $rowOverrideHours->social_hours;
+                    $totalHours['service_hours'] += $rowOverrideHours->service_hours;
+                    $totalHours['admin_hours'] += $rowOverrideHours->admin_hours;
+                    $totalHours['social_hours'] += $rowOverrideHours->social_hours;
                 }
 
-                $totalHours["service_hours"] += $row->service_hours * $numNonOverride
-                $totalHours["social_hours"] += $row->admin_hours * $numNonOverride
-                $totalHours["admin_hours"] += $row->social_hours * $numNonOverride
+                $totalHours['service_hours'] += $row->service_hours * $numNonOverride
+                $totalHours['social_hours'] += $row->admin_hours * $numNonOverride
+                $totalHours['admin_hours'] += $row->social_hours * $numNonOverride
             }
         }
 
@@ -221,19 +221,19 @@ class DatabaseFunctions {
             foreach ($userEventsID as $event_id) {
                 
                 $hours = $this->getUserHoursByEventID($user_id, $event_id)
-                $totalHours["service_hours"] += $hours["service_hours"];
-                $totalHours["admin_hours"] += $hours["admin_hours"];
-                $totalHours["social_hours"] += $hours["social_hours"];
+                $totalHours['service_hours'] += $hours['service_hours'];
+                $totalHours['admin_hours'] += $hours['admin_hours'];
+                $totalHours['social_hours'] += $hours['social_hours'];
             }
         }
 
         switch ($typeHours) {
             case "service":
-                return $totalHours["service_hours"];
+                return $totalHours['service_hours'];
             case "admin":
-                return $totalHours["admin_hours"];
+                return $totalHours['admin_hours'];
             case "social":
-                return $totalHours["social_hours"];
+                return $totalHours['social_hours'];
             default:
                 return "No type of hours specified.";
         }
