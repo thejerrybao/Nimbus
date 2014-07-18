@@ -499,9 +499,9 @@ class DatabaseFunctions {
                     SET active = 0
                     WHERE user_id=:user_id');   
             }
+        }
         if ($query->execute(array(
-            ':user_id' => $user_id))) { return "Successfully changed active statuses." }
-        else { return "An error has occurred! Error: " . $db->errorInfo(); }
+            ':user_id' => $user_id))) { return "Successfully changed active statuses."; }
     }
 
     // change status from dues-paid to non-dues-paid and vice-versa
@@ -518,19 +518,35 @@ class DatabaseFunctions {
                     SET dues_paid = 0
                     WHERE user_id=:user_id');   
             }
+        }
         if ($query->execute(array(
+<<<<<<< HEAD
             ':user_id' => $user_id))) { return "Successfully changed dues-paid statuses." }
         else { return "An error has occurred! Error: " . $db->errorInfo(); }
     } 
+=======
+            ':user_id' => $user_id))) { return "Successfully changed dues-paid statuses."; }
+    }
+>>>>>>> FETCH_HEAD
 
     // add a committee
     public function addCommittee($name) {
 
+        $query = $this->$db->prepare('INSERT INTO `committees`
+            VALUES ("", :name)');
+        if ($query->execute(array(
+            ':name' => $name))) { return "Successfully added " . $name . " committee!"; }
+        else { return "An error has occurred! Error: " . $db->errorInfo(); }
     }
 
     // delete a committee
     public function deleteCommittee($committee_id) {
 
+        $query = $this->$db->prepare('DELETE FROM `committees`
+            WHERE :committee_id = $committee_id');
+        if ($query->execute(array(
+            ':committee_id' => $committee_id))) { return "Successfully deleted " . $name . " committee!";
+        } else { return "An error has occurred! Error: " . $db->errorInfo(); }
     }
 
     // add a committee member to a committee
