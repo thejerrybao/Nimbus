@@ -189,6 +189,23 @@ class DatabaseFunctions {
     // creates an event
     public function createEvent($eventData) {
 
+        $query = $this->$db->prepare('INSERT INTO `events` 
+            VALUES ("", :name, :chair_id, :start_datetime, :end_datetime, :description, :location, :meeting_location,
+                :all_day, :online_signups, :online_end_datetime, :status, 0, 0, "", "", "", 0, 0, 0, 0, 0)');
+        if ($query->execute(array(
+            ':name' => $eventData['name'],
+            ':chair_id' => $eventData['chair_id'],
+            ':start_datetime' => $eventData['start_datetime'],
+            ':end_datetime' => $eventData['end_datetime'],
+            ':description' => $eventData['description'],
+            ':location' => $eventData['location'],
+            ':meeting_location' => $eventData['meeting_location'],
+            ':all_day' => $eventData['all_day'],
+            ':online_signups' => $eventData['online_signups'],
+            ':online_end_datetime' => $eventData['online_end_datetime'],
+            ':status' => $eventData['status']
+            ))) { return "Event " . $eventData['name'] . " was successfully created!"; }
+        else { return "An Error has Occurred! Error: " . $db->errorInfo(); }
     }
 
     // get today's events
@@ -223,7 +240,7 @@ class DatabaseFunctions {
 
     // change user access
     public function changeUserAccess($user_id) {
-        
+
     }
 }
 
