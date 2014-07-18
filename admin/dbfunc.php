@@ -409,7 +409,7 @@ class DatabaseFunctions {
                 $accessValue = 'secretary',
             } else { 
                 $accessValue = 'technology chair'
-        }
+            }
         };
 
         $userInfo = $this->getUserInfo($user_id);
