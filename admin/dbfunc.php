@@ -222,7 +222,9 @@ class DatabaseFunctions {
     }
 
     // change user access
-    public function changeUserAccess($ucer_id)
+    public function changeUserAccess($user_id) {
+        
+    }
 }
 
 ?>
