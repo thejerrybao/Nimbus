@@ -64,6 +64,9 @@ class DatabaseFunctions {
 
     // get event data with event ID
     private function getEventInfo($event_id) {
+
+        $eventInfo = array();
+
         $query = $this->$db->prepare('SELECT * FROM `events`
             WHERE event_id=:event_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
@@ -71,7 +74,30 @@ class DatabaseFunctions {
             ':event_id' => $event_id
             ));
 
-        return $query->fetch();
+        if ($query->rowCount() == 0) { return false; }
+        $row = $query->fetch();
+        $eventInfo['event_id'] = $row->event_id;
+        $eventInfo['name'] = $row->name;
+        $eventInfo['chair_id'] = $row->chair_id;
+        $eventInfo['start_datetime'] = strtotime($row->start_datetime);
+        $eventInfo['end_datetime'] = strtotime($row->end_datetime);
+        $eventInfo['description'] = $row->description;
+        $eventInfo['location'] = $row->location;
+        $eventInfo['meeting_location'] = $row->meeting_location;
+        $eventInfo['all_day'] = $row->all_day;
+        $eventInfo['online_signups'] = $row->online_signups;
+        $eventInfo['online_end_datetime'] = strtotime($row->online_end_datetime);
+        $eventInfo['status'] = $row->status;
+        $eventInfo['num_attendees'] = $row->num_attendees;
+        $eventInfo['num_outside_attendees'] = $row->num_outside_attendees;
+        $eventInfo['pros'] = $row->pros;
+        $eventInfo['cons'] = $row->cons;
+        $eventInfo['do_again'] = $row->do_again;
+        $eventInfo['funds_raised'] = $row->funds_raised;
+        $eventInfo['service_hours'] = $row->service_hours;
+        $eventInfo['admin_hours'] = $row->admin_hours;
+        $eventInfo['social_hours'] = $row->social_hours;
+        $eventInfo['num_override_hours'] = $row->num_override_hours;
     }
 
     // get ID of all events a user has attended
@@ -106,9 +132,9 @@ class DatabaseFunctions {
         if ($query->rowCount() == 0) {
 
             $event = $this->getEventInfo($event_id);
-            $hours["service_hours"] = $event->service_hours;
-            $hours["admin_hours"] = $event->admin_hours;
-            $hours["social_hours"] = $event->social_hours;
+            $hours["service_hours"] = $event['service_hours'];
+            $hours["admin_hours"] = $event['admin_hours'];
+            $hours["social_hours"] = $event['social_hours'];
         }
         else { 
 
@@ -223,9 +249,33 @@ class DatabaseFunctions {
 
     }
 
-    // get event attendees
-    public function getEventAttendeess($event_id) {
+    // get user information
+    public function getUserInfo($user_id) {
 
+        $query = $this->$db->prepare('SELECT * FROM `users` WHERE user_id=:user_id');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':user_id' => $user_id
+            ));     
+        if ($query->rowCount() == 0) { return false; }
+
+    }
+
+    // get event attendees
+    public function getEventAttendees($event_id) {
+
+        $eventAttendees = array();
+
+        $query = $this->$db->prepare('SELECT * FROM `event_attendees` WHERE event_id=:event_id');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':event_id' => $event_id
+            ));
+
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+            $eventAttendees
+        }
     }
 
     // add overridd hours for users
