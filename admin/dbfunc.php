@@ -79,6 +79,7 @@ class DatabaseFunctions {
         $userInfo['username'] = $row->username;
         $userInfo['password'] = $row->password;
         $userInfo['email'] = $row->email;
+        $userInfo['email_confirmed'] = $row->email_confirmed;
         $userInfo['phone'] = $row->phone;
         $userInfo['dues_paid'] = $row->dues_paid;
         $userInfo['access'] = $row->access;
@@ -407,7 +408,7 @@ class DatabaseFunctions {
     public function registerUser($userData) {
 
         $query = $this->$db->prepare('INSERT INTO `users` 
-            VALUES ("", :user_id, :first_name, :last_name, :username, :password, :email, :phone, 0, 0, 1)');
+            VALUES ("", :user_id, :first_name, :last_name, :username, :password, :email, 0, :phone, 0, 0, 1)');
 
         if ($query->execute(array(
             ':user_id' => $userData['user_id'],
