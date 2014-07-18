@@ -41,7 +41,8 @@ class DatabaseFunctions {
 
         $duesPaid = array();
 
-        $query = $this->$db->prepare('SELECT * FROM `users` WHERE dues_paid=:dues_paid ORDER BY `last_name` ASC');
+        $query = $this->$db->prepare('SELECT * FROM `users`
+            WHERE dues_paid=:dues_paid ORDER BY `last_name` ASC');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':dues_paid' => 1
@@ -132,7 +133,8 @@ class DatabaseFunctions {
 
         $userEventsID = array();
 
-        $query = $this->$db->prepare('SELECT `event_id` FROM `event_attendees` WHERE user_id=:user_id');
+        $query = $this->$db->prepare('SELECT `event_id` FROM `event_attendees`
+            WHERE user_id=:user_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':user_id' => $user_id
@@ -265,11 +267,13 @@ class DatabaseFunctions {
     // Assumes the date given is in UnixDateTime and is at  the Date  at 00:00:00
     // Finds events that start at the date at 00:00:00 to the next day at 00:00:00 
     public function getEventsByDate($date) {
+
         $events = array();
         $dateBegin = $date;
         $dateEnd = strtotime('+1 day', $date);
 
-        $query = $this->$db->prepare('SELECT * FROM `events` WHERE start_datetime >= FROM_UNIXTIME($dateBegin) AND FROM_UNIXTIME($dateEnd) <= $dateEnd' );
+        $query = $this->$db->prepare('SELECT * FROM `events`
+            WHERE start_datetime >= FROM_UNIXTIME($dateBegin) AND FROM_UNIXTIME($dateEnd) <= $dateEnd' );
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':event_id' => $event_id,
@@ -295,16 +299,17 @@ class DatabaseFunctions {
         return $events;
     }
 
+    // get month's events
     // Assumes the date given is in UnixDateTime and is at the first day of the month at 00:00:00
     // Finds events that start first day of the month at 00:00:00 to the first day of the next month at 00:00:00
-
-    // get month's events
     public function getEventsByMonth($month) {
+
         $events = array();
         $dateBegin = $date;
         $dateEnd = strtotime('+1 month', $date);
 
-        $query = $this->$db->prepare('SELECT * FROM `events` WHERE start_datetime >= FROM_UNIXTIME($dateBegin) AND FROM_UNIXTIME($dateEnd) <= $dateEnd' );
+        $query = $this->$db->prepare('SELECT * FROM `events`
+            WHERE start_datetime >= FROM_UNIXTIME($dateBegin) AND FROM_UNIXTIME($dateEnd) <= $dateEnd' );
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':event_id' => $event_id,
@@ -384,6 +389,7 @@ class DatabaseFunctions {
 
     // register user
     public function registerUser($userData) {
+        
         $query = $this->$db->prepare('INSERT INTO `users` 
             VALUES ("", :user_id, :first_name, :last_name, :username, :password, :email, :phone, 0, 0, 1)');
 
