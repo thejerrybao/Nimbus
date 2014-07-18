@@ -262,7 +262,9 @@ class DatabaseFunctions {
     }
 
     // get today's events
-    public function getEventByDate($date) {
+    // Assumes the date given is in UnixDateTime and is at  the Date  at 00:00:00
+    // Finds events that start at the date at 00:00:00 to the next day at 00:00:00 
+    public function getEventsByDate($date) {
         $events = array();
         $dateBegin = $date;
         $dateEnd = strtotime('+1 day', $date);
@@ -279,14 +281,53 @@ class DatabaseFunctions {
             ':status' => $status
             ));
         if ($query->rowCount() == 0) { return false; }
-        
+        while ($row = $query->fetch()) {
+            $events[] = array(
+                'event_id' => $row->event_id,
+                'name' => $row->name,
+                'start_datetime' => $row->$start_datetime,
+                'end_datetime' => $row->$end_datetime,
+                'meeting_location' => $row->$meeting_location,
+                'location' => $row->$location,
+                'status' => $row->$status
+        }
 
         return $events;
     }
 
+    // Assumes the date given is in UnixDateTime and is at the first day of the month at 00:00:00
+    // Finds events that start first day of the month at 00:00:00 to the first day of the next month at 00:00:00
+
     // get month's events
     public function getEventsByMonth($month) {
+        $events = array();
+        $dateBegin = $date;
+        $dateEnd = strtotime('+1 month', $date);
 
+        $query = $this->$db->prepare('SELECT * FROM `events` WHERE start_datetime >= FROM_UNIXTIME($dateBegin) AND FROM_UNIXTIME($dateEnd) <= $dateEnd' );
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':event_id' => $event_id,
+            ':name' => $name,
+            ':start_datetime' => $start_datetime,
+            ':end_datetime' => $end_datetime,
+            ':meeting_location' => $meeting_location,
+            ':location' => $location,
+            ':status' => $status
+            ));
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+            $events[] = array(
+                'event_id' => $row->event_id,
+                'name' => $row->name,
+                'start_datetime' => $row->$start_datetime,
+                'end_datetime' => $row->$end_datetime,
+                'meeting_location' => $row->$meeting_location,
+                'location' => $row->$location,
+                'status' => $row->$status
+        }
+
+        return $events;
     }
 
     // verify event
