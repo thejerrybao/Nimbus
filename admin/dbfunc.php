@@ -554,13 +554,13 @@ class DatabaseFunctions {
     // add a committee member to a committee
     public function addCommitteeMembers($committee_id, $user_ids) {
 
-        foreach ($user_ids as $user) {
+        foreach ($user_ids as $user_id) {
             $query = $this->$db->prepare('INSERT INTO `committee_members`
                 VALUES ("", :committee_id, :user_id)');
 
-            if($query->execute(array(
-            ':committee_id' => $committee_id,
-            ':user_id' => $user['user_id']))) { continue;
+            if ($query->execute(array(
+                ':committee_id' => $committee_id,
+                ':user_id' => $user_id))) { continue;
             } else { return "An error has occurred! Error: " . $db->errorInfo(); }
         }
     }
@@ -568,12 +568,12 @@ class DatabaseFunctions {
     // remove a committee member to a committee
     public function deleteCommitteeMembers($committee_id, $user_ids) {
         
-        foreach ($user_ids as $user) {
+        foreach ($user_ids as $user_id) {
             $query = $this->$db->prepare('DELETE FROM `committee_members`
-                WHERE :user_id=$user_id');
-            if($query->execute(array(
+                WHERE committee_id=:committee_id AND user_id=:user_id');
+            if ($query->execute(array(
                 ':committee_id' => $committee_id,
-                ':user_id' => $user['user_id']))) {continue;
+                ':user_id' => $user_id))) { continue;
             } else {return "An error has occurred! Error: " . $db->errorInfo(); }
         }
     }
