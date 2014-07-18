@@ -296,17 +296,22 @@ class DatabaseFunctions {
     // add overridd hours for users
     public function addOverrideHours($event_id, $overrideUsers) {
 
-        $query = $this->$db->prepare('INSERT INTO `event_override_hours` 
-            VALUES ("", :event_id, :user_id, :service_hours, :admin_hours, :social_hours)');
+        foreach ($overrideUsers as $user) {
+            $query = $this->$db->prepare('INSERT INTO `event_override_hours` 
+                VALUES ("", :event_id, :user_id, :service_hours, :admin_hours, :social_hours)');
 
-        foreach ($overrideUsers as $value) {
             if ($query->execute(array(
-            ':event_id' => $event_id,
-            ':user_id' => $value['user_id'],
-            ':service_hours' => $value['service_hours'],
-            ':admin_hours' => $value['admin_hours'],
-            ':social_hours' => $value['social_hours']
-            ))) else { return "An error has Occurred! Error: " . $db->errorInfo(); } 
+                ':event_id' => $event_id,
+                ':user_id' => $user['user_id'],
+                ':service_hours' => $user['service_hours'],
+                ':admin_hours' => $user['admin_hours'],
+                ':social_hours' => $user['social_hours']
+                ))) { 
+                continue; 
+            } 
+            else { 
+                return "An error has Occurred! Error: " . $db->errorInfo(); 
+            } 
         }
     }
 
