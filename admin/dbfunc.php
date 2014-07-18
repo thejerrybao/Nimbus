@@ -319,7 +319,7 @@ class DatabaseFunctions {
         return $eventAttendees;
     }
 
-    // add overridd hours for users
+    // add override hours for users
     public function addOverrideHours($event_id, $overrideUsers) {
 
         foreach ($overrideUsers as $user) {
