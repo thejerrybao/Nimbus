@@ -536,11 +536,19 @@ class DatabaseFunctions {
     // delete a committee
     public function deleteCommittee($committee_id) {
 
-        $query = $this->$db->prepare('DELETE FROM `committees`
-            WHERE :committee_id = $committee_id');
-        if ($query->execute(array(
-            ':committee_id' => $committee_id))) { return "Successfully deleted " . $name . " committee!";
-        } else { return "An error has occurred! Error: " . $db->errorInfo(); }
+        $query = $this->$db->prepare('SELECT * FROM `committee_members`
+            WHERE committee_id=:committee_id');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':committee_id' => $committee_id));
+
+        if ($query->rowCount() == 0) {
+            $query = $this->$db->prepare('DELETE FROM `committees`
+                WHERE :committee_id = $committee_id');
+            if ($query->execute(array(
+                ':committee_id' => $committee_id))) { return "Successfully deleted " . $name . " committee!";
+            } else { return "An error has occurred! Error: " . $db->errorInfo(); }
+        } else { return "Committee member still exist in this committee! Delete members from that committee first."; }
     }
 
     // add a committee member to a committee
