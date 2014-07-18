@@ -333,6 +333,28 @@ class DatabaseFunctions {
 
     // verify event
     public function verifyEvent($event_id) {
+        $eventInfo = $this->getEventInfo($event_id);
+        if(eventInfo[access] != 2){
+            return "This event is not completed.";
+        } else {
+            $query = $this->$db->prepare('UPDATE events SET status = 3
+            WHERE event_id=:event_id');
+        if ($query->execute(array(
+            ':event_id' => $event_id)))
+        }
+
+    }
+    // complete event
+    public function completeEvent($event_id) {
+        $eventInfo = $this->getEventInfo($event_id);
+        if(eventInfo[access] != 1){
+            return "This event is not in post-event status.";
+        } else {
+            $query = $this->$db->prepare('UPDATE events SET status = 2
+            WHERE event_id=:event_id');
+        if ($query->execute(array(
+            ':event_id' => $event_id)))
+        }
 
     }
 
