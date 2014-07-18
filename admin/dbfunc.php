@@ -520,14 +520,8 @@ class DatabaseFunctions {
             }
         }
         if ($query->execute(array(
-<<<<<<< HEAD
-            ':user_id' => $user_id))) { return "Successfully changed dues-paid statuses." }
-        else { return "An error has occurred! Error: " . $db->errorInfo(); }
-    } 
-=======
             ':user_id' => $user_id))) { return "Successfully changed dues-paid statuses."; }
     }
->>>>>>> FETCH_HEAD
 
     // add a committee
     public function addCommittee($name) {
