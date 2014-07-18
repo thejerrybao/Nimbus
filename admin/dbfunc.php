@@ -289,8 +289,16 @@ class DatabaseFunctions {
 
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
-            $eventAttendees
+            $userInfo = $this->getUserInfo($row->user_id);
+            $eventAttendees[] = array(
+                'first_name' => $userInfo['first_name'],
+                'last_name' => $userInfo['last_name'],
+                'email' => $userInfo['email'],
+                'phone' => $userInfo['phone']
+                );
         }
+
+        return $eventAttendees;
     }
 
     // add overridd hours for users
