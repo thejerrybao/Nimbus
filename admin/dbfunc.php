@@ -501,6 +501,7 @@ class DatabaseFunctions {
             }
         if ($query->execute(array(
             ':user_id' => $user_id))) { return "Successfully changed active statuses." }
+        else { return "An error has occurred! Error: " . $db->errorInfo(); }
     }
 
     // change status from dues-paid to non-dues-paid and vice-versa
@@ -519,7 +520,8 @@ class DatabaseFunctions {
             }
         if ($query->execute(array(
             ':user_id' => $user_id))) { return "Successfully changed dues-paid statuses." }
-    }
+        else { return "An error has occurred! Error: " . $db->errorInfo(); }
+    } 
 
     // add a committee
     public function addCommittee($name) {
