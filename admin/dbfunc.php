@@ -410,7 +410,7 @@ class DatabaseFunctions {
             } else { 
                 $accessValue = 'Technology Chair'
             }
-        };
+        }
 
         $userInfo = $this->getUserInfo($user_id);
 
