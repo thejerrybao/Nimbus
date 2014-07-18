@@ -138,7 +138,7 @@ class DatabaseFunctions {
 
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) { $userEventsID[] = $row->event_id; }
-        return $userEventsID
+        return $userEventsID;
     }
 
     // get user hours of an event; returns all hour types
@@ -167,7 +167,7 @@ class DatabaseFunctions {
             $hours['social_hours'] = $row->social_hours;  
         }
 
-        return $hours
+        return $hours;
     }
 
     // get total hours of the club or a user
@@ -175,7 +175,7 @@ class DatabaseFunctions {
     public function getTotal($typeHours, $user_id = null) {
 
         $totalHours = array();
-        $totalHours['service_hours'] = $totalHours['admin_hours'] = $totalHours['social_hours'] = 0.0
+        $totalHours['service_hours'] = $totalHours['admin_hours'] = $totalHours['social_hours'] = 0.0;
 
         if (!$user_id) {
 
@@ -436,7 +436,8 @@ class DatabaseFunctions {
 
         $oldName = $this->$db->getUserInfo($user_id);
 
-        $query = $this->$db->prepare('UPDATE users SET first_name=:first_name, last_name=:last_name
+        $query = $this->$db->prepare('UPDATE users
+            SET first_name=:first_name, last_name=:last_name
             WHERE user_id=:user_id');
         if($query->execute(array(
             ':user_id' => $user_id,
@@ -450,7 +451,8 @@ class DatabaseFunctions {
 
         $oldEmail = $this->$db->getUserInfo($user_id);
 
-        $query = $this->$db->prepare('UPDATE users SET email=:email
+        $query = $this->$db->prepare('UPDATE users
+            SET email=:email
             WHERE user_id=:user_id');
         if($query->execute(array(
             ':user_id' => $user_id,
@@ -463,7 +465,8 @@ class DatabaseFunctions {
 
         $oldPhone = $this->$db->getUserInfo($user_id);
 
-        $query = $this->$db->prepare('UPDATE users SET phone=:phone
+        $query = $this->$db->prepare('UPDATE users
+            SET phone=:phone
             WHERE user_id=:user_id');
         if($query->execute(array(
             ':user_id' => $user_id,
@@ -473,7 +476,9 @@ class DatabaseFunctions {
 
     // change password
     public function changePassword($user_id, $password) {
-        $query = $this->$db->prepare('UPDATE users SET password=:password
+        
+        $query = $this->$db->prepare('UPDATE users
+            SET password=:password
             WHERE user_id=:user_id');
         if($query->execute(array(
             'user_id' => $user_id,
