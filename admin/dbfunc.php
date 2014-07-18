@@ -185,6 +185,44 @@ class DatabaseFunctions {
                 return "No type of hours specified.";
         }
     }
+
+    // creates an event
+    public function createEvent($eventData) {
+
+    }
+
+    // get today's events
+    public function getEventByDate($date) {
+
+    }
+
+    // get month's events
+    public function getEventsByMonth($month) {
+
+    }
+
+    // verify event
+    public function verifyEvent($event_id) {
+
+    }
+
+    // get event attendees
+    public function getEventAttendeess($event_id) {
+
+    }
+
+    // add overridd hours for users
+    public function addOverrideHours($event_id, $overrideUsers) {
+
+    }
+
+    // register user
+    public function registerUser($userData) {
+
+    }
+
+    // change user access
+    public function changeUserAccess($ucer_id)
 }
 
 ?>
