@@ -212,7 +212,6 @@ class DatabaseFunctions {
 
             $userEventsID = $self->getUserEventsID($user_id);
             foreach ($userEventsID as $event_id) {
-                
                 $hours = $this->getUserHoursByEventID($user_id, $event_id);
                 $totalHours['service_hours'] += $hours['service_hours'];
                 $totalHours['admin_hours'] += $hours['admin_hours'];
@@ -439,7 +438,7 @@ class DatabaseFunctions {
         $query = $this->$db->prepare('UPDATE users
             SET first_name=:first_name, last_name=:last_name
             WHERE user_id=:user_id');
-        if($query->execute(array(
+        if ($query->execute(array(
             ':user_id' => $user_id,
             ':first_name' => $first_name,
             ':last_name' => $last_name))) { return "Sucessfully changed name from " . $oldName['first_name'] . " " . $oldName['last_name'] . "to " . $first_name . " " . $last_name; }
@@ -454,7 +453,7 @@ class DatabaseFunctions {
         $query = $this->$db->prepare('UPDATE users
             SET email=:email
             WHERE user_id=:user_id');
-        if($query->execute(array(
+        if ($query->execute(array(
             ':user_id' => $user_id,
             ':email' => $email))) { return "Successfully changed email from " . $oldEmail['email'] . "to " . $email; }
         else { return "An error has occurred! Error: " . $db->errorInfo(); }
@@ -468,7 +467,7 @@ class DatabaseFunctions {
         $query = $this->$db->prepare('UPDATE users
             SET phone=:phone
             WHERE user_id=:user_id');
-        if($query->execute(array(
+        if ($query->execute(array(
             ':user_id' => $user_id,
             ':phone' => $phone))) { return "Successfully changed phone from " . $oldPhone['phone'] . "to " . $phone; }
         else { return "An error has occurred! Error: " . $db->errorInfo(); }
@@ -480,7 +479,7 @@ class DatabaseFunctions {
         $query = $this->$db->prepare('UPDATE users
             SET password=:password
             WHERE user_id=:user_id');
-        if($query->execute(array(
+        if ($query->execute(array(
             'user_id' => $user_id,
             'password' => password_hash($password, PASSWORD_BCRYPT)))) { return "Successfully changed password!"; }
         else { return "An error has occurred! Error: " . $db->errorInfo(); }
@@ -488,38 +487,38 @@ class DatabaseFunctions {
 
     // change membership from active to non-active and vice-versa
     public function changeActiveMembership($user_ids) {
-        foreach ($user_id as $user_ids) {
-            $userInfo = $this->getUserInfo($user_id);
-            if(user_id['active'] == 0){
-              $query = $this->$db->prepare('UPDATE users SET active = 1
-                WHERE user_id=:user_id');   
-            } 
-            elseif (user_id['active'] == 1) {
-                $query = $this->$db->prepare('UPDATE users SET active = 0
-                WHERE user_id=:user_id');   
-            }
-        if($query=>execute(array( ':user_id' => $user_id, ':active' => $active))){
-            return "Successfully changed Active status."
-        }
 
+        foreach ($user_ids as $user_id) {
+            $userInfo = $this->getUserInfo($user_id);
+            if ($userInfo['active'] == 0) {
+                $query = $this->$db->prepare('UPDATE users
+                    SET active = 1
+                    WHERE user_id=:user_id');   
+            } else if ($userInfo['active'] == 1) {
+                $query = $this->$db->prepare('UPDATE users
+                    SET active = 0
+                    WHERE user_id=:user_id');   
+            }
+        if ($query->execute(array(
+            ':user_id' => $user_id))) { return "Successfully changed active statuses." }
     }
 
     // change status from dues-paid to non-dues-paid and vice-versa
     public function changeDuesPaidMembership($user_ids) {
-        foreach ($user_id as $user_ids) {
-            $userInfo = $this->getUserInfo($user_id);
-            if(user_id['dues_paid'] == 0){
-              $query = $this->$db->prepare('UPDATE users SET dues_paid = 1
-                WHERE user_id=:user_id');   
-            } 
-            elseif (user_id['dues_paid'] == 1) {
-                $query = $this->$db->prepare('UPDATE users SET dues_paid = 0
-                WHERE user_id=:user_id');   
-            }
-        if($query=>execute(array( ':user_id' => $user_id, ':dues_paid' => $dues_paid))){
-            return "Successfully changed dues-paid status."
-        }
 
+        foreach ($user_id as $user_id) {
+            $userInfo = $this->getUserInfo($user_id);
+            if ($userInfo['dues_paid'] == 0) {
+                $query = $this->$db->prepare('UPDATE users
+                    SET dues_paid = 1
+                    WHERE user_id=:user_id');   
+            } else if ($userInfo['dues_paid'] == 1) {
+                $query = $this->$db->prepare('UPDATE users
+                    SET dues_paid = 0
+                    WHERE user_id=:user_id');   
+            }
+        if ($query->execute(array(
+            ':user_id' => $user_id))) { return "Successfully changed dues-paid statuses." }
     }
 
     // add a committee
