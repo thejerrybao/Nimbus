@@ -400,7 +400,7 @@ class DatabaseFunctions {
             ':first_name' => $userData['first_name'],
             ':last_name' => $userData['last_name'],
             ':username' => $userData['username'],
-            ':password' => $userData['password'],
+            ':password' => password_hash($userData['password'], PASSWORD_BCRYPT),
             ':email' => $userData['email'],
             ':phone' => $userData['phone']
             ))) { return "Welcome to UCBCKI " . $userData['first_name'] ."! Your user profile was successfully created!"; }
@@ -427,28 +427,58 @@ class DatabaseFunctions {
             WHERE user_id=:user_id');
         if ($query->execute(array(
             ':user_id' => $user_id,
-            ':access' => $access))) { return "Successfully changed access for " . $userInfo[first_name] . $userInfo[last_name] . "to " . $accessValue; }
+            ':access' => $access))) { return "Successfully changed access for " . $userInfo['first_name'] . " " . $userInfo['last_name'] . "to " . $accessValue; }
         else { return "An error has occurred! Error: " . $db->errorInfo(); }
     }
 
     // change first/last name 
     public function changeName($user_id, $first_name, $last_name) {
 
+        $oldName = $this->$db->getUserInfo($user_id);
+
+        $query = $this->$db->prepare('UPDATE users SET first_name=:first_name, last_name=:last_name
+            WHERE user_id=:user_id');
+        if($query->execute(array(
+            ':user_id' => $user_id,
+            ':first_name' => $first_name,
+            ':last_name' => $last_name))) { return "Sucessfully changed name from " . $oldName['first_name'] . " " . $oldName['last_name'] . "to " . $first_name . " " . $last_name; }
+        else { return "An error has occurred! Error: " . $db->errorInfo(); }
     }
 
     // change email
     public function changeEmail($user_id, $email) {
 
+        $oldEmail = $this->$db->getUserInfo($user_id);
+
+        $query = $this->$db->prepare('UPDATE users SET email=:email
+            WHERE user_id=:user_id');
+        if($query->execute(array(
+            ':user_id' => $user_id,
+            ':email' => $email))) { return "Successfully changed email from " . $oldEmail['email'] . "to " . $email; }
+        else { return "An error has occurred! Error: " . $db->errorInfo(); }
     }
 
     // change phone number
     public function changePhone($user_id, $phone) {
 
+        $oldPhone = $this->$db->getUserInfo($user_id);
+
+        $query = $this->$db->prepare('UPDATE users SET phone=:phone
+            WHERE user_id=:user_id');
+        if($query->execute(array(
+            ':user_id' => $user_id,
+            ':phone' => $phone))) { return "Successfully changed phone from " . $oldPhone['phone'] . "to " . $phone; }
+        else { return "An error has occurred! Error: " . $db->errorInfo(); }
     }
 
     // change password
     public function changePassword($user_id, $password) {
-
+        $query = $this->$db->prepare('UPDATE users SET password=:password
+            WHERE user_id=:user_id');
+        if($query->execute(array(
+            'user_id' => $user_id,
+            'password' => password_hash($password, PASSWORD_BCRYPT)))) { return "Successfully changed password!"; }
+        else { return "An error has occurred! Error: " . $db->errorInfo(); }
     }
 
     // change membership from active to non-active and vice-versa
