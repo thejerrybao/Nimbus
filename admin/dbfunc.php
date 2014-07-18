@@ -65,13 +65,27 @@ class DatabaseFunctions {
     // get user data with user ID
     public function getUserInfo($user_id) {
 
-        $query = $this->$db->prepare('SELECT * FROM `users` WHERE user_id=:user_id');
+        $userInfo = array();
+
+        $query = $this->$db->prepare('SELECT * FROM `users`
+            WHERE user_id=:user_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':user_id' => $user_id
             ));     
         if ($query->rowCount() == 0) { return false; }
-
+        $row = $query->fetch();
+        $userInfo['user_id'] = $row->user_id;
+        $userInfo['first_name'] = $row->first_name;
+        $userInfo['last_name'] = $row->last_name;
+        $userInfo['username'] = $row->username;
+        $userInfo['password'] = $row->password;
+        $userInfo['email'] = $row->email;
+        $userInfo['phone'] = $row->phone;
+        $userInfo['dues_paid'] = $row->dues_paid;
+        $userInfo['access'] = $row->access;
+        $userInfo['active'] = $row->active;
+        return $userInfo;
     }
 
     // get event data with event ID
@@ -110,6 +124,7 @@ class DatabaseFunctions {
         $eventInfo['admin_hours'] = $row->admin_hours;
         $eventInfo['social_hours'] = $row->social_hours;
         $eventInfo['num_override_hours'] = $row->num_override_hours;
+        return $eventInfo;
     }
 
     // get ID of all events a user has attended
@@ -274,24 +289,46 @@ class DatabaseFunctions {
 
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
-            $eventAttendees
+            $userInfo = $this->getUserInfo($row->user_id);
+            $eventAttendees[] = array(
+                'first_name' => $userInfo['first_name'],
+                'last_name' => $userInfo['last_name'],
+                'email' => $userInfo['email'],
+                'phone' => $userInfo['phone']
+                );
         }
+
+        return $eventAttendees;
     }
 
     // add overridd hours for users
     public function addOverrideHours($event_id, $overrideUsers) {
 
-        $query = $this->$db->prepare('INSERT INTO `event_override_hours` 
-            VALUES ("", :event_id, :user_id, :service_hours, :admin_hours, :social_hours)');
+        foreach ($overrideUsers as $user) {
+            $query = $this->$db->prepare('INSERT INTO `event_override_hours` 
+                VALUES ("", :event_id, :user_id, :service_hours, :admin_hours, :social_hours)');
 
-        foreach ($overrideUsers as $value) {
             if ($query->execute(array(
+<<<<<<< HEAD
             ':event_id' => $event_id,
             ':user_id' => $value['user_id'],
             ':service_hours' => $value['service_hours'],
             ':admin_hours' => $value['admin_hours'],
             ':social_hours' => $value['social_hours']
             ))) else { return "An error has occurred! Error: " . $db->errorInfo(); } 
+=======
+                ':event_id' => $event_id,
+                ':user_id' => $user['user_id'],
+                ':service_hours' => $user['service_hours'],
+                ':admin_hours' => $user['admin_hours'],
+                ':social_hours' => $user['social_hours']
+                ))) { 
+                continue; 
+            } 
+            else { 
+                return "An error has Occurred! Error: " . $db->errorInfo(); 
+            } 
+>>>>>>> FETCH_HEAD
         }
     }
 
