@@ -160,8 +160,7 @@ class DatabaseFunctions {
             $hours['service_hours'] = $event['service_hours'];
             $hours['admin_hours'] = $event['admin_hours'];
             $hours['social_hours'] = $event['social_hours'];
-        }
-        else { 
+        } else { 
 
             $row = $query->fetch();
             $hours['service_hours'] = $row->service_hours; 
@@ -211,9 +210,7 @@ class DatabaseFunctions {
                 $totalHours['social_hours'] += $row->admin_hours * $numNonOverride
                 $totalHours['admin_hours'] += $row->social_hours * $numNonOverride
             }
-        }
-
-        else {
+        } else {
 
             $userEventsID = $self->getUserEventsID($user_id);
             foreach ($userEventsID as $event_id) {
@@ -333,29 +330,30 @@ class DatabaseFunctions {
 
     // verify event
     public function verifyEvent($event_id) {
+
         $eventInfo = $this->getEventInfo($event_id);
-        if(eventInfo[access] != 2){
+        if ($eventInfo['access'] != 2){
             return "This event is not completed.";
         } else {
             $query = $this->$db->prepare('UPDATE events SET status = 3
-            WHERE event_id=:event_id');
-        if ($query->execute(array(
-            ':event_id' => $event_id)))
+                WHERE event_id=:event_id');
+            if ($query->execute(array(
+                ':event_id' => $event_id)))
         }
-
     }
+
     // complete event
     public function completeEvent($event_id) {
+
         $eventInfo = $this->getEventInfo($event_id);
-        if(eventInfo[access] != 1){
+        if ($eventInfo['access'] != 1){
             return "This event is not in post-event status.";
         } else {
             $query = $this->$db->prepare('UPDATE events SET status = 2
-            WHERE event_id=:event_id');
-        if ($query->execute(array(
-            ':event_id' => $event_id)))
+                WHERE event_id=:event_id');
+            if ($query->execute(array(
+                ':event_id' => $event_id)))
         }
-
     }
 
     // get event attendees
