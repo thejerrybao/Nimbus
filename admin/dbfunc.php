@@ -376,10 +376,7 @@ class DatabaseFunctions {
                 ))) { 
                 continue; 
             } 
-            else { 
-                return "An error has Occurred! Error: " . $db->errorInfo(); 
-
-            }
+            else { return "An error has Occurred! Error: " . $db->errorInfo(); }
         }
     }
 
@@ -404,13 +401,15 @@ class DatabaseFunctions {
     // change user access
     public function changeUserAccess($user_id, $access) {
 
-        if ($access==0) {
-            $accessValue='general member',
-            else if ($access==1) {
-                $accessValue='board member',
-            } else if ($access==2) {
-                $accessValue='secretary',
-            } else {$accessValue='technology chair'}
+        if ($access == 0) {
+            $accessValue = 'general member',
+            else if ($access == 1) {
+                $accessValue = 'board member',
+            } else if ($access == 2) {
+                $accessValue = 'secretary',
+            } else { 
+                $accessValue = 'technology chair'
+        }
         };
 
         $userInfo = $this->getUserInfo($user_id);
@@ -421,10 +420,7 @@ class DatabaseFunctions {
         if ($query->execute(array(
             ':user_id' => $user_id,
             ':access' => $access))) { return "Successfully changed access for " . $userInfo[first_name] . $userInfo[last_name] . "to " . $accessValue; }
-        else {
-            return "An error has occurred! Error: " . $db->errorInfo();
-        }
-
+        else { return "An error has occurred! Error: " . $db->errorInfo(); }
     }
 }
 
