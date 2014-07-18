@@ -395,8 +395,7 @@ class DatabaseFunctions {
                 ':social_hours' => $user['social_hours']
                 ))) { 
                 continue; 
-            } 
-            else { return "An error has Occurred! Error: " . $db->errorInfo(); }
+            } else { return "An error has Occurred! Error: " . $db->errorInfo(); }
         }
     }
 
