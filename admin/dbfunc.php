@@ -62,6 +62,18 @@ class DatabaseFunctions {
         return $duesPaid;
     }
 
+    // get user data with user ID
+    public function getUserInfo($user_id) {
+
+        $query = $this->$db->prepare('SELECT * FROM `users` WHERE user_id=:user_id');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':user_id' => $user_id
+            ));     
+        if ($query->rowCount() == 0) { return false; }
+
+    }
+
     // get event data with event ID
     private function getEventInfo($event_id) {
 
@@ -246,18 +258,6 @@ class DatabaseFunctions {
 
     // verify event
     public function verifyEvent($event_id) {
-
-    }
-
-    // get user information
-    public function getUserInfo($user_id) {
-
-        $query = $this->$db->prepare('SELECT * FROM `users` WHERE user_id=:user_id');
-        $query->setFetchMode(PDO::FETCH_OBJ);
-        $query->execute(array(
-            ':user_id' => $user_id
-            ));     
-        if ($query->rowCount() == 0) { return false; }
 
     }
 
