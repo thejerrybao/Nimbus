@@ -291,13 +291,25 @@ class DatabaseFunctions {
             ':service_hours' => $value['service_hours'],
             ':admin_hours' => $value['admin_hours'],
             ':social_hours' => $value['social_hours']
-            ))) else { return "An error has Occurred! Error: " . $db->errorInfo(); } 
+            ))) else { return "An error has occurred! Error: " . $db->errorInfo(); } 
         }
     }
 
     // register user
     public function registerUser($userData) {
+        $query = $this->$db->prepare('INSERT INTO `users` 
+            VALUES ("", :user_id, :first_name, :last_name, :username, :password, :email, :phone, 0, 0, 1)');
 
+        if ($query->execute(array(
+            ':user_id' => $userData['user_id'],
+            ':first_name' => $userData['first_name'],
+            ':last_name' => $userData['last_name'],
+            ':username' => $userData['username'],
+            ':password' => $userData['password'],
+            ':email' => $userData['email'],
+            ':phone' => $userData['phone']
+            ))) { return "Welcome to UCBCKI " . $userData['first_name'] ."! Your user profile was successfully created!"; }
+            else { return "An error has occurred! Error: " . $db->errorInfo(); } 
     }
 
     // change user access
