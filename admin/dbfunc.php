@@ -338,7 +338,9 @@ class DatabaseFunctions {
             $query = $this->$db->prepare('UPDATE events SET status = 3
                 WHERE event_id=:event_id');
             if ($query->execute(array(
-                ':event_id' => $event_id)))
+                ':event_id' => $event_id))){
+                return "event was successfully verified";
+            } else { return "An error has Occurred! Error: " . $db->errorInfo(); }
         }
     }
 
@@ -352,7 +354,9 @@ class DatabaseFunctions {
             $query = $this->$db->prepare('UPDATE events SET status = 2
                 WHERE event_id=:event_id');
             if ($query->execute(array(
-                ':event_id' => $event_id)))
+                ':event_id' => $event_id))){
+                return "event was successfully completed";
+            } else { return "An error has Occurred! Error: " . $db->errorInfo(); }
         }
     }
 
