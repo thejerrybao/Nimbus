@@ -508,7 +508,7 @@ class DatabaseFunctions {
 
     // add a committee member to a committee
     public function addCommitteeMembers($committee_id, $user_ids) {
-
+        
     }
 
     // remove a committee member to a committee
