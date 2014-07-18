@@ -456,7 +456,7 @@ class DatabaseFunctions {
     }
 
     // change phone number
-    public function changePhoneNumber($user_id, $phone) {
+    public function changePhone($user_id, $phone) {
 
     }
 
