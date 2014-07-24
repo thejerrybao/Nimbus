@@ -724,7 +724,7 @@ class DatabaseFunctions {
                 ':name' => $mrpdata['name'],
                 ':hours' => $mrpdata['hours'],
                 ':num_required' => $mrpdata['num_required'])) { return "MRP Level " . $mrpdata['name'] . " was successfully added!"; }
-            else { return "An error has occurred! Error: " . $dp->errorInfo(); }
+            else { return "An error has occurred! Error: " . $db->errorInfo(); }
     }
 
 
