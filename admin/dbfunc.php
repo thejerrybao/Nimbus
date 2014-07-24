@@ -696,28 +696,27 @@ class DatabaseFunctions {
             $query->execute(array(
                 'tag_id' => $tag_id));
             if ($query->rowCount() == 0) { return false; }
-                $row = $query->fetch();
-                $activeness = $row->active;
-                return $activeness;
+            $row = $query->fetch();
+            $activeness = $row->active;
 
             $query = $this->$db->prepare('UPDATE `tags`
-            SET active=:active
-            WHERE tag_id=:tag_id')   
-                
+                SET active=:active
+                WHERE tag_id=:tag_id')   
             $query->execute(array(
                 if ($activeness == 1) {
                     ':active' => 0
                 } else {
-                    'active' => 1
-                }))
-            }
+                    ':active' => 1
+                }));
         }
-        
+    }
 
+        
     // add mrp level
     public function addMRPLevel($mrpdata) {
+
         $query = $this->$db->prepare('INSERT INTO `mrp_levels`
-            VALUES("", :level_id, :name, :hours, :num_required)')
+            VALUES("", :level_id, :name, :hours, :num_required)');
 
             if query->execute(array(
                 ':level_id' => $mrpdata['level_id'],
@@ -726,7 +725,6 @@ class DatabaseFunctions {
                 ':num_required' => $mrpdata['num_required'])) { return "MRP Level " . $mrpdata['name'] . " was successfully added!"; }
             else { return "An error has occurred! Error: " . $dp->errorInfo(); }
     }
-
 
     // delete mrp level
     public function deleteMRPlevel($level_ids) {
