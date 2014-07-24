@@ -377,37 +377,36 @@ class DatabaseFunctions {
     }
 
     // verify event
-    public function verifyEvent($event_id) {
+    public function setEventStatus($event_id, $status) {
 
         $eventInfo = $this->getEventInfo($event_id);
-        if ($eventInfo['access'] != 2){
-            return "This event is not completed.";
-        } else {
-            $query = $this->db->prepare('UPDATE events
-                SET status = 3
-                WHERE event_id=:event_id');
-            if ($query->execute(array(
-                ':event_id' => $event_id))){
-                return "event was successfully verified";
-            } else { return "An error has Occurred! Error: " . $db->errorInfo(); }
+        switch ($status) {
+            case 1:
+                if ($eventInfo['access'] != 0) {
+                    return "This event is not a Pre-Event. Cannot change to Post-Event.";
+                }
+                break;
+            case 2:
+                if ($eventInfo['access'] != 1) {
+                    return "This event is not a Post-Event. Cannot change to Completed.";
+                }
+                break;
+            case 3:
+                if ($eventInfo['access'] != 2) {
+                    return "This event is not Completed. Cannot change to Verified.";
+                }
+                break;
+            default:
+                return "No status given to change to.";
         }
-    }
-
-    // complete event
-    public function completeEvent($event_id) {
-
-        $eventInfo = $this->getEventInfo($event_id);
-        if ($eventInfo['access'] != 1){
-            return "This event is not in post-event status.";
-        } else {
-            $query = $this->db->prepare('UPDATE events
-                SET status = 2
-                WHERE event_id=:event_id');
-            if ($query->execute(array(
-                ':event_id' => $event_id))){
-                return "event was successfully completed";
-            } else { return "An error has Occurred! Error: " . $db->errorInfo(); }
-        }
+        $query = $this->db->prepare('UPDATE events
+            SET status=:status
+            WHERE event_id=:event_id');
+        if ($query->execute(array(
+            ':event_id' => $event_id,
+            ':status' => $status))) {
+                return "Event status successfully changed.";
+        } else { return "An error has occurred! Error: " . $db->errorInfo(); }
     }
 
     // get event attendees
@@ -448,7 +447,7 @@ class DatabaseFunctions {
                 ':admin_hours' => $user['admin_hours'],
                 ':social_hours' => $user['social_hours']))) { 
                 continue; 
-            } else { return "An error has Occurred! Error: " . $db->errorInfo(); }
+            } else { return "An error has occurred! Error: " . $db->errorInfo(); }
         }
     }
 
