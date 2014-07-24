@@ -674,7 +674,13 @@ class DatabaseFunctions {
 
     // delete mrp or mrf tags; requires that no events have
     public function deleteTag($tag_ids) {
-
+    foreach ($tag_ids as $tag_id) {
+        $query = $this -> $db -> prepare('DELETE FROM `tags`
+                WHERE tag_id=:tag_id')
+            if ($query->execute(array(
+                ':tag_id' => $tag_id))) {continue;
+            } else { return "An error has occurred! Error: " . $db->errorInfo(); }
+        }
     }
 
     // add mrp level
