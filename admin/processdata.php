@@ -11,5 +11,13 @@
  **/
 
 require_once("dbfunc.php");
+$db = new DatabaseFunctions;
+
+switch ($_POST["form_submit_type"]) {
+    case "create_event":
+        break;
+    default:
+        echo "No Form Submit Type Passed.";
+}
 ?>
 

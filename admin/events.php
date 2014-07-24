@@ -24,7 +24,8 @@ $db = new DatabaseFunctions;
             case "create": ?>
                 <h3 class="title">Create Event</h3>
                 <div class="form">
-                    <form action="" method="post" enctype="multipart/form-data" id="createEvent">
+                    <form action="processdata.php" method="post" enctype="multipart/form-data" id="create_event">
+                        <input type="hidden" name="form_submit_type" id="form_submit_type" value="create_event">
                         <p class="formLabel">Event Name:</p>
                             <input type="text" name="name" id="name" size="50" required><br />        
                         <p class="formLabel">Chair:</p>
@@ -40,14 +41,14 @@ $db = new DatabaseFunctions;
                         <p class="formLabel">End Date and Time:</p>
                             <input type="datetime-local" name="end_datetime" id="end_datetime" required><br />
                         <p class="formLabel">Description</p>
-                            <textarea name="description" id="description" form="createEvent" rows="6" cols="40" required></textarea><br />
+                            <textarea name="description" id="description" form="create_event" rows="6" cols="40" required></textarea><br />
                         <p class="formLabel">Location</p>
                             <input type="text" name="location" id="location" size="50" required><br />  
                         <p class="formLabel">Meeting Location</p>
                             <input type="text" name="meeting_location" id="meeting_location" size="50" required><br />  
                         <p class="formLabel">All Day?</p>
-                            <input type="hidden" name="all_day" id="all_day" size="50" value="0"><br />  
-                            <input type="checkbox" name="all_day" id="all_day" size="50" value="1"><br />  
+                            <input type="hidden" name="all_day" id="all_day" value="0"><br />  
+                            <input type="checkbox" name="all_day" id="all_day" value="1"><br />  
                         <p class="formLabel">Tags</p>
                             <select class="tagSelect" name="tag_id" id="tag_id" multiple required>
                                 <?php $tags = $db->getTags();
@@ -57,10 +58,11 @@ $db = new DatabaseFunctions;
                                 } ?>
                             </select>
                         <p class="formLabel">Online Sign-ups?</p>
-                            <input type="hidden" name="online_signups" id="online_signups" size="50" value="0">
-                            <input type="checkbox" name="online_signups" id="online_signups" size="50" value="1" checked>
+                            <input type="hidden" name="online_signups" id="online_signups" value="0">
+                            <input type="checkbox" name="online_signups" id="online_signups" value="1" checked>
                         <p class="formLabel">Online Sign-up End Date</p>
                             <input type="datetime-local" name="online_end_datetime" id="online_end_datetime" required><br />
+                        <input type="submit">
                     </form>
                 </div>
         <?php break; ?>
