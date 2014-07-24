@@ -659,6 +659,7 @@ class DatabaseFunctions {
 
     // add mrp or mrf tag
     public function addTag($tagData) {
+
         $query = $this->$db->prepare('INSERT INTO `tags`
             VALUES ("", :name, :abbr, :auto_manage, :mrp_tag, :number, :active)')
 
@@ -674,6 +675,7 @@ class DatabaseFunctions {
 
     // delete mrp or mrf tags; requires that no events have
     public function deleteTag($tag_ids) {
+        
     foreach ($tag_ids as $tag_id) {
         $query = $this -> $db -> prepare('DELETE FROM `tags`
                 WHERE tag_id=:tag_id')
