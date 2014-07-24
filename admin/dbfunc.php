@@ -656,6 +656,27 @@ class DatabaseFunctions {
             ':status' => $eventData['status']))) { return "Event " . $eventData['name'] . " was successfully changed!"; }
         else { return "An Error has Occurred! Error: " . $db->errorInfo(); }
     }
+
+    // add mrp or mrf tag
+    public function addTag($tagData) {
+
+    }
+
+    // delete mrp or mrf tags; requires that no events have
+    public function deleteTag($tag_ids) {
+
+    }
+
+    // add mrp level
+    public function addMRPLevel($mrpdata) {
+
+    }
+
+    // delete mrp level
+    public function deleteMRPlevel($level_ids) {
+        
+    }
+
 }
 
 ?>
