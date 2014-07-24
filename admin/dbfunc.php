@@ -659,12 +659,28 @@ class DatabaseFunctions {
 
     // add mrp or mrf tag
     public function addTag($tagData) {
+        $query = $this->$db->prepare('INSERT INTO `tags`
+            VALUES ("", :name, :abbr, :auto_manage, :mrp_tag, :number, :active)')
 
+        if query->execute(array(
+            ':name' => $tagData['name'],
+            ':abbr' => $tagData['abbr'],
+            ':auto_manage' => $tagData['auto_manage'],
+            ':mrp_tag' => $tagData['mrp_tag'],
+            ':number' => $tagData['number'],
+            ':active' => $tagData['active'])) { return "Tag " . $tagData['name'] . " was successfully added!"; }
+        else { return "An error has occurred! Error: " . $dp->errorInfo(); }
     }
 
     // delete mrp or mrf tags; requires that no events have
     public function deleteTag($tag_ids) {
-
+    foreach ($tag_ids as $tag_id) {
+        $query = $this -> $db -> prepare('DELETE FROM `tags`
+                WHERE tag_id=:tag_id')
+            if ($query->execute(array(
+                ':tag_id' => $tag_id))) {continue;
+            } else { return "An error has occurred! Error: " . $db->errorInfo(); }
+        }
     }
 
     // add mrp level
@@ -674,7 +690,16 @@ class DatabaseFunctions {
 
     // delete mrp level
     public function deleteMRPlevel($level_ids) {
-        
+
+        foreach ($level_ids as $level) {
+            $query = $this->$db->prepare('DELETE FROM `mrp_levels`
+                WHERE level_id=:level_id');
+
+            if ($query->execute(array(
+                ':level_id' => $level_id,))) {
+                continue;
+            } else { return "An error has occurred! Error: " . $db->errorInfo(); }
+        }
     }
 
 }
