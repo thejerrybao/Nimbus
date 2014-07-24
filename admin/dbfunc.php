@@ -150,7 +150,7 @@ class DatabaseFunctions {
     }
 
     // get event data with event ID
-    private function getEventInfo($event_id) {
+    public function getEventInfo($event_id) {
 
         $eventInfo = array();
 
@@ -170,7 +170,6 @@ class DatabaseFunctions {
         $eventInfo['description'] = $row->description;
         $eventInfo['location'] = $row->location;
         $eventInfo['meeting_location'] = $row->meeting_location;
-        $eventInfo['all_day'] = $row->all_day;
         $eventInfo['online_signups'] = $row->online_signups;
         $eventInfo['online_end_datetime'] = strtotime($row->online_end_datetime);
         $eventInfo['status'] = $row->status;
@@ -188,7 +187,7 @@ class DatabaseFunctions {
     }
 
     // get ID of all events a user has attended
-    private function getUserEvents($user_id) {
+    public function getUserEvents($user_id) {
 
         $userEventsID = array();
 
@@ -298,7 +297,7 @@ class DatabaseFunctions {
 
         $query = $this->db->prepare('INSERT INTO `events`
             VALUES ("", :name, :chair_id, :start_datetime, :end_datetime, :description, :location, :meeting_location,
-                :all_day, :online_signups, :online_end_datetime, :status, 0, 0, "", "", "", 0, 0, 0, 0, 0)');
+                :online_signups, :online_end_datetime, :status, 0, 0, "", "", "", 0, 0, 0, 0, 0)');
         if ($query->execute(array(
             ':name' => $eventData['name'],
             ':chair_id' => $eventData['chair_id'],
@@ -307,7 +306,6 @@ class DatabaseFunctions {
             ':description' => $eventData['description'],
             ':location' => $eventData['location'],
             ':meeting_location' => $eventData['meeting_location'],
-            ':all_day' => $eventData['all_day'],
             ':online_signups' => $eventData['online_signups'],
             ':online_end_datetime' => date("Y-m-d H:i:s", $eventData['online_end_datetime']),
             ':status' => $eventData['status']))) { return "Event " . $eventData['name'] . " was successfully created!"; }
@@ -334,10 +332,12 @@ class DatabaseFunctions {
             $events[] = array(
                 'event_id' => $row->event_id,
                 'name' => $row->name,
+                'chair_id' => $row->chair_id,
                 'start_datetime' => strtotime($row->start_datetime),
                 'end_datetime' => strtotime($row->end_datetime),
                 'meeting_location' => $row->meeting_location,
                 'location' => $row->location,
+                'num_attendees' => $row->num_attendees,
                 'status' => $row->status);
         }
 
@@ -350,8 +350,8 @@ class DatabaseFunctions {
     public function getEventsByMonth($month) {
 
         $events = array();
-        $dateBegin = $date;
-        $dateEnd = strtotime('+1 month', $date);
+        $dateBegin = $month;
+        $dateEnd = strtotime('+1 month', $month);
 
         $query = $this->db->prepare('SELECT * FROM `events`
             WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND FROM_UNIXTIME(:dateEnd) <= end_datetime' );
@@ -364,10 +364,12 @@ class DatabaseFunctions {
             $events[] = array(
                 'event_id' => $row->event_id,
                 'name' => $row->name,
+                'chair_id' => $row->chair_id,
                 'start_datetime' => strtotime($row->start_datetime),
                 'end_datetime' => strtotime($row->end_datetime),
                 'meeting_location' => $row->meeting_location,
                 'location' => $row->location,
+                'num_attendees' => $row->num_attendees,
                 'status' => $row->status);
         }
 
@@ -702,7 +704,7 @@ class DatabaseFunctions {
         $query = $this->db->prepare('UPDATE `events`
             SET name=:name, chair_id=:chair_id, start_datetime=:start_datetime, end_datetime=:end_datetime,
             description=:description, location=:location, meeting_location=:meeting_location,
-            all_day=:all_day, online_signups=:online_signups, online_end_datetime=:online_end_datetime, status=:status
+            online_signups=:online_signups, online_end_datetime=:online_end_datetime, status=:status
             WHERE event_id=:event_id');
         if ($query->execute(array(
             ':name' => $eventData['name'],
@@ -712,7 +714,6 @@ class DatabaseFunctions {
             ':description' => $eventData['description'],
             ':location' => $eventData['location'],
             ':meeting_location' => $eventData['meeting_location'],
-            ':all_day' => $eventData['all_day'],
             ':online_signups' => $eventData['online_signups'],
             ':online_end_datetime' => date("Y-m-d H:m:s", $eventData['online_end_datetime']),
             ':status' => $eventData['status']))) { return "Event " . $eventData['name'] . " was successfully changed!"; }
