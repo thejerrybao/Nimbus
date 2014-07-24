@@ -692,8 +692,17 @@ class DatabaseFunctions {
 
     // add mrp level
     public function addMRPLevel($mrpdata) {
+        $query = $this->$db->prepare('INSERT INTO `mrp_levels`
+            VALUES("", :level_id, :name, :hours, :num_required)')
 
+            if query->execute(array(
+                ':level_id' => $mrpdata['level_id'],
+                ':name' => $mrpdata['name'],
+                ':hours' => $mrpdata['hours'],
+                ':num_required' => $mrpdata['num_required'])) { return "MRP Level " . $mrpdata['name'] . " was successfully added!"; }
+            else { return "An error has occurred! Error: " . $dp->errorInfo(); }
     }
+
 
     // delete mrp level
     public function deleteMRPlevel($level_ids) {
