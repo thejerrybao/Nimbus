@@ -9,24 +9,32 @@
  ** CIRCLE K INTERNATIONAL
  ** COPYRIGHT 2014-2015 - ALL RIGHTS RESERVED
  **/
-
 require_once("dbfunc.php");
 ?>
 
 <!DOCTYPE html>
     <head>
         <title>Project Nimbus - Event Management</title>
+        <script src="../js/jquery-1.11.1.min.js"></script>
+        <script src="../js/chosen.jquery.min.js"></script>
+        <script src="../js/events.js"></script>
     </head>
     <body>
-        <?php if ($_GET["page"] == "create") : ?>
-            <h3 class="title">Create Event</h3>
-            <div class="form">
-                <form action="" method="post" enctype="multipart/form-data" id="createEvent">
-                    <p class="formLabel"></p>
-                        <input type="text" name="name" id="name" size="50" required><br />
-        <?php else if ($_GET["page"] == "list") : ?>
-        <?php else : ?>
+        <?php switch($_GET["page"]):
+            case "create": ?>
+                <h3 class="title">Create Event</h3>
+                <div class="form">
+                    <form action="" method="post" enctype="multipart/form-data" id="createEvent">
+                        <p class="formLabel">Event Name:</p>
+                            <input type="text" name="name" id="name" size="50" required><br />        
+                        <p class="formLabel">Chair:</p>
+                    </form>
+                </div>
+        <?php break; ?>
+        <?php case "list": ?>
+        <?php break; ?>
+        <?php default: ?>
             <h1>No query given to PHP.</h1>
-        <?php endif; ?>
+        <?php endswitch; ?>
     </body>
 </html>

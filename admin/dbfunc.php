@@ -12,9 +12,9 @@
 
 // SQL Database Info
 define("MYSQL_HOST", "localhost");
-define("MYSQL_USER", "917615_ckirfdb");
-define("MYSQL_PASS", "ckirfdb123");
-define("MYSQL_DB", "ucbckirfsystem_zymichost_ckirfsystem");
+define("MYSQL_USER", "root");
+define("MYSQL_PASS", "root");
+define("MYSQL_DB", "dev_ckirfsystem");
 
 class DatabaseFunctions {
 
@@ -661,7 +661,7 @@ class DatabaseFunctions {
     public function addTag($tagData) {
 
         $query = $this->$db->prepare('INSERT INTO `tags`
-            VALUES ("", :name, :abbr, :auto_manage, :mrp_tag, :number, :active)')
+            VALUES ("", :name, :abbr, :auto_manage, :mrp_tag, :number, :active)');
 
         if ($query->execute(array(
             ':name' => $tagData['name'],
@@ -678,7 +678,7 @@ class DatabaseFunctions {
 
         foreach ($tag_ids as $tag_id) {
             $query = $this->$db->prepare('DELETE FROM `tags`
-                WHERE tag_id=:tag_id')
+                WHERE tag_id=:tag_id');
             if ($query->execute(array(
                 ':tag_id' => $tag_id))) { continue;
             } else { return "An error has occurred! Error: " . $db->errorInfo(); }
