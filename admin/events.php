@@ -28,7 +28,7 @@ $db = new DatabaseFunctions;
                         <p class="formLabel">Event Name:</p>
                             <input type="text" name="name" id="name" size="50" required><br />        
                         <p class="formLabel">Chair:</p>
-                            <select class="searchSelect" name="chair_id" id="chair_id" required>
+                            <select class="chairSelect" name="chair_id" id="chair_id" required>
                                 <?php $members = $db->getMembers();
                                 foreach ($members as $member) {
                                     echo "<option value=\"" . $member['user_id'] . "\">" 
@@ -49,7 +49,12 @@ $db = new DatabaseFunctions;
                             <input type="hidden" name="all_day" id="all_day" size="50" value="0"><br />  
                             <input type="checkbox" name="all_day" id="all_day" size="50" value="1"><br />  
                         <p class="formLabel">Tags</p>
-                            <select class="searchSelect" name="tag_id" id="tag_id" multiple required>
+                            <select class="tagSelect" name="tag_id" id="tag_id" multiple required>
+                                <?php $tags = $db->getTags();
+                                foreach ($tags as $tag) {
+                                    echo "<option value=\"" . $tag['tag_id'] . "\">" 
+                                    . $tag['name'] . " (" . $tag['abbr'] . ")</option>";
+                                } ?>
                             </select>
                         <p class="formLabel">Online Sign-ups?</p>
                             <input type="hidden" name="online_signups" id="online_signups" size="50" value="0">

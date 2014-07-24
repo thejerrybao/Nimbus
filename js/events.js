@@ -1,4 +1,3 @@
-$(".searchSelect").chosen({
-    width: "50",
+$(".chairSelect, .tagSelect").chosen({
     search_contains: true
 });
