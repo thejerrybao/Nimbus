@@ -18,39 +18,48 @@ define("MYSQL_DB", "dev_ckirfsystem");
 
 class DatabaseFunctions {
 
-    private static $db;
+    private $db;
 
     // construct to connect to database
     public function __construct() {
+
         try {
-            $this->$db = new PDO("mysql:host=" . MYSQL_HOST . ";dbname=" . MYSQL_DB, MYSQL_USER, MYSQL_PASS);
+            $this->db = new PDO("mysql:host=" . MYSQL_HOST . ";dbname=" . MYSQL_DB, MYSQL_USER, MYSQL_PASS);
         }
         catch (PDOException $e) {
             die($e->getMessage());
         }
 
-        $this->$db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        $this->$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
     // destruct to destroy conection to database at end
-    public function __destruct() { $this->$db = null; }
+    public function __destruct() { $this->db = null; }
 
-    // get all dues paid member information
-    public function getDuesPaidMembers() {
+    // get member information
+    public function getMembers($dues_paid = false, $ordering = "last_name") {
 
-        $duesPaid = array();
-
-        $query = $this->$db->prepare('SELECT * FROM `users`
-            WHERE dues_paid=:dues_paid ORDER BY `last_name` ASC');
-        $query->setFetchMode(PDO::FETCH_OBJ);
-        $query->execute(array(
-            ':dues_paid' => 1));
+        $members = array();
+        if ($dues_paid) {
+            $query = $this->db->prepare('SELECT * FROM `users`
+                WHERE dues_paid=:dues_paid ORDER BY :ordering ASC');
+            $query->setFetchMode(PDO::FETCH_OBJ);
+            $query->execute(array(
+                ':dues_paid' => 1,
+                ':ordering' => $ordering));
+        } else {
+            $query = $this->db->prepare('SELECT * FROM `users`
+                ORDER BY :ordering ASC');
+            $query->setFetchMode(PDO::FETCH_OBJ);
+            $query->execute(array(
+                ':ordering' => $ordering));
+        }
 
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
 
-            $duesPaid[] = array(
+            $members[] = array(
                 "user_id" => $row->user_id,
                 "first_name" => $row->first_name,
                 "last_name" => $row->last_name,
@@ -58,7 +67,7 @@ class DatabaseFunctions {
                 "phone" => $row->phone);
         }
 
-        return $duesPaid;
+        return $members;
     }
 
     // get user data with user ID
@@ -66,7 +75,7 @@ class DatabaseFunctions {
 
         $userInfo = array();
 
-        $query = $this->$db->prepare('SELECT * FROM `users`
+        $query = $this->db->prepare('SELECT * FROM `users`
             WHERE user_id=:user_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
@@ -92,7 +101,7 @@ class DatabaseFunctions {
 
         $eventInfo = array();
 
-        $query = $this->$db->prepare('SELECT * FROM `events`
+        $query = $this->db->prepare('SELECT * FROM `events`
             WHERE event_id=:event_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
@@ -130,7 +139,7 @@ class DatabaseFunctions {
 
         $userEventsID = array();
 
-        $query = $this->$db->prepare('SELECT `event_id` FROM `event_attendees`
+        $query = $this->db->prepare('SELECT `event_id` FROM `event_attendees`
             WHERE user_id=:user_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
@@ -146,7 +155,7 @@ class DatabaseFunctions {
 
         $hours = array();
 
-        $query = $this->$db->prepare('SELECT * FROM `event_override_hours`
+        $query = $this->db->prepare('SELECT * FROM `event_override_hours`
             WHERE event_id=:event_id AND user_id=:user_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
@@ -179,7 +188,7 @@ class DatabaseFunctions {
 
         if (!$user_id) {
 
-            $query = $this->$db->prepare('SELECT * FROM `events`');
+            $query = $this->db->prepare('SELECT * FROM `events`');
             $query->setFetchMode(PDO::FETCH_OBJ);
             $query->execute();
 
@@ -190,7 +199,7 @@ class DatabaseFunctions {
 
                 if ($row->num_override_hours > 0) {
 
-                    $queryOverrideHours = $this->$db->prepare('SELECT SUM(service_hours) AS `service_hours`,
+                    $queryOverrideHours = $this->db->prepare('SELECT SUM(service_hours) AS `service_hours`,
                         SUM(admin_hours) AS `admin_hours`,
                         SUM(social_hours) AS `social_hours` 
                         FROM `event_override_hours` WHERE event_id=:event_id');
@@ -234,7 +243,7 @@ class DatabaseFunctions {
     // creates an event
     public function createEvent($eventData) {
 
-        $query = $this->$db->prepare('INSERT INTO `events`
+        $query = $this->db->prepare('INSERT INTO `events`
             VALUES ("", :name, :chair_id, :start_datetime, :end_datetime, :description, :location, :meeting_location,
                 :all_day, :online_signups, :online_end_datetime, :status, 0, 0, "", "", "", 0, 0, 0, 0, 0)');
         if ($query->execute(array(
@@ -261,7 +270,7 @@ class DatabaseFunctions {
         $dateBegin = $date;
         $dateEnd = strtotime('+1 day', $date);
 
-        $query = $this->$db->prepare('SELECT * FROM `events`
+        $query = $this->db->prepare('SELECT * FROM `events`
             WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND FROM_UNIXTIME(:dateEnd) <= end_datetime' );
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
@@ -291,7 +300,7 @@ class DatabaseFunctions {
         $dateBegin = $date;
         $dateEnd = strtotime('+1 month', $date);
 
-        $query = $this->$db->prepare('SELECT * FROM `events`
+        $query = $this->db->prepare('SELECT * FROM `events`
             WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND FROM_UNIXTIME(:dateEnd) <= end_datetime' );
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
@@ -319,7 +328,7 @@ class DatabaseFunctions {
         if ($eventInfo['access'] != 2){
             return "This event is not completed.";
         } else {
-            $query = $this->$db->prepare('UPDATE events
+            $query = $this->db->prepare('UPDATE events
                 SET status = 3
                 WHERE event_id=:event_id');
             if ($query->execute(array(
@@ -336,7 +345,7 @@ class DatabaseFunctions {
         if ($eventInfo['access'] != 1){
             return "This event is not in post-event status.";
         } else {
-            $query = $this->$db->prepare('UPDATE events
+            $query = $this->db->prepare('UPDATE events
                 SET status = 2
                 WHERE event_id=:event_id');
             if ($query->execute(array(
@@ -351,7 +360,7 @@ class DatabaseFunctions {
 
         $eventAttendees = array();
 
-        $query = $this->$db->prepare('SELECT * FROM `event_attendees`
+        $query = $this->db->prepare('SELECT * FROM `event_attendees`
             WHERE event_id=:event_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
@@ -374,7 +383,7 @@ class DatabaseFunctions {
     public function addOverrideHours($event_id, $overrideUsers) {
 
         foreach ($overrideUsers as $user) {
-            $query = $this->$db->prepare('INSERT INTO `event_override_hours`
+            $query = $this->db->prepare('INSERT INTO `event_override_hours`
                 VALUES ("", :event_id, :user_id, :service_hours, :admin_hours, :social_hours)');
 
             if ($query->execute(array(
@@ -391,7 +400,7 @@ class DatabaseFunctions {
     // register user
     public function registerUser($userData) {
 
-        $query = $this->$db->prepare('INSERT INTO `users`
+        $query = $this->db->prepare('INSERT INTO `users`
             VALUES ("", :user_id, :first_name, :last_name, :username, :password, :email, 0, :phone, 0, 0, 1)');
 
         if ($query->execute(array(
@@ -421,7 +430,7 @@ class DatabaseFunctions {
 
         $userInfo = $this->getUserInfo($user_id);
 
-        $query = $this->$db->prepare('UPDATE users
+        $query = $this->db->prepare('UPDATE users
             SET access=:access
             WHERE user_id=:user_id');
         if ($query->execute(array(
@@ -433,9 +442,9 @@ class DatabaseFunctions {
     // change first/last name 
     public function changeName($user_id, $first_name, $last_name) {
 
-        $oldName = $this->$db->getUserInfo($user_id);
+        $oldName = $this->db->getUserInfo($user_id);
 
-        $query = $this->$db->prepare('UPDATE users
+        $query = $this->db->prepare('UPDATE users
             SET first_name=:first_name, last_name=:last_name
             WHERE user_id=:user_id');
         if ($query->execute(array(
@@ -448,9 +457,9 @@ class DatabaseFunctions {
     // change email
     public function changeEmail($user_id, $email) {
 
-        $oldEmail = $this->$db->getUserInfo($user_id);
+        $oldEmail = $this->db->getUserInfo($user_id);
 
-        $query = $this->$db->prepare('UPDATE users
+        $query = $this->db->prepare('UPDATE users
             SET email=:email
             WHERE user_id=:user_id');
         if ($query->execute(array(
@@ -462,9 +471,9 @@ class DatabaseFunctions {
     // change phone number
     public function changePhone($user_id, $phone) {
 
-        $oldPhone = $this->$db->getUserInfo($user_id);
+        $oldPhone = $this->db->getUserInfo($user_id);
 
-        $query = $this->$db->prepare('UPDATE users
+        $query = $this->db->prepare('UPDATE users
             SET phone=:phone
             WHERE user_id=:user_id');
         if ($query->execute(array(
@@ -476,7 +485,7 @@ class DatabaseFunctions {
     // change password
     public function changePassword($user_id, $password) {
 
-        $query = $this->$db->prepare('UPDATE users
+        $query = $this->db->prepare('UPDATE users
             SET password=:password
             WHERE user_id=:user_id');
         if ($query->execute(array(
@@ -491,11 +500,11 @@ class DatabaseFunctions {
         foreach ($user_ids as $user_id) {
             $userInfo = $this->getUserInfo($user_id);
             if ($userInfo['active'] == 0) {
-                $query = $this->$db->prepare('UPDATE users
+                $query = $this->db->prepare('UPDATE users
                     SET active = 1
                     WHERE user_id=:user_id');   
             } else if ($userInfo['active'] == 1) {
-                $query = $this->$db->prepare('UPDATE users
+                $query = $this->db->prepare('UPDATE users
                     SET active = 0
                     WHERE user_id=:user_id');   
             }
@@ -510,11 +519,11 @@ class DatabaseFunctions {
         foreach ($user_id as $user_id) {
             $userInfo = $this->getUserInfo($user_id);
             if ($userInfo['dues_paid'] == 0) {
-                $query = $this->$db->prepare('UPDATE users
+                $query = $this->db->prepare('UPDATE users
                     SET dues_paid = 1
                     WHERE user_id=:user_id');   
             } else if ($userInfo['dues_paid'] == 1) {
-                $query = $this->$db->prepare('UPDATE users
+                $query = $this->db->prepare('UPDATE users
                     SET dues_paid = 0
                     WHERE user_id=:user_id');   
             }
@@ -526,7 +535,7 @@ class DatabaseFunctions {
     // add a committee
     public function addCommittee($name) {
 
-        $query = $this->$db->prepare('INSERT INTO `committees`
+        $query = $this->db->prepare('INSERT INTO `committees`
             VALUES ("", :name)');
         if ($query->execute(array(
             ':name' => $name))) { return "Successfully added " . $name . " committee!"; }
@@ -536,14 +545,14 @@ class DatabaseFunctions {
     // delete a committee
     public function deleteCommittee($committee_id) {
 
-        $query = $this->$db->prepare('SELECT * FROM `committee_members`
+        $query = $this->db->prepare('SELECT * FROM `committee_members`
             WHERE committee_id=:committee_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':committee_id' => $committee_id));
 
         if ($query->rowCount() == 0) {
-            $query = $this->$db->prepare('DELETE FROM `committees`
+            $query = $this->db->prepare('DELETE FROM `committees`
                 WHERE :committee_id = $committee_id');
             if ($query->execute(array(
                 ':committee_id' => $committee_id))) { return "Successfully deleted " . $name . " committee!";
@@ -555,7 +564,7 @@ class DatabaseFunctions {
     public function addCommitteeMembers($committee_id, $user_ids) {
 
         foreach ($user_ids as $user_id) {
-            $query = $this->$db->prepare('INSERT INTO `committee_members`
+            $query = $this->db->prepare('INSERT INTO `committee_members`
                 VALUES ("", :committee_id, :user_id)');
 
             if ($query->execute(array(
@@ -569,7 +578,7 @@ class DatabaseFunctions {
     public function deleteCommitteeMembers($committee_id, $user_ids) {
         
         foreach ($user_ids as $user_id) {
-            $query = $this->$db->prepare('DELETE FROM `committee_members`
+            $query = $this->db->prepare('DELETE FROM `committee_members`
                 WHERE committee_id=:committee_id AND user_id=:user_id');
             if ($query->execute(array(
                 ':committee_id' => $committee_id,
@@ -583,7 +592,7 @@ class DatabaseFunctions {
 
         $committeeMembers = array();
 
-        $query = $this->$db->prepare('SELECT * FROM `committee_members`
+        $query = $this->db->prepare('SELECT * FROM `committee_members`
             WHERE committee_id=:committee_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
@@ -605,7 +614,7 @@ class DatabaseFunctions {
     public function changeOverrideHours($event_id, $overrideUsers) {
 
         foreach ($overrideUsers as $user) {
-            $query = $this->$db->prepare('UPDATE `event_override_hours`
+            $query = $this->db->prepare('UPDATE `event_override_hours`
                 SET service_hours=:service_hours, admin_hours=:admin_hours, social_hours=:social_hours
                 WHERE user_id=:user_id');
 
@@ -623,7 +632,7 @@ class DatabaseFunctions {
     public function deleteOverrideHours($event_id, $user_ids) {
 
         foreach ($overrideUsers as $user) {
-            $query = $this->$db->prepare('DELETE FROM `event_override_hours`
+            $query = $this->db->prepare('DELETE FROM `event_override_hours`
                 WHERE event_id=:event_id AND user_id=:user_id');
 
             if ($query->execute(array(
@@ -637,7 +646,7 @@ class DatabaseFunctions {
     // change event information
     public function changeEvent($event_id, $eventData) {
 
-        $query = $this->$db->prepare('UPDATE `events`
+        $query = $this->db->prepare('UPDATE `events`
             SET name=:name, chair_id=:chair_id, start_datetime=:start_datetime, end_datetime=:end_datetime,
             description=:description, location=:location, meeting_location=:meeting_location,
             all_day=:all_day, online_signups=:online_signups, online_end_datetime=:online_end_datetime, status=:status
@@ -660,7 +669,7 @@ class DatabaseFunctions {
     // add mrp or mrf tag
     public function addTag($tagData) {
 
-        $query = $this->$db->prepare('INSERT INTO `tags`
+        $query = $this->db->prepare('INSERT INTO `tags`
             VALUES ("", :name, :abbr, :auto_manage, :mrp_tag, :number, :active)');
 
         if ($query->execute(array(
@@ -677,7 +686,7 @@ class DatabaseFunctions {
     public function deleteTag($tag_ids) {
 
         foreach ($tag_ids as $tag_id) {
-            $query = $this->$db->prepare('DELETE FROM `tags`
+            $query = $this->db->prepare('DELETE FROM `tags`
                 WHERE tag_id=:tag_id');
             if ($query->execute(array(
                 ':tag_id' => $tag_id))) { continue;
@@ -690,7 +699,7 @@ class DatabaseFunctions {
 
         foreach ($tag_ids as $tag) {
 
-            $query = $this->$db->prepare('SELECT `active` FROM `tags`
+            $query = $this->db->prepare('SELECT `active` FROM `tags`
                 WHERE tag_id=:tag_id');
             $query->setFetchMode(PDO::FETCH_OBJ);
             $query->execute(array(
@@ -699,7 +708,7 @@ class DatabaseFunctions {
             $row = $query->fetch();
             $activeness = $row->active;
 
-            $query = $this->$db->prepare('UPDATE `tags`
+            $query = $this->db->prepare('UPDATE `tags`
                 SET active=:active
                 WHERE tag_id=:tag_id');
             if ($activeness == 1) { 
@@ -718,7 +727,7 @@ class DatabaseFunctions {
     // add mrp level
     public function addMRPLevel($mrpdata) {
 
-        $query = $this->$db->prepare('INSERT INTO `mrp_levels`
+        $query = $this->db->prepare('INSERT INTO `mrp_levels`
             VALUES("", :level_id, :name, :hours, :num_required)');
 
             if ($query->execute(array(
@@ -733,7 +742,7 @@ class DatabaseFunctions {
     public function deleteMRPlevel($level_ids) {
 
         foreach ($level_ids as $level_id) {
-            $query = $this->$db->prepare('DELETE FROM `mrp_levels`
+            $query = $this->db->prepare('DELETE FROM `mrp_levels`
                 WHERE level_id=:level_id');
 
             if ($query->execute(array(

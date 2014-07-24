@@ -10,14 +10,14 @@
  ** COPYRIGHT 2014-2015 - ALL RIGHTS RESERVED
  **/
 require_once("dbfunc.php");
+ini_set('display_errors', 1);
+$db = new DatabaseFunctions;
 ?>
 
 <!DOCTYPE html>
     <head>
         <title>Project Nimbus - Event Management</title>
-        <script src="../js/jquery-1.11.1.min.js"></script>
-        <script src="../js/chosen.jquery.min.js"></script>
-        <script src="../js/events.js"></script>
+        <link rel="stylesheet" type="text/css" href="../css/chosen.css">
     </head>
     <body>
         <?php switch($_GET["page"]):
@@ -28,6 +28,14 @@ require_once("dbfunc.php");
                         <p class="formLabel">Event Name:</p>
                             <input type="text" name="name" id="name" size="50" required><br />        
                         <p class="formLabel">Chair:</p>
+                            <select class="searchSelect" id="chair">
+                                <?php 
+                                $members = $db->getMembers();
+                                foreach ($members as $member) {
+                                    echo "<option value=\"" . $member['user_id'] . "\">" . $member['last_name'] . ", " . $member['first_name'] . "</option>";
+                                }
+                                ?>
+                            </select>
                     </form>
                 </div>
         <?php break; ?>
@@ -36,5 +44,9 @@ require_once("dbfunc.php");
         <?php default: ?>
             <h1>No query given to PHP.</h1>
         <?php endswitch; ?>
+
+        <script src="../js/jquery-1.11.1.min.js"></script>
+        <script src="../js/chosen.jquery.min.js"></script>
+        <script src="../js/events.js"></script>
     </body>
 </html>
