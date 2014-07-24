@@ -70,6 +70,59 @@ class DatabaseFunctions {
         return $members;
     }
 
+    public function getTags($tag_type = "mrf", $active = 1) {
+
+        $tags = array();
+        switch ($tag_type) {
+            case "mrf":
+                $query = $this->db->prepare('SELECT * FROM `tags`
+                    WHERE mrp_tag=0 AND active=:active ORDER BY `name` ASC');
+                break;
+            case "mrp":
+                $query = $this->db->prepare('SELECT * FROM `tags`
+                    WHERE mrp_tag=1 AND active=:active ORDER BY `name` ASC');
+                break;
+            default:
+                $query = $this->db->prepare('SELECT * FROM `tags`
+                    WHERE active=:active ORDER BY `name` ASC');
+        }
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':active' => $active));
+
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+
+            $tags[] = array(
+                "tag_id" => $row->tag_id,
+                "name" => $row->name,
+                "abbr" => $row->abbr);
+        }
+
+        return $tags;
+    }
+
+    public function getTag($tag_id) {
+
+        $tag = array();
+        $query = $this->db->prepare('SELECT * FROM `tags`
+           WHERE tag_id=:tag_id ORDER BY `name` ASC');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':tag_id' => $tag_id));
+
+        if ($query->rowCount() == 0) { return false; }
+        $row = $query->fetch();
+        $tag['tag_id'] = $row->tag_id;
+        $tag['name'] = $row->name;
+        $tag['abbr'] = $row->abbr;
+        $tag['mrp_tag'] = $row->mrp_tag;
+        $tag['auto_manage'] = $row->auto_manage;
+        $tag['number'] = $row->number;
+        $tag['active'] = $row->active;
+        return $tag;
+    }
+
     // get user data with user ID
     public function getUserInfo($user_id) {
 
@@ -135,7 +188,7 @@ class DatabaseFunctions {
     }
 
     // get ID of all events a user has attended
-    private function getUserEventsID($user_id) {
+    private function getUserEvents($user_id) {
 
         $userEventsID = array();
 
@@ -151,7 +204,7 @@ class DatabaseFunctions {
     }
 
     // get user hours of an event; returns all hour types
-    public function getUserHoursByEventID($user_id, $event_id) {
+    public function getUserHoursByEvent($user_id, $event_id) {
 
         $hours = array();
 
