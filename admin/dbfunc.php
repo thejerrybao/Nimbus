@@ -297,7 +297,7 @@ class DatabaseFunctions {
 
         $query = $this->db->prepare('INSERT INTO `events`
             VALUES ("", :name, :chair_id, :start_datetime, :end_datetime, :description, :location, :meeting_location,
-                :online_signups, :online_end_datetime, :status, 0, 0, "", "", "", 0, 0, 0, 0, 0)');
+                :online_signups, :online_end_datetime, :status, 0, 0, "", "", "", 0, 0.00, 0, 0, 0)');
         if ($query->execute(array(
             ':name' => $eventData['name'],
             ':chair_id' => $eventData['chair_id'],
@@ -322,7 +322,7 @@ class DatabaseFunctions {
         $dateEnd = strtotime('+1 day', $date);
 
         $query = $this->db->prepare('SELECT * FROM `events`
-            WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND FROM_UNIXTIME(:dateEnd) <= end_datetime' );
+            WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND end_datetime <= FROM_UNIXTIME(:dateEnd)' );
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':dateBegin' => $dateBegin,
@@ -354,11 +354,12 @@ class DatabaseFunctions {
         $dateEnd = strtotime('+1 month', $month);
 
         $query = $this->db->prepare('SELECT * FROM `events`
-            WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND FROM_UNIXTIME(:dateEnd) <= end_datetime' );
+            WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND end_datetime <= FROM_UNIXTIME(:dateEnd)' );
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':dateBegin' => $dateBegin,
             ':dateEnd' => $dateEnd));
+
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
             $events[] = array(
@@ -382,17 +383,17 @@ class DatabaseFunctions {
         $eventInfo = $this->getEventInfo($event_id);
         switch ($status) {
             case 1:
-                if ($eventInfo['access'] != 0) {
+                if ($eventInfo['status'] != 0) {
                     return "This event is not a Pre-Event. Cannot change to Post-Event.";
                 }
                 break;
             case 2:
-                if ($eventInfo['access'] != 1) {
+                if ($eventInfo['status'] != 1) {
                     return "This event is not a Post-Event. Cannot change to Completed.";
                 }
                 break;
             case 3:
-                if ($eventInfo['access'] != 2) {
+                if ($eventInfo['status'] != 2) {
                     return "This event is not Completed. Cannot change to Verified.";
                 }
                 break;
@@ -775,7 +776,6 @@ class DatabaseFunctions {
             }
         }
     }
-
         
     // add mrp level
     public function addMRPLevel($mrpdata) {
@@ -787,7 +787,7 @@ class DatabaseFunctions {
                 ':level_id' => $mrpdata['level_id'],
                 ':name' => $mrpdata['name'],
                 ':hours' => $mrpdata['hours'],
-                ':num_required' => $mrpdata['num_required'])) { return "MRP Level " . $mrpdata['name'] . " was successfully added!"; }
+                ':num_required' => $mrpdata['num_required']))) { return "MRP Level " . $mrpdata['name'] . " was successfully added!"; }
             else { return "An error has occurred! Error: " . $db->errorInfo(); }
     }
 

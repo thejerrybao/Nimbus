@@ -22,200 +22,537 @@ $db = new DatabaseFunctions;
 ?>
 
 <!DOCTYPE html>
-    <head>
-        <title>Project Nimbus - Event Management</title>
-        <link rel="stylesheet" type="text/css" href="../css/chosen.css">
-    </head>
-    <body>
-        <?php switch ($_GET["view"]):
-            case "create": ?>
-                <h3 class="title">Create Event</h3>
-                <div class="form">
-                    <form action="processdata.php" method="post" enctype="multipart/form-data" id="create_event">
-                        <input type="hidden" name="form_submit_type" id="form_submit_type" value="create_event">
-                        <p class="formLabel">Event Name:</p>
-                            <input type="text" name="name" id="name" size="50" required><br />        
-                        <p class="formLabel">Chair:</p>
-                            <select class="chairSelect" name="chair_id" id="chair_id" required>
-                                <?php $members = $db->getMembers();
-                                foreach ($members as $member) {
-                                    echo "<option value=\"" . $member['user_id'] . "\">" 
-                                    . $member['last_name'] . ", " . $member['first_name'] . "</option>";
-                                } ?>
-                            </select>
-                        <p class="formLabel">Start Date and Time:</p>
-                            <input type="datetime-local" name="start_datetime" id="start_datetime" required><br />
-                        <p class="formLabel">End Date and Time:</p>
-                            <input type="datetime-local" name="end_datetime" id="end_datetime" required><br />
-                        <p class="formLabel">Description</p>
-                            <textarea name="description" id="description" form="create_event" rows="6" cols="40" required></textarea><br />
-                        <p class="formLabel">Location</p>
-                            <input type="text" name="location" id="location" size="50" required><br />  
-                        <p class="formLabel">Meeting Location</p>
-                            <input type="text" name="meeting_location" id="meeting_location" size="50" required><br /> 
-                        <p class="formLabel">Tags</p>
-                            <select class="tagSelect" name="tag_id" id="tag_id" multiple required>
-                                <?php $tags = $db->getTags();
-                                foreach ($tags as $tag) {
-                                    echo "<option value=\"" . $tag['tag_id'] . "\">" 
-                                    . $tag['name'] . " (" . $tag['abbr'] . ")</option>";
-                                } ?>
-                            </select>
-                        <p class="formLabel">Online Sign-ups?</p>
-                            <input type="hidden" name="online_signups" id="online_signups" value="0">
-                            <input type="checkbox" name="online_signups" id="online_signups" value="1" checked>
-                        <p class="formLabel">Online Sign-up End Date</p>
-                            <input type="datetime-local" name="online_end_datetime" id="online_end_datetime" required><br />
-                        <input type="submit">
-                    </form>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Project Nimbus - Event Administration</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Project Nimbus</a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="logout.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search for event...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li><a href="index.php">Dashboard</a></li>
+                        <li class="active">
+                            <a href="#">Event Management<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a <?php if ($_GET["view"] == "create") { ?> class="active" <?php } ?> href="events.php?view=create">Create Event</a></li>
+                                <li <?php if ($_GET["view"] == "list" || $_GET["view"] == "calendar" || $_GET["view"] == "event") { ?> class="active" <?php } ?> >
+                                    <a href="#">Manage Events <span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li><a <?php if ($_GET["view"] == "list") { ?> class="active" <?php } ?> href="events.php?view=list">List View</a></li>
+                                        <li><a <?php if ($_GET["view"] == "calendar") { ?> class="active" <?php } ?> href="events.php?view=calendar">Calendar View</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">Club Roster<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="roster.php">Add Member</a></li>
+                                <li><a href="roster.php">Delete/Deactivate Members</a></li>
+                                <li><a href="roster.php">Manage Members</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">Club Committees<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="committees.php">Add Committee</a></li>
+                                <li><a href="committees.php">Delete/Deactivate Committees</a></li>
+                                <li><a href="committees.php">Manage Committees</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">MRP Management<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="#">MRP Tags<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li><a href="mrp.php">Add Tag</a></li>
+                                        <li><a href="mrp.php">Delete/Deactivate Tags</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">MRP Levels<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-third-level">
+                                        <li><a href="mrp.php">Add Level</a></li>
+                                        <li><a href="mrp.php">Delete/Deactivate Levels</a></li>
+                                        <li><a href="mrp.php">Manage Levels</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Manage MRP Requirements</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">Administrative Tasks<span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="admin.php">Manage Board Members</a></li>
+                                <li><a href="admin.php">Change Member Information</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <?php switch ($_GET["view"]):
+                case "create": ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Create Event</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Create New Event</div>
+                            <div class="panel-body">
+                                <form action="processdata.php" method="post" enctype="multipart/form-data" id="create_event">
+                                    <input type="hidden" name="form_submit_type" id="form_submit_type" value="create_event">
+                                    <div class="form-group">
+                                        <label>Event Name</label>
+                                        <input type="text" name="name" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">        
+                                        <label>Chair</label>
+                                        <select name="chair_id" class="form-control" required>
+                                            <?php $members = $db->getMembers();
+                                            foreach ($members as $member) {
+                                                echo "<option value=\"" . $member['user_id'] . "\">" 
+                                                . $member['last_name'] . ", " . $member['first_name'] . "</option>";
+                                            } ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Start Date and Time</label>
+                                        <input type="datetime-local" name="start_datetime" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>End Date and Time</label>
+                                        <input type="datetime-local" name="end_datetime" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea name="description" form="create_event" rows="3" class="form-control" required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Location</label>
+                                        <input type="text" name="location" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Meeting Location</label>
+                                        <input type="text" name="meeting_location" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tags</label>
+                                        <select name="tag_id" class="form-control" multiple required>
+                                            <?php $tags = $db->getTags();
+                                            foreach ($tags as $tag) {
+                                                echo "<option value=\"" . $tag['tag_id'] . "\">" 
+                                                . $tag['name'] . " (" . $tag['abbr'] . ")</option>";
+                                            } ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Online Sign-ups?</label>
+                                        <input type="hidden" name="online_signups" value="0">
+                                        <input type="checkbox" name="online_signups" value="1" checked>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Online Sign-up End Date</label>
+                                        <input type="datetime-local" name="online_end_datetime" class="form-control" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Create Event</button>
+                                    <button type="reset" class="btn btn-primary">Reset Fields</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Help Panel</div>
+                            <div class="panel-body">
+                                <label>Event Name</label>
+                                <p>Enter the name of the event here.</p>
+                                <label>Chair</label>
+                                <p>Select the person that is chairing this event.</p> 
+                        </div>
+                    </div>
             <?php break; ?>
             <?php case "list": ?>
-                <h3 class="title">Event Management</h3>
-                    <form action="events.php?page=list" method="get" enctype="multipart/form-data" id="create_event">
-                        <input type="hidden" name="page" value="list">
-                        <select class="monthSelect" name="month" id="month">
-                            <?php for ($i = 1; $i <= 12; $i++) {
-                                if ($_GET["month"] == $i) { echo "<option value=\"" . $i . "\" selected>" . $months[$i] . "</option>"; }
-                                else { echo "<option value=\"" . $i . "\">" . $months[$i] . "</option>"; }
-                            } ?> 
-                        </select>
-                        <select class="yearSelect" name="year" id="year">
-                            <?php for ($i = idate("Y"); $i >= 2006; $i--) {
-                                if ($_GET["year"] == $i) { echo "<option value=\"" . $i . "\" selected>" . $i . "</option>"; }
-                                else { echo "<option value=\"" . $i . "\">" . $i . "</option>"; }
-                            } ?> 
-                        </select>
-                        <input type="submit">
-                    </form>
-                    <table class="event_list">
-                        <thead>
-                            <tr>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>Name</th>
-                                <th>Chair</th>
-                                <th>Status</th>
-                                <th>Location</th>
-                                <th>Meeting Location</th>
-                                <th># Attendees</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php $events = $db->getEventsByMonth(mktime(0, 0, 0, $_GET["month"], 1, $_GET["year"]));
-                            foreach ($events as $event) {
-                                $chair = $db->getUserInfo($event["chair_id"]);
-                                if ($event["end_datetime"] <= time()) { 
-                                    $db->setEventStatus($event["event_id"], 1);
-                                    $event["status"] = 1;
-                                }
-                                switch ($event["status"]) {
-                                    case 0:
-                                        $status = "Pre-Event";
-                                        break;
-                                    case 1:
-                                        $status = "Post-Event";
-                                        break;
-                                    case 2:
-                                        $status = "Confirmed";
-                                        break;
-                                    case 3:
-                                        $status = "Verified";
-                                        break;
-                                    default:
-                                        $status = "Incorrect Status Number";
-                                }
-                                echo "<tr><td>" . date("F j, Y, g:i a", $event["start_datetime"]) . "</td>";
-                                echo "<td>" . date("F j, Y, g:i a", $event["end_datetime"]) . "</td>";
-                                echo "<td>" . $event["name"] . "</td>";
-                                echo "<td>" . $chair["first_name"] . " " . $chair["last_name"] . "</td>";
-                                echo "<td>" . $status . "</td>";
-                                echo "<td>" . $event["location"] . "</td>";
-                                echo "<td>" . $event["meeting_location"] . "</td>";
-                                echo "<td>" . $event["num_attendees"] . "</td>";
-                            } ?>
-                        </tbody>
-                    </table>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Manage Events</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form action="events.php?view=list" method="get" enctype="multipart/form-data" id="create_event">
+                            <div class="form-group">
+                                <input type="hidden" name="view" value="list">
+                                <select name="month" class="form-control" style="width: 150px; display: inline;">
+                                    <?php for ($i = 1; $i <= 12; $i++) {
+                                        if ($_GET["month"] == $i) { echo "<option value=\"" . $i . "\" selected>" . $months[$i] . "</option>"; }
+                                        else { echo "<option value=\"" . $i . "\">" . $months[$i] . "</option>"; }
+                                    } ?> 
+                                </select>
+                                <select name="year" class="form-control" style="width: 100px; display: inline;">
+                                    <?php for ($i = idate("Y"); $i >= 2006; $i--) {
+                                        if ($_GET["year"] == $i) { echo "<option value=\"" . $i . "\" selected>" . $i . "</option>"; }
+                                        else { echo "<option value=\"" . $i . "\">" . $i . "</option>"; }
+                                    } ?> 
+                                </select>
+                                <button type="submit" class="btn btn-primary btn-xs">Get Events</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                        <?php $events = $db->getEventsByMonth(mktime(0, 0, 0, $_GET["month"], 1, $_GET["year"])); ?>
+                        <?php if ($events) { ?>
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Name</th>
+                                    <th>Chair</th>
+                                    <th>Status</th>
+                                    <th>Location</th>
+                                    <th># Attendees</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($events as $event) {
+                                        $chair = $db->getUserInfo($event["chair_id"]);
+                                        if ($event["end_datetime"] <= time() && $event["status"] == 0) { 
+                                            $db->setEventStatus($event["event_id"], 1);
+                                            $event["status"] = 1;
+                                        }
+                                        switch ($event["status"]) {
+                                            case 0:
+                                                $status = "Pre-Event";
+                                                break;
+                                            case 1:
+                                                $status = "Post-Event";
+                                                break;
+                                            case 2:
+                                                $status = "Confirmed";
+                                                break;
+                                            case 3:
+                                                $status = "Verified";
+                                                break;
+                                            default:
+                                                $status = "Incorrect Status Number";
+                                        }
+                                        echo "<tr><td>" . date("F j, Y, g:i a", $event["start_datetime"]) . "</td>";
+                                        echo "<td>" . date("F j, Y, g:i a", $event["end_datetime"]) . "</td>";
+                                        echo "<td><a href=\"events.php?view=event&id=" . $event["event_id"] . "\">" . $event["name"] . "</a></td>";
+                                        echo "<td>" . $chair["first_name"] . " " . $chair["last_name"] . "</td>";
+                                        echo "<td>" . $status . "</td>";
+                                        echo "<td>" . $event["location"] . "</td>";
+                                        echo "<td>" . $event["num_attendees"] . "</td>";
+                                    } ?>
+                            </tbody>
+                        </table>
+                        <?php } else { ?>
+                        <h2>No events found for the specified month and year.</h2>
+                        <?php } ?>
+                    </div>
+                </div>
             <?php break; ?>
-            <?php case "event": 
-                    if (empty($_GET["id"])) { echo "<h1>No event ID specified.</h1>"; }
+            <?php case "event": ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Event Information</h1>
+                    </div>
+                </div>
+                <?php if (empty($_GET["id"])) { echo "<h2>No event ID specified.</h1>"; }
                     else { 
                         $event = $db->getEventInfo($_GET["id"]);
-                        if ($event["end_datetime"] <= time()) { 
+                        if ($event["end_datetime"] <= time() && $event["status"] == 0) { 
                             $db->setEventStatus($event["event_id"], 1);
                             $event["status"] = 1;
                         }
-                    } ?>
-                    <h3 class="title">Event Information</h3>
-                    <div class="form">
-                        <form action="processdata.php" method="post" enctype="multipart/form-data" id="edit_event">
-                            <input type="hidden" name="form_submit_type" id="form_submit_type" value="edit_event">
-                            <p class="formLabel">Event Name:</p>
-                                <input type="text" name="name" id="name" size="50" value="<?php echo $event['name']; ?>" required><br />  
-                            <p class="formLabel">Chair:</p>
-                                <select class="chairSelect" name="chair_id" id="chair_id" required>
-                                    <?php $members = $db->getMembers();
-                                    foreach ($members as $member) {
-                                        if ($event['chair_id'] == $member['user_id']) {
-                                            echo "<option value=\"" . $member['user_id'] . "\" selected>" 
-                                                . $member['last_name'] . ", " . $member['first_name'] . "</option>"; 
-                                        } else { echo "<option value=\"" . $member['user_id'] . "\">" 
-                                        . $member['last_name'] . ", " . $member['first_name'] . "</option>"; }
-                                    } ?>
-                                </select>
-                            <p class="formLabel">Start Date and Time:</p>
-                                <input type="datetime-local" name="start_datetime" id="start_datetime" value="<?php echo date("Y-m-d\TH:i:s", $event["start_datetime"]); ?>" required><br />
-                            <p class="formLabel">End Date and Time:</p>
-                                <input type="datetime-local" name="end_datetime" id="end_datetime" value="<?php echo date("Y-m-d\TH:i:s", $event["end_datetime"]); ?>" required><br />
-                            <p class="formLabel">Description</p>
-                                <textarea name="description" id="description" form="create_event" rows="6" cols="40" required><?php echo $event["description"]; ?></textarea><br />
-                            <p class="formLabel">Location</p>
-                                <input type="text" name="location" id="location" size="50" value="<?php echo $event["location"]; ?>" required><br />  
-                            <p class="formLabel">Meeting Location</p>
-                                <input type="text" name="meeting_location" id="meeting_location" size="50" value="<?php echo $event["meeting_location"]; ?>" required><br />  
-                            <p class="formLabel">Tags</p>
-                                <select class="tagSelect" name="tag_id" id="tag_id" multiple required>
-                                    <?php $tags = $db->getTags();
-                                    foreach ($tags as $tag) {
-                                        echo "<option value=\"" . $tag['tag_id'] . "\">" 
-                                        . $tag['name'] . " (" . $tag['abbr'] . ")</option>";
-                                    } ?>
-                                </select>
-                            <p class="formLabel">Online Sign-ups?</p>
-                                <input type="hidden" name="online_signups" id="online_signups" value="0">
-                                <?php if ($event["online_signups"]): ?>
-                                    <input type="checkbox" name="online_signups" id="online_signups" value="1" checked>
-                                <?php else: ?>
-                                    <input type="checkbox" name="online_signups" id="online_signups" value="1">
-                                <?php endif; ?>
-                            <p class="formLabel">Online Sign-up End Date</p>
-                                <input type="datetime-local" name="online_end_datetime" id="online_end_datetime" value="<?php echo date("Y-m-d\TH:i:s", $event["online_end_datetime"]); ?>" required><br />
-                            <input type="submit">
-                        </form>
-                        <?php switch ($event["status"]):
-                            case 0: ?>
-                                <form action="processdata.php" method="post" enctype="multipart/form-data" class="form_set_status">
-                                    <input type="hidden" name="set_status" value="1">
-                                    <input type="submit" id="post_event" value="Override Auto Post-Event">
-                                </form>
-                            <?php break; ?>
-                            <?php case 1: ?>
-                                <form action="processdata.php" method="post" enctype="multipart/form-data" class="form_set_status">
-                                    <input type="hidden" name="set_status" value="2">
-                                    <input type="submit" id="confirm_event" value="Confirm Event">
-                                </form>
-                            <?php break; ?>
-                            <?php default: ?>
-                                <h1>Event has a status out of its range.</h1>
-                        <?php endswitch; ?>
-                    </div>
-            <?php break; ?>
-            <?php default: ?>
-                <h1>No query given to PHP.</h1>
-        <?php endswitch; ?>
+                } ?>
+                <div class="row">
+                    <?php if ($event["status"] < 2) { ?>
+                        <div class="col-lg-8">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Edit Event</div>
+                                <div class="panel-body">
+                                    <form action="processdata.php" method="post" enctype="multipart/form-data" id="edit_event">
+                                        <input type="hidden" name="form_submit_type" id="form_submit_type" value="edit_event">
+                                        <div class="form-group">
+                                            <label>Event Name</label>
+                                            <input type="text" name="name" class="form-control" value="<?= $event['name']; ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Chair</label>
+                                            <select name="chair_id" class="form-control" id="chair_id" required>
+                                                <?php $members = $db->getMembers();
+                                                foreach ($members as $member) {
+                                                    if ($event['chair_id'] == $member['user_id']) {
+                                                        echo "<option value=\"" . $member['user_id'] . "\" selected>" 
+                                                            . $member['last_name'] . ", " . $member['first_name'] . "</option>"; 
+                                                    } else { echo "<option value=\"" . $member['user_id'] . "\">" 
+                                                    . $member['last_name'] . ", " . $member['first_name'] . "</option>"; }
+                                                } ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Start Date and Time</label>
+                                            <input type="datetime-local" name="start_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", $event["start_datetime"]); ?>" required>
+                                        </div>    
+                                        <div class="form-group">
+                                            <label>End Date and Time</label>
+                                            <input type="datetime-local" name="end_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", $event["end_datetime"]); ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Description</label>
+                                            <textarea name="description" class="form-control" form="edit_event" rows="3" required><?= $event["description"]; ?></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Location</label>
+                                            <input type="text" name="location" class="form-control" value="<?= $event["location"]; ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Meeting Location</label>
+                                            <input type="text" name="meeting_location" class="form-control" value="<?= $event["meeting_location"]; ?>" required>
+                                        </div> 
+                                        <div class="form-group">
+                                            <label>Tags</label>
+                                            <select name="tag_id" class="form-control" multiple required>
+                                                <?php $tags = $db->getTags();
+                                                foreach ($tags as $tag) {
+                                                    echo "<option value=\"" . $tag['tag_id'] . "\">" 
+                                                    . $tag['name'] . " (" . $tag['abbr'] . ")</option>";
+                                                } ?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Online Sign-ups?</label>
+                                            <input type="hidden" name="online_signups" value="0">
+                                            <?php if ($event["online_signups"]): ?>
+                                                <input type="checkbox" name="online_signups" value="1" checked>
+                                            <?php else: ?>
+                                                <input type="checkbox" name="online_signups" value="1">
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Online Sign-up End Date</label>
+                                            <input type="datetime-local" name="online_end_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", $event["online_end_datetime"]); ?>" required>
+                                        </div>
+                                        <?php if ($event["status"] == 1) { ?>
+                                        <div class="form-group">
+                                            <label>Pros of the Event</label>
+                                            <textarea name="pros" class="form-control" form="edit_event" rows="3" required><?= $event["pros"] ?></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Cons of the Event</label>
+                                            <textarea name="cons" class="form-control" form="edit_event" rows="3" required><?= $event["cons"] ?></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Should we do the event again?</label>
+                                            <textarea name="do_again" class="form-control" form="edit_event" rows="3" required><?= $event["do_again"] ?></textarea>
+                                        </div>
+                                        <label>Funds Raised</label>
+                                        <div class="form-group input-group">
+                                            <span class="input-group-addon">$</span>
+                                            <input type="number" name="funds_raised" class="form-control" value="<?= $event["funds_raised"] ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Service Hours</label>
+                                            <input type="number" name="service_hours" class="form-control" value="<?= $event["service_hours"] ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Admin Hours</label>
+                                            <input type="number" name="admin_hours" class="form-control" value="<?= $event["admin_hours"] ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Social Hours</label>
+                                            <input type="number" name="social_hours" class="form-control" value="<?= $event["social_hours"] ?>" required>
+                                        </div>
+                                        <? } ?>
+                                        <button type="submit" class="btn btn-primary">Edit Event</button>
+                                        <?php switch ($event["status"]):
+                                            case 0: ?>
+                                            <form action="processdata.php" method="post" enctype="multipart/form-data" class="form_set_status" style="display: inline;">
+                                                <input type="hidden" name="set_status" value="1">
+                                                <button type="submit" class="btn btn-primary">Override Auto Post-Event</button>
+                                            </form>
+                                        <?php break; ?>
+                                        <?php case 1: ?>
+                                            <form action="processdata.php" method="post" enctype="multipart/form-data" class="form_set_status" style="display: inline;">
+                                                <input type="hidden" name="set_status" value="2">
+                                                <button type="submit" class="btn btn-primary">Confirm Event</button>
+                                            </form>
+                                        <?php break; ?>
+                                        <?php default: ?>
+                                            <h2>Event has a status out of its range.</h1>
+                                        <?php endswitch; ?>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                    <?php if ($event["status"] < 2) { ?>
+                        <div class="col-lg-4">
+                    <?php } else { ?>
+                        <div class="col-lg-12">
+                    <?php } ?>
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Complete Event Information</div>
+                                <div class="panel-body">
+                                    <label>Status</label>
+                                    <p><?php switch ($event["status"]) {
+                                                case 0:
+                                                    echo "Pre-Event";
+                                                    break;
+                                                case 1:
+                                                    echo "Post-Event";
+                                                    break;
+                                                case 2:
+                                                    echo "Confirmed";
+                                                    break;
+                                                case 3:
+                                                    echo "Verified";
+                                                    break;
+                                                default:
+                                                    echo "Incorrect Status Number";
+                                            } ?></p>
+                                    <label>Event Name</label>
+                                    <p><?= $event["name"] ?></p>
+                                    <label>Chair</label>
+                                    <p><?php $chair = $db->getUserInfo($event["chair_id"]) ?>
+                                        <?= $chair["first_name"] ?> <?= $chair["last_name"] ?></p>
+                                    <label>Start Date and Time</label>
+                                    <p><?= date("F j, Y, g:i a", $event["start_datetime"]); ?></p>
+                                    <label>End Date and Time</label>
+                                    <p><?= date("F j, Y, g:i a", $event["end_datetime"]); ?></p>
+                                    <label>Description</label>
+                                    <p><?= $event["description"] ?></p>
+                                    <label>Location</label>
+                                    <p><?= $event["location"] ?></p>
+                                    <label>Meeting Location</label>
+                                    <p><?= $event["meeting_location"] ?></p>
+                                    <label>Online Signups?</label>
+                                    <p><?php if ($event["online_signups"]) { ?> Yes 
+                                        <?php } else { ?> No <?php } ?></p>
+                                    <?php if ($event["status"] > 0) { ?>
+                                    <label>Pros of the Event</label>
+                                    <p><?= $event["pros"] ?></p>
+                                    <label>Cons of the Event</label>
+                                    <p><?= $event["cons"] ?></p>
+                                    <label>Should we do this event again?</label>
+                                    <p><?= $event["do_again"] ?></p>
+                                    <label>Funds Raised</label>
+                                    <p>$<?= $event["funds_raised"] ?></p>
+                                    <label>Service Hours</label>
+                                    <p><?= $event["service_hours"] ?></p>
+                                    <label>Admin Hours</label>
+                                    <p><?= $event["admin_hours"] ?></p>
+                                    <label>Social Hours</label>
+                                    <p><?= $event["social_hours"] ?></p>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            <?php endswitch; ?>
+        </div>
+        <!-- /#page-wrapper -->
 
-        <script src="../js/jquery-1.11.1.min.js"></script>
-        <script src="../js/chosen.jquery.min.js"></script>
-        <script src="../js/events.js"></script>
-    </body>
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery Version 1.11.0 -->
+    <script src="js/jquery-1.11.0.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/sb-admin-2.js"></script>
+
+    <!-- JS File for events.php -->
+    <script src="js/events.js"></script>
+</body>
 </html>
