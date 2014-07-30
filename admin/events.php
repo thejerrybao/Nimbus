@@ -217,7 +217,7 @@ $db = new DatabaseFunctions;
                                     </div>
                                     <div class="form-group">
                                         <label>Tags</label>
-                                        <select name="tag_id" class="form-control" multiple required>
+                                        <select name="tag_ids[]" class="form-control" multiple required>
                                             <?php $tags = $db->getTags();
                                             foreach ($tags as $tag) {
                                                 echo "<option value=\"" . $tag['tag_id'] . "\">" 
@@ -396,7 +396,7 @@ $db = new DatabaseFunctions;
                                         </div> 
                                         <div class="form-group">
                                             <label>Tags</label>
-                                            <select name="tag_id" class="form-control" multiple required>
+                                            <select name="tag_ids[]" class="form-control" multiple required>
                                                 <?php $tags = $db->getTags();
                                                 foreach ($tags as $tag) {
                                                     echo "<option value=\"" . $tag['tag_id'] . "\">" 
@@ -533,6 +533,9 @@ $db = new DatabaseFunctions;
                             </div>
                         </div>
                 </div>
+            <?php break; ?>
+            <?php case "calendar": ?>
+            <?php break; ?>
             <?php endswitch; ?>
         </div>
         <!-- /#page-wrapper -->

@@ -293,11 +293,11 @@ class DatabaseFunctions {
     }
 
     // creates an event
-    public function createEvent($eventData) {
+    public function createEvent($eventData, $tag_ids) {
 
         $query = $this->db->prepare('INSERT INTO `events`
             VALUES ("", :name, :chair_id, :start_datetime, :end_datetime, :description, :location, :meeting_location,
-                :online_signups, :online_end_datetime, :status, 0, 0, "", "", "", 0, 0.00, 0, 0, 0)');
+                :online_signups, :online_end_datetime, 0, 0, 0, "", "", "", 0, 0.00, 0, 0, 0)');
         if ($query->execute(array(
             ':name' => $eventData['name'],
             ':chair_id' => $eventData['chair_id'],
@@ -307,9 +307,26 @@ class DatabaseFunctions {
             ':location' => $eventData['location'],
             ':meeting_location' => $eventData['meeting_location'],
             ':online_signups' => $eventData['online_signups'],
-            ':online_end_datetime' => date("Y-m-d H:i:s", $eventData['online_end_datetime']),
-            ':status' => $eventData['status']))) { return "Event " . $eventData['name'] . " was successfully created!"; }
-        else { return "An Error has Occurred! Error: " . $db->errorInfo(); }
+            ':online_end_datetime' => date("Y-m-d H:i:s", $eventData['online_end_datetime'])))) {
+            return setEventTags($tag_ids);
+        }
+        else { return false; }
+    }
+
+    public function setEventTags($event_id, $tag_ids) {
+
+        $query = $this->db->prepare('DELETE FROM `event_tags`
+            WHERE event_id=:event_id');
+        if ($query->execute(array(
+                ':event_id' => $event_id))) {
+            foreach ($tag_ids as $tag_id) {
+                $query = $this->db->prepare('INSERT INTO `event_tags`
+                    VALUES ("", :event_id, :tag_id)');
+                if (!$query->execute(array(
+                    ':event_id' => $event_id,
+                    ':tag_id' => $tag_id))) { return false; }
+            }
+        } else { return false; }
     }
 
     // get today's events
@@ -407,7 +424,7 @@ class DatabaseFunctions {
             ':event_id' => $event_id,
             ':status' => $status))) {
                 return "Event status successfully changed.";
-        } else { return "An error has occurred! Error: " . $db->errorInfo(); }
+        } else { return false; }
     }
 
     // get event attendees
@@ -448,7 +465,7 @@ class DatabaseFunctions {
                 ':admin_hours' => $user['admin_hours'],
                 ':social_hours' => $user['social_hours']))) { 
                 continue; 
-            } else { return "An error has occurred! Error: " . $db->errorInfo(); }
+            } else { return false; }
         }
     }
 
@@ -467,7 +484,7 @@ class DatabaseFunctions {
             ':email' => $userData['email'],
             ':phone' => $userData['phone']
             ))) { return "Welcome to UCBCKI " . $userData['first_name'] ."! Your user profile was successfully created!"; }
-            else { return "An error has occurred! Error: " . $db->errorInfo(); } 
+            else { return false; } 
     }
 
     // change user access
@@ -491,7 +508,7 @@ class DatabaseFunctions {
         if ($query->execute(array(
             ':user_id' => $user_id,
             ':access' => $access))) { return "Successfully changed access for " . $userInfo['first_name'] . " " . $userInfo['last_name'] . "to " . $accessValue; }
-        else { return "An error has occurred! Error: " . $db->errorInfo(); }
+        else { return false; }
     }
 
     // change first/last name 
@@ -506,7 +523,7 @@ class DatabaseFunctions {
             ':user_id' => $user_id,
             ':first_name' => $first_name,
             ':last_name' => $last_name))) { return "Sucessfully changed name from " . $oldName['first_name'] . " " . $oldName['last_name'] . "to " . $first_name . " " . $last_name; }
-        else { return "An error has occurred! Error: " . $db->errorInfo(); }
+        else { return false; }
     }
 
     // change email
@@ -520,7 +537,7 @@ class DatabaseFunctions {
         if ($query->execute(array(
             ':user_id' => $user_id,
             ':email' => $email))) { return "Successfully changed email from " . $oldEmail['email'] . "to " . $email; }
-        else { return "An error has occurred! Error: " . $db->errorInfo(); }
+        else { return false; }
     }
 
     // change phone number
@@ -534,7 +551,7 @@ class DatabaseFunctions {
         if ($query->execute(array(
             ':user_id' => $user_id,
             ':phone' => $phone))) { return "Successfully changed phone from " . $oldPhone['phone'] . "to " . $phone; }
-        else { return "An error has occurred! Error: " . $db->errorInfo(); }
+        else { return false; }
     }
 
     // change password
@@ -546,7 +563,7 @@ class DatabaseFunctions {
         if ($query->execute(array(
             'user_id' => $user_id,
             'password' => password_hash($password, PASSWORD_BCRYPT)))) { return "Successfully changed password!"; }
-        else { return "An error has occurred! Error: " . $db->errorInfo(); }
+        else { return false; }
     }
 
     // change membership from active to non-active and vice-versa
@@ -594,7 +611,7 @@ class DatabaseFunctions {
             VALUES ("", :name)');
         if ($query->execute(array(
             ':name' => $name))) { return "Successfully added " . $name . " committee!"; }
-        else { return "An error has occurred! Error: " . $db->errorInfo(); }
+        else { return false; }
     }
 
     // delete a committee
@@ -611,7 +628,7 @@ class DatabaseFunctions {
                 WHERE :committee_id = $committee_id');
             if ($query->execute(array(
                 ':committee_id' => $committee_id))) { return "Successfully deleted " . $name . " committee!";
-            } else { return "An error has occurred! Error: " . $db->errorInfo(); }
+            } else { return false; }
         } else { return "Committee member still exist in this committee! Delete members from that committee first."; }
     }
 
@@ -625,7 +642,7 @@ class DatabaseFunctions {
             if ($query->execute(array(
                 ':committee_id' => $committee_id,
                 ':user_id' => $user_id))) { continue;
-            } else { return "An error has occurred! Error: " . $db->errorInfo(); }
+            } else { return false; }
         }
     }
 
@@ -638,7 +655,7 @@ class DatabaseFunctions {
             if ($query->execute(array(
                 ':committee_id' => $committee_id,
                 ':user_id' => $user_id))) { continue;
-            } else { return "An error has occurred! Error: " . $db->errorInfo(); }
+            } else { return false; }
         }
     }
 
@@ -679,7 +696,7 @@ class DatabaseFunctions {
                 ':admin_hours' => $user['admin_hours'],
                 ':social_hours' => $user['social_hours']))) { 
                 continue; 
-            } else { return "An error has Occurred! Error: " . $db->errorInfo(); }
+            } else { return false; }
         }
     }
 
@@ -694,7 +711,7 @@ class DatabaseFunctions {
                 ':event_id' => $event_id,
                 ':user_id' => $user_id))) { 
                 continue; 
-            } else { return "An error has Occurred! Error: " . $db->errorInfo(); }
+            } else { return false; }
         }
     }
 
@@ -717,7 +734,7 @@ class DatabaseFunctions {
             ':online_signups' => $eventData['online_signups'],
             ':online_end_datetime' => date("Y-m-d H:m:s", $eventData['online_end_datetime']),
             ':status' => $eventData['status']))) { return "Event " . $eventData['name'] . " was successfully changed!"; }
-        else { return "An Error has Occurred! Error: " . $db->errorInfo(); }
+        else { return false; }
     }
 
     // add mrp or mrf tag
@@ -733,7 +750,7 @@ class DatabaseFunctions {
             ':mrp_tag' => $tagData['mrp_tag'],
             ':number' => $tagData['number'],
             ':active' => $tagData['active']))) { return "Tag " . $tagData['name'] . " was successfully added!"; }
-        else { return "An error has occurred! Error: " . $dp->errorInfo(); }
+        else { return false; }
     }
 
     // delete mrp or mrf tags; requires that no events have
@@ -744,7 +761,7 @@ class DatabaseFunctions {
                 WHERE tag_id=:tag_id');
             if ($query->execute(array(
                 ':tag_id' => $tag_id))) { continue;
-            } else { return "An error has occurred! Error: " . $db->errorInfo(); }
+            } else { return false; }
         }
     }
 
@@ -787,8 +804,8 @@ class DatabaseFunctions {
                 ':level_id' => $mrpdata['level_id'],
                 ':name' => $mrpdata['name'],
                 ':hours' => $mrpdata['hours'],
-                ':num_required' => $mrpdata['num_required']))) { return "MRP Level " . $mrpdata['name'] . " was successfully added!"; }
-            else { return "An error has occurred! Error: " . $db->errorInfo(); }
+                ':num_required' => $mrpdata['num_required']))) { return true; }
+            else { return false; }
     }
 
     // delete mrp level
@@ -800,8 +817,9 @@ class DatabaseFunctions {
 
             if ($query->execute(array(
                 ':level_id' => $level_id))) { continue;
-            } else { return "An error has occurred! Error: " . $db->errorInfo(); }
+            } else { return false; }
         }
+        return true;
     }
 
 }

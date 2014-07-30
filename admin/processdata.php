@@ -15,6 +15,21 @@ $db = new DatabaseFunctions;
 
 switch ($_POST["form_submit_type"]) {
     case "create_event":
+        $eventData = array(
+            "name" => $_POST["name"],
+            "chair_id" => $_POST["chair_id"],
+            "start_datetime" => strtotime($_POST["start_datetime"]),
+            "end_datetime" => strtotime($_POST["end_datetime"]),
+            "description" => $_POST["description"],
+            "location" => $_POST["location"],
+            "meeting_location" => $_POST["meeting_location"],
+            "online_signups" => $_POST["online_signups"],
+            "online_end_datetime" => strtotime($_POST["online_end_datetime"]));
+        if ($db->createEvent($eventData, $_POST["tag_ids"])) { 
+            $location = 'Location: events.php?view=list&month=' . idate('m') . '&year=' . date('Y');
+            header($location);
+            exit;
+        }
         break;
     default:
         echo "No Form Submit Type Passed.";
