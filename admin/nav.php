@@ -9,6 +9,8 @@
  ** CIRCLE K INTERNATIONAL
  ** COPYRIGHT 2014-2015 - ALL RIGHTS RESERVED
  **/
+
+$valid_manage_views = ["list", "calendar", "event", "edit"];
 ?>
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -57,7 +59,7 @@
                     <a href="#">Event Management<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a <?php if ($page == "events" && $_GET["view"] == "create") { ?> class="active" <?php } ?> href="events.php?view=create">Create Event</a></li>
-                        <li <?php if ($page == "events" && ($_GET["view"] == "list" || $_GET["view"] == "calendar" || $_GET["view"] == "event")) { ?> class="active" <?php } ?> >
+                        <li <?php if ($page == "events" && (in_array($_GET["view"], $valid_manage_views))) { ?> class="active" <?php } ?> >
                             <a href="#">Manage Events <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                                 <li><a <?php if ($page == "events" && $_GET["view"] == "list") { ?> class="active" <?php } ?> href="events.php?view=list">List View</a></li>

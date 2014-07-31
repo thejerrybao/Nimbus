@@ -230,7 +230,7 @@ $db = new DatabaseFunctions;
                             </tbody>
                         </table>
                         <?php } else { ?>
-                        <h2>No events found for the specified month and year.</h2>
+                            <h2>No events found for the specified month and year.</h2>
                         <?php } ?>
                     </div>
                 </div>
@@ -239,6 +239,85 @@ $db = new DatabaseFunctions;
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Event Information</h1>
+                    </div>            
+                    <?php if (empty($_GET["id"])) { echo "<h2>No event ID specified.</h2>"; }
+                        else { 
+                            $event = $db->getEventInfo($_GET["id"]);
+                            if ($event["end_datetime"] <= time() && $event["status"] == 0) { 
+                                $db->setEventStatus($event["event_id"], 1);
+                                $event["status"] = 1;
+                            }
+                    } ?>
+                    <div class="col-lg-8">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">All Event Data</div>
+                                <div class="panel-body">
+                                    <label>Status</label>
+                                    <p><?php switch ($event["status"]) {
+                                                case 0:
+                                                    echo "Pre-Event";
+                                                    break;
+                                                case 1:
+                                                    echo "Post-Event";
+                                                    break;
+                                                case 2:
+                                                    echo "Confirmed";
+                                                    break;
+                                                case 3:
+                                                    echo "Verified";
+                                                    break;
+                                                default:
+                                                    echo "Incorrect Status Number";
+                                            } ?></p>
+                                    <label>Event Name</label>
+                                    <p><?= $event["name"] ?></p>
+                                    <label>Chair</label>
+                                    <p><?php $chair = $db->getUserInfo($event["chair_id"]) ?>
+                                        <?= $chair["first_name"] ?> <?= $chair["last_name"] ?></p>
+                                    <label>Start Date and Time</label>
+                                    <p><?= date("F j, Y, g:i a", $event["start_datetime"]); ?></p>
+                                    <label>End Date and Time</label>
+                                    <p><?= date("F j, Y, g:i a", $event["end_datetime"]); ?></p>
+                                    <label>Description</label>
+                                    <p><?= $event["description"] ?></p>
+                                    <label>Location</label>
+                                    <p><?= $event["location"] ?></p>
+                                    <label>Meeting Location</label>
+                                    <p><?= $event["meeting_location"] ?></p>
+                                    <label>Tags</label>
+                                    <p><?php foreach ($event["tag_ids"] as $tag_id) { 
+                                        $tag = $db->getTag($tag_id) ?>
+                                    <?= $tag["abbr"] ?> (<?= $tag["name"] ?>)</br>
+                                    <?php } ?></p>
+                                    <label>Online Signups?</label>
+                                    <p><?php if ($event["online_signups"]) { ?> Yes 
+                                        <?php } else { ?> No <?php } ?></p>
+                                    <?php if ($event["status"] > 0) { ?>
+                                    <label>Pros of the Event</label>
+                                    <p><?= $event["pros"] ?></p>
+                                    <label>Cons of the Event</label>
+                                    <p><?= $event["cons"] ?></p>
+                                    <label>Should we do this event again?</label>
+                                    <p><?= $event["do_again"] ?></p>
+                                    <label>Funds Raised</label>
+                                    <p>$<?= $event["funds_raised"] ?></p>
+                                    <label>Service Hours Per Person</label>
+                                    <p><?= $event["service_hours"] ?></p>
+                                    <label>Admin Hours Per Person</label>
+                                    <p><?= $event["admin_hours"] ?></p>
+                                    <label>Social Hours Per Person</label>
+                                    <p><?= $event["social_hours"] ?></p>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php break; ?>
+            <?php case "edit": ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Edit Event</h1>
                     </div>
                 </div>
                 <?php if (empty($_GET["id"])) { echo "<h2>No event ID specified.</h1>"; }
@@ -253,7 +332,7 @@ $db = new DatabaseFunctions;
                     <?php if ($event["status"] < 2) { ?>
                         <div class="col-lg-8">
                             <div class="panel panel-default">
-                                <div class="panel-heading">Edit Event</div>
+                                <div class="panel-heading">Edit Current Event</div>
                                 <div class="panel-body">
                                     <form action="processdata.php" method="post" enctype="multipart/form-data" id="edit_event">
                                         <input type="hidden" name="form_submit_type" value="edit_event">
@@ -355,94 +434,23 @@ $db = new DatabaseFunctions;
                                         </div>
                                         <? } ?>
                                         <button type="submit" class="btn btn-primary">Edit Event</button>
-                                        <?php switch ($event["status"]):
-                                            case 0: ?>
-                                            <form action="processdata.php" method="post" enctype="multipart/form-data" class="form_set_status" style="display: inline;">
-                                                <input type="hidden" name="set_status" value="1">
-                                                <button type="submit" class="btn btn-primary">Override Auto Post-Event</button>
-                                            </form>
-                                        <?php break; ?>
-                                        <?php case 1: ?>
-                                            <form action="processdata.php" method="post" enctype="multipart/form-data" class="form_set_status" style="display: inline;">
-                                                <input type="hidden" name="set_status" value="2">
-                                                <button type="submit" class="btn btn-primary">Confirm Event</button>
-                                            </form>
-                                        <?php break; ?>
-                                        <?php default: ?>
-                                            <h2>Event has a status out of its range.</h1>
-                                        <?php endswitch; ?>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                    <?php } ?>
-                    <?php if ($event["status"] < 2) { ?>
                         <div class="col-lg-4">
-                    <?php } else { ?>
-                        <div class="col-lg-12">
-                    <?php } ?>
                             <div class="panel panel-default">
-                                <div class="panel-heading">Complete Event Information</div>
+                                <div class="panel-heading">Help Panel</div>
                                 <div class="panel-body">
-                                    <label>Status</label>
-                                    <p><?php switch ($event["status"]) {
-                                                case 0:
-                                                    echo "Pre-Event";
-                                                    break;
-                                                case 1:
-                                                    echo "Post-Event";
-                                                    break;
-                                                case 2:
-                                                    echo "Confirmed";
-                                                    break;
-                                                case 3:
-                                                    echo "Verified";
-                                                    break;
-                                                default:
-                                                    echo "Incorrect Status Number";
-                                            } ?></p>
                                     <label>Event Name</label>
-                                    <p><?= $event["name"] ?></p>
+                                    <p>Enter the name of the event here.</p>
                                     <label>Chair</label>
-                                    <p><?php $chair = $db->getUserInfo($event["chair_id"]) ?>
-                                        <?= $chair["first_name"] ?> <?= $chair["last_name"] ?></p>
-                                    <label>Start Date and Time</label>
-                                    <p><?= date("F j, Y, g:i a", $event["start_datetime"]); ?></p>
-                                    <label>End Date and Time</label>
-                                    <p><?= date("F j, Y, g:i a", $event["end_datetime"]); ?></p>
-                                    <label>Description</label>
-                                    <p><?= $event["description"] ?></p>
-                                    <label>Location</label>
-                                    <p><?= $event["location"] ?></p>
-                                    <label>Meeting Location</label>
-                                    <p><?= $event["meeting_location"] ?></p>
-                                    <label>Tags</label>
-                                    <p><?php foreach ($event["tag_ids"] as $tag_id) { 
-                                        $tag = $db->getTag($tag_id) ?>
-                                    <?= $tag["abbr"] ?> (<?= $tag["name"] ?>)</br>
-                                    <?php } ?></p>
-                                    <label>Online Signups?</label>
-                                    <p><?php if ($event["online_signups"]) { ?> Yes 
-                                        <?php } else { ?> No <?php } ?></p>
-                                    <?php if ($event["status"] > 0) { ?>
-                                    <label>Pros of the Event</label>
-                                    <p><?= $event["pros"] ?></p>
-                                    <label>Cons of the Event</label>
-                                    <p><?= $event["cons"] ?></p>
-                                    <label>Should we do this event again?</label>
-                                    <p><?= $event["do_again"] ?></p>
-                                    <label>Funds Raised</label>
-                                    <p>$<?= $event["funds_raised"] ?></p>
-                                    <label>Service Hours Per Person</label>
-                                    <p><?= $event["service_hours"] ?></p>
-                                    <label>Admin Hours Per Person</label>
-                                    <p><?= $event["admin_hours"] ?></p>
-                                    <label>Social Hours Per Person</label>
-                                    <p><?= $event["social_hours"] ?></p>
-                                    <?php } ?>
-                                </div>
+                                    <p>Select the person that is chairing this event.</p> 
                             </div>
                         </div>
+                    <?php } else { ?>
+                        <h2>Can't edit a completed event! If you need to edit, ask the secretary to un-complete the event.</h2>
+                    <?php } ?>
                 </div>
             <?php break; ?>
             <?php case "calendar": ?>
