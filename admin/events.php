@@ -62,111 +62,8 @@ $db = new DatabaseFunctions;
     <div id="wrapper">
 
         <!-- Navigation -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">Project Nimbus</a>
-            </div>
-            <!-- /.navbar-header -->
-
-            <ul class="nav navbar-top-links navbar-right">
-                <!-- /.dropdown -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href="logout.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
-            </ul>
-            <!-- /.navbar-top-links -->
-
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-                    <ul class="nav" id="side-menu">
-                        <li class="sidebar-search">
-                            <div class="input-group custom-search-form">
-                                <input type="text" class="form-control" placeholder="Search for event...">
-                                <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </span>
-                            </div>
-                            <!-- /input-group -->
-                        </li>
-                        <li><a href="index.php">Dashboard</a></li>
-                        <li class="active">
-                            <a href="#">Event Management<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a <?php if ($_GET["view"] == "create") { ?> class="active" <?php } ?> href="events.php?view=create">Create Event</a></li>
-                                <li <?php if ($_GET["view"] == "list" || $_GET["view"] == "calendar" || $_GET["view"] == "event") { ?> class="active" <?php } ?> >
-                                    <a href="#">Manage Events <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li><a <?php if ($_GET["view"] == "list") { ?> class="active" <?php } ?> href="events.php?view=list">List View</a></li>
-                                        <li><a <?php if ($_GET["view"] == "calendar") { ?> class="active" <?php } ?> href="events.php?view=calendar">Calendar View</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">Club Roster<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a href="roster.php">Add Member</a></li>
-                                <li><a href="roster.php">Delete/Deactivate Members</a></li>
-                                <li><a href="roster.php">Manage Members</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">Club Committees<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a href="committees.php">Add Committee</a></li>
-                                <li><a href="committees.php">Delete/Deactivate Committees</a></li>
-                                <li><a href="committees.php">Manage Committees</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">MRP Management<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">MRP Tags<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li><a href="mrp.php">Add Tag</a></li>
-                                        <li><a href="mrp.php">Delete/Deactivate Tags</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="#">MRP Levels<span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li><a href="mrp.php">Add Level</a></li>
-                                        <li><a href="mrp.php">Delete/Deactivate Levels</a></li>
-                                        <li><a href="mrp.php">Manage Levels</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">Manage MRP Requirements</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#">Administrative Tasks<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li><a href="admin.php">Manage Board Members</a></li>
-                                <li><a href="admin.php">Change Member Information</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <!-- /.sidebar-collapse -->
-            </div>
-            <!-- /.navbar-static-side -->
-        </nav>
+        <?php $page = "events"; 
+            require_once("nav.php"); ?>
 
         <!-- Page Content -->
         <div id="page-wrapper">
@@ -445,15 +342,15 @@ $db = new DatabaseFunctions;
                                             <input type="number" step="any" min="0" name="funds_raised" class="form-control" value="<?= $event["funds_raised"] ?>" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>Service Hours</label>
+                                            <label>Service Hours Per Person</label>
                                             <input type="number" min="0" name="service_hours" class="form-control" value="<?= $event["service_hours"] ?>" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>Admin Hours</label>
+                                            <label>Admin Hours Per Person</label>
                                             <input type="number" min="0" name="admin_hours" class="form-control" value="<?= $event["admin_hours"] ?>" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>Social Hours</label>
+                                            <label>Social Hours Per Person</label>
                                             <input type="number" min="0" name="social_hours" class="form-control" value="<?= $event["social_hours"] ?>" required>
                                         </div>
                                         <? } ?>
@@ -536,11 +433,11 @@ $db = new DatabaseFunctions;
                                     <p><?= $event["do_again"] ?></p>
                                     <label>Funds Raised</label>
                                     <p>$<?= $event["funds_raised"] ?></p>
-                                    <label>Service Hours</label>
+                                    <label>Service Hours Per Person</label>
                                     <p><?= $event["service_hours"] ?></p>
-                                    <label>Admin Hours</label>
+                                    <label>Admin Hours Per Person</label>
                                     <p><?= $event["admin_hours"] ?></p>
-                                    <label>Social Hours</label>
+                                    <label>Social Hours Per Person</label>
                                     <p><?= $event["social_hours"] ?></p>
                                     <?php } ?>
                                 </div>
