@@ -76,15 +76,15 @@ class DatabaseFunctions {
         switch ($tag_type) {
             case "mrf":
                 $query = $this->db->prepare('SELECT * FROM `tags`
-                    WHERE mrp_tag=0 AND active=:active ORDER BY `name` ASC');
+                    WHERE mrp_tag=0 AND active=:active ORDER BY `abbr` ASC');
                 break;
             case "mrp":
                 $query = $this->db->prepare('SELECT * FROM `tags`
-                    WHERE mrp_tag=1 AND active=:active ORDER BY `name` ASC');
+                    WHERE mrp_tag=1 AND active=:active ORDER BY `abbr` ASC');
                 break;
             default:
                 $query = $this->db->prepare('SELECT * FROM `tags`
-                    WHERE active=:active ORDER BY `name` ASC');
+                    WHERE active=:active ORDER BY `abbr` ASC');
         }
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
@@ -106,7 +106,7 @@ class DatabaseFunctions {
 
         $tag = array();
         $query = $this->db->prepare('SELECT * FROM `tags`
-           WHERE tag_id=:tag_id ORDER BY `name` ASC');
+           WHERE tag_id=:tag_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':tag_id' => $tag_id));
@@ -183,6 +183,7 @@ class DatabaseFunctions {
         $eventInfo['admin_hours'] = $row->admin_hours;
         $eventInfo['social_hours'] = $row->social_hours;
         $eventInfo['num_override_hours'] = $row->num_override_hours;
+        $eventInfo['tag_ids'] = $this->getEventTags($row->event_id);
         return $eventInfo;
     }
 
@@ -233,7 +234,7 @@ class DatabaseFunctions {
 
     // get total hours of the club or a user
     // can specify what type of hours or all hours (service, admin, social, all)
-    public function getTotal($typeHours, $user_id = null) {
+    public function getTotalHours($typeHours, $user_id = null) {
 
         $totalHours = array();
         $totalHours['service_hours'] = $totalHours['admin_hours'] = $totalHours['social_hours'] = 0.0;
@@ -308,25 +309,64 @@ class DatabaseFunctions {
             ':meeting_location' => $eventData['meeting_location'],
             ':online_signups' => $eventData['online_signups'],
             ':online_end_datetime' => date("Y-m-d H:i:s", $eventData['online_end_datetime'])))) {
-            return setEventTags($tag_ids);
+            return $this->setEventTags($this->db->lastInsertId(), $tag_ids);
         }
         else { return false; }
     }
 
+    public function getEventTags($event_id) {
+
+        $tag_ids = array();
+        $query = $this->db->prepare('SELECT * FROM `event_tags`
+            WHERE event_id=:event_id');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        if ($query->execute(array(
+            ':event_id' => $event_id))) { 
+            while ($row = $query->fetch()) { $tag_ids[] = $row->tag_id; }
+        }
+        else { return false; }
+        return $tag_ids;
+    }
+
     public function setEventTags($event_id, $tag_ids) {
 
-        $query = $this->db->prepare('DELETE FROM `event_tags`
+        $query = $this->db->prepare('SELECT * FROM `event_tags`
             WHERE event_id=:event_id');
+        $query->setFetchMode(PDO::FETCH_OBJ);
         if ($query->execute(array(
-                ':event_id' => $event_id))) {
-            foreach ($tag_ids as $tag_id) {
-                $query = $this->db->prepare('INSERT INTO `event_tags`
-                    VALUES ("", :event_id, :tag_id)');
-                if (!$query->execute(array(
-                    ':event_id' => $event_id,
-                    ':tag_id' => $tag_id))) { return false; }
+            ':event_id' => $event_id))) {
+            if ($query->rowCount() == 0) {
+                foreach ($tag_ids as $tag_id) {
+                    $queryInsertAll = $this->db->prepare('INSERT INTO `event_tags`
+                        VALUES ("", :event_id, :tag_id)');
+                    if (!$queryInsertAll->execute(array(
+                        ':event_id' => $event_id,
+                        ':tag_id' => $tag_id))) { return false; }
+                }
+            } else {
+                while ($row = $query->fetch()) {
+                    if (!in_array($row->tag_id, $tag_ids)) {
+                        $queryDeleteTag = $this->db->prepare('DELETE FROM `event_tags`
+                            WHERE event_id=:event_id AND tag_id=:tag_id');
+                        if (!$queryDeleteTag->execute(array(
+                            ':event_id' => $event_id,
+                            ':tag_id' => $row->tag_id))) { return false; }
+                    } else {
+                        if (($key = array_search($row->tag_id, $tag_ids)) !== false) {
+                            unset($tag_ids[$key]);
+                        }
+                    }
+                }
+                foreach ($tag_ids as $tag_id) {
+                    $queryInsertAll = $this->db->prepare('INSERT INTO `event_tags`
+                        VALUES ("", :event_id, :tag_id)');
+                    if (!$queryInsertAll->execute(array(
+                        ':event_id' => $event_id,
+                        ':tag_id' => $tag_id))) { return false; }
+                }
             }
         } else { return false; }
+        return true;
     }
 
     // get today's events
@@ -487,8 +527,8 @@ class DatabaseFunctions {
             else { return false; } 
     }
 
-    // change user access
-    public function changeUserAccess($user_id, $access) {
+    // edit user access
+    public function editUserAccess($user_id, $access) {
 
         if ($access == 0) {
             $accessValue = 'General Member';
@@ -507,12 +547,12 @@ class DatabaseFunctions {
             WHERE user_id=:user_id');
         if ($query->execute(array(
             ':user_id' => $user_id,
-            ':access' => $access))) { return "Successfully changed access for " . $userInfo['first_name'] . " " . $userInfo['last_name'] . "to " . $accessValue; }
+            ':access' => $access))) { return "Successfully edited access for " . $userInfo['first_name'] . " " . $userInfo['last_name'] . "to " . $accessValue; }
         else { return false; }
     }
 
-    // change first/last name 
-    public function changeName($user_id, $first_name, $last_name) {
+    // edit first/last name 
+    public function editName($user_id, $first_name, $last_name) {
 
         $oldName = $this->db->getUserInfo($user_id);
 
@@ -522,12 +562,12 @@ class DatabaseFunctions {
         if ($query->execute(array(
             ':user_id' => $user_id,
             ':first_name' => $first_name,
-            ':last_name' => $last_name))) { return "Sucessfully changed name from " . $oldName['first_name'] . " " . $oldName['last_name'] . "to " . $first_name . " " . $last_name; }
+            ':last_name' => $last_name))) { return "Sucessfully edited name from " . $oldName['first_name'] . " " . $oldName['last_name'] . "to " . $first_name . " " . $last_name; }
         else { return false; }
     }
 
-    // change email
-    public function changeEmail($user_id, $email) {
+    // edit email
+    public function editEmail($user_id, $email) {
 
         $oldEmail = $this->db->getUserInfo($user_id);
 
@@ -536,12 +576,12 @@ class DatabaseFunctions {
             WHERE user_id=:user_id');
         if ($query->execute(array(
             ':user_id' => $user_id,
-            ':email' => $email))) { return "Successfully changed email from " . $oldEmail['email'] . "to " . $email; }
+            ':email' => $email))) { return "Successfully edited email from " . $oldEmail['email'] . "to " . $email; }
         else { return false; }
     }
 
-    // change phone number
-    public function changePhone($user_id, $phone) {
+    // edit phone number
+    public function editPhone($user_id, $phone) {
 
         $oldPhone = $this->db->getUserInfo($user_id);
 
@@ -550,24 +590,24 @@ class DatabaseFunctions {
             WHERE user_id=:user_id');
         if ($query->execute(array(
             ':user_id' => $user_id,
-            ':phone' => $phone))) { return "Successfully changed phone from " . $oldPhone['phone'] . "to " . $phone; }
+            ':phone' => $phone))) { return "Successfully edited phone from " . $oldPhone['phone'] . "to " . $phone; }
         else { return false; }
     }
 
-    // change password
-    public function changePassword($user_id, $password) {
+    // edit password
+    public function editPassword($user_id, $password) {
 
         $query = $this->db->prepare('UPDATE users
             SET password=:password
             WHERE user_id=:user_id');
         if ($query->execute(array(
             'user_id' => $user_id,
-            'password' => password_hash($password, PASSWORD_BCRYPT)))) { return "Successfully changed password!"; }
+            'password' => password_hash($password, PASSWORD_BCRYPT)))) { return "Successfully edited password!"; }
         else { return false; }
     }
 
-    // change membership from active to non-active and vice-versa
-    public function changeActiveMembership($user_ids) {
+    // edit membership from active to non-active and vice-versa
+    public function editActiveMembership($user_ids) {
 
         foreach ($user_ids as $user_id) {
             $userInfo = $this->getUserInfo($user_id);
@@ -582,11 +622,11 @@ class DatabaseFunctions {
             }
         }
         if ($query->execute(array(
-            ':user_id' => $user_id))) { return "Successfully changed active statuses."; }
+            ':user_id' => $user_id))) { return "Successfully edited active statuses."; }
     }
 
-    // change status from dues-paid to non-dues-paid and vice-versa
-    public function changeDuesPaidMembership($user_ids) {
+    // edit status from dues-paid to non-dues-paid and vice-versa
+    public function editeduesPaidMembership($user_ids) {
 
         foreach ($user_id as $user_id) {
             $userInfo = $this->getUserInfo($user_id);
@@ -601,7 +641,7 @@ class DatabaseFunctions {
             }
         }
         if ($query->execute(array(
-            ':user_id' => $user_id))) { return "Successfully changed dues-paid statuses."; }
+            ':user_id' => $user_id))) { return "Successfully edited dues-paid statuses."; }
     }
 
     // add a committee
@@ -682,8 +722,8 @@ class DatabaseFunctions {
         return $committeeMembers;
     }
 
-    // changes users override hours
-    public function changeOverrideHours($event_id, $overrideUsers) {
+    // edits users override hours
+    public function editOverrideHours($event_id, $overrideUsers) {
 
         foreach ($overrideUsers as $user) {
             $query = $this->db->prepare('UPDATE `event_override_hours`
@@ -715,15 +755,18 @@ class DatabaseFunctions {
         }
     }
 
-    // change event information
-    public function changeEvent($event_id, $eventData) {
+    // edit event information
+    public function editEvent($event_id, $eventData, $tag_ids) {
 
         $query = $this->db->prepare('UPDATE `events`
             SET name=:name, chair_id=:chair_id, start_datetime=:start_datetime, end_datetime=:end_datetime,
             description=:description, location=:location, meeting_location=:meeting_location,
-            online_signups=:online_signups, online_end_datetime=:online_end_datetime, status=:status
+            online_signups=:online_signups, online_end_datetime=:online_end_datetime, status=:status,
+            pros=:pros, cons=:cons, do_again=:do_again, funds_raised=:funds_raised,
+            service_hours=:service_hours, admin_hours=:admin_hours, social_hours=:social_hours
             WHERE event_id=:event_id');
         if ($query->execute(array(
+            ':event_id' => $event_id,
             ':name' => $eventData['name'],
             ':chair_id' => $eventData['chair_id'],
             ':start_datetime' => date("Y-m-d H:m:s", $eventData['start_datetime']),
@@ -733,7 +776,14 @@ class DatabaseFunctions {
             ':meeting_location' => $eventData['meeting_location'],
             ':online_signups' => $eventData['online_signups'],
             ':online_end_datetime' => date("Y-m-d H:m:s", $eventData['online_end_datetime']),
-            ':status' => $eventData['status']))) { return "Event " . $eventData['name'] . " was successfully changed!"; }
+            ':status' => $eventData['status'],
+            ':pros' => $eventData['pros'],
+            ':cons' => $eventData['cons'],
+            ':do_again' => $eventData['do_again'],
+            ':funds_raised' => $eventData['funds_raised'],
+            ':service_hours' => $eventData['service_hours'],
+            ':admin_hours' => $eventData['admin_hours'],
+            ':social_hours' => $eventData['social_hours']))) { return $this->setEventTags($event_id, $tag_ids); }
         else { return false; }
     }
 

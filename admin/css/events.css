@@ -1,0 +1,7 @@
+th#event-name {
+    width: 30%;
+}
+
+th#event-chair, th#event-start-datetime, th#event-end-datetime, th#event-location, th#event-num-attendees {
+    white-space: nowrap;
+}
