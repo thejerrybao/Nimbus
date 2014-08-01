@@ -1,6 +1,6 @@
 <?php 
 /** Project Name: Nimbus (Circle K Report Form System)
- ** Event Administration (events.php)
+ ** Form Data Processing (processdata.php)
  **
  ** Author: Jerry Bao (jbao@berkeley.edu)
  ** Author: Robert Rodriguez (rob.rodriguez@berkeley.edu)
@@ -64,6 +64,13 @@ switch ($_POST["form_submit_type"]) {
             exit;
         } else { echo "Event failed to edit. Try again."; }
         break;
+    case "delete_event":
+        if ($db->deleteEvent($_POST["event_id"])) {
+            $location = 'Location: events.php?view=list';
+            header($location);
+            exit;
+        } else { echo "Event failed to delete. Try again."; }
+        break;
     case "add_member":
         if (!isset($_POST["username"])) {
             $_POST["username"] = $_POST["password"] = $_POST["phone"] = "";
@@ -80,6 +87,7 @@ switch ($_POST["form_submit_type"]) {
             header($location);
             exit;
         } else { echo "Member failed to add. Try again."; }
+        break;
     default:
         echo "No Form Submit Type Passed.";
 }

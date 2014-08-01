@@ -314,6 +314,20 @@ class DatabaseFunctions {
         else { return false; }
     }
 
+    public function deleteEvent($event_id) {
+
+        $eventInfo = $this->getEventInfo($event_id);
+        if ($eventInfo["status"] < 2) {
+            if ($this->setEventTags($event_id, array())) {
+                $query = $this->db->prepare('DELETE FROM `events`
+                    WHERE event_id=:event_id');
+                if (!$query->execute(array(
+                    ':event_id' => $event_id))) { return false; }
+                else { return true; }
+            } else { return false; }
+        } else { return false; }
+    }
+
     public function getEventTags($event_id) {
 
         $tag_ids = array();

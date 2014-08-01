@@ -258,6 +258,13 @@ $db = new DatabaseFunctions;
                                 <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Edit Event</button>
                             </div>
                         </form>
+                        <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
+                            <input type="hidden" name="form_submit_type" value="delete_event">
+                            <input type="hidden" name="event_id" value="<?= $event["event_id"] ?>">
+                            <div class="form-group" style="display: inline;">
+                                <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Delete Event</button>
+                            </div>
+                        </form>
                         <?php if ($event["status"] > 1) { ?>
                         </fieldset>
                         <?php } ?>
