@@ -475,18 +475,18 @@ class DatabaseFunctions {
         $query = $this->db->prepare('SELECT * FROM `event_attendees`
             WHERE event_id=:event_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
-        $query->execute(array(
-            ':event_id' => $event_id));
-
-        if ($query->rowCount() == 0) { return false; }
-        while ($row = $query->fetch()) {
-            $userInfo = $this->getUserInfo($row->user_id);
-            $eventAttendees[] = array(
-                'first_name' => $userInfo['first_name'],
-                'last_name' => $userInfo['last_name'],
-                'email' => $userInfo['email'],
-                'phone' => $userInfo['phone']);
-        }
+        if ($query->execute(array(
+            ':event_id' => $event_id))) {
+            if ($query->rowCount() == 0) { return false; }
+            while ($row = $query->fetch()) {
+                $userInfo = $this->getUserInfo($row->user_id);
+                $eventAttendees[] = array(
+                    'first_name' => $userInfo['first_name'],
+                    'last_name' => $userInfo['last_name'],
+                    'email' => $userInfo['email'],
+                    'phone' => $userInfo['phone']);
+            }
+        } else { return false; }
 
         return $eventAttendees;
     }
@@ -510,25 +510,28 @@ class DatabaseFunctions {
     }
 
     // register user
-    public function registerUser($userData) {
+    public function addMember($memberData) {
 
         $query = $this->db->prepare('INSERT INTO `users`
-            VALUES ("", :user_id, :first_name, :last_name, :username, :password, :email, 0, :phone, 0, 0, 1)');
+            VALUES ("", :first_name, :last_name, :username, :password, :email, 0, :phone, 0, 0, 1)');
 
         if ($query->execute(array(
-            ':user_id' => $userData['user_id'],
-            ':first_name' => $userData['first_name'],
-            ':last_name' => $userData['last_name'],
-            ':username' => $userData['username'],
-            ':password' => password_hash($userData['password'], PASSWORD_BCRYPT),
-            ':email' => $userData['email'],
-            ':phone' => $userData['phone']
-            ))) { return "Welcome to UCBCKI " . $userData['first_name'] ."! Your user profile was successfully created!"; }
+            ':first_name' => $memberData['first_name'],
+            ':last_name' => $memberData['last_name'],
+            ':username' => $memberData['username'],
+            ':password' => password_hash($memberData['password'], PASSWORD_BCRYPT),
+            ':email' => $memberData['email'],
+            ':phone' => $memberData['phone']
+            ))) { return true; }
             else { return false; } 
     }
 
+    public function deleteMember($user_id) {
+
+    }
+
     // edit user access
-    public function editUserAccess($user_id, $access) {
+    public function editMemberAccess($user_id, $access) {
 
         if ($access == 0) {
             $accessValue = 'General Member';
@@ -626,7 +629,7 @@ class DatabaseFunctions {
     }
 
     // edit status from dues-paid to non-dues-paid and vice-versa
-    public function editeduesPaidMembership($user_ids) {
+    public function editDuesPaidMembership($user_ids) {
 
         foreach ($user_id as $user_id) {
             $userInfo = $this->getUserInfo($user_id);

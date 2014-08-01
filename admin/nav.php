@@ -68,12 +68,12 @@ $valid_manage_views = ["list", "calendar", "event", "edit"];
                         </li>
                     </ul>
                 </li>
-                <li>
+                <li <?php if ($page == "roster") { ?> class="active" <?php } ?>>
                     <a href="#">Club Roster<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="roster.php">Add Member</a></li>
-                        <li><a href="roster.php">Delete/Deactivate Members</a></li>
-                        <li><a href="roster.php">Manage Members</a></li>
+                        <li><a <?php if ($page == "roster" && $_GET["view"] == "add") { ?> class="active" <?php } ?> href="roster.php?view=add">Add Member</a></li>
+                        <li><a <?php if ($page == "events" && $_GET["view"] == "delete") { ?> class="active" <?php } ?> href="roster.php">Delete/Deactivate Members</a></li>
+                        <li><a <?php if ($page == "events" && $_GET["view"] == "list") { ?> class="active" <?php } ?> href="roster.php">Manage Members</a></li>
                     </ul>
                 </li>
                 <li>

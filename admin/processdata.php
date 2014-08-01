@@ -57,14 +57,29 @@ switch ($_POST["form_submit_type"]) {
             "funds_raised" => $_POST["funds_raised"],
             "service_hours" => $_POST["service_hours"],
             "admin_hours" => $_POST["admin_hours"],
-            "social_hours" => $_POST["social_hours"]
-            );
+            "social_hours" => $_POST["social_hours"]);
         if ($db->editEvent($_POST["event_id"], $eventData, $_POST["tag_ids"])) { 
             $location = 'Location: events.php?view=event&id=' . $_POST["event_id"];
             header($location);
             exit;
         } else { echo "Event failed to edit. Try again."; }
         break;
+    case "add_member":
+        if (!isset($_POST["username"])) {
+            $_POST["username"] = $_POST["password"] = $_POST["phone"] = "";
+        }
+        $memberData = array(
+            "first_name" => $_POST["first_name"],
+            "last_name" => $_POST["last_name"],
+            "username" => $_POST["username"],
+            "password" => $_POST["password"],
+            "email" => $_POST["email"],
+            "phone" => $_POST["phone"]);
+        if ($db->addMember($memberData)) {
+            $location = 'Location: roster.php?view=list';
+            header($location);
+            exit;
+        } else { echo "Member failed to add. Try again."; }
     default:
         echo "No Form Submit Type Passed.";
 }
