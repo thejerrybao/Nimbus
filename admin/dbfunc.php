@@ -289,7 +289,7 @@ class DatabaseFunctions {
             case "social":
                 return $totalHours['social_hours'];
             default:
-                return "No type of hours specified.";
+                return fakse;
         }
     }
 
@@ -298,7 +298,7 @@ class DatabaseFunctions {
 
         $query = $this->db->prepare('INSERT INTO `events`
             VALUES ("", :name, :chair_id, :start_datetime, :end_datetime, :description, :location, :meeting_location,
-                :online_signups, :online_end_datetime, 0, 0, 0, "", "", "", 0, 0.00, 0, 0, 0)');
+                :online_signups, :online_end_datetime, 0, 0, 0, "", "", "", 0, 0, 0, 0, 0)');
         if ($query->execute(array(
             ':name' => $eventData['name'],
             ':chair_id' => $eventData['chair_id'],
@@ -542,6 +542,19 @@ class DatabaseFunctions {
 
     public function deleteMember($user_id) {
 
+        $query = $this->db->prepare('SELECT * FROM `event_attendees`
+            WHERE user_id=:user_id LIMIT 1');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':user_id' => $user_id));
+
+        if ($query->rowCount() == 0) {
+            $query = $this->db->prepare('DELETE FROM `users`
+                WHERE :user_id = $user_id');
+            if ($query->execute(array(
+                ':user_id' => $user_id))) { return true;
+            } else { return false; }
+        } else { return false; }
     }
 
     // edit user access
@@ -564,7 +577,7 @@ class DatabaseFunctions {
             WHERE user_id=:user_id');
         if ($query->execute(array(
             ':user_id' => $user_id,
-            ':access' => $access))) { return "Successfully edited access for " . $userInfo['first_name'] . " " . $userInfo['last_name'] . "to " . $accessValue; }
+            ':access' => $access))) { return true; }
         else { return false; }
     }
 
@@ -579,7 +592,7 @@ class DatabaseFunctions {
         if ($query->execute(array(
             ':user_id' => $user_id,
             ':first_name' => $first_name,
-            ':last_name' => $last_name))) { return "Sucessfully edited name from " . $oldName['first_name'] . " " . $oldName['last_name'] . "to " . $first_name . " " . $last_name; }
+            ':last_name' => $last_name))) { return true; }
         else { return false; }
     }
 
@@ -593,7 +606,7 @@ class DatabaseFunctions {
             WHERE user_id=:user_id');
         if ($query->execute(array(
             ':user_id' => $user_id,
-            ':email' => $email))) { return "Successfully edited email from " . $oldEmail['email'] . "to " . $email; }
+            ':email' => $email))) { return true; }
         else { return false; }
     }
 
@@ -607,7 +620,7 @@ class DatabaseFunctions {
             WHERE user_id=:user_id');
         if ($query->execute(array(
             ':user_id' => $user_id,
-            ':phone' => $phone))) { return "Successfully edited phone from " . $oldPhone['phone'] . "to " . $phone; }
+            ':phone' => $phone))) { return true; }
         else { return false; }
     }
 
@@ -619,46 +632,46 @@ class DatabaseFunctions {
             WHERE user_id=:user_id');
         if ($query->execute(array(
             'user_id' => $user_id,
-            'password' => password_hash($password, PASSWORD_BCRYPT)))) { return "Successfully edited password!"; }
+            'password' => password_hash($password, PASSWORD_BCRYPT)))) { return true; }
         else { return false; }
     }
 
     // edit membership from active to non-active and vice-versa
-    public function editActiveMembership($user_ids) {
+    public function setActiveMembership($user_ids, $active) {
 
         foreach ($user_ids as $user_id) {
-            $userInfo = $this->getUserInfo($user_id);
-            if ($userInfo['active'] == 0) {
+            if ($active) {
                 $query = $this->db->prepare('UPDATE users
                     SET active = 1
                     WHERE user_id=:user_id');   
-            } else if ($userInfo['active'] == 1) {
+            } else {
                 $query = $this->db->prepare('UPDATE users
                     SET active = 0
                     WHERE user_id=:user_id');   
             }
+            if (!$query->execute(array(
+                ':user_id' => $user_id))) { return false; }
         }
-        if ($query->execute(array(
-            ':user_id' => $user_id))) { return "Successfully edited active statuses."; }
+        return true;
     }
 
     // edit status from dues-paid to non-dues-paid and vice-versa
-    public function editDuesPaidMembership($user_ids) {
+    public function setDuesPaidMembership($user_ids, $dues_paid) {
 
         foreach ($user_id as $user_id) {
-            $userInfo = $this->getUserInfo($user_id);
-            if ($userInfo['dues_paid'] == 0) {
+            if ($dues_paid) {
                 $query = $this->db->prepare('UPDATE users
                     SET dues_paid = 1
                     WHERE user_id=:user_id');   
-            } else if ($userInfo['dues_paid'] == 1) {
+            } else {
                 $query = $this->db->prepare('UPDATE users
                     SET dues_paid = 0
                     WHERE user_id=:user_id');   
             }
+            if (!$query->execute(array(
+                ':user_id' => $user_id))) { return false; }
         }
-        if ($query->execute(array(
-            ':user_id' => $user_id))) { return "Successfully edited dues-paid statuses."; }
+        return true;
     }
 
     // add a committee
@@ -667,7 +680,7 @@ class DatabaseFunctions {
         $query = $this->db->prepare('INSERT INTO `committees`
             VALUES ("", :name)');
         if ($query->execute(array(
-            ':name' => $name))) { return "Successfully added " . $name . " committee!"; }
+            ':name' => $name))) { return true; }
         else { return false; }
     }
 
@@ -675,7 +688,7 @@ class DatabaseFunctions {
     public function deleteCommittee($committee_id) {
 
         $query = $this->db->prepare('SELECT * FROM `committee_members`
-            WHERE committee_id=:committee_id');
+            WHERE committee_id=:committee_id LIMIT 1');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':committee_id' => $committee_id));
@@ -684,9 +697,9 @@ class DatabaseFunctions {
             $query = $this->db->prepare('DELETE FROM `committees`
                 WHERE :committee_id = $committee_id');
             if ($query->execute(array(
-                ':committee_id' => $committee_id))) { return "Successfully deleted " . $name . " committee!";
+                ':committee_id' => $committee_id))) { return true;
             } else { return false; }
-        } else { return "Committee member still exist in this committee! Delete members from that committee first."; }
+        } else { return false; }
     }
 
     // add a committee member to a committee
@@ -816,7 +829,7 @@ class DatabaseFunctions {
             ':auto_manage' => $tagData['auto_manage'],
             ':mrp_tag' => $tagData['mrp_tag'],
             ':number' => $tagData['number'],
-            ':active' => $tagData['active']))) { return "Tag " . $tagData['name'] . " was successfully added!"; }
+            ':active' => $tagData['active']))) { return true; }
         else { return false; }
     }
 
@@ -824,41 +837,39 @@ class DatabaseFunctions {
     public function deleteTag($tag_ids) {
 
         foreach ($tag_ids as $tag_id) {
-            $query = $this->db->prepare('DELETE FROM `tags`
-                WHERE tag_id=:tag_id');
+            $query = $this->db->prepare('SELECT * FROM `event_tags`
+                WHERE tag_id=:tag_id LIMIT 1');
+            $query->setFetchMode(PDO::FETCH_OBJ);
             if ($query->execute(array(
-                ':tag_id' => $tag_id))) { continue;
-            } else { return false; }
+                ':tag_id' => $tag_id))) { 
+                if ($query->rowCount() == 0) {
+                    $query = $this->db->prepare('DELETE FROM `tags`
+                        WHERE tag_id=:tag_id');
+                    if (!$query->execute(array(
+                        ':tag_id' => $tag_id))) { return false; }
+                } else { return false; }
+            }
         }
     }
 
     // change whether a tag is active or deactive
-    public function changeActiveTag($tag_ids) {
+    public function setActiveTag($tag_ids, $active) {
 
-        foreach ($tag_ids as $tag) {
+        foreach ($tag_ids as $tag_id) {
 
-            $query = $this->db->prepare('SELECT `active` FROM `tags`
-                WHERE tag_id=:tag_id');
-            $query->setFetchMode(PDO::FETCH_OBJ);
-            $query->execute(array(
-                ':tag_id' => $tag_id));
-            if ($query->rowCount() == 0) { return false; }
-            $row = $query->fetch();
-            $activeness = $row->active;
-
-            $query = $this->db->prepare('UPDATE `tags`
-                SET active=:active
-                WHERE tag_id=:tag_id');
-            if ($activeness == 1) { 
-                $query->execute(array(
-                    ':active' => 0,
-                    ':tag_id' => $tag_id));
+            if ($active) { 
+                $query = $this->db->prepare('UPDATE `tags`
+                    SET active = 1
+                    WHERE tag_id=:tag_id');
             } else {
-                $query->execute(array(
-                    ':active' => 1,
-                    ':tag_id' => $tag_id));
+                $query = $this->db->prepare('UPDATE `tags`
+                    SET active = 0
+                    WHERE tag_id=:tag_id');
             }
+            if (!$query->execute(array(
+                ':tag_id' => $tag_id))) { return false; }
         }
+        return true;
     }
         
     // add mrp level

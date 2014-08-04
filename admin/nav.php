@@ -10,7 +10,8 @@
  ** COPYRIGHT 2014-2015 - ALL RIGHTS RESERVED
  **/
 
-$valid_manage_views = ["list", "calendar", "event", "edit"];
+$valid_event_manage_views = ["list", "calendar", "event", "edit"];
+$valid_roster_manage_views = ["list", "dues", "member"]
 ?>
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -59,7 +60,7 @@ $valid_manage_views = ["list", "calendar", "event", "edit"];
                     <a href="#">Event Management<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a <?php if ($page == "events" && $_GET["view"] == "create") { ?> class="active" <?php } ?> href="events.php?view=create">Create Event</a></li>
-                        <li <?php if ($page == "events" && (in_array($_GET["view"], $valid_manage_views))) { ?> class="active" <?php } ?> >
+                        <li <?php if ($page == "events" && (in_array($_GET["view"], $valid_event_manage_views))) { ?> class="active" <?php } ?> >
                             <a href="#">Manage Events <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                                 <li><a <?php if ($page == "events" && $_GET["view"] == "list") { ?> class="active" <?php } ?> href="events.php?view=list">List View</a></li>
@@ -72,8 +73,13 @@ $valid_manage_views = ["list", "calendar", "event", "edit"];
                     <a href="#">Club Roster<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a <?php if ($page == "roster" && $_GET["view"] == "add") { ?> class="active" <?php } ?> href="roster.php?view=add">Add Member</a></li>
-                        <li><a <?php if ($page == "events" && $_GET["view"] == "delete") { ?> class="active" <?php } ?> href="roster.php">Delete/Deactivate Members</a></li>
-                        <li><a <?php if ($page == "events" && $_GET["view"] == "list") { ?> class="active" <?php } ?> href="roster.php">Manage Members</a></li>
+                        <li <?php if ($page == "roster" && (in_array($_GET["view"], $valid_roster_manage_views))) { ?> class="active" <?php } ?> >
+                            <a href="#">Manage Members <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <li><a <?php if ($page == "roster" && $_GET["view"] == "list") { ?> class="active" <?php } ?> href="roster.php?view=list">List View</a></li>
+                                <li><a <?php if ($page == "roster" && $_GET["view"] == "dues") { ?> class="active" <?php } ?> href="roster.php?view=dues">Set Dues Paid Members</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li>
