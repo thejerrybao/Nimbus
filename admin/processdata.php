@@ -116,6 +116,15 @@ switch ($_POST["form_submit_type"]) {
             exit;
         } else { echo "Failed to deactivate members."; }
         break;
+    case "add_committee":
+        if ($db->addCommittee($_POST["name"])) {
+            $location = 'Location: committees.php?view=list';
+            header($location);
+            exit;
+        } else { echo "Failed to add a committee."; }
+        break;
+    case "delete_committees":
+        break;
     default:
         echo "No Form Submit Type Passed.";
 }

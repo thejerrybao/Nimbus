@@ -83,12 +83,12 @@ $valid_roster_manage_views = ["list", "dues", "member", "status"]
                         </li>
                     </ul>
                 </li>
-                <li>
+                <li <?php if ($page == "committees") { ?> class="active" <?php } ?>>
                     <a href="#">Club Committees<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="committees.php">Add Committee</a></li>
-                        <li><a href="committees.php">Delete/Deactivate Committees</a></li>
-                        <li><a href="committees.php">Manage Committees</a></li>
+                        <li><a <?php if ($page == "committees" && $_GET["view"] == "add") { ?> class="active" <?php } ?> href="committees.php?view=add">Add Committee</a></li>
+                        <li><a <?php if ($page == "committees" && $_GET["view"] == "delete") { ?> class="active" <?php } ?> href="committees.php?view=delete">Delete Committees</a></li>
+                        <li><a <?php if ($page == "committees" && $_GET["view"] == "list") { ?> class="active" <?php } ?> href="committees.php?view=list">Manage Committees</a></li>
                     </ul>
                 </li>
                 <li>
