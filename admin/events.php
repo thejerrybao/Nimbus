@@ -79,7 +79,7 @@ $db = new DatabaseFunctions;
                         <div class="panel panel-primary">
                             <div class="panel-heading">Create New Event</div>
                             <div class="panel-body">
-                                <form action="processdata.php" method="post" enctype="multipart/form-data" id="create_event">
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="form_submit_type" value="create_event">
                                     <div class="form-group">
                                         <label>Event Name</label>
@@ -155,12 +155,12 @@ $db = new DatabaseFunctions;
             <?php case "list": ?>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Manage Events</h1>
+                        <h1 class="page-header">Events List</h1>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <form action="events.php?view=list" method="get" enctype="multipart/form-data" id="create_event">
+                        <form action="events.php" method="get" enctype="multipart/form-data">
                             <div class="form-group">
                                 <input type="hidden" name="view" value="list">
                                 <select name="month" class="form-control" style="width: 150px; display: inline;">

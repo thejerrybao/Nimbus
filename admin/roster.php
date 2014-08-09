@@ -38,6 +38,9 @@ $db = new DatabaseFunctions;
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <!-- roster.php CSS -->
+    <link href="css/roster.css" rel="stylesheet" type="text/css">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -69,7 +72,7 @@ $db = new DatabaseFunctions;
                         <div class="panel panel-primary">
                             <div class="panel-heading">Add New Member</div>
                             <div class="panel-body">
-                                <form action="processdata.php" method="post" enctype="multipart/form-data" id="create_event">
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="form_submit_type" value="add_member">
                                     <div class="form-group">
                                         <label>First Name</label>
@@ -103,9 +106,269 @@ $db = new DatabaseFunctions;
                     </div>
                 </div>
             <?php break; ?>
-            <?php case "delete": ?>
-            <?php break; ?>
             <?php case "list": ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Members List</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                        <?php $activeMembers = $db->getMembers("active"); ?>
+                        <?php if ($activeMembers) { ?>
+                        <table class="table table-striped table-hover events-table">
+                            <thead>
+                                <tr>
+                                    <th id="member-name">Name</th>
+                                    <th id="member-email">E-mail</th>
+                                    <th id="member-phone">Phone</th>
+                                    <th id="member-dues-paid">Dues Paid?</th>
+                                    <th id="member-email-confirmed">Email Confirmed?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach ($activeMembers as $member) {
+                                    $member["dues_paid"] = $member["dues_paid"] ? "Yes" : "No";
+                                    $member["email_confirmed"] = $member["email_confirmed"] ? "Yes" : "No";
+                                    echo "<tr><td><a href=\"roster.php?view=member&id=" . $member["user_id"] . "\">" 
+                                    . $member["first_name"] . " " . $member["last_name"] . "</a></td>";
+                                    echo "<td>" . $member["email"] . "</td>";
+                                    echo "<td>" . $member["phone"] . "</td>";
+                                    echo "<td>" . $member["dues_paid"] . "</td>";
+                                    echo "<td>" . $member["email_confirmed"] . "</td>";
+                                } ?>
+                            </tbody>
+                        </table>
+                        <?php } else { ?>
+                        <h2>No active memebrs found.</h2>
+                        <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            <?php break; ?>
+            <?php case "member": ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Member Information</h1>
+                    </div>
+                </div>
+                <?php if (empty($_GET["id"])) { echo "<h2>No member ID specified.</h2>"; }
+                    else { 
+                        $member = $db->getUserInfo($_GET["id"], true);
+                        $member["dues_paid"] = $member["dues_paid"] ? "Yes" : "No";
+                        $member["email_confirmed"] = $member["email_confirmed"] ? "Yes" : "No"; 
+                        switch ($member["access"]) {
+                            case "0":
+                                $member["access"] = 'General Member';
+                                break;
+                            case "1":
+                                $member["access"] = 'Board Member';
+                                break;
+                            case "2":
+                                $member["access"] = 'Secretary';
+                                break;
+                            case "3":  
+                                $member["access"] = 'Technology Chair/Administrator';
+                                break;
+                            default:
+                                $member["access"] = "Access Value Invalid";
+                        } }
+                    if ($member) { ?>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">MRP Information</div>
+                            <div class="panel-body">
+                                <label>Service Hours:</label>
+                                <p style="display: inline; margin-right: 50px;"><?= $member["hours"]["service_hours"] ?></p>
+                                <label>Admin Hours:</label>
+                                <p style="display: inline; margin-right: 50px;"><?= $member["hours"]["admin_hours"] ?></p>
+                                <label>Social Hours:</label>
+                                <p style="display: inline; margin-right: 50px;"><?= $member["hours"]["social_hours"] ?></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">All Member Data</div>
+                            <div class="panel-body">
+                                <label>Name</label>
+                                <p><?= $member["first_name"] ?> <?= $member["last_name"] ?></p>
+                                <label>E-mail</label>
+                                <p><?= $member["email"] ?></p>
+                                <label>Phone</label>
+                                <p><?= $member["phone"] ?></p>
+                                <label>Dues Paid?</label>
+                                <p><?= $member["dues_paid"] ?></p>
+                                <label>Email Confirmed?</label>
+                                <p><?= $member["email_confirmed"] ?></p>
+                                <label>Access Level</label>
+                                <p><?= $member["access"] ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php } else { echo "<h2>Member ID not found.</h2>"; } ?>
+            <?php break; ?>
+            <?php case "dues": ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Manage Dues Paid Members</h1>
+                    </div>
+                </div>
+                <?php if (empty($_GET["action"])) { echo "<h2>No action specified.</h2>"; }
+                    else { ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form action="roster.php" method="get" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <input type="hidden" name="view" value="dues">
+                                <select name="action" class="form-control" style="width: 250px; display: inline;">
+                                    <option value="set" <?php if ($_GET["action"] == "set") { ?> selected <? } ?>>Set Dues Paid Members</option>
+                                    <option value="unset" <?php if ($_GET["action"] == "unset") { ?> selected <? } ?>>Unset Dues Paid Members</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary btn-xs">Select Action</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-primary">
+                        <?php if ($_GET["action"] == "set") { 
+                            $nonDuesPaidMembers = $db->getMembers("non_dues_paid"); ?>
+                            <div class="panel-heading">Set Dues Paid Members</div>
+                            <div class="panel-body">
+                                <h4>Select members below to set as dues paid.</h4>
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="set_dues_paid">
+                                    <div class="form-group">
+                                    <?php if ($nonDuesPaidMembers) {
+                                        $i = 0; ?>
+                                        <table>
+                                    <?php foreach ($nonDuesPaidMembers as $nonDuesPaidMember) { 
+                                            if ($i % 4 == 0) { echo "<tr>"; } ?>
+                                            <td class="checkbox-series-name"><?= $nonDuesPaidMember["first_name"] ?> <?= $nonDuesPaidMember["last_name"] ?></td>
+                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="non_dues_paid[]" value="<?= $nonDuesPaidMember["user_id"] ?>" class="checkbox_series"></td>
+                                            <?php if ($i % 4 == 3) { echo "</tr>"; }
+                                            $i++; ?>
+                                    <?php } ?>
+                                        </table>
+                                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Set Members as Dues Paid</button>
+                                    <?php } else { echo "<h2>No Non-Dues Paid members exist.</h2>"; } ?>
+                                    </div>
+                                </form>
+                            </div>
+                        <?php } else if ($_GET["action"] == "unset") {
+                            $duesPaidMembers = $db->getMembers("dues_paid"); ?>
+                            <div class="panel-heading">Unset Dues Paid Members</div>
+                            <div class="panel-body">
+                                <h4>Select members below to unset as dues paid.</h4>
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="unset_dues_paid">
+                                    <div class="form-group">    
+                                    <?php if ($duesPaidMembers) {
+                                        $i = 0; ?>
+                                        <table>
+                                    <?php foreach ($duesPaidMembers as $duesPaidMember) { 
+                                            if ($i % 4 == 0) { echo "<tr>"; } ?>
+                                            <td class="checkbox-series-name"><?= $duesPaidMember["first_name"] ?> <?= $duesPaidMember["last_name"] ?></td>
+                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="dues_paid[]" value="<?= $duesPaidMember["user_id"] ?>"></td>
+                                            <?php if ($i % 4 == 3) { echo "</tr>"; }
+                                            $i++; ?>
+                                    <?php } ?>
+                                        </table>
+                                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Unset Members as Dues Paid</button>
+                                    <?php } else { echo "<h2>No Dues Paid members exist.</h2>"; } ?>
+                                    </div>
+                                </form>
+                            </div>
+                        <?php } else { echo "<h2>Incorrect action specified.</h2>"; } ?>
+                        </div>
+                    </div>
+                </div>
+                <?php } ?>
+            <?php break; ?>
+            <?php case "status": ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Manage Members Status</h1>
+                    </div>
+                </div>
+                <?php if (empty($_GET["action"])) { echo "<h2>No action specified.</h2>"; }
+                    else { ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form action="roster.php" method="get" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <input type="hidden" name="view" value="status">
+                                <select name="action" class="form-control" style="width: 250px; display: inline;">
+                                    <option value="activate" <?php if ($_GET["action"] == "activate") { ?> selected <? } ?>>Activate Members</option>
+                                    <option value="deactivate" <?php if ($_GET["action"] == "deactivate") { ?> selected <? } ?>>Deactivate Members</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary btn-xs">Select Action</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-primary">
+                        <?php if ($_GET["action"] == "activate") { 
+                            $activeMembers = $db->getMembers("non_active"); ?>
+                            <div class="panel-heading">Activate Members</div>
+                            <div class="panel-body">
+                                <h4>Select members below to activate.</h4>
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="activate_members">
+                                    <div class="form-group">
+                                    <?php if ($activeMembers) {
+                                        $i = 0; ?>
+                                        <table>
+                                    <?php foreach ($activeMembers as $activeMember) { 
+                                            if ($i % 4 == 0) { echo "<tr>"; } ?>
+                                            <td class="checkbox-series-name"><?= $activeMember["first_name"] ?> <?= $activeMember["last_name"] ?></td>
+                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="non_active_members[]" value="<?= $activeMember["user_id"] ?>" class="checkbox_series"></td>
+                                            <?php if ($i % 4 == 3) { echo "</tr>"; }
+                                            $i++; ?>
+                                    <?php } ?>
+                                        </table>
+                                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Activate Members</button>
+                                    <?php } else { echo "<h2>No active members exist.</h2>"; } ?>
+                                    </div>
+                                </form>
+                            </div>
+                        <?php } else if ($_GET["action"] == "deactivate") {
+                            $nonActiveMembers = $db->getMembers("active"); ?>
+                            <div class="panel-heading">Deactivate Members</div>
+                            <div class="panel-body">
+                                <h4>Select members below to deactivate.</h4>
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="deactivate_members">
+                                    <div class="form-group">    
+                                    <?php if ($nonActiveMembers) {
+                                        $i = 0; ?>
+                                        <table>
+                                    <?php foreach ($nonActiveMembers as $nonActiveMember) { 
+                                            if ($i % 4 == 0) { echo "<tr>"; } ?>
+                                            <td class="checkbox-series-name"><?= $nonActiveMember["first_name"] ?> <?= $nonActiveMember["last_name"] ?></td>
+                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="active_members[]" value="<?= $nonActiveMember["user_id"] ?>"></td>
+                                            <?php if ($i % 4 == 3) { echo "</tr>"; }
+                                            $i++; ?>
+                                    <?php } ?>
+                                        </table>
+                                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Deactivate Members</button>
+                                    <?php } else { echo "<h2>No non-active members exist.</h2>"; } ?>
+                                    </div>
+                                </form>
+                            </div>
+                        <?php } else { echo "<h2>Incorrect action specified.</h2>"; } ?>
+                        </div>
+                    </div>
+                </div>
+                <?php } ?>
+            <?php break; ?>
             <?php endswitch; ?>
         </div>
         <!-- /#page-wrapper -->

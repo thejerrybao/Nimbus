@@ -88,6 +88,34 @@ switch ($_POST["form_submit_type"]) {
             exit;
         } else { echo "Member failed to add. Try again."; }
         break;
+    case "set_dues_paid":
+        if ($db->setDuesPaidMembership($_POST["non_dues_paid"], 1)) {
+            $location = 'Location: roster.php?view=dues&action=set';
+            header($location);
+            exit;
+        } else { echo "Failed to set members as dues paid."; }
+        break;
+    case "unset_dues_paid":
+        if ($db->setDuesPaidMembership($_POST["dues_paid"], 0)) {
+            $location = 'Location: roster.php?view=dues&action=unset';
+            header($location);
+            exit;
+        } else { echo "Failed to unset members as dues paid."; }
+        break;
+    case "activate_members":
+        if ($db->setActiveMembership($_POST["non_active_members"], 1)) {
+            $location = 'Location: roster.php?view=status&action=activate';
+            header($location);
+            exit;
+        } else { echo "Failed to activate members."; }
+        break;
+    case "deactivate_members":
+        if ($db->setActiveMembership($_POST["active_members"], 0)) {
+            $location = 'Location: roster.php?view=status&action=deactivate';
+            header($location);
+            exit;
+        } else { echo "Failed to deactivate members."; }
+        break;
     default:
         echo "No Form Submit Type Passed.";
 }

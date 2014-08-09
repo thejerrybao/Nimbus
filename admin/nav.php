@@ -11,7 +11,7 @@
  **/
 
 $valid_event_manage_views = ["list", "calendar", "event", "edit"];
-$valid_roster_manage_views = ["list", "dues", "member"]
+$valid_roster_manage_views = ["list", "dues", "member", "status"]
 ?>
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -63,8 +63,8 @@ $valid_roster_manage_views = ["list", "dues", "member"]
                         <li <?php if ($page == "events" && (in_array($_GET["view"], $valid_event_manage_views))) { ?> class="active" <?php } ?> >
                             <a href="#">Manage Events <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-                                <li><a <?php if ($page == "events" && $_GET["view"] == "list") { ?> class="active" <?php } ?> href="events.php?view=list">List View</a></li>
-                                <li><a <?php if ($page == "events" && $_GET["view"] == "calendar") { ?> class="active" <?php } ?> href="events.php?view=calendar">Calendar View</a></li>
+                                <li><a <?php if ($page == "events" && $_GET["view"] == "list") { ?> class="active" <?php } ?> href="events.php?view=list">Events List</a></li>
+                                <li><a <?php if ($page == "events" && $_GET["view"] == "calendar") { ?> class="active" <?php } ?> href="events.php?view=calendar">Events Calendar</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -76,8 +76,9 @@ $valid_roster_manage_views = ["list", "dues", "member"]
                         <li <?php if ($page == "roster" && (in_array($_GET["view"], $valid_roster_manage_views))) { ?> class="active" <?php } ?> >
                             <a href="#">Manage Members <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-                                <li><a <?php if ($page == "roster" && $_GET["view"] == "list") { ?> class="active" <?php } ?> href="roster.php?view=list">List View</a></li>
-                                <li><a <?php if ($page == "roster" && $_GET["view"] == "dues") { ?> class="active" <?php } ?> href="roster.php?view=dues">Set Dues Paid Members</a></li>
+                                <li><a <?php if ($page == "roster" && $_GET["view"] == "list") { ?> class="active" <?php } ?> href="roster.php?view=list">Members List</a></li>
+                                <li><a <?php if ($page == "roster" && $_GET["view"] == "dues") { ?> class="active" <?php } ?> href="roster.php?view=dues&action=set">Manage Dues Paid</a></li>
+                                <li><a <?php if ($page == "roster" && $_GET["view"] == "status") { ?> class="active" <?php } ?> href="roster.php?view=status&action=deactivate">Manage Members Status</a></li>
                             </ul>
                         </li>
                     </ul>

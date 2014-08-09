@@ -9,6 +9,7 @@
  ** CIRCLE K INTERNATIONAL
  ** COPYRIGHT 2014-2015 - ALL RIGHTS RESERVED
  **/
+ini_set('display_errors', 1);
 
 // SQL Database Info
 define("MYSQL_HOST", "localhost");
@@ -38,22 +39,46 @@ class DatabaseFunctions {
     public function __destruct() { $this->db = null; }
 
     // get member information
-    public function getMembers($dues_paid = false, $ordering = "last_name") {
+    public function getMembers($type = "all", $ordering = "first_name") {
 
         $members = array();
-        if ($dues_paid) {
-            $query = $this->db->prepare('SELECT * FROM `users`
-                WHERE dues_paid=:dues_paid ORDER BY :ordering ASC');
-            $query->setFetchMode(PDO::FETCH_OBJ);
-            $query->execute(array(
-                ':dues_paid' => 1,
-                ':ordering' => $ordering));
-        } else {
-            $query = $this->db->prepare('SELECT * FROM `users`
-                ORDER BY :ordering ASC');
-            $query->setFetchMode(PDO::FETCH_OBJ);
-            $query->execute(array(
-                ':ordering' => $ordering));
+        switch ($type) {
+            case "dues_paid":
+                $query = $this->db->prepare('SELECT * FROM `users`
+                    WHERE dues_paid=:dues_paid AND active=:active ORDER BY ' . $ordering . ' ASC');
+                $query->setFetchMode(PDO::FETCH_OBJ);
+                $query->execute(array(
+                    ':dues_paid' => 1,
+                    ':active' => 1));
+                break;
+            case "non_dues_paid":
+                $query = $this->db->prepare('SELECT * FROM `users`
+                    WHERE dues_paid=:dues_paid AND active=:active ORDER BY ' . $ordering . ' ASC');
+                $query->setFetchMode(PDO::FETCH_OBJ);
+                $query->execute(array(
+                    ':dues_paid' => 0,
+                    ':active' => 1));
+                break;
+            case "active":
+                $query = $this->db->prepare('SELECT * FROM `users`
+                    WHERE active=:active ORDER BY ' . $ordering . ' ASC');
+                $query->setFetchMode(PDO::FETCH_OBJ);
+                $query->execute(array(
+                    ':active' => 1));
+                break;
+            case "non_active":
+                $query = $this->db->prepare('SELECT * FROM `users`
+                    WHERE active=:active ORDER BY ' . $ordering . ' ASC');
+                $query->setFetchMode(PDO::FETCH_OBJ);
+                $query->execute(array(
+                    ':active' => 0));
+                break;
+            default: 
+                $query = $this->db->prepare('SELECT * FROM `users`
+                    ORDER BY ' . $ordering . ' ASC');
+                $query->setFetchMode(PDO::FETCH_OBJ);
+                $query->execute(array(
+                    ':ordering' => $ordering));
         }
 
         if ($query->rowCount() == 0) { return false; }
@@ -64,7 +89,9 @@ class DatabaseFunctions {
                 "first_name" => $row->first_name,
                 "last_name" => $row->last_name,
                 "email" => $row->email,
-                "phone" => $row->phone);
+                "phone" => $row->phone,
+                "email_confirmed" => $row->email_confirmed,
+                "dues_paid" => $row->dues_paid);
         }
 
         return $members;
@@ -124,7 +151,7 @@ class DatabaseFunctions {
     }
 
     // get user data with user ID
-    public function getUserInfo($user_id) {
+    public function getUserInfo($user_id, $hours = false) {
 
         $userInfo = array();
 
@@ -146,6 +173,7 @@ class DatabaseFunctions {
         $userInfo['dues_paid'] = $row->dues_paid;
         $userInfo['access'] = $row->access;
         $userInfo['active'] = $row->active;
+        if ($hours) { $userInfo['hours'] = $this->getTotalHours("all", $userInfo['user_id']); }
         return $userInfo;
     }
 
@@ -272,9 +300,9 @@ class DatabaseFunctions {
             }
         } else {
 
-            $userEventsID = $self->getUserEventsID($user_id);
+            $userEventsID = $this->getUserEvents($user_id);
             foreach ($userEventsID as $event_id) {
-                $hours = $this->getUserHoursByEventID($user_id, $event_id);
+                $hours = $this->getUserHoursByEvent($user_id, $event_id);
                 $totalHours['service_hours'] += $hours['service_hours'];
                 $totalHours['admin_hours'] += $hours['admin_hours'];
                 $totalHours['social_hours'] += $hours['social_hours'];
@@ -288,8 +316,10 @@ class DatabaseFunctions {
                 return $totalHours['admin_hours'];
             case "social":
                 return $totalHours['social_hours'];
+            case "all":
+                return $totalHours;
             default:
-                return fakse;
+                return false;
         }
     }
 
@@ -560,16 +590,6 @@ class DatabaseFunctions {
     // edit user access
     public function editMemberAccess($user_id, $access) {
 
-        if ($access == 0) {
-            $accessValue = 'General Member';
-        } else if ($access == 1) {
-            $accessValue = 'Board Member';
-        } else if ($access == 2) {
-            $accessValue = 'Secretary';
-        } else { 
-            $accessValue = 'Technology Chair';
-        }
-
         $userInfo = $this->getUserInfo($user_id);
 
         $query = $this->db->prepare('UPDATE users
@@ -640,16 +660,11 @@ class DatabaseFunctions {
     public function setActiveMembership($user_ids, $active) {
 
         foreach ($user_ids as $user_id) {
-            if ($active) {
-                $query = $this->db->prepare('UPDATE users
-                    SET active = 1
-                    WHERE user_id=:user_id');   
-            } else {
-                $query = $this->db->prepare('UPDATE users
-                    SET active = 0
-                    WHERE user_id=:user_id');   
-            }
+            $query = $this->db->prepare('UPDATE users
+                SET active=:active
+                WHERE user_id=:user_id');
             if (!$query->execute(array(
+                ':active' => $active,
                 ':user_id' => $user_id))) { return false; }
         }
         return true;
@@ -658,17 +673,12 @@ class DatabaseFunctions {
     // edit status from dues-paid to non-dues-paid and vice-versa
     public function setDuesPaidMembership($user_ids, $dues_paid) {
 
-        foreach ($user_id as $user_id) {
-            if ($dues_paid) {
-                $query = $this->db->prepare('UPDATE users
-                    SET dues_paid = 1
-                    WHERE user_id=:user_id');   
-            } else {
-                $query = $this->db->prepare('UPDATE users
-                    SET dues_paid = 0
-                    WHERE user_id=:user_id');   
-            }
+        foreach ($user_ids as $user_id) {
+            $query = $this->db->prepare('UPDATE users
+                SET dues_paid=:dues_paid
+                WHERE user_id=:user_id');
             if (!$query->execute(array(
+                ':dues_paid' => $dues_paid,
                 ':user_id' => $user_id))) { return false; }
         }
         return true;
