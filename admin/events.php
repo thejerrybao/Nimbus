@@ -400,7 +400,7 @@ $db = new DatabaseFunctions;
                                         <div class="form-group">
                                             <label>Chair</label>
                                             <select name="chair_id" class="form-control" id="chair_id" required>
-                                                <?php $members = $db->getMembers();
+                                                <?php $members = $db->getMembers("active");
                                                 foreach ($members as $member) {
                                                     if ($event['chair_id'] == $member['user_id']) {
                                                         echo "<option value=\"" . $member["user_id"] . "\" selected>" 
