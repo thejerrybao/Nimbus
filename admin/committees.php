@@ -153,7 +153,9 @@ $db = new DatabaseFunctions;
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <?php $committeeEmails = "" ?>
                                 <?php foreach ($committee['members'] as $committeeMember) { ?>
+                                    <?php $committeeEmails .= $committeeMember['email'] . "; " ?>
                                     <tr>
                                         <td><?= $committeeMember['first_name'] ?> <?= $committeeMember['last_name'] ?></td>
                                         <td><?= $committeeMember['email'] ?></td>
@@ -174,8 +176,10 @@ $db = new DatabaseFunctions;
                     </div>
                     <div class="col-lg-4">
                         <div class="panel panel-info">
-                            <div class="panel-heading">Add Committee Member</div>
+                            <div class="panel-heading">Committee Management</div>
                             <div class="panel-body">
+                                <label>Committee Member Emails</label>
+                                <textarea rows="3" class="form-control" style="margin-bottom: 20px;"><?= $committeeEmails ?></textarea>
                                 <form action="processdata.php" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="form_submit_type" value="add_committee_member">
                                     <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">

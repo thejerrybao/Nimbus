@@ -359,7 +359,7 @@ $db = new DatabaseFunctions;
                                 <p><?php $attendeeEmails = "";
                                 if ($eventAttendees = $db->getEventAttendees($event["event_id"])) { 
                                     foreach ($eventAttendees as $eventAttendee) {
-                                        $attendeeEmails .= $eventAttendee["email"] . "; ";?>
+                                        $attendeeEmails .= $eventAttendee["email"] . "; "; ?>
                                         <?= $eventAttendee["first_name"] ?> <?= $eventAttendee["last_name"] ?><br />
                                 <?php } } else { ?>No Attendees<?php } ?></p>
                                 <label>Attendee Emails</label>
