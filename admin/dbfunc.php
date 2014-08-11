@@ -713,30 +713,63 @@ class DatabaseFunctions {
     }
 
     // add a committee member to a committee
-    public function addCommitteeMembers($committee_id, $user_ids) {
+    public function addCommitteeMember($committee_id, $user_id) {
 
-        foreach ($user_ids as $user_id) {
-            $query = $this->db->prepare('INSERT INTO `committee_members`
-                VALUES ("", :committee_id, :user_id)');
+        $query = $this->db->prepare('INSERT INTO `committee_members`
+            VALUES ("", :committee_id, :user_id)');
 
-            if ($query->execute(array(
-                ':committee_id' => $committee_id,
-                ':user_id' => $user_id))) { continue;
-            } else { return false; }
-        }
+        if ($query->execute(array(
+            ':committee_id' => $committee_id,
+            ':user_id' => $user_id))) { return true;
+        } else { return false; }
     }
 
     // remove a committee member to a committee
-    public function deleteCommitteeMembers($committee_id, $user_ids) {
+    public function deleteCommitteeMember($committee_id, $user_id) {
         
-        foreach ($user_ids as $user_id) {
-            $query = $this->db->prepare('DELETE FROM `committee_members`
-                WHERE committee_id=:committee_id AND user_id=:user_id');
-            if ($query->execute(array(
-                ':committee_id' => $committee_id,
-                ':user_id' => $user_id))) { continue;
-            } else { return false; }
-        }
+        $query = $this->db->prepare('DELETE FROM `committee_members`
+            WHERE committee_id=:committee_id AND user_id=:user_id');
+        if ($query->execute(array(
+            ':committee_id' => $committee_id,
+            ':user_id' => $user_id))) { return true;
+        } else { return false; }
+    }
+
+    public function getCommittees() {
+
+        $committees = array();
+
+        $query = $this->db->prepare('SELECT * FROM `committees`');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        if ($query->execute()) {
+            if ($query->rowCount() == 0) { return false; }
+            while ($row = $query->fetch()) {
+                $committees[] = array(
+                    'committee_id' => $row->committee_id,
+                    'name' => $row->name,
+                    'members' => $this->getCommitteeMembers($row->committee_id));
+            }
+        } else { return false; }
+
+        return $committees;
+    }
+
+    public function getCommittee($committee_id) {
+
+        $query = $this->db->prepare('SELECT * FROM `committees`
+            WHERE committee_id=:committee_id');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        if ($query->execute(array(
+            ':committee_id' => $committee_id))) {
+            if ($query->rowCount() == 0) { return false; }
+            $row = $query->fetch();
+            $committee = array(
+                'committee_id' => $row->committee_id,
+                'name' => $row->name,
+                'members' => $this->getCommitteeMembers($row->committee_id));
+        } else { return false; }
+
+        return $committee;
     }
 
     // get members
@@ -747,17 +780,18 @@ class DatabaseFunctions {
         $query = $this->db->prepare('SELECT * FROM `committee_members`
             WHERE committee_id=:committee_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
-        $query->execute(array(
-            ':committee_id' => $committee_id));
-
-        if ($query->rowCount() == 0) { return false; }
-        while ($row = $query->fetch()) {
-            $userInfo = $this->getUserInfo($row->user_id);
-            $committeeMembers[] = array(
-                'first_name' => $userInfo['first_name'],
-                'last_name' => $userInfo['last_name'],
-                'email' => $userInfo['email']);
-        }
+        if ($query->execute(array(
+            ':committee_id' => $committee_id))) {
+            if ($query->rowCount() == 0) { return false; }
+            while ($row = $query->fetch()) {
+                $userInfo = $this->getUserInfo($row->user_id);
+                $committeeMembers[] = array(
+                    'user_id' => $userInfo['user_id'],
+                    'first_name' => $userInfo['first_name'],
+                    'last_name' => $userInfo['last_name'],
+                    'email' => $userInfo['email']);
+            }
+        } else { return false; }
 
         return $committeeMembers;
     }

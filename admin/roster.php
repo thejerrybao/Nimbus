@@ -117,7 +117,7 @@ $db = new DatabaseFunctions;
                         <div class="table-responsive">
                         <?php $activeMembers = $db->getMembers("active"); ?>
                         <?php if ($activeMembers) { ?>
-                        <table class="table table-striped table-hover events-table">
+                        <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th id="member-name">Name</th>

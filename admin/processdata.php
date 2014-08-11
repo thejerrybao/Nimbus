@@ -123,7 +123,22 @@ switch ($_POST["form_submit_type"]) {
             exit;
         } else { echo "Failed to add a committee."; }
         break;
-    case "delete_committees":
+    case "delete_committee":
+        break;
+
+    case "add_committee_member":
+        if ($db->addCommitteeMember($_POST['committee_id'], $_POST['user_id'])) {
+            $location = 'Location: committees.php?view=committee&id=' . $_POST['committee_id'];
+            header($location);
+            exit;
+        } else { echo "Failed to add a committee member."; }
+        break;
+    case "delete_committee_member":
+        if ($db->deleteCommitteeMember($_POST['committee_id'], $_POST['user_id'])) {
+            $location = 'Location: committees.php?view=committee&id=' . $_POST['committee_id'];
+            header($location);
+            exit;
+        } else { echo "Failed to delete a committee member."; }
         break;
     default:
         echo "No Form Submit Type Passed.";

@@ -88,11 +88,10 @@ $db = new DatabaseFunctions;
                                     <div class="form-group">        
                                         <label>Chair</label>
                                         <select name="chair_id" class="form-control" required>
-                                            <?php $members = $db->getMembers();
-                                            foreach ($members as $member) {
-                                                echo "<option value=\"" . $member["user_id"] . "\">" 
-                                                . $member["last_name"] . ", " . $member["first_name"] . "</option>";
-                                            } ?>
+                                            <?php $members = $db->getMembers("active"); ?>
+                                            <?php foreach ($members as $member) { ?>
+                                                <option value="<?= $member['user_id'] ?>"><?= $member['first_name'] ?> <?= $member['last_name'] ?></option>
+                                            <?php } ?>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -185,7 +184,7 @@ $db = new DatabaseFunctions;
                         <div class="table-responsive">
                         <?php $events = $db->getEventsByMonth(mktime(0, 0, 0, $_GET["month"], 1, $_GET["year"])); ?>
                         <?php if ($events) { ?>
-                        <table class="table table-striped table-hover events-table">
+                        <table class="table table-striped table-hover">
                             <thead>
                                 <tr>
                                     <th id="event-name">Name</th>
