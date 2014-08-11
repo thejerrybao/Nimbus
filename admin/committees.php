@@ -56,12 +56,12 @@ $db = new DatabaseFunctions;
     <div id="wrapper">
 
         <!-- Navigation -->
-        <?php $page = "committees"; 
+        <? $page = "committees"; 
             require_once("nav.php"); ?>
 
         <!-- Page Content -->
         <div id="page-wrapper">
-            <?php switch ($_GET["view"]):
+            <? switch ($_GET["view"]):
                 case "add": ?>
                 <div class="row">
                     <div class="col-lg-12">
@@ -93,8 +93,8 @@ $db = new DatabaseFunctions;
                         </div>
                     </div>
                 </div>
-            <?php break; ?>
-            <?php case "list": ?>
+            <? break; ?>
+            <? case "list": ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Manage Committees</h1>
@@ -103,8 +103,8 @@ $db = new DatabaseFunctions;
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="table-responsive">
-                            <?php $committees = $db->getCommittees(); ?>
-                            <?php if ($committees) { ?>
+                            <? $committees = $db->getCommittees(); ?>
+                            <? if ($committees) { ?>
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
@@ -113,30 +113,31 @@ $db = new DatabaseFunctions;
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php foreach ($committees as $committee) { ?>
+                                <? foreach ($committees as $committee) { ?>
                                     <tr>
                                         <td><a href="committees.php?view=committee&id=<?= $committee['committee_id'] ?>"><?= $committee['name'] ?></td>
                                         <td><?= count($committee['members']) ?></td>
                                     </tr>
-                                <?php } ?>
+                                <? } ?>
                                 </tbody>
                             </table>
-                            <?php } else { ?>
-                            <h2>No committees found.</h2>
-                            <?php } ?>
+                            <? } else { ?>
+                                <h2>No committees found.</h2>
+                            <? } ?>
                         </div>
                     </dib>
                 </div>
-            <?php break; ?>
-            <?php case "committee": ?>
+            <? break; ?>
+            <? case "committee": ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Committee Information</h1>
                     </div>
                 </div>
-                <?php if (empty($_GET["id"])) { echo "<h2>No committee ID specified.</h2>"; }
-                    else { $committee = $db->getCommittee($_GET["id"]); }
-                    if ($committee) { ?>
+                <? if (empty($_GET["id"])) { ?>
+                    <h2>No committee ID specified.</h2>
+                <? } else { $committee = $db->getCommittee($_GET["id"]); } ?>
+                <? if ($committee) { ?>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
@@ -153,9 +154,9 @@ $db = new DatabaseFunctions;
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php $committeeEmails = "" ?>
-                                <?php foreach ($committee['members'] as $committeeMember) { ?>
-                                    <?php $committeeEmails .= $committeeMember['email'] . "; " ?>
+                                <? $committeeEmails = "" ?>
+                                <? foreach ($committee['members'] as $committeeMember) { ?>
+                                    <? $committeeEmails .= $committeeMember['email'] . "; " ?>
                                     <tr>
                                         <td><?= $committeeMember['first_name'] ?> <?= $committeeMember['last_name'] ?></td>
                                         <td><?= $committeeMember['email'] ?></td>
@@ -168,7 +169,7 @@ $db = new DatabaseFunctions;
                                             </form>
                                         </td>
                                     </tr>
-                                <?php } ?>
+                                <? } ?>
                                 </tbody>
                             </table>
                             </div>
@@ -185,10 +186,10 @@ $db = new DatabaseFunctions;
                                     <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
                                     <label>Select Member to Add</label>
                                     <select name="user_id" class="form-control" required>
-                                        <?php $members = $db->getMembers("active"); ?>
-                                        <?php foreach ($members as $member) { ?>
+                                        <? $members = $db->getMembers("active"); ?>
+                                        <? foreach ($members as $member) { ?>
                                             <option value="<?= $member['user_id'] ?>"><?= $member['first_name'] ?> <?= $member['last_name'] ?></option>
-                                        <?php } ?>
+                                        <? } ?>
                                     </select>
                                     <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Add Member</button>
                                 </form>
@@ -196,9 +197,11 @@ $db = new DatabaseFunctions;
                         </div>
                     </div>
                 </div>
-                <?php } else { echo "<h2>Committee ID not found.</h2>"; } ?>
-            <?php break; ?>
-            <?php endswitch; ?>
+                <? } else { ?>
+                    <h2>Committee ID not found.</h2>
+                <? } ?>
+            <? break; ?>
+            <? endswitch; ?>
         </div>
         <!-- /#page-wrapper -->
 
