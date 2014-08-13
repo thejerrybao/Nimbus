@@ -1,0 +1,25 @@
+th#member-name {
+    width: 25%;
+}
+
+th#member-dues-paid, th#member-email-confirmed {
+    width: 14%;
+}
+
+td.checkbox-series-name:first-child {
+    padding: 5px 5px 5px 10px;
+}
+
+td.checkbox-series-name {
+    padding: 5px 5px 5px 30px;
+}
+
+td.checkbox-series-checkbox {
+    padding: 5px 30px 5px 5px;
+    border-right: 1px solid #000;
+}
+
+td.checkbox-series-checkbox:last-child {
+    padding: 5px 0 5px 5px;
+    border-right: none;
+}
