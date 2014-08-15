@@ -11,24 +11,24 @@
  **/
 ini_set('display_errors', 1);
 require_once("dbfunc.php");
-$db = new DatabaseFunctions;
+$userdb = new UserFunctions;
 
-switch ($_POST["search_type"]) {
+switch ($_POST['search_type']) {
     case "events":
         break;
     case "roster":
-        $users = $db->searchUsers($_POST['search_words'], $_POST['search_category']);
+        $users = $userdb->searchUsers($_POST['search_words'], $_POST['search_category']);
 
         if ($users) {
             foreach ($users as $user) {
-                $user["dues_paid"] = $user["dues_paid"] ? "Yes" : "No";
-                $user["email_confirmed"] = $user["email_confirmed"] ? "Yes" : "No"; ?>
+                $user['dues_paid'] = $user['dues_paid'] ? "Yes" : "No";
+                $user['email_confirmed'] = $user['email_confirmed'] ? "Yes" : "No"; ?>
 
-                <tr><td><a href="roster.php?view=member&id=<?= $user["user_id"] ?>"><?= $user["first_name"] ?> <?= $user["last_name"] ?></a></td>
-                <td><?= $user["email"] ?></td>
-                <td><?= $user["phone"] ?></td>
-                <td><?= $user["dues_paid"] ?></td>
-                <td><?= $user["email_confirmed"] ?></td></tr>
+                <tr><td><a href="roster.php?view=member&id=<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></a></td>
+                <td><?= $user['email'] ?></td>
+                <td><?= $user['phone'] ?></td>
+                <td><?= $user['dues_paid'] ?></td>
+                <td><?= $user['email_confirmed'] ?></td></tr>
 <?          }
         } else { ?>
             <tr><td>No Members Found.</td>

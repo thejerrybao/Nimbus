@@ -12,7 +12,8 @@
 
 ini_set('display_errors', 1);
 require_once("dbfunc.php");
-$db = new DatabaseFunctions;
+$committeedb = new CommitteeFunctions;
+$userdb = new UserFunctions;
 ?>
 
 <!DOCTYPE html>
@@ -61,7 +62,7 @@ $db = new DatabaseFunctions;
 
         <!-- Page Content -->
         <div id="page-wrapper">
-            <? switch ($_GET["view"]):
+            <? switch ($_GET['view']):
                 case "add": ?>
                 <div class="row">
                     <div class="col-lg-12">
@@ -103,7 +104,7 @@ $db = new DatabaseFunctions;
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="table-responsive">
-                            <? $committees = $db->getCommittees(); ?>
+                            <? $committees = $committeedb->getCommittees(); ?>
                             <? if ($committees) { ?>
                             <table class="table table-striped table-hover">
                                 <thead>
@@ -134,9 +135,9 @@ $db = new DatabaseFunctions;
                         <h1 class="page-header">Committee Information</h1>
                     </div>
                 </div>
-                <? if (empty($_GET["id"])) { ?>
+                <? if (empty($_GET['id'])) { ?>
                     <h2>No committee ID specified.</h2>
-                <? } else { $committee = $db->getCommittee($_GET["id"]); } ?>
+                <? } else { $committee = $committeedb->getCommittee($_GET['id']); } ?>
                 <? if ($committee) { ?>
                 <div class="row">
                     <div class="col-lg-8">
@@ -162,7 +163,7 @@ $db = new DatabaseFunctions;
                                         <td><?= $committeeMember['email'] ?></td>
                                         <td>
                                             <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                                <input type="hidden" name="form_submit_type" value="delete_committee_member">
+                                                <input type="hidden" name="form_submit_type" value="delete_committee_user">
                                                 <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
                                                 <input type="hidden" name="user_id" value="<?= $committeeMember['user_id'] ?>">
                                                 <button type="submit" class="btn btn-primary btn-xs">Delete Member</button>
@@ -182,13 +183,13 @@ $db = new DatabaseFunctions;
                                 <label>Committee Member Emails</label>
                                 <textarea rows="3" class="form-control" style="margin-bottom: 20px;"><?= $committeeEmails ?></textarea>
                                 <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="form_submit_type" value="add_committee_member">
+                                    <input type="hidden" name="form_submit_type" value="add_committee_user">
                                     <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
                                     <label>Select Member to Add</label>
                                     <select name="user_id" class="form-control" required>
-                                        <? $members = $db->getMembers("active"); ?>
-                                        <? foreach ($members as $member) { ?>
-                                            <option value="<?= $member['user_id'] ?>"><?= $member['first_name'] ?> <?= $member['last_name'] ?></option>
+                                        <? $users = $userdb->getUsers("active"); ?>
+                                        <? foreach ($users as $user) { ?>
+                                            <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
                                         <? } ?>
                                     </select>
                                     <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Add Member</button>

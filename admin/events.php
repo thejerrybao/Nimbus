@@ -10,7 +10,7 @@
  ** COPYRIGHT 2014-2015 - ALL RIGHTS RESERVED
  **/
 ini_set('display_errors', 1);
-if (empty($_GET["month"]) && empty($_GET["year"]) && $_GET["view"] == "list") {
+if (empty($_GET['month']) && empty($_GET['year']) && $_GET['view'] == "list") {
     $location = 'Location: events.php?view=list&month=' . idate('m') . '&year=' . date('Y');
     header($location); 
     exit;
@@ -18,7 +18,9 @@ if (empty($_GET["month"]) && empty($_GET["year"]) && $_GET["view"] == "list") {
 $months = ["", "January", "February", "March", "April", "May",
 "June", "July", "August", "September", "October", "November", "December"];
 require_once("dbfunc.php");
-$db = new DatabaseFunctions;
+$eventdb = new EventFunctions;
+$tagdb = new TagFunctions;
+$userdb = new UserFunctions;
 ?>
 
 <!DOCTYPE html>
@@ -67,7 +69,7 @@ $db = new DatabaseFunctions;
 
         <!-- Page Content -->
         <div id="page-wrapper">
-            <? switch ($_GET["view"]):
+            <? switch ($_GET['view']):
                 case "create": ?>
                 <div class="row">
                     <div class="col-lg-12">
@@ -88,9 +90,9 @@ $db = new DatabaseFunctions;
                                     <div class="form-group">        
                                         <label>Chair</label>
                                         <select name="chair_id" class="form-control" required>
-                                            <? $members = $db->getMembers("active"); ?>
-                                            <? foreach ($members as $member) { ?>
-                                                <option value="<?= $member['user_id'] ?>"><?= $member['first_name'] ?> <?= $member['last_name'] ?></option>
+                                            <? $users = $userdb->getUsers("active"); ?>
+                                            <? foreach ($users as $user) { ?>
+                                                <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
                                             <? } ?>
                                         </select>
                                     </div>
@@ -117,7 +119,7 @@ $db = new DatabaseFunctions;
                                     <div class="form-group">
                                         <label>Tags</label>
                                         <select name="tag_ids[]" class="form-control" multiple required>
-                                            <? $tags = $db->getTags(); ?>
+                                            <? $tags = $tagdb->getTags(); ?>
                                             <? foreach ($tags as $tag) { ?>
                                                 <option value="<?= $tag['tag_id'] ?>"><?= $tag['abbr'] ?> (<?= $tag['name'] ?>)</option>
                                             <? } ?>
@@ -163,7 +165,7 @@ $db = new DatabaseFunctions;
                                 <input type="hidden" name="view" value="list">
                                 <select name="month" class="form-control" style="width: 20%; display: inline;">
                                     <? for ($i = 1; $i <= 12; $i++) { ?>
-                                        <? if ($_GET["month"] == $i) { ?>
+                                        <? if ($_GET['month'] == $i) { ?>
                                             <option value="<?= $i ?>" selected><?= $months[$i] ?></option>
                                         <? } else { ?>
                                             <option value="<?= $i ?>"><?= $months[$i] ?></option>
@@ -172,7 +174,7 @@ $db = new DatabaseFunctions;
                                 </select>
                                 <select name="year" class="form-control" style="width: 10%; display: inline;">
                                     <? for ($i = idate("Y"); $i >= 2006; $i--) { ?>
-                                        <? if ($_GET["year"] == $i) { ?>
+                                        <? if ($_GET['year'] == $i) { ?>
                                             <option value="<?= $i ?>" selected><?= $i ?></option>
                                         <? } else { ?>
                                             <option value="<?= $i ?>"><?= $i ?></option>
@@ -187,7 +189,7 @@ $db = new DatabaseFunctions;
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="table-responsive">
-                        <? $events = $db->getEventsByMonth(mktime(0, 0, 0, $_GET["month"], 1, $_GET["year"])); ?>
+                        <? $events = $eventdb->getEventsByMonth(mktime(0, 0, 0, $_GET['month'], 1, $_GET['year'])); ?>
                         <? if ($events) { ?>
                         <table class="table table-striped table-hover">
                             <thead>
@@ -203,12 +205,12 @@ $db = new DatabaseFunctions;
                             </thead>
                             <tbody>
                             <? foreach ($events as $event) {
-                                $chair = $db->getUserInfo($event["chair_id"]); 
-                                if ($event["end_datetime"] <= time() && $event["status"] == 0) { 
-                                    $db->setEventStatus($event["event_id"], 1);
-                                    $event["status"] = 1;
+                                $chair = $userdb->getUserInfo($event['chair_id']); 
+                                if ($event['end_datetime'] <= time() && $event['status'] == 0) { 
+                                    $eventdb->setEventStatus($event['event_id'], 1);
+                                    $event['status'] = 1;
                                 }
-                                switch ($event["status"]) {
+                                switch ($event['status']) {
                                     case 0:
                                         $status = "Pre-Event";
                                         break;
@@ -224,13 +226,13 @@ $db = new DatabaseFunctions;
                                     default:
                                         $status = "Incorrect Status Number";
                                 } ?>
-                                <tr><td><a href="events.php?view=event&id=<?= $event["event_id"] ?>"><?= $event["name"] ?></a></td>
-                                <td><?= $chair["first_name"] ?> <?= $chair["last_name"] ?></td>
+                                <tr><td><a href="events.php?view=event&id=<?= $event['event_id'] ?>"><?= $event['name'] ?></a></td>
+                                <td><?= $chair['first_name'] ?> <?= $chair['last_name'] ?></td>
                                 <td><?= $status ?></td>
-                                <td><?= date("F j, Y, g:i a", $event["start_datetime"]) ?></td>
-                                <td><?= date("F j, Y, g:i a", $event["end_datetime"]) ?></td>
-                                <td><?= $event["location"] ?></td>
-                                <td><?= $event["num_attendees"] ?></td></tr>
+                                <td><?= date("F j, Y, g:i a", $event['start_datetime']) ?></td>
+                                <td><?= date("F j, Y, g:i a", $event['end_datetime']) ?></td>
+                                <td><?= $event['location'] ?></td>
+                                <td><?= $event['num_attendees'] ?></td></tr>
                             <? } ?>
                             </tbody>
                         </table>
@@ -241,51 +243,51 @@ $db = new DatabaseFunctions;
                 </div>
             <? break; ?>
             <? case "event": ?>
-                <? if (empty($_GET["id"])) { ?>
+                <? if (empty($_GET['id'])) { ?>
                     <h2>No event ID specified.</h2> 
                 <? } else { 
-                    $event = $db->getEventInfo($_GET["id"]);
-                    if ($event["end_datetime"] <= time() && $event["status"] == 0) { 
-                        $db->setEventStatus($event["event_id"], 1);
-                        $event["status"] = 1;
+                    $event = $eventdb->getEventInfo($_GET['id']);
+                    if ($event['end_datetime'] <= time() && $event['status'] == 0) { 
+                        $eventdb->setEventStatus($event['event_id'], 1);
+                        $event['status'] = 1;
                     }
                 } ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Event Information</h1>
-                        <? if ($event["status"] > 1) { ?>
+                        <? if ($event['status'] > 1) { ?>
                         <fieldset disabled>
                         <? } ?>
                         <form action="events.php" method="get" enctype="multipart/form-data" style="display: inline;">
                             <input type="hidden" name="view" value="edit">
-                            <input type="hidden" name="id" value="<?= $event["event_id"] ?>">
+                            <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
                             <div class="form-group" style="display: inline;">
                                 <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Edit Event</button>
                             </div>
                         </form>
                         <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
                             <input type="hidden" name="form_submit_type" value="delete_event">
-                            <input type="hidden" name="event_id" value="<?= $event["event_id"] ?>">
+                            <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
                             <div class="form-group" style="display: inline;">
                                 <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Delete Event</button>
                             </div>
                         </form>
-                        <? if ($event["status"] > 1) { ?>
+                        <? if ($event['status'] > 1) { ?>
                         </fieldset>
                         <? } ?>
-                        <? if ($event["status"] == 0) { ?>
+                        <? if ($event['status'] == 0) { ?>
                         <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
                             <div class="form-group" style="display: inline;">
                                 <input type="hidden" name="form_submit_type" value="post_event">
-                                <input type="hidden" name="event_id" value="<?= $event["event_id"] ?>">
+                                <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
                                 <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Override Post-Event</button>
                             </div>
                         </form>
-                        <? } else if ($event["status"] == 1) { ?>
+                        <? } else if ($event['status'] == 1) { ?>
                         <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
                             <div class="form-group" style="display: inline;">
                                 <input type="hidden" name="form_submit_type" value="confirm_event">
-                                <input type="hidden" name="event_id" value="<?= $event["event_id"] ?>">
+                                <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
                                 <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Confirm Event</button>
                             </div>
                         </form>
@@ -298,7 +300,7 @@ $db = new DatabaseFunctions;
                             <div class="panel-heading">All Event Data</div>
                             <div class="panel-body">
                                 <label>Status</label>
-                                <p><? switch ($event["status"]) {
+                                <p><? switch ($event['status']) {
                                         case 0:
                                             echo "Pre-Event";
                                             break;
@@ -315,43 +317,43 @@ $db = new DatabaseFunctions;
                                             echo "Incorrect Status Number";
                                     } ?></p>
                                 <label>Event Name</label>
-                                <p><?= $event["name"] ?></p>
+                                <p><?= $event['name'] ?></p>
                                 <label>Chair</label>
-                                <p><? $chair = $db->getUserInfo($event["chair_id"]) ?>
-                                    <?= $chair["first_name"] ?> <?= $chair["last_name"] ?></p>
+                                <p><? $chair = $userdb->getUserInfo($event['chair_id']) ?>
+                                    <?= $chair['first_name'] ?> <?= $chair['last_name'] ?></p>
                                 <label>Start Date and Time</label>
-                                <p><?= date("F j, Y, g:i a", $event["start_datetime"]); ?></p>
+                                <p><?= date("F j, Y, g:i a", $event['start_datetime']); ?></p>
                                 <label>End Date and Time</label>
-                                <p><?= date("F j, Y, g:i a", $event["end_datetime"]); ?></p>
+                                <p><?= date("F j, Y, g:i a", $event['end_datetime']); ?></p>
                                 <label>Description</label>
-                                <p><?= $event["description"] ?></p>
+                                <p><?= $event['description'] ?></p>
                                 <label>Location</label>
-                                <p><?= $event["location"] ?></p>
+                                <p><?= $event['location'] ?></p>
                                 <label>Meeting Location</label>
-                                <p><?= $event["meeting_location"] ?></p>
+                                <p><?= $event['meeting_location'] ?></p>
                                 <label>Tags</label>
-                                <p><? foreach ($event["tag_ids"] as $tag_id) { 
-                                    $tag = $db->getTag($tag_id) ?>
-                                <?= $tag["abbr"] ?> (<?= $tag["name"] ?>)</br>
+                                <p><? foreach ($event['tag_ids'] as $tag_id) { 
+                                    $tag = $tagdb->getTag($tag_id) ?>
+                                <?= $tag['abbr'] ?> (<?= $tag['name'] ?>)</br>
                                 <? } ?></p>
                                 <label>Online Signups?</label>
-                                <p><? if ($event["online_signups"]) { ?> Yes 
+                                <p><? if ($event['online_signups']) { ?> Yes 
                                 <? } else { ?> No <? } ?></p>
-                                <? if ($event["status"] > 0) { ?>
+                                <? if ($event['status'] > 0) { ?>
                                     <label>Pros of the Event</label>
-                                    <p><?= $event["pros"] ?></p>
+                                    <p><?= $event['pros'] ?></p>
                                     <label>Cons of the Event</label>
-                                    <p><?= $event["cons"] ?></p>
+                                    <p><?= $event['cons'] ?></p>
                                     <label>Should we do this event again?</label>
-                                    <p><?= $event["do_again"] ?></p>
+                                    <p><?= $event['do_again'] ?></p>
                                     <label>Funds Raised</label>
-                                    <p>$<?= $event["funds_raised"] ?></p>
+                                    <p>$<?= $event['funds_raised'] ?></p>
                                     <label>Service Hours Per Person</label>
-                                    <p><?= $event["service_hours"] ?></p>
+                                    <p><?= $event['service_hours'] ?></p>
                                     <label>Admin Hours Per Person</label>
-                                    <p><?= $event["admin_hours"] ?></p>
+                                    <p><?= $event['admin_hours'] ?></p>
                                     <label>Social Hours Per Person</label>
-                                    <p><?= $event["social_hours"] ?></p>
+                                    <p><?= $event['social_hours'] ?></p>
                                 <? } ?>
                             </div>
                         </div>
@@ -361,12 +363,12 @@ $db = new DatabaseFunctions;
                             <div class="panel-heading">Event Attendees</div>
                             <div class="panel-body">
                                 <label># Attendees:</label>
-                                <?= $event["num_attendees"] ?>
+                                <?= $event['num_attendees'] ?>
                                 <p><? $attendeeEmails = "";
-                                    if ($eventAttendees = $db->getEventAttendees($event["event_id"])) { 
+                                    if ($eventAttendees = $eventdb->getEventAttendees($event['event_id'])) { 
                                         foreach ($eventAttendees as $eventAttendee) {
-                                            $attendeeEmails .= $eventAttendee["email"] . "; "; ?>
-                                            <?= $eventAttendee["first_name"] ?> <?= $eventAttendee["last_name"] ?><br />
+                                            $attendeeEmails .= $eventAttendee['email'] . "; "; ?>
+                                            <?= $eventAttendee['first_name'] ?> <?= $eventAttendee['last_name'] ?><br />
                                         <? } ?>
                                     <? } else { ?>No Attendees<? } ?></p>
                                 <label>Attendee Emails</label>
@@ -382,25 +384,25 @@ $db = new DatabaseFunctions;
                         <h1 class="page-header">Edit Event</h1>
                     </div>
                 </div>
-                <? if (empty($_GET["id"])) { ?>
+                <? if (empty($_GET['id'])) { ?>
                     <h2>No event ID specified.</h1>
                 <? } else { 
-                    $event = $db->getEventInfo($_GET["id"]);
-                    if ($event["end_datetime"] <= time() && $event["status"] == 0) { 
-                        $db->setEventStatus($event["event_id"], 1);
-                        $event["status"] = 1;
+                    $event = $eventdb->getEventInfo($_GET['id']);
+                    if ($event['end_datetime'] <= time() && $event['status'] == 0) { 
+                        $eventdb->setEventStatus($event['event_id'], 1);
+                        $event['status'] = 1;
                     }
                 } ?>
                 <div class="row">
-                    <? if ($event["status"] < 2) { ?>
+                    <? if ($event['status'] < 2) { ?>
                         <div class="col-lg-8">
                             <div class="panel panel-primary">
                                 <div class="panel-heading">Edit Current Event</div>
                                 <div class="panel-body">
                                     <form action="processdata.php" method="post" enctype="multipart/form-data" id="edit_event">
                                         <input type="hidden" name="form_submit_type" value="edit_event">
-                                        <input type="hidden" name="event_id" value="<?= $event["event_id"] ?>">
-                                        <input type="hidden" name="status" value="<?= $event["status"] ?>">
+                                        <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
+                                        <input type="hidden" name="status" value="<?= $event['status'] ?>">
                                         <div class="form-group">
                                             <label>Event Name</label>
                                             <input type="text" name="name" class="form-control" value="<?= $event['name']; ?>" required>
@@ -408,45 +410,45 @@ $db = new DatabaseFunctions;
                                         <div class="form-group">
                                             <label>Chair</label>
                                             <select name="chair_id" class="form-control" id="chair_id" required>
-                                                <? $members = $db->getMembers("active"); ?>
-                                                <? foreach ($members as $member) { ?>
-                                                    <? if ($event['chair_id'] == $member['user_id']) { ?>
-                                                        <option value="<?= $member["user_id"] ?>" selected><?= $member["first_name"] ?> <?= $member["last_name"] ?></option> 
+                                                <? $users = $userdb->getUsers("active"); ?>
+                                                <? foreach ($users as $user) { ?>
+                                                    <? if ($event['chair_id'] == $user['user_id']) { ?>
+                                                        <option value="<?= $user['user_id'] ?>" selected><?= $user['first_name'] ?> <?= $user['last_name'] ?></option> 
                                                     <? } else { ?>
-                                                        <option value="<?= $member["user_id"] ?>"><?= $member["first_name"] ?> <?= $member["last_name"] ?></option>
+                                                        <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
                                                     <? } ?>
                                                 <? } ?>
                                             </select>
                                         </div>
                                         <div class="form-group">
                                             <label>Start Date and Time</label>
-                                            <input type="datetime-local" name="start_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", $event["start_datetime"]); ?>" required>
+                                            <input type="datetime-local" name="start_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", $event['start_datetime']); ?>" required>
                                         </div>    
                                         <div class="form-group">
                                             <label>End Date and Time</label>
-                                            <input type="datetime-local" name="end_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", $event["end_datetime"]); ?>" required>
+                                            <input type="datetime-local" name="end_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", $event['end_datetime']); ?>" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Description</label>
-                                            <textarea name="description" class="form-control" form="edit_event" rows="3" required><?= $event["description"]; ?></textarea>
+                                            <textarea name="description" class="form-control" form="edit_event" rows="3" required><?= $event['description']; ?></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label>Location</label>
-                                            <input type="text" name="location" class="form-control" value="<?= $event["location"]; ?>" required>
+                                            <input type="text" name="location" class="form-control" value="<?= $event['location']; ?>" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Meeting Location</label>
-                                            <input type="text" name="meeting_location" class="form-control" value="<?= $event["meeting_location"]; ?>" required>
+                                            <input type="text" name="meeting_location" class="form-control" value="<?= $event['meeting_location']; ?>" required>
                                         </div> 
                                         <div class="form-group">
                                             <label>Tags</label>
                                             <select name="tag_ids[]" class="form-control" multiple required>
-                                                <? $tags = $db->getTags(); ?>
+                                                <? $tags = $tagdb->getTags(); ?>
                                                 <? foreach ($tags as $tag) { ?>
-                                                    <? if (in_array($tag["tag_id"], $event["tag_ids"])) { ?>
-                                                        <option value="<?= $tag["tag_id"] ?>" selected><?= $tag["abbr"] ?> (<?= $tag["name"] ?>)</option>
+                                                    <? if (in_array($tag['tag_id'], $event['tag_ids'])) { ?>
+                                                        <option value="<?= $tag['tag_id'] ?>" selected><?= $tag['abbr'] ?> (<?= $tag['name'] ?>)</option>
                                                     <? } else { ?>
-                                                        <option value="<?= $tag['tag_id'] ?>"><?= $tag["abbr"] ?> (<?= $tag["name"] ?>)</option>
+                                                        <option value="<?= $tag['tag_id'] ?>"><?= $tag['abbr'] ?> (<?= $tag['name'] ?>)</option>
                                                     <? } ?>
                                                 <? } ?>
                                             </select>
@@ -454,7 +456,7 @@ $db = new DatabaseFunctions;
                                         <div class="form-group">
                                             <label>Online Sign-ups?</label>
                                             <input type="hidden" name="online_signups" value="0">
-                                            <? if ($event["online_signups"]) { ?>
+                                            <? if ($event['online_signups']) { ?>
                                                 <input type="checkbox" name="online_signups" value="1" checked>
                                             <? } else { ?>
                                                 <input type="checkbox" name="online_signups" value="1">
@@ -462,37 +464,37 @@ $db = new DatabaseFunctions;
                                         </div>
                                         <div class="form-group">
                                             <label>Online Sign-up End Date</label>
-                                            <input type="datetime-local" name="online_end_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", $event["online_end_datetime"]); ?>" required>
+                                            <input type="datetime-local" name="online_end_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", $event['online_end_datetime']); ?>" required>
                                         </div>
-                                        <? if ($event["status"] == 1) { ?>
+                                        <? if ($event['status'] == 1) { ?>
                                         <div class="form-group">
                                             <label>Pros of the Event</label>
-                                            <textarea name="pros" class="form-control" form="edit_event" rows="3" required><?= $event["pros"] ?></textarea>
+                                            <textarea name="pros" class="form-control" form="edit_event" rows="3" required><?= $event['pros'] ?></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label>Cons of the Event</label>
-                                            <textarea name="cons" class="form-control" form="edit_event" rows="3" required><?= $event["cons"] ?></textarea>
+                                            <textarea name="cons" class="form-control" form="edit_event" rows="3" required><?= $event['cons'] ?></textarea>
                                         </div>
                                         <div class="form-group">
                                             <label>Should we do the event again?</label>
-                                            <textarea name="do_again" class="form-control" form="edit_event" rows="3" required><?= $event["do_again"] ?></textarea>
+                                            <textarea name="do_again" class="form-control" form="edit_event" rows="3" required><?= $event['do_again'] ?></textarea>
                                         </div>
                                         <label>Funds Raised</label>
                                         <div class="form-group input-group">
                                             <span class="input-group-addon">$</span>
-                                            <input type="number" step="any" min="0" name="funds_raised" class="form-control" value="<?= $event["funds_raised"] ?>" required>
+                                            <input type="number" step="any" min="0" name="funds_raised" class="form-control" value="<?= $event['funds_raised'] ?>" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Service Hours Per Person</label>
-                                            <input type="number" min="0" name="service_hours" class="form-control" value="<?= $event["service_hours"] ?>" required>
+                                            <input type="number" min="0" name="service_hours" class="form-control" value="<?= $event['service_hours'] ?>" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Admin Hours Per Person</label>
-                                            <input type="number" min="0" name="admin_hours" class="form-control" value="<?= $event["admin_hours"] ?>" required>
+                                            <input type="number" min="0" name="admin_hours" class="form-control" value="<?= $event['admin_hours'] ?>" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Social Hours Per Person</label>
-                                            <input type="number" min="0" name="social_hours" class="form-control" value="<?= $event["social_hours"] ?>" required>
+                                            <input type="number" min="0" name="social_hours" class="form-control" value="<?= $event['social_hours'] ?>" required>
                                         </div>
                                         <? } ?>
                                         <button type="submit" class="btn btn-primary">Edit Event</button>

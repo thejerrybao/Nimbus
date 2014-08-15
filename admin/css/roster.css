@@ -1,8 +1,8 @@
-th#member-name {
+th#user-name {
     width: 25%;
 }
 
-th#member-dues-paid, th#member-email-confirmed {
+th#user-dues-paid, th#user-email-confirmed {
     width: 14%;
 }
 

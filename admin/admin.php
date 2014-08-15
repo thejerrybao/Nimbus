@@ -11,7 +11,7 @@
  **/
 ini_set('display_errors', 1);
 require_once("dbfunc.php");
-$db = new DatabaseFunctions;
+$userdb = new UserFunctions;
 ?>
 
 <!DOCTYPE html>
@@ -61,31 +61,31 @@ $db = new DatabaseFunctions;
         <!-- Page Content -->
         <div id="page-wrapper">
             <? switch ($_GET["view"]):
-                case "boardmembers": ?>
+                case "access": ?>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Manage Board Members</h1>
+                        <h1 class="page-header">Manage Member Access</h1>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-primary">
-                        <? $activeMembers = $db->getMembers("active"); ?>
-                            <div class="panel-heading">Set Board Members Access</div>
+                        <? $activeUsers = $userdb->getUsers("active"); ?>
+                            <div class="panel-heading">Set Member Access</div>
                             <div class="panel-body">
-                                <h4>Select members below to give board member access to.</h4>
+                                <h4>Select members below to give access to.</h4>
                                 <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="form_submit_type" value="set_board_members">
+                                    <input type="hidden" name="form_submit_type" value="set_access">
                                     <div class="form-group">
-                                    <? if ($activeMembers) { ?>
+                                    <? if ($activeUsers) { ?>
                                         <? $i = 0; ?>
                                         <table>
-                                        <? foreach ($activeMembers as $activeMember) {  ?>
+                                        <? foreach ($activeUsers as $activeUser) {  ?>
                                             <? if ($i % 4 == 0) { ?>
                                                 <tr>
                                             <? } ?>
-                                            <td class="checkbox-series-name"><?= $activeMember["first_name"] ?> <?= $activeMember["last_name"] ?></td>
-                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="non_active_members[]" value="<?= $activeMember["user_id"] ?>" class="checkbox_series"></td>
+                                            <td class="checkbox-series-name"><?= $activeUser["first_name"] ?> <?= $activeUser["last_name"] ?></td>
+                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="non_active_users[]" value="<?= $activeUser["user_id"] ?>" class="checkbox_series"></td>
                                             <? if ($i % 4 == 3) { ?>
                                             </tr>
                                             <? }
@@ -93,6 +93,7 @@ $db = new DatabaseFunctions;
                                         <? } ?>
                                         </table>
                                         <select name="access" class="form-control" style="margin-top: 10px; width: 20%; display: inline;">
+                                            <option value="0">General Member</option>
                                             <option value="1">Board Member</option>
                                             <option value="2">MRP Chair</option>
                                             <option value="3">Secretary</option>

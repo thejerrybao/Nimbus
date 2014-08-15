@@ -11,7 +11,7 @@
  **/
 ini_set('display_errors', 1);
 require_once("dbfunc.php");
-$db = new DatabaseFunctions;
+$userdb = new UserFunctions;
 ?>
 
 <!DOCTYPE html>
@@ -60,7 +60,7 @@ $db = new DatabaseFunctions;
 
         <!-- Page Content -->
         <div id="page-wrapper">
-            <? switch ($_GET["view"]):
+            <? switch ($_GET['view']):
                 case "add": ?>
                 <div class="row">
                     <div class="col-lg-12">
@@ -73,7 +73,7 @@ $db = new DatabaseFunctions;
                             <div class="panel-heading">Add New Member</div>
                             <div class="panel-body">
                                 <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="form_submit_type" value="add_member">
+                                    <input type="hidden" name="form_submit_type" value="add_user">
                                     <div class="form-group">
                                         <label>First Name</label>
                                         <input type="text" name="first_name" class="form-control" required>
@@ -123,27 +123,27 @@ $db = new DatabaseFunctions;
                             </select>
                         </form>
                         <div class="table-responsive">
-                            <? $activeMembers = $db->getMembers("active"); ?>
-                            <? if ($activeMembers) { ?>
+                            <? $activeUser = $userdb->getUsers("active"); ?>
+                            <? if ($activeUser) { ?>
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
-                                        <th id="member-name">Name</th>
-                                        <th id="member-email">E-mail</th>
-                                        <th id="member-phone">Phone</th>
-                                        <th id="member-dues-paid">Dues Paid?</th>
-                                        <th id="member-email-confirmed">Email Confirmed?</th>
+                                        <th id="user-name">Name</th>
+                                        <th id="user-email">E-mail</th>
+                                        <th id="user-phone">Phone</th>
+                                        <th id="user-dues-paid">Dues Paid?</th>
+                                        <th id="user-email-confirmed">Email Confirmed?</th>
                                     </tr>
                                 </thead>
                                 <tbody id="search-roster-result">
-                                    <? foreach ($activeMembers as $member) { ?>
-                                        <? $member["dues_paid"] = $member["dues_paid"] ? "Yes" : "No"; ?>
-                                        <? $member["email_confirmed"] = $member["email_confirmed"] ? "Yes" : "No"; ?>
-                                        <tr><td><a href="roster.php?view=member&id=<?= $member["user_id"] ?>"><?= $member["first_name"] ?> <?= $member["last_name"] ?></a></td>
-                                        <td><?= $member["email"] ?></td>
-                                        <td><?= $member["phone"] ?></td>
-                                        <td><?= $member["dues_paid"] ?></td>
-                                        <td><?= $member["email_confirmed"] ?></td>
+                                    <? foreach ($activeUser as $user) { ?>
+                                        <? $user['dues_paid'] = $user['dues_paid'] ? "Yes" : "No"; ?>
+                                        <? $user['email_confirmed'] = $user['email_confirmed'] ? "Yes" : "No"; ?>
+                                        <tr><td><a href="roster.php?view=user&id=<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></a></td>
+                                        <td><?= $user['email'] ?></td>
+                                        <td><?= $user['phone'] ?></td>
+                                        <td><?= $user['dues_paid'] ?></td>
+                                        <td><?= $user['email_confirmed'] ?></td>
                                     <? } ?>
                                 </tbody>
                             </table>
@@ -154,47 +154,47 @@ $db = new DatabaseFunctions;
                     </div>
                 </div>
             <? break; ?>
-            <? case "member": ?>
+            <? case "user": ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Member Information</h1>
                     </div>
                 </div>
-                <? if (empty($_GET["id"])) { ?>
+                <? if (empty($_GET['id'])) { ?>
                     <h2>No member ID specified.</h2>
                 <? } else { 
-                    $member = $db->getUserInfo($_GET["id"], true);
-                    $member["dues_paid"] = $member["dues_paid"] ? "Yes" : "No";
-                    $member["email_confirmed"] = $member["email_confirmed"] ? "Yes" : "No"; 
-                    switch ($member["access"]) {
+                    $user = $userdb->getUserInfo($_GET['id'], true);
+                    $user['dues_paid'] = $user['dues_paid'] ? "Yes" : "No";
+                    $user['email_confirmed'] = $user['email_confirmed'] ? "Yes" : "No"; 
+                    switch ($user['access']) {
                         case "0":
-                            $member["access"] = 'General Member';
+                            $user['access'] = 'General Member';
                             break;
                         case "1":
-                            $member["access"] = 'Board Member';
+                            $user['access'] = 'Board Member';
                             break;
                         case "2":
-                            $member["access"] = 'Secretary';
+                            $user['access'] = 'Secretary';
                             break;
                         case "3":  
-                            $member["access"] = 'Technology Chair/Administrator';
+                            $user['access'] = 'Technology Chair/Administrator';
                             break;
                         default:
-                            $member["access"] = "Access Value Invalid";
+                            $user['access'] = "Access Value Invalid";
                     }
                 } ?>
-                <? if ($member) { ?>
+                <? if ($user) { ?>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
                             <div class="panel-heading">MRP Information</div>
                             <div class="panel-body">
                                 <label>Service Hours:</label>
-                                <p style="display: inline; margin-right: 50px;"><?= $member["hours"]["service_hours"] ?></p>
+                                <p style="display: inline; margin-right: 50px;"><?= $user['hours']['service_hours'] ?></p>
                                 <label>Admin Hours:</label>
-                                <p style="display: inline; margin-right: 50px;"><?= $member["hours"]["admin_hours"] ?></p>
+                                <p style="display: inline; margin-right: 50px;"><?= $user['hours']['admin_hours'] ?></p>
                                 <label>Social Hours:</label>
-                                <p style="display: inline; margin-right: 50px;"><?= $member["hours"]["social_hours"] ?></p>
+                                <p style="display: inline; margin-right: 50px;"><?= $user['hours']['social_hours'] ?></p>
                             </div>
                         </div>
                     </div>
@@ -203,17 +203,17 @@ $db = new DatabaseFunctions;
                             <div class="panel-heading">All Member Data</div>
                             <div class="panel-body">
                                 <label>Name</label>
-                                <p><?= $member["first_name"] ?> <?= $member["last_name"] ?></p>
+                                <p><?= $user['first_name'] ?> <?= $user['last_name'] ?></p>
                                 <label>E-mail</label>
-                                <p><?= $member["email"] ?></p>
+                                <p><?= $user['email'] ?></p>
                                 <label>Phone</label>
-                                <p><?= $member["phone"] ?></p>
+                                <p><?= $user['phone'] ?></p>
                                 <label>Dues Paid?</label>
-                                <p><?= $member["dues_paid"] ?></p>
+                                <p><?= $user['dues_paid'] ?></p>
                                 <label>Email Confirmed?</label>
-                                <p><?= $member["email_confirmed"] ?></p>
+                                <p><?= $user['email_confirmed'] ?></p>
                                 <label>Access Level</label>
-                                <p><?= $member["access"] ?></p>
+                                <p><?= $user['access'] ?></p>
                             </div>
                         </div>
                     </div>
@@ -228,7 +228,7 @@ $db = new DatabaseFunctions;
                         <h1 class="page-header">Manage Dues Paid Members</h1>
                     </div>
                 </div>
-                <? if (empty($_GET["action"])) { ?>
+                <? if (empty($_GET['action'])) { ?>
                     <h2>No action specified.</h2>
                 <? } else { ?>
                 <div class="row">
@@ -237,8 +237,8 @@ $db = new DatabaseFunctions;
                             <div class="form-group">
                                 <input type="hidden" name="view" value="dues">
                                 <select name="action" class="form-control" style="width: 20%; display: inline;">
-                                    <option value="set" <? if ($_GET["action"] == "set") { ?> selected <? } ?>>Set Dues Paid Members</option>
-                                    <option value="unset" <? if ($_GET["action"] == "unset") { ?> selected <? } ?>>Unset Dues Paid Members</option>
+                                    <option value="set" <? if ($_GET['action'] == "set") { ?> selected <? } ?>>Set Dues Paid Members</option>
+                                    <option value="unset" <? if ($_GET['action'] == "unset") { ?> selected <? } ?>>Unset Dues Paid Members</option>
                                 </select>
                                 <button type="submit" class="btn btn-primary btn-xs">Select Action</button>
                             </div>
@@ -248,8 +248,8 @@ $db = new DatabaseFunctions;
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-primary">
-                        <? if ($_GET["action"] == "set") { 
-                            $nonDuesPaidMembers = $db->getMembers("non_dues_paid"); ?>
+                        <? if ($_GET['action'] == "set") { 
+                            $nonDuesPaidMembers = $userdb->getUsers("non_dues_paid"); ?>
                             <div class="panel-heading">Set Dues Paid Members</div>
                             <div class="panel-body">
                                 <h4>Select members below to set as dues paid.</h4>
@@ -263,8 +263,8 @@ $db = new DatabaseFunctions;
                                             <? if ($i % 4 == 0) { ?>
                                                 <tr>
                                             <? } ?>
-                                            <td class="checkbox-series-name"><?= $nonDuesPaidMember["first_name"] ?> <?= $nonDuesPaidMember["last_name"] ?></td>
-                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="non_dues_paid[]" value="<?= $nonDuesPaidMember["user_id"] ?>" class="checkbox_series"></td>
+                                            <td class="checkbox-series-name"><?= $nonDuesPaidMember['first_name'] ?> <?= $nonDuesPaidMember['last_name'] ?></td>
+                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="non_dues_paid[]" value="<?= $nonDuesPaidMember['user_id'] ?>" class="checkbox_series"></td>
                                             <? if ($i % 4 == 3) { ?>
                                                 </tr>
                                             <? } ?>
@@ -278,8 +278,8 @@ $db = new DatabaseFunctions;
                                     </div>
                                 </form>
                             </div>
-                        <? } else if ($_GET["action"] == "unset") {
-                            $duesPaidMembers = $db->getMembers("dues_paid"); ?>
+                        <? } else if ($_GET['action'] == "unset") {
+                            $duesPaidMembers = $userdb->getUsers("dues_paid"); ?>
                             <div class="panel-heading">Unset Dues Paid Members</div>
                             <div class="panel-body">
                                 <h4>Select members below to unset as dues paid.</h4>
@@ -293,8 +293,8 @@ $db = new DatabaseFunctions;
                                             <? if ($i % 4 == 0) { ?>
                                                 <tr>
                                             <? } ?>
-                                            <td class="checkbox-series-name"><?= $duesPaidMember["first_name"] ?> <?= $duesPaidMember["last_name"] ?></td>
-                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="dues_paid[]" value="<?= $duesPaidMember["user_id"] ?>"></td>
+                                            <td class="checkbox-series-name"><?= $duesPaidMember['first_name'] ?> <?= $duesPaidMember['last_name'] ?></td>
+                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="dues_paid[]" value="<?= $duesPaidMember['user_id'] ?>"></td>
                                             <? if ($i % 4 == 3) { ?>
                                                 </tr>
                                             <? } ?>
@@ -322,7 +322,7 @@ $db = new DatabaseFunctions;
                         <h1 class="page-header">Manage Members Status</h1>
                     </div>
                 </div>
-                <? if (empty($_GET["action"])) { ?>
+                <? if (empty($_GET['action'])) { ?>
                     <h2>No action specified.</h2>
                 <? } else { ?>
                 <div class="row">
@@ -331,8 +331,8 @@ $db = new DatabaseFunctions;
                             <div class="form-group">
                                 <input type="hidden" name="view" value="status">
                                 <select name="action" class="form-control" style="width: 20%; display: inline;">
-                                    <option value="activate" <? if ($_GET["action"] == "activate") { ?> selected <? } ?>>Activate Members</option>
-                                    <option value="deactivate" <? if ($_GET["action"] == "deactivate") { ?> selected <? } ?>>Deactivate Members</option>
+                                    <option value="activate" <? if ($_GET['action'] == "activate") { ?> selected <? } ?>>Activate Members</option>
+                                    <option value="deactivate" <? if ($_GET['action'] == "deactivate") { ?> selected <? } ?>>Deactivate Members</option>
                                 </select>
                                 <button type="submit" class="btn btn-primary btn-xs">Select Action</button>
                             </div>
@@ -342,13 +342,13 @@ $db = new DatabaseFunctions;
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-primary">
-                        <? if ($_GET["action"] == "activate") { 
-                            $nonActiveMembers = $db->getMembers("non_active"); ?>
+                        <? if ($_GET['action'] == "activate") { 
+                            $nonActiveMembers = $userdb->getUsers("non_active"); ?>
                             <div class="panel-heading">Activate Members</div>
                             <div class="panel-body">
                                 <h4>Select members below to activate.</h4>
                                 <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="form_submit_type" value="activate_members">
+                                    <input type="hidden" name="form_submit_type" value="activate_users">
                                     <div class="form-group">
                                     <? if ($nonActiveMembers) { ?>
                                         <? $i = 0; ?>
@@ -357,8 +357,8 @@ $db = new DatabaseFunctions;
                                             <? if ($i % 4 == 0) { ?>
                                                 <tr>
                                             <? } ?>
-                                            <td class="checkbox-series-name"><?= $nonActiveMember["first_name"] ?> <?= $nonActiveMember["last_name"] ?></td>
-                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="non_active_members[]" value="<?= $nonActiveMember["user_id"] ?>" class="checkbox_series"></td>
+                                            <td class="checkbox-series-name"><?= $nonActiveMember['first_name'] ?> <?= $nonActiveMember['last_name'] ?></td>
+                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="non_active_users[]" value="<?= $nonActiveMember['user_id'] ?>" class="checkbox_series"></td>
                                             <? if ($i % 4 == 3) { ?>
                                             </tr>
                                             <? }
@@ -372,13 +372,13 @@ $db = new DatabaseFunctions;
                                     </div>
                                 </form>
                             </div>
-                        <? } else if ($_GET["action"] == "deactivate") {
-                            $activeMembers = $db->getMembers("active"); ?>
+                        <? } else if ($_GET['action'] == "deactivate") {
+                            $activeMembers = $userdb->getUsers("active"); ?>
                             <div class="panel-heading">Deactivate Members</div>
                             <div class="panel-body">
                                 <h4>Select members below to deactivate.</h4>
                                 <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="form_submit_type" value="deactivate_members">
+                                    <input type="hidden" name="form_submit_type" value="deactivate_users">
                                     <div class="form-group">    
                                     <? if ($activeMembers) { ?>
                                         <? $i = 0; ?>
@@ -387,8 +387,8 @@ $db = new DatabaseFunctions;
                                             <? if ($i % 4 == 0) { ?>
                                                 <tr>
                                             <? } ?>
-                                            <td class="checkbox-series-name"><?= $activeMember["first_name"] ?> <?= $activeMember["last_name"] ?></td>
-                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="active_members[]" value="<?= $activeMember["user_id"] ?>"></td>
+                                            <td class="checkbox-series-name"><?= $activeMember['first_name'] ?> <?= $activeMember['last_name'] ?></td>
+                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="active_users[]" value="<?= $activeMember['user_id'] ?>"></td>
                                             <? if ($i % 4 == 3) { ?>
                                             </tr>
                                             <? }
