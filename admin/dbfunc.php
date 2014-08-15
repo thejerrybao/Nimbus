@@ -43,16 +43,36 @@ class DatabaseFunctions {
         $users = array();
         $searchWords = explode(" ", $searchWords);
         $searchWords = array_unique($searchWords);
+        $searchQuery = "SELECT * FROM `users` WHERE active=1 AND ";
 
         switch ($searchType) {
             case "name":
-                $searchQuery = "SELECT * FROM `users` WHERE active=1 AND";
                 foreach ($searchWords as $searchWord) {
                     if ($searchWord == end($searchWords)) {
                         $searchQuery .= "((first_name LIKE '%" . addslashes($searchWord) . "%') OR (last_name LIKE '%" . addslashes($searchWord) . "%')) ORDER BY `first_name` ASC";
                     }
                     else {
                         $searchQuery .= "((first_name LIKE '%" . addslashes($searchWord) . "%') OR (last_name LIKE '%" . addslashes($searchWord) . "%')) AND";
+                    }
+                }
+                break;
+            case "email":
+                foreach ($searchWords as $searchWord) {
+                    if ($searchWord == end($searchWords)) {
+                        $searchQuery .= "email LIKE '%" . addslashes($searchWord) . "%' ORDER BY `email` ASC";
+                    }
+                    else {
+                        $searchQuery .= "email LIKE '%" . addslashes($searchWord) . "%' AND";
+                    }
+                }
+                break;
+            case "phone":
+                foreach ($searchWords as $searchWord) {
+                    if ($searchWord == end($searchWords)) {
+                        $searchQuery .= "phone LIKE '%" . addslashes($searchWord) . "%'";
+                    }
+                    else {
+                        $searchQuery .= "phone LIKE '%" . addslashes($searchWord) . "%' AND";
                     }
                 }
                 break;
