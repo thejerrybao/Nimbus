@@ -38,10 +38,50 @@ class DatabaseFunctions {
     // destruct to destroy conection to database at end
     public function __destruct() { $this->db = null; }
 
+    public function searchUsers($searchWords, $searchType) {
+
+        $users = array();
+        $searchWords = explode(" ", $searchWords);
+        $searchWords = array_unique($searchWords);
+
+        switch ($searchType) {
+            case "name":
+                $searchQuery = "SELECT * FROM `users` WHERE active=1 AND";
+                foreach ($searchWords as $searchWord) {
+                    if ($searchWord == end($searchWords)) {
+                        $searchQuery .= "((first_name LIKE '%" . addslashes($searchWord) . "%') OR (last_name LIKE '%" . addslashes($searchWord) . "%')) ORDER BY `first_name` ASC";
+                    }
+                    else {
+                        $searchQuery .= "((first_name LIKE '%" . addslashes($searchWord) . "%') OR (last_name LIKE '%" . addslashes($searchWord) . "%')) AND";
+                    }
+                }
+                break;
+        }
+
+        $query = $this->db->prepare($searchQuery);
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute();
+
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+
+            $users[] = array(
+                "user_id" => $row->user_id,
+                "first_name" => $row->first_name,
+                "last_name" => $row->last_name,
+                "email" => $row->email,
+                "phone" => $row->phone,
+                "email_confirmed" => $row->email_confirmed,
+                "dues_paid" => $row->dues_paid);
+        }
+
+        return $users;
+    }
+
     // get member information
     public function getMembers($type = "all", $ordering = "first_name") {
 
-        $members = array();
+        $users = array();
         switch ($type) {
             case "dues_paid":
                 $query = $this->db->prepare('SELECT * FROM `users`
@@ -84,7 +124,7 @@ class DatabaseFunctions {
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
 
-            $members[] = array(
+            $users[] = array(
                 "user_id" => $row->user_id,
                 "first_name" => $row->first_name,
                 "last_name" => $row->last_name,
@@ -94,7 +134,7 @@ class DatabaseFunctions {
                 "dues_paid" => $row->dues_paid);
         }
 
-        return $members;
+        return $users;
     }
 
     public function getTags($tag_type = "mrf", $active = 1) {

@@ -518,7 +518,11 @@ $db = new DatabaseFunctions;
             <? case "calendar": ?>
             <? break; ?>
             <? default: ?>
-                <h1>No view was selected.</h1>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>No view was selected.</h1>
+                    </div>
+                </div>
             <? endswitch; ?>
         </div>
         <!-- /#page-wrapper -->
@@ -538,7 +542,7 @@ $db = new DatabaseFunctions;
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 
-    <!-- JS File for events.php -->
+    <!-- events.php JS -->
     <script src="js/events.js"></script>
 </body>
 </html>

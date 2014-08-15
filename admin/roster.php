@@ -114,34 +114,42 @@ $db = new DatabaseFunctions;
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
+                        <form id="search-users-form">
+                            <input type="text" name="search_words" class="form-control" id="search-words" style="width: 40%; display: inline;" />
+                            <select name="search_category" class="form-control" id="search-category" style="width: 20%; display: inline;">
+                                <option value="name" selected>Search By Name</option>
+                                <option value="email">Search By Email</option>
+                                <option value="phone">Search By Phone</option>
+                            </select>
+                        </form>
                         <div class="table-responsive">
-                        <? $activeMembers = $db->getMembers("active"); ?>
-                        <? if ($activeMembers) { ?>
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th id="member-name">Name</th>
-                                    <th id="member-email">E-mail</th>
-                                    <th id="member-phone">Phone</th>
-                                    <th id="member-dues-paid">Dues Paid?</th>
-                                    <th id="member-email-confirmed">Email Confirmed?</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            <? foreach ($activeMembers as $member) { ?>
-                                <? $member["dues_paid"] = $member["dues_paid"] ? "Yes" : "No"; ?>
-                                <? $member["email_confirmed"] = $member["email_confirmed"] ? "Yes" : "No"; ?>
-                                <tr><td><a href="roster.php?view=member&id=<?= $member["user_id"] ?>"><?= $member["first_name"] ?> <?= $member["last_name"] ?></a></td>
-                                <td><?= $member["email"] ?></td>
-                                <td><?= $member["phone"] ?></td>
-                                <td><?= $member["dues_paid"] ?></td>
-                                <td><?= $member["email_confirmed"] ?></td>
+                            <? $activeMembers = $db->getMembers("active"); ?>
+                            <? if ($activeMembers) { ?>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th id="member-name">Name</th>
+                                        <th id="member-email">E-mail</th>
+                                        <th id="member-phone">Phone</th>
+                                        <th id="member-dues-paid">Dues Paid?</th>
+                                        <th id="member-email-confirmed">Email Confirmed?</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="search-users-result">
+                                    <? foreach ($activeMembers as $member) { ?>
+                                        <? $member["dues_paid"] = $member["dues_paid"] ? "Yes" : "No"; ?>
+                                        <? $member["email_confirmed"] = $member["email_confirmed"] ? "Yes" : "No"; ?>
+                                        <tr><td><a href="roster.php?view=member&id=<?= $member["user_id"] ?>"><?= $member["first_name"] ?> <?= $member["last_name"] ?></a></td>
+                                        <td><?= $member["email"] ?></td>
+                                        <td><?= $member["phone"] ?></td>
+                                        <td><?= $member["dues_paid"] ?></td>
+                                        <td><?= $member["email_confirmed"] ?></td>
+                                    <? } ?>
+                                </tbody>
+                            </table>
+                            <? } else { ?>
+                                <h2>No active memebrs found.</h2>
                             <? } ?>
-                            </tbody>
-                        </table>
-                        <? } else { ?>
-                        <h2>No active memebrs found.</h2>
-                        <? } ?>
                         </div>
                     </div>
                 </div>
@@ -402,6 +410,12 @@ $db = new DatabaseFunctions;
                 </div>
                 <? } ?>
             <? break; ?>
+            <? default: ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>No view was selected.</h1>
+                    </div>
+                </div>
             <? endswitch; ?>
         </div>
         <!-- /#page-wrapper -->
@@ -421,6 +435,8 @@ $db = new DatabaseFunctions;
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 
+    <!-- roster.php JS -->
+    <script src="js/roster.js"></script>
 </body>
 </html>
 ?>
