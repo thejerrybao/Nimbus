@@ -161,7 +161,7 @@ $db = new DatabaseFunctions;
                         <form action="events.php" method="get" enctype="multipart/form-data">
                             <div class="form-group">
                                 <input type="hidden" name="view" value="list">
-                                <select name="month" class="form-control" style="width: 150px; display: inline;">
+                                <select name="month" class="form-control" style="width: 20%; display: inline;">
                                     <? for ($i = 1; $i <= 12; $i++) { ?>
                                         <? if ($_GET["month"] == $i) { ?>
                                             <option value="<?= $i ?>" selected><?= $months[$i] ?></option>
@@ -170,7 +170,7 @@ $db = new DatabaseFunctions;
                                         <? } ?> 
                                     <? } ?>
                                 </select>
-                                <select name="year" class="form-control" style="width: 100px; display: inline;">
+                                <select name="year" class="form-control" style="width: 10%; display: inline;">
                                     <? for ($i = idate("Y"); $i >= 2006; $i--) { ?>
                                         <? if ($_GET["year"] == $i) { ?>
                                             <option value="<?= $i ?>" selected><?= $i ?></option>

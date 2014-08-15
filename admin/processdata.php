@@ -140,6 +140,8 @@ switch ($_POST["form_submit_type"]) {
             exit;
         } else { echo "Failed to delete a committee member."; }
         break;
+    case "set_board_members":
+        break;
     default:
         echo "No Form Submit Type Passed.";
 }

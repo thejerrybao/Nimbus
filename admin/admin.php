@@ -38,6 +38,9 @@ $db = new DatabaseFunctions;
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <!-- admin.php CSS -->
+    <link href="css/admin.css" rel="stylesheet" type="text/css">
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -64,11 +67,45 @@ $db = new DatabaseFunctions;
                         <h1 class="page-header">Manage Board Members</h1>
                     </div>
                 </div>
-            <? break; ?>
-            <? case "memberlist": ?>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Manage Member Information</h1>
+                        <div class="panel panel-primary">
+                        <? $activeMembers = $db->getMembers("active"); ?>
+                            <div class="panel-heading">Set Board Members Access</div>
+                            <div class="panel-body">
+                                <h4>Select members below to give board member access to.</h4>
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="set_board_members">
+                                    <div class="form-group">
+                                    <? if ($activeMembers) { ?>
+                                        <? $i = 0; ?>
+                                        <table>
+                                        <? foreach ($activeMembers as $activeMember) {  ?>
+                                            <? if ($i % 4 == 0) { ?>
+                                                <tr>
+                                            <? } ?>
+                                            <td class="checkbox-series-name"><?= $activeMember["first_name"] ?> <?= $activeMember["last_name"] ?></td>
+                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="non_active_members[]" value="<?= $activeMember["user_id"] ?>" class="checkbox_series"></td>
+                                            <? if ($i % 4 == 3) { ?>
+                                            </tr>
+                                            <? }
+                                            $i++; ?>
+                                        <? } ?>
+                                        </table>
+                                        <select name="access" class="form-control" style="margin-top: 10px; width: 20%; display: inline;">
+                                            <option value="1">Board Member</option>
+                                            <option value="2">MRP Chair</option>
+                                            <option value="3">Secretary</option>
+                                            <option value="4">Technology Chair/Administrator</option>
+                                        </select> 
+                                        <button type="submit" class="btn btn-primary" style="display: inline;">Set Access</button>
+                                    <? } else { ?>
+                                        <h2>No active members exist.</h2>
+                                    <? } ?>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             <? break; ?>
@@ -96,6 +133,9 @@ $db = new DatabaseFunctions;
 
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
+
+    <!-- admin.php JS -->
+    <script src="js/admin.js"></script>
 
 </body>
 </html>

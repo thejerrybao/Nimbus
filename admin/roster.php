@@ -114,7 +114,7 @@ $db = new DatabaseFunctions;
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <form id="search-users-form">
+                        <form id="search-roster-form">
                             <input type="text" name="search_words" class="form-control" id="search-words" style="width: 40%; display: inline;" />
                             <select name="search_category" class="form-control" id="search-category" style="width: 20%; display: inline;">
                                 <option value="name" selected>Search By Name</option>
@@ -135,7 +135,7 @@ $db = new DatabaseFunctions;
                                         <th id="member-email-confirmed">Email Confirmed?</th>
                                     </tr>
                                 </thead>
-                                <tbody id="search-users-result">
+                                <tbody id="search-roster-result">
                                     <? foreach ($activeMembers as $member) { ?>
                                         <? $member["dues_paid"] = $member["dues_paid"] ? "Yes" : "No"; ?>
                                         <? $member["email_confirmed"] = $member["email_confirmed"] ? "Yes" : "No"; ?>
@@ -236,7 +236,7 @@ $db = new DatabaseFunctions;
                         <form action="roster.php" method="get" enctype="multipart/form-data">
                             <div class="form-group">
                                 <input type="hidden" name="view" value="dues">
-                                <select name="action" class="form-control" style="width: 250px; display: inline;">
+                                <select name="action" class="form-control" style="width: 20%; display: inline;">
                                     <option value="set" <? if ($_GET["action"] == "set") { ?> selected <? } ?>>Set Dues Paid Members</option>
                                     <option value="unset" <? if ($_GET["action"] == "unset") { ?> selected <? } ?>>Unset Dues Paid Members</option>
                                 </select>
@@ -330,7 +330,7 @@ $db = new DatabaseFunctions;
                         <form action="roster.php" method="get" enctype="multipart/form-data">
                             <div class="form-group">
                                 <input type="hidden" name="view" value="status">
-                                <select name="action" class="form-control" style="width: 250px; display: inline;">
+                                <select name="action" class="form-control" style="width: 20%; display: inline;">
                                     <option value="activate" <? if ($_GET["action"] == "activate") { ?> selected <? } ?>>Activate Members</option>
                                     <option value="deactivate" <? if ($_GET["action"] == "deactivate") { ?> selected <? } ?>>Deactivate Members</option>
                                 </select>
@@ -343,22 +343,22 @@ $db = new DatabaseFunctions;
                     <div class="col-lg-12">
                         <div class="panel panel-primary">
                         <? if ($_GET["action"] == "activate") { 
-                            $activeMembers = $db->getMembers("non_active"); ?>
+                            $nonActiveMembers = $db->getMembers("non_active"); ?>
                             <div class="panel-heading">Activate Members</div>
                             <div class="panel-body">
                                 <h4>Select members below to activate.</h4>
                                 <form action="processdata.php" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="form_submit_type" value="activate_members">
                                     <div class="form-group">
-                                    <? if ($activeMembers) { ?>
+                                    <? if ($nonActiveMembers) { ?>
                                         <? $i = 0; ?>
                                         <table>
-                                        <? foreach ($activeMembers as $activeMember) {  ?>
+                                        <? foreach ($nonActiveMembers as $nonActiveMember) {  ?>
                                             <? if ($i % 4 == 0) { ?>
                                                 <tr>
                                             <? } ?>
-                                            <td class="checkbox-series-name"><?= $activeMember["first_name"] ?> <?= $activeMember["last_name"] ?></td>
-                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="non_active_members[]" value="<?= $activeMember["user_id"] ?>" class="checkbox_series"></td>
+                                            <td class="checkbox-series-name"><?= $nonActiveMember["first_name"] ?> <?= $nonActiveMember["last_name"] ?></td>
+                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="non_active_members[]" value="<?= $nonActiveMember["user_id"] ?>" class="checkbox_series"></td>
                                             <? if ($i % 4 == 3) { ?>
                                             </tr>
                                             <? }
@@ -373,22 +373,22 @@ $db = new DatabaseFunctions;
                                 </form>
                             </div>
                         <? } else if ($_GET["action"] == "deactivate") {
-                            $nonActiveMembers = $db->getMembers("active"); ?>
+                            $activeMembers = $db->getMembers("active"); ?>
                             <div class="panel-heading">Deactivate Members</div>
                             <div class="panel-body">
                                 <h4>Select members below to deactivate.</h4>
                                 <form action="processdata.php" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="form_submit_type" value="deactivate_members">
                                     <div class="form-group">    
-                                    <? if ($nonActiveMembers) { ?>
+                                    <? if ($activeMembers) { ?>
                                         <? $i = 0; ?>
                                         <table>
-                                        <? foreach ($nonActiveMembers as $nonActiveMember) { ?>
+                                        <? foreach ($activeMembers as $activeMember) { ?>
                                             <? if ($i % 4 == 0) { ?>
                                                 <tr>
                                             <? } ?>
-                                            <td class="checkbox-series-name"><?= $nonActiveMember["first_name"] ?> <?= $nonActiveMember["last_name"] ?></td>
-                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="active_members[]" value="<?= $nonActiveMember["user_id"] ?>"></td>
+                                            <td class="checkbox-series-name"><?= $activeMember["first_name"] ?> <?= $activeMember["last_name"] ?></td>
+                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="active_members[]" value="<?= $activeMember["user_id"] ?>"></td>
                                             <? if ($i % 4 == 3) { ?>
                                             </tr>
                                             <? }

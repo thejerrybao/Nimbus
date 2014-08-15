@@ -114,8 +114,7 @@ $valid_roster_manage_views = ["list", "dues", "member", "status"]
                 <li <? if ($page == "admin") { ?> class="active" <? } ?>>
                     <a href="#">Administrative Tasks<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a <? if ($page == "committees" && $_GET["view"] == "access") { ?> class="active" <? } ?> href="admin.php?view=access">Manage Board Members</a></li>
-                        <li><a <? if ($page == "committees" && $_GET["view"] == "memberlist") { ?> class="active" <? } ?> href="admin.php?view=memberlist">Change Member Information</a></li>
+                        <li><a <? if ($page == "admin" && $_GET["view"] == "boardmembers") { ?> class="active" <? } ?> href="admin.php?view=boardmembers">Manage Board Members</a></li>
                     </ul>
                 </li>
             </ul>

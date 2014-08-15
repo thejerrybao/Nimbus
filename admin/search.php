@@ -14,7 +14,9 @@ require_once("dbfunc.php");
 $db = new DatabaseFunctions;
 
 switch ($_POST["search_type"]) {
-    case "users":
+    case "events":
+        break;
+    case "roster":
         $users = $db->searchUsers($_POST['search_words'], $_POST['search_category']);
 
         if ($users) {
