@@ -10,6 +10,7 @@
  ** COPYRIGHT 2014-2015 - ALL RIGHTS RESERVED
  **/
 ini_set('display_errors', 1);
+date_default_timezone_set('America/Los_Angeles');
 if (empty($_GET['month']) && empty($_GET['year']) && $_GET['view'] == "list") {
     $location = 'Location: events.php?view=list&month=' . idate('m') . '&year=' . date('Y');
     header($location); 
@@ -98,11 +99,11 @@ $userdb = new UserFunctions;
                                     </div>
                                     <div class="form-group">
                                         <label>Start Date and Time</label>
-                                        <input type="datetime-local" name="start_datetime" class="form-control" required>
+                                        <input type="datetime-local" name="start_datetime" id="start-datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", time()); ?>" required>
                                     </div>
                                     <div class="form-group">
                                         <label>End Date and Time</label>
-                                        <input type="datetime-local" name="end_datetime" class="form-control" required>
+                                        <input type="datetime-local" name="end_datetime" id="end-datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", strtotime('+3 hours')); ?>" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Description</label>
@@ -132,7 +133,7 @@ $userdb = new UserFunctions;
                                     </div>
                                     <div class="form-group">
                                         <label>Online Sign-up End Date</label>
-                                        <input type="datetime-local" name="online_end_datetime" class="form-control" required>
+                                        <input type="datetime-local" name="online_end_datetime" id="online-end-datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", strtotime('-1 day')); ?>" required>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Create Event</button>
                                     <button type="reset" class="btn btn-primary">Reset Fields</button>
@@ -526,6 +527,7 @@ $userdb = new UserFunctions;
                     </div>
                 </div>
             <? endswitch; ?>
+            </div>
         </div>
         <!-- /#page-wrapper -->
 
@@ -544,8 +546,12 @@ $userdb = new UserFunctions;
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 
+    <!-- Open Source datejs File -->
+    <script src="js/date.js"></script>
+
     <!-- events.php JS -->
     <script src="js/events.js"></script>
+
 </body>
 </html>
 ?>

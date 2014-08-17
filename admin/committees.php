@@ -209,6 +209,7 @@ $userdb = new UserFunctions;
                     </div>
                 </div>
             <? endswitch; ?>
+            </div>
         </div>
         <!-- /#page-wrapper -->
 
