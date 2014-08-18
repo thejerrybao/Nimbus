@@ -323,8 +323,6 @@ class UserFunctions extends Database {
     // edit email
     public function setEmail($user_id, $email) {
 
-        $oldEmail = $this->getUserInfo($user_id);
-
         $query = $this->db->prepare('UPDATE users
             SET email=:email
             WHERE user_id=:user_id');
@@ -335,23 +333,21 @@ class UserFunctions extends Database {
     }
 
     // edit user access
-    public function setUserAccess($user_id, $access) {
+    public function setUserAccess($user_ids, $access) {
 
-        $userInfo = $this->getUserInfo($user_id);
-
-        $query = $this->db->prepare('UPDATE users
-            SET access=:access
-            WHERE user_id=:user_id');
-        if ($query->execute(array(
-            ':user_id' => $user_id,
-            ':access' => $access))) { return true; }
-        else { return false; }
+        foreach ($user_ids as $user_id) {
+            $query = $this->db->prepare('UPDATE users
+                SET access=:access
+                WHERE user_id=:user_id');
+            if (!$query->execute(array(
+                ':user_id' => $user_id,
+                ':access' => $access))) { return false; }
+        }
+        return true;
     }
 
     // edit first/last name 
     public function setName($user_id, $first_name, $last_name) {
-
-        $oldName = $this->getUserInfo($user_id);
 
         $query = $this->db->prepare('UPDATE users
             SET first_name=:first_name, last_name=:last_name
@@ -377,8 +373,6 @@ class UserFunctions extends Database {
 
     // edit phone number
     public function setPhone($user_id, $phone) {
-
-        $oldPhone = $this->getUserInfo($user_id);
 
         $query = $this->db->prepare('UPDATE users
             SET phone=:phone
@@ -451,7 +445,13 @@ class EventFunctions extends Database {
 
     public function addEventAttendee($event_id, $user_id) {
 
+        $query = $this->db->prepare('INSERT INTO `event_attendees`
+            VALUES ("", :event_id, :user_id)');
 
+        if ($query->execute(array(
+            ':event_id' => $event_id,
+            ':user_id' => $user_id))) { return true; }
+        else { return false; }
     }
 
     // add override hours for users
@@ -510,6 +510,13 @@ class EventFunctions extends Database {
 
     public function deleteEventAttendee($event_id, $user_id) {
 
+        $query = $this->db->prepare('DELETE FROM `event_attendees`
+            WHERE event_id=:event_id AND user_id=:user_id)');
+
+        if ($query->execute(array(
+            ':event_id' => $event_id,
+            ':user_id' => $user_id))) { return true; }
+        else { return false; }
     }
 
     // delete users override hours
@@ -957,18 +964,15 @@ class CommitteeFunctions extends Database {
     // delete a committee
     public function deleteCommittee($committee_id) {
 
-        $query = $this->db->prepare('SELECT * FROM `committee_members`
-            WHERE committee_id=:committee_id LIMIT 1');
-        $query->setFetchMode(PDO::FETCH_OBJ);
-        $query->execute(array(
-            ':committee_id' => $committee_id));
-
-        if ($query->rowCount() == 0) {
+        $query = $this->db->prepare('DELETE FROM `committee_members`
+            WHERE committee_id=:committee_id');
+        if ($query->execute(array(
+            ':committee_id' => $committee_id))) {
             $query = $this->db->prepare('DELETE FROM `committees`
-                WHERE :committee_id = $committee_id');
+                WHERE committee_id=:committee_id');
             if ($query->execute(array(
-                ':committee_id' => $committee_id))) { return true;
-            } else { return false; }
+                ':committee_id' => $committee_id))) { return true; }
+            else { return false; }
         } else { return false; }
     }
 
