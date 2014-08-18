@@ -91,25 +91,18 @@ session_start();
                         <li><a <? if ($page == "committees" && $_GET['view'] == "list") { ?> class="active" <? } ?> href="committees.php?view=list">Manage Committees</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="#"><i class="fa fa-certificate fa-fw"></i> MRP Management<span class="fa arrow"></span></a>
+                <li <? if ($page == "tags") { ?> class="active" <? } ?>>
+                    <a href="#"><i class="fa fa-certificate fa-fw"></i> Tag Management<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
+                        <li><a href="tags.php?view=add">Add Tag</a></li>
+                        <li><a href="tags.php?view=list">Manage Tags</a></li>
                         <li>
-                            <a href="#">MRP Tags<span class="fa arrow"></span></a>
+                            <a href="#">MRP<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-                                <li><a href="mrp.php">Add Tag</a></li>
-                                <li><a href="mrp.php">Delete/Deactivate Tags</a></li>
+                                <li><a <? if ($page=="tags" && $_GET['view'] == "MRPADD") { ?> class="active" <? } ?> href="tags.php?view=add">Add Level</a></li>
+                                <li><a <? if ($page=="tags" && $_GET['view'] == "MRPLIST") { ?> class="active" <? } ?> href="tags.php">Manage Levels</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="#">MRP Levels<span class="fa arrow"></span></a>
-                            <ul class="nav nav-third-level">
-                                <li><a href="mrp.php">Add Level</a></li>
-                                <li><a href="mrp.php">Delete/Deactivate Levels</a></li>
-                                <li><a href="mrp.php">Manage Levels</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Manage MRP Requirements</a></li>
                     </ul>
                 </li>
                 <li <? if ($page == "admin") { ?> class="active" <? } ?>>
