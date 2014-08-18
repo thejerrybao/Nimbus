@@ -80,7 +80,8 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Create Event</h1>
                     </div>
                 </div>
-                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><?= $_POST['errormsg'] ?></div><? } ?>
+                <? if (isset($_POST['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_POST['successmsg'] ?></div><? } ?>
+                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_POST['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
@@ -163,7 +164,8 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Events List</h1>
                     </div>
                 </div>
-                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><?= $_POST['errormsg'] ?></div><? } ?>
+                <? if (isset($_POST['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_POST['successmsg'] ?></div><? } ?>
+                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_POST['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <form action="events.php" method="get" enctype="multipart/form-data">
@@ -390,7 +392,8 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Edit Event</h1>
                     </div>
                 </div>
-                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><?= $_POST['errormsg'] ?></div><? } ?>
+                <? if (isset($_POST['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_POST['successmsg'] ?></div><? } ?>
+                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_POST['errormsg'] ?></div><? } ?>
                 <? if (empty($_GET['id'])) { ?>
                     <h2>No event ID specified.</h1>
                 <? } else { 
