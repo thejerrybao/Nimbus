@@ -96,7 +96,7 @@ session_start();
                     <ul class="nav nav-second-level">
                         <li><a <? if ($page == "tags" && $_GET['view'] == "add") { ?> class="active" <? } ?> href="tags.php?view=add">Add Tag</a></li>
                         <li><a <? if ($page == "tags" && $_GET['view'] == "list") { ?> class="active" <? } ?> href="tags.php?view=list">Manage Tags</a></li>
-                        <li>
+                        <li <? if ($page == "MRP") { ?> class="active" <? } ?>>
                             <a href="#">MRP<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                                 <li><a <? if ($page=="tags" && $_GET['view'] == "mrpadd") { ?> class="active" <? } ?> href="tags.php?view=add">Add Level</a></li>
