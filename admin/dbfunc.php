@@ -551,7 +551,7 @@ class EventFunctions extends Database {
         
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
-            $userInfo = $this->getUserInfo($row->user_id);
+            $userInfo = (new UserFunctions)->getUserInfo($row->user_id);
             $eventAttendees[] = array(
                 'first_name' => $userInfo['first_name'],
                 'last_name' => $userInfo['last_name'],
@@ -625,7 +625,7 @@ class EventFunctions extends Database {
         $dateEnd = strtotime('+1 day', $date);
 
         $query = $this->db->prepare('SELECT * FROM `events`
-            WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND end_datetime <= FROM_UNIXTIME(:dateEnd)' );
+            WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND start_datetime < FROM_UNIXTIME(:dateEnd)' );
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':dateBegin' => $dateBegin,
@@ -658,7 +658,7 @@ class EventFunctions extends Database {
         $dateEnd = strtotime('+1 month', $month);
 
         $query = $this->db->prepare('SELECT * FROM `events`
-            WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND end_datetime <= FROM_UNIXTIME(:dateEnd)' );
+            WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND start_datetime < FROM_UNIXTIME(:dateEnd)' );
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':dateBegin' => $dateBegin,
@@ -1006,7 +1006,7 @@ class CommitteeFunctions extends Database {
 
         $query = $this->db->prepare('SELECT * FROM `committees`');
         $query->setFetchMode(PDO::FETCH_OBJ);
-        $query->execute()
+        $query->execute();
 
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
