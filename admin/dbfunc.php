@@ -517,6 +517,33 @@ class EventFunctions extends Database {
         }
     }
 
+    public function getConfirmedEvents() {
+
+        $events = array();
+
+        $query = $this->db->prepare('SELECT * FROM `events`
+            WHERE status=2');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute();
+
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+
+            $events[] = array(
+                'event_id' => $row->event_id,
+                'name' => $row->name,
+                'chair_id' => $row->chair_id,
+                'start_datetime' => strtotime($row->start_datetime),
+                'end_datetime' => strtotime($row->end_datetime),
+                'meeting_location' => $row->meeting_location,
+                'location' => $row->location,
+                'num_attendees' => $row->num_attendees,
+                'status' => $row->status);
+        }
+
+        return $events;
+    }
+
     // get event attendees
     public function getEventAttendees($event_id) {
 
@@ -737,22 +764,16 @@ class EventFunctions extends Database {
         $eventInfo = $this->getEventInfo($event_id);
         switch ($status) {
             case 1:
-                if ($eventInfo['status'] != 0) {
-                    return "This event is not a Pre-Event. Cannot change to Post-Event.";
-                }
+                if ($eventInfo['status'] != 0) { return false; }
                 break;
             case 2:
-                if ($eventInfo['status'] != 1) {
-                    return "This event is not a Post-Event. Cannot change to Completed.";
-                }
+                if ($eventInfo['status'] != 1) { return false; }
                 break;
             case 3:
-                if ($eventInfo['status'] != 2) {
-                    return "This event is not Completed. Cannot change to Verified.";
-                }
+                if ($eventInfo['status'] != 2) { return false; }
                 break;
             default:
-                return "No status given to change to.";
+                return false;
         }
         $query = $this->db->prepare('UPDATE events
             SET status=:status
@@ -760,7 +781,7 @@ class EventFunctions extends Database {
         if ($query->execute(array(
             ':event_id' => $event_id,
             ':status' => $status))) {
-                return "Event status successfully changed.";
+                return true;
         } else { return false; }
     }
 

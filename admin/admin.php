@@ -14,6 +14,7 @@ session_start();
 if (!isset($_SESSION['cki_rf_user_id'])) { header('Location: ../login.php'); }
 else if ($_SESSION['cki_rf_access'] == 0) { echo "You don't have access to this page."; exit; }
 require_once("dbfunc.php");
+$eventdb = new EventFunctions;
 $userdb = new UserFunctions;
 ?>
 
@@ -110,6 +111,68 @@ $userdb = new UserFunctions;
                                 </form>
                             </div>
                         </div>
+                    </div>
+                </div>
+            <? break; ?>
+            <? case "verify": ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Verify Events</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                        <? $events = $eventdb->getConfirmedEvents(); ?>
+                        <? if ($events) { ?>
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th id="event-name">Name</th>
+                                    <th id="event-chair">Chair</th>
+                                    <th id="event-status">Status</th>
+                                    <th id="event-start-datetime">Start Date</th>
+                                    <th id="event-end-datetime">End Date</th>
+                                    <th id="event-verify">Verify Event?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <? foreach ($events as $event) {
+                                $chair = $userdb->getUserInfo($event['chair_id']);
+                                switch ($event['status']) {
+                                    case 0:
+                                        $status = "Pre-Event";
+                                        break;
+                                    case 1:
+                                        $status = "Post-Event";
+                                        break;
+                                    case 2:
+                                        $status = "Confirmed";
+                                        break;
+                                    case 3:
+                                        $status = "Verified";
+                                        break;
+                                    default:
+                                        $status = "Incorrect Status Number";
+                                } ?>
+                                <tr><td><a href="events.php?view=event&id=<?= $event['event_id'] ?>"><?= $event['name'] ?></a></td>
+                                <td><?= $chair['first_name'] ?> <?= $chair['last_name'] ?></td>
+                                <td><?= $status ?></td>
+                                <td><?= date("F j, Y, g:i a", $event['start_datetime']) ?></td>
+                                <td><?= date("F j, Y, g:i a", $event['end_datetime']) ?></td>
+                                <td>
+                                    <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="form_submit_type" value="verify_event">
+                                        <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
+                                        <button type="submit" class="btn btn-primary btn-xs">Verify Event</button>
+                                    </form>
+                                </td></tr>
+                            <? } ?>
+                            </tbody>
+                        </table>
+                        <? } else { ?>
+                            <h2>No confirmed events found.</h2>
+                        <? } ?>
                     </div>
                 </div>
             <? break; ?>

@@ -84,6 +84,20 @@ switch ($_POST['form_submit_type']) {
             exit;
         } else { echo "Event failed to delete. Try again."; }
         break;
+    case "confirm_event":
+        if ($eventdb->setEventStatus($_POST['event_id'], 2)) {
+            $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
+            header($location);
+            exit;
+        } else { echo "Event failed to verify. Try again."; }
+        break;
+    case "verify_event";
+        if ($eventdb->setEventStatus($_POST['event_id'], 3)) {
+            $location = 'Location: admin.php?view=verify';
+            header($location);
+            exit;
+        } else { echo "Event failed to verify. Try again."; }
+        break;
     case "add_user":
         if (!isset($_POST['username'])) {
             $_POST['username'] = $_POST['password'] = $_POST['phone'] = "";
