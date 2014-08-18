@@ -99,8 +99,8 @@ session_start();
                         <li>
                             <a href="#">MRP<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-                                <li><a <? if ($page=="tags" && $_GET['view'] == "MRPADD") { ?> class="active" <? } ?> href="tags.php?view=add">Add Level</a></li>
-                                <li><a <? if ($page=="tags" && $_GET['view'] == "MRPLIST") { ?> class="active" <? } ?> href="tags.php">Manage Levels</a></li>
+                                <li><a <? if ($page=="tags" && $_GET['view'] == "mrpadd") { ?> class="active" <? } ?> href="tags.php?view=add">Add Level</a></li>
+                                <li><a <? if ($page=="tags" && $_GET['view'] == "mrplist") { ?> class="active" <? } ?> href="tags.php">Manage Levels</a></li>
                             </ul>
                         </li>
                     </ul>
