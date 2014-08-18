@@ -38,12 +38,20 @@ switch ($_POST['form_submit_type']) {
             "meeting_location" => $_POST['meeting_location'],
             "online_signups" => $_POST['online_signups'],
             "online_end_datetime" => strtotime($_POST['online_end_datetime']));
-        if ($eventdb->createEvent($eventData, $_POST['tag_ids'])) {
-            $message = "Event " . $eventData['name'] . " successfully created!";
+        if ($eventData['start_datetime'] > $eventData['end_datetime']) {
+            $message = "ERROR: Start Date and Time cannot be after End Date and Time!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: events.php?view=create';
+        } else if ($event['online_end_datetime'] > $event['start_datetime'] && $event['online_signups']) {
+            $message = "ERROR: Online End Date Time cannot be after Start Date Time!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: events.php?view=create';
+        } else if ($eventdb->createEvent($eventData, $_POST['tag_ids'])) {
+            $message = "SUCCESS: Event \"" . $eventData['name'] . "\" successfully created!";
             setcookie("successmsg", $message, time()+3);
             $location = 'Location: events.php?view=list&month=' . idate('m') . '&year=' . date('Y');
         } else {
-            $message = "Event could not be successfully created!";
+            $message = "DATABASE ERROR: Event could not be created!";
             setcookie("errormsg", $message, time()+3);
             $location = 'Location: events.php?view=create';
         }
@@ -77,18 +85,36 @@ switch ($_POST['form_submit_type']) {
             "service_hours" => $_POST['service_hours'],
             "admin_hours" => $_POST['admin_hours'],
             "social_hours" => $_POST['social_hours']);
-        if ($eventdb->editEvent($_POST['event_id'], $eventData, $_POST['tag_ids'])) { 
+        if ($eventData['start_datetime'] > $eventData['end_datetime']) {
+            $message = "ERROR: Start Date and Time cannot be after End Date and Time!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: events.php?view=edit&id=' . $_POST['event_id'];
+        } else if ($event['online_end_datetime'] > $event['start_datetime'] && $event['online_signups']) {
+            $message = "ERROR: Online End Date Time cannot be after Start Date Time!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: events.php?view=edit&id=' . $_POST['event_id'];
+        } else if ($eventdb->editEvent($_POST['event_id'], $eventData, $_POST['tag_ids'])) {
+            $message = "SUCCESS: Event \"" . $eventData['name'] . "\" successfully created!";
+            setcookie("successmsg", $message, time()+3);
             $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
-            header($location);
-            exit;
-        } else { echo "Event failed to edit. Try again."; }
+        } else {
+            $message = "DATABASE ERROR: Event could not be created!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: events.php?view=edit&id=' . $_POST['event_id'];
+        }
         break;
     case "delete_event":
         if ($eventdb->deleteEvent($_POST['event_id'])) {
+            $message = "Event successfully deleted!";
+            setcookie("successmsg", $message, time()+3);
             $location = 'Location: events.php?view=list';
-            header($location);
-            exit;
-        } else { echo "Event failed to delete. Try again."; }
+        } else { 
+            $message = "Event could not be deleted!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
+        }
+        header($location);
+        exit;
         break;
     case "confirm_event":
         if ($eventdb->setEventStatus($_POST['event_id'], 2)) {

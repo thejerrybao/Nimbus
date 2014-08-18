@@ -449,6 +449,11 @@ class UserFunctions extends Database {
 
 class EventFunctions extends Database {
 
+    public function addEventAttendee($event_id, $user_id) {
+
+
+    }
+
     // add override hours for users
     public function addOverrideHours($event_id, $user_id ,$userHours) {
 
@@ -489,7 +494,11 @@ class EventFunctions extends Database {
 
         $eventInfo = $this->getEventInfo($event_id);
         if ($eventInfo['status'] < 2) {
-            if ($this->setEventTags($event_id, array())) {
+            $this->setEventTags($event_id, array());
+            $query = $this->db->prepare('DELETE FROM `event_attendees`
+                WHERE event_id=:event_id');
+            if ($query->execute(array(
+                ':event_id' => $event_id))) {
                 $query = $this->db->prepare('DELETE FROM `events`
                     WHERE event_id=:event_id');
                 if ($query->execute(array(
@@ -497,6 +506,10 @@ class EventFunctions extends Database {
                 else { return false; }
             } else { return false; }
         } else { return false; }
+    }
+
+    public function deleteEventAttendee($event_id, $user_id) {
+
     }
 
     // delete users override hours
