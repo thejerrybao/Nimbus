@@ -11,6 +11,7 @@
  **/
 
 session_start();
+print_r($_SESSION);
 if (!isset($_SESSION['cki_rf_user_id'])) { header('Location: ../login.php'); }
 else if ($_SESSION['cki_rf_access'] == 0) { echo "You don't have access to this page."; exit; }
 ?>

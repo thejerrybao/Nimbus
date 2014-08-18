@@ -58,10 +58,9 @@ class UserFunctions extends Database {
     }
 
     public function logout() {
-        
+
         session_start();
-        unset($_SESSION['cki_rf_username']);   
-        unset($_SESSION['cki_rf_password']);
+        unset($_SESSION['cki_rf_user_id']);
         unset($_SESSION['cki_rf_access']);
     }
 

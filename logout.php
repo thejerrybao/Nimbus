@@ -10,4 +10,8 @@
  ** COPYRIGHT 2014-2015 - ALL RIGHTS RESERVED
  **/
 
+require_once("admin/dbfunc.php");
+$userdb = new UserFunctions;
+$userdb->logout();
+header('Location: login.php');
 ?>
