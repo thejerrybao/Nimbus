@@ -94,8 +94,8 @@ session_start();
                 <li <? if ($page == "tags") { ?> class="active" <? } ?>>
                     <a href="#"><i class="fa fa-certificate fa-fw"></i> Tag Management<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="tags.php?view=add">Add Tag</a></li>
-                        <li><a href="tags.php?view=list">Manage Tags</a></li>
+                        <li><a <? if ($page == "tags" && $_GET['view'] == "add") { ?> class="active" <? } ?> href="tags.php?view=add">Add Tag</a></li>
+                        <li><a <? if ($page == "tags" && $_GET['view'] == "list") { ?> class="active" <? } ?> href="tags.php?view=list">Manage Tags</a></li>
                         <li>
                             <a href="#">MRP<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
