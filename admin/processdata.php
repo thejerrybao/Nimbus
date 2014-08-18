@@ -38,11 +38,17 @@ switch ($_POST['form_submit_type']) {
             "meeting_location" => $_POST['meeting_location'],
             "online_signups" => $_POST['online_signups'],
             "online_end_datetime" => strtotime($_POST['online_end_datetime']));
-        if ($eventdb->createEvent($eventData, $_POST['tag_ids'])) { 
+        if ($eventdb->createEvent($eventData, $_POST['tag_ids'])) {
+            $message = "Event " . $eventData['name'] . " successfully created!";
+            setcookie("successmsg", $message, time()+3);
             $location = 'Location: events.php?view=list&month=' . idate('m') . '&year=' . date('Y');
-            header($location);
-            exit;
-        } else { echo "Event failed to create. Try again."; }
+        } else {
+            $message = "Event could not be successfully created!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: events.php?view=create';
+        }
+        header($location);
+        exit;
         break;
     case "edit_event":
         $status = $_POST['status'];

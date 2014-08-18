@@ -80,14 +80,14 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Create Event</h1>
                     </div>
                 </div>
-                <? if (isset($_POST['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_POST['successmsg'] ?></div><? } ?>
-                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_POST['errormsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
                             <div class="panel-heading">Create New Event</div>
                             <div class="panel-body">
-                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                <form action="processdata.php" method="post" enctype="multipart/form-data" id="create_event">
                                     <input type="hidden" name="form_submit_type" value="create_event">
                                     <div class="form-group">
                                         <label>Event Name</label>
@@ -164,8 +164,8 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Events List</h1>
                     </div>
                 </div>
-                <? if (isset($_POST['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_POST['successmsg'] ?></div><? } ?>
-                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_POST['errormsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <form action="events.php" method="get" enctype="multipart/form-data">
@@ -392,8 +392,8 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Edit Event</h1>
                     </div>
                 </div>
-                <? if (isset($_POST['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_POST['successmsg'] ?></div><? } ?>
-                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_POST['errormsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <? if (empty($_GET['id'])) { ?>
                     <h2>No event ID specified.</h1>
                 <? } else { 
