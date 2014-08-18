@@ -450,21 +450,18 @@ class UserFunctions extends Database {
 class EventFunctions extends Database {
 
     // add override hours for users
-    public function addOverrideHours($event_id, $overrideUsers) {
+    public function addOverrideHours($event_id, $user_id ,$userHours) {
 
-        foreach ($overrideUsers as $user) {
-            $query = $this->db->prepare('INSERT INTO `event_override_hours`
-                VALUES ("", :event_id, :user_id, :service_hours, :admin_hours, :social_hours)');
+        $query = $this->db->prepare('INSERT INTO `event_override_hours`
+            VALUES ("", :event_id, :user_id, :service_hours, :admin_hours, :social_hours)');
 
-            if ($query->execute(array(
-                ':event_id' => $event_id,
-                ':user_id' => $user['user_id'],
-                ':service_hours' => $user['service_hours'],
-                ':admin_hours' => $user['admin_hours'],
-                ':social_hours' => $user['social_hours']))) { 
-                continue; 
-            } else { return false; }
-        }
+        if ($query->execute(array(
+            ':event_id' => $event_id,
+            ':user_id' => $user_id,
+            ':service_hours' => $userHours['service_hours'],
+            ':admin_hours' => $userHours['admin_hours'],
+            ':social_hours' => $userHours['social_hours']))) { return true; }
+        else { return false; }
     }
 
     // creates an event
@@ -495,26 +492,23 @@ class EventFunctions extends Database {
             if ($this->setEventTags($event_id, array())) {
                 $query = $this->db->prepare('DELETE FROM `events`
                     WHERE event_id=:event_id');
-                if (!$query->execute(array(
-                    ':event_id' => $event_id))) { return false; }
-                else { return true; }
+                if ($query->execute(array(
+                    ':event_id' => $event_id))) { return true; }
+                else { return false; }
             } else { return false; }
         } else { return false; }
     }
 
     // delete users override hours
-    public function deleteOverrideHours($event_id, $user_ids) {
+    public function deleteOverrideHours($event_id, $user_id) {
 
-        foreach ($overrideUsers as $user) {
-            $query = $this->db->prepare('DELETE FROM `event_override_hours`
-                WHERE event_id=:event_id AND user_id=:user_id');
+        $query = $this->db->prepare('DELETE FROM `event_override_hours`
+            WHERE event_id=:event_id AND user_id=:user_id');
 
-            if ($query->execute(array(
-                ':event_id' => $event_id,
-                ':user_id' => $user_id))) { 
-                continue; 
-            } else { return false; }
-        }
+        if ($query->execute(array(
+            ':event_id' => $event_id,
+            ':user_id' => $user_id))) { return true; }
+        else { return false; }
     }
 
     public function getConfirmedEvents() {
@@ -552,18 +546,18 @@ class EventFunctions extends Database {
         $query = $this->db->prepare('SELECT * FROM `event_attendees`
             WHERE event_id=:event_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
-        if ($query->execute(array(
-            ':event_id' => $event_id))) {
-            if ($query->rowCount() == 0) { return false; }
-            while ($row = $query->fetch()) {
-                $userInfo = $this->getUserInfo($row->user_id);
-                $eventAttendees[] = array(
-                    'first_name' => $userInfo['first_name'],
-                    'last_name' => $userInfo['last_name'],
-                    'email' => $userInfo['email'],
-                    'phone' => $userInfo['phone']);
-            }
-        } else { return false; }
+        $query->execute(array(
+            ':event_id' => $event_id));
+        
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+            $userInfo = $this->getUserInfo($row->user_id);
+            $eventAttendees[] = array(
+                'first_name' => $userInfo['first_name'],
+                'last_name' => $userInfo['last_name'],
+                'email' => $userInfo['email'],
+                'phone' => $userInfo['phone']);
+        }
 
         return $eventAttendees;
     }
@@ -612,11 +606,12 @@ class EventFunctions extends Database {
         $query = $this->db->prepare('SELECT * FROM `event_tags`
             WHERE event_id=:event_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
-        if ($query->execute(array(
-            ':event_id' => $event_id))) { 
-            while ($row = $query->fetch()) { $tag_ids[] = $row->tag_id; }
-        }
-        else { return false; }
+        $query->execute(array(
+            ':event_id' => $event_id)); 
+        
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) { $tag_ids[] = $row->tag_id; }
+
         return $tag_ids;
     }
 
@@ -635,6 +630,7 @@ class EventFunctions extends Database {
         $query->execute(array(
             ':dateBegin' => $dateBegin,
             ':dateEnd' => $dateEnd));
+
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
             $events[] = array(
@@ -722,39 +718,39 @@ class EventFunctions extends Database {
         $query = $this->db->prepare('SELECT * FROM `event_tags`
             WHERE event_id=:event_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
-        if ($query->execute(array(
-            ':event_id' => $event_id))) {
-            if ($query->rowCount() == 0) {
-                foreach ($tag_ids as $tag_id) {
-                    $queryInsertAll = $this->db->prepare('INSERT INTO `event_tags`
-                        VALUES ("", :event_id, :tag_id)');
-                    if (!$queryInsertAll->execute(array(
+        $query->execute(array(
+            ':event_id' => $event_id));
+
+        if ($query->rowCount() == 0) {
+            foreach ($tag_ids as $tag_id) {
+                $queryInsertAll = $this->db->prepare('INSERT INTO `event_tags`
+                    VALUES ("", :event_id, :tag_id)');
+                if (!$queryInsertAll->execute(array(
+                    ':event_id' => $event_id,
+                    ':tag_id' => $tag_id))) { return false; }
+            }
+        } else {
+            while ($row = $query->fetch()) {
+                if (!in_array($row->tag_id, $tag_ids)) {
+                    $queryDeleteTag = $this->db->prepare('DELETE FROM `event_tags`
+                        WHERE event_id=:event_id AND tag_id=:tag_id');
+                    if (!$queryDeleteTag->execute(array(
                         ':event_id' => $event_id,
-                        ':tag_id' => $tag_id))) { return false; }
-                }
-            } else {
-                while ($row = $query->fetch()) {
-                    if (!in_array($row->tag_id, $tag_ids)) {
-                        $queryDeleteTag = $this->db->prepare('DELETE FROM `event_tags`
-                            WHERE event_id=:event_id AND tag_id=:tag_id');
-                        if (!$queryDeleteTag->execute(array(
-                            ':event_id' => $event_id,
-                            ':tag_id' => $row->tag_id))) { return false; }
-                    } else {
-                        if (($key = array_search($row->tag_id, $tag_ids)) !== false) {
-                            unset($tag_ids[$key]);
-                        }
+                        ':tag_id' => $row->tag_id))) { return false; }
+                } else {
+                    if (($key = array_search($row->tag_id, $tag_ids)) !== false) {
+                        unset($tag_ids[$key]);
                     }
                 }
-                foreach ($tag_ids as $tag_id) {
-                    $queryInsertAll = $this->db->prepare('INSERT INTO `event_tags`
-                        VALUES ("", :event_id, :tag_id)');
-                    if (!$queryInsertAll->execute(array(
-                        ':event_id' => $event_id,
-                        ':tag_id' => $tag_id))) { return false; }
-                }
             }
-        } else { return false; }
+            foreach ($tag_ids as $tag_id) {
+                $queryInsertAll = $this->db->prepare('INSERT INTO `event_tags`
+                    VALUES ("", :event_id, :tag_id)');
+                if (!$queryInsertAll->execute(array(
+                    ':event_id' => $event_id,
+                    ':tag_id' => $tag_id))) { return false; }
+            }
+        }
         return true;
     }
 
@@ -786,21 +782,19 @@ class EventFunctions extends Database {
     }
 
     // edits users override hours
-    public function setOverrideHours($event_id, $overrideUsers) {
+    public function setOverrideHours($event_id, $user_id, $userHours) {
 
-        foreach ($overrideUsers as $user) {
-            $query = $this->db->prepare('UPDATE `event_override_hours`
-                SET service_hours=:service_hours, admin_hours=:admin_hours, social_hours=:social_hours
-                WHERE user_id=:user_id');
+        $query = $this->db->prepare('UPDATE `event_override_hours`
+            SET service_hours=:service_hours, admin_hours=:admin_hours, social_hours=:social_hours
+            WHERE event_id=:event_id AND user_id=:user_id');
 
-            if ($query->execute(array(
-                ':user_id' => $user['user_id'],
-                ':service_hours' => $user['service_hours'],
-                ':admin_hours' => $user['admin_hours'],
-                ':social_hours' => $user['social_hours']))) { 
-                continue; 
-            } else { return false; }
-        }
+        if ($query->execute(array(
+            ':event_id' => $event_id,
+            ':user_id' => $user_id,
+            ':service_hours' => $userHours['service_hours'],
+            ':admin_hours' => $userHours['admin_hours'],
+            ':social_hours' => $userHours['social_hours']))) { return true; } 
+        else { return false; }
     }
 }
 
@@ -841,41 +835,38 @@ class TagFunctions extends Database {
     }
 
     // delete mrp or mrf tags; requires that no events have
-    public function deleteTag($tag_ids) {
+    public function deleteTag($tag_id) {
 
-        foreach ($tag_ids as $tag_id) {
-            $query = $this->db->prepare('SELECT * FROM `event_tags`
-                WHERE tag_id=:tag_id LIMIT 1');
-            $query->setFetchMode(PDO::FETCH_OBJ);
+        $query = $this->db->prepare('SELECT * FROM `event_tags`
+            WHERE tag_id=:tag_id LIMIT 1');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':tag_id' => $tag_id)); 
+
+        if ($query->rowCount() == 0) {
+            $query = $this->db->prepare('DELETE FROM `tags`
+                WHERE tag_id=:tag_id');
             if ($query->execute(array(
-                ':tag_id' => $tag_id))) { 
-                if ($query->rowCount() == 0) {
-                    $query = $this->db->prepare('DELETE FROM `tags`
-                        WHERE tag_id=:tag_id');
-                    if (!$query->execute(array(
-                        ':tag_id' => $tag_id))) { return false; }
-                } else { return false; }
-            }
-        }
+                ':tag_id' => $tag_id))) { return true; }
+            else { return false; }
+        } else { return false; }
     }
 
     // delete mrp level
-    public function deleteMRPlevel($level_ids) {
+    public function deleteMRPlevel($level_id) {
 
-        foreach ($level_ids as $level_id) {
-            $query = $this->db->prepare('DELETE FROM `mrp_levels`
-                WHERE level_id=:level_id');
+        $query = $this->db->prepare('DELETE FROM `mrp_levels`
+            WHERE level_id=:level_id');
 
-            if ($query->execute(array(
-                ':level_id' => $level_id))) { continue;
-            } else { return false; }
-        }
-        return true;
+        if ($query->execute(array(
+            ':level_id' => $level_id))) { return true; }
+        else { return false; }
     }
 
     public function getTag($tag_id) {
 
         $tag = array();
+
         $query = $this->db->prepare('SELECT * FROM `tags`
            WHERE tag_id=:tag_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
@@ -927,23 +918,14 @@ class TagFunctions extends Database {
     }
 
     // change whether a tag is active or deactive
-    public function setActiveTag($tag_ids, $active) {
+    public function setActiveTag($tag_id, $active) {
 
-        foreach ($tag_ids as $tag_id) {
-
-            if ($active) { 
-                $query = $this->db->prepare('UPDATE `tags`
-                    SET active = 1
-                    WHERE tag_id=:tag_id');
-            } else {
-                $query = $this->db->prepare('UPDATE `tags`
-                    SET active = 0
-                    WHERE tag_id=:tag_id');
-            }
-            if (!$query->execute(array(
-                ':tag_id' => $tag_id))) { return false; }
-        }
-        return true;
+        $query = $this->db->prepare('UPDATE `tags`
+            SET active=:active
+            WHERE tag_id=:tag_id');
+        if ($query->execute(array(
+            ':tag_id' => $tag_id))) { return true; }
+        else { return true; }
     }
 }
 
@@ -1005,15 +987,15 @@ class CommitteeFunctions extends Database {
         $query = $this->db->prepare('SELECT * FROM `committees`
             WHERE committee_id=:committee_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
-        if ($query->execute(array(
-            ':committee_id' => $committee_id))) {
-            if ($query->rowCount() == 0) { return false; }
-            $row = $query->fetch();
-            $committee = array(
-                'committee_id' => $row->committee_id,
-                'name' => $row->name,
-                'members' => $this->getCommitteeMembers($row->committee_id));
-        } else { return false; }
+        $query->execute(array(
+            ':committee_id' => $committee_id));
+
+        if ($query->rowCount() == 0) { return false; }
+        $row = $query->fetch();
+        $committee = array(
+            'committee_id' => $row->committee_id,
+            'name' => $row->name,
+            'members' => $this->getCommitteeMembers($row->committee_id));
 
         return $committee;
     }
@@ -1024,15 +1006,15 @@ class CommitteeFunctions extends Database {
 
         $query = $this->db->prepare('SELECT * FROM `committees`');
         $query->setFetchMode(PDO::FETCH_OBJ);
-        if ($query->execute()) {
-            if ($query->rowCount() == 0) { return false; }
-            while ($row = $query->fetch()) {
-                $committees[] = array(
-                    'committee_id' => $row->committee_id,
-                    'name' => $row->name,
-                    'members' => $this->getCommitteeMembers($row->committee_id));
-            }
-        } else { return false; }
+        $query->execute()
+
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+            $committees[] = array(
+                'committee_id' => $row->committee_id,
+                'name' => $row->name,
+                'members' => $this->getCommitteeMembers($row->committee_id));
+        }
 
         return $committees;
     }
@@ -1045,18 +1027,18 @@ class CommitteeFunctions extends Database {
         $query = $this->db->prepare('SELECT * FROM `committee_members`
             WHERE committee_id=:committee_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
-        if ($query->execute(array(
-            ':committee_id' => $committee_id))) {
-            if ($query->rowCount() == 0) { return false; }
-            while ($row = $query->fetch()) {
-                $userInfo = (new UserFunctions)->getUserInfo($row->user_id);
-                $committeeMembers[] = array(
-                    'user_id' => $userInfo['user_id'],
-                    'first_name' => $userInfo['first_name'],
-                    'last_name' => $userInfo['last_name'],
-                    'email' => $userInfo['email']);
-            }
-        } else { return false; }
+        $query->execute(array(
+            ':committee_id' => $committee_id));
+
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+            $userInfo = (new UserFunctions)->getUserInfo($row->user_id);
+            $committeeMembers[] = array(
+                'user_id' => $userInfo['user_id'],
+                'first_name' => $userInfo['first_name'],
+                'last_name' => $userInfo['last_name'],
+                'email' => $userInfo['email']);
+        }
 
         return $committeeMembers;
     }
