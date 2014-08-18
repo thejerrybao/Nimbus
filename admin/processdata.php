@@ -16,6 +16,15 @@ $eventdb = new EventFunctions;
 $userdb = new UserFunctions;
 
 switch ($_POST['form_submit_type']) {
+    case "login":
+        $userData = $userdb->login($_POST['username'], $_POST['password']);
+        if ($userData) {
+            session_start();
+            $_SESSION['cki_rf_user_id'] = $userData['user_id'];
+            $_SESSION['cki_rf_access'] = $userData['access'];
+            header('Location: index.php');
+        } else { echo "Incorrect username/password."; } 
+        break;
     case "create_event":
         $eventData = array(
             "name" => $_POST['name'],

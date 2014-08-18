@@ -24,12 +24,8 @@ class Database {
     // construct to connect to database
     public function __construct() {
 
-        try {
-            $this->db = new PDO("mysql:host=" . MYSQL_HOST . ";dbname=" . MYSQL_DB, MYSQL_USER, MYSQL_PASS);
-        }
-        catch (PDOException $e) {
-            die($e->getMessage());
-        }
+        try { $this->db = new PDO("mysql:host=" . MYSQL_HOST . ";dbname=" . MYSQL_DB, MYSQL_USER, MYSQL_PASS); }
+        catch (PDOException $e) { die($e->getMessage()); }
 
         $this->db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
         $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -41,6 +37,34 @@ class Database {
 
 class UserFunctions extends Database {
 
+    public function login($username, $password) {
+
+        $userData = array();
+
+        $query = $this->db->prepare('SELECT * FROM `users`
+            WHERE username=:username LIMIT 1');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':username' => $username));
+
+        if ($query->rowCount() == 0) { return false; }
+        $row = $query->fetch();
+        if (password_verify($password, $row->password)) {
+
+            $userData['user_id'] = $row->user_id;
+            $userData['access'] = $row->access;
+            return $userData;
+        } else { return false; }
+    }
+
+    public function logout() {
+        
+        session_start();
+        unset($_SESSION['cki_rf_username']);   
+        unset($_SESSION['cki_rf_password']);
+        unset($_SESSION['cki_rf_access']);
+    }
+
     // register user
     public function addUser($userData) {
 
@@ -51,7 +75,7 @@ class UserFunctions extends Database {
             ':first_name' => $userData['first_name'],
             ':last_name' => $userData['last_name'],
             ':username' => $userData['username'],
-            ':password' => password_hash($userData['password'], PASSWORD_BCRYPT),
+            ':password' => $userData['password'],
             ':email' => $userData['email'],
             ':phone' => $userData['phone']
             ))) { return true; }
@@ -344,7 +368,7 @@ class UserFunctions extends Database {
             WHERE user_id=:user_id');
         if ($query->execute(array(
             'user_id' => $user_id,
-            'password' => password_hash($password, PASSWORD_BCRYPT)))) { return true; }
+            'password' => $password))) { return true; }
         else { return false; }
     }
 
