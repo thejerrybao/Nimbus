@@ -22,6 +22,8 @@ switch ($_POST['form_submit_type']) {
             session_start();
             $_SESSION['cki_rf_user_id'] = $userData['user_id'];
             $_SESSION['cki_rf_access'] = $userData['access'];
+            $_SESSION['cki_rf_first_name'] = $userData['first_name'];
+            $_SESSION['cki_rf_last_name'] = $userData['last_name'];
             header('Location: index.php');
         } else { echo "Incorrect username/password."; } 
         break;

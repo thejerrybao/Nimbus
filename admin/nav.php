@@ -12,6 +12,7 @@
 
 $valid_event_manage_views = ["list", "calendar", "event", "edit"];
 $valid_roster_manage_views = ["list", "dues", "member", "status"];
+session_start();
 ?>
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -30,7 +31,7 @@ $valid_roster_manage_views = ["list", "dues", "member", "status"];
         <!-- /.dropdown -->
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                <?= $_SESSION['cki_rf_first_name'] ?> <?= $_SESSION['cki_rf_last_name'] ?> <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
                 <li><a href="../logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
@@ -55,9 +56,9 @@ $valid_roster_manage_views = ["list", "dues", "member", "status"];
                     </div>
                     <!-- /input-group -->
                 </li>
-                <li <? if ($page == "index") { ?> class="active" <? } ?>><a href="index.php">Dashboard</a></li>
+                <li <? if ($page == "index") { ?> class="active" <? } ?>><a href="index.php"><i class="fa fa-home fa-fw"></i> Dashboard</a></li>
                 <li <? if ($page == "events") { ?> class="active" <? } ?>>
-                    <a href="#">Event Management<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-calendar fa-fw"></i> Event Management<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a <? if ($page == "events" && $_GET['view'] == "create") { ?> class="active" <? } ?> href="events.php?view=create">Create Event</a></li>
                         <li <? if ($page == "events" && (in_array($_GET['view'], $valid_event_manage_views))) { ?> class="active" <? } ?> >
@@ -70,7 +71,7 @@ $valid_roster_manage_views = ["list", "dues", "member", "status"];
                     </ul>
                 </li>
                 <li <? if ($page == "roster") { ?> class="active" <? } ?>>
-                    <a href="#">Club Roster<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-user fa-fw"></i> Club Roster<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a <? if ($page == "roster" && $_GET['view'] == "add") { ?> class="active" <? } ?> href="roster.php?view=add">Add Member</a></li>
                         <li <? if ($page == "roster" && (in_array($_GET['view'], $valid_roster_manage_views))) { ?> class="active" <? } ?> >
@@ -84,14 +85,14 @@ $valid_roster_manage_views = ["list", "dues", "member", "status"];
                     </ul>
                 </li>
                 <li <? if ($page == "committees") { ?> class="active" <? } ?>>
-                    <a href="#">Club Committees<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-users fa-fw"></i> Club Committees<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a <? if ($page == "committees" && $_GET['view'] == "add") { ?> class="active" <? } ?> href="committees.php?view=add">Add Committee</a></li>
                         <li><a <? if ($page == "committees" && $_GET['view'] == "list") { ?> class="active" <? } ?> href="committees.php?view=list">Manage Committees</a></li>
                     </ul>
                 </li>
                 <li>
-                    <a href="#">MRP Management<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-certificate fa-fw"></i> MRP Management<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li>
                             <a href="#">MRP Tags<span class="fa arrow"></span></a>
@@ -112,7 +113,7 @@ $valid_roster_manage_views = ["list", "dues", "member", "status"];
                     </ul>
                 </li>
                 <li <? if ($page == "admin") { ?> class="active" <? } ?>>
-                    <a href="#">Administrative Tasks<span class="fa arrow"></span></a>
+                    <a href="#"><i class="fa fa-wrench fa-fw"></i> Administrative Tasks<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a <? if ($page == "admin" && $_GET['view'] == "access") { ?> class="active" <? } ?> href="admin.php?view=access">Manage Member Access</a></li>
                     </ul>

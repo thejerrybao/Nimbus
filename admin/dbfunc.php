@@ -53,6 +53,8 @@ class UserFunctions extends Database {
 
             $userData['user_id'] = $row->user_id;
             $userData['access'] = $row->access;
+            $userData['first_name'] = $row->first_name;
+            $userData['last_name'] = $row->last_name;
             return $userData;
         } else { return false; }
     }
@@ -62,6 +64,8 @@ class UserFunctions extends Database {
         session_start();
         unset($_SESSION['cki_rf_user_id']);
         unset($_SESSION['cki_rf_access']);
+        unset($_SESSION['cki_rf_first_name']);
+        unset($_SESSION['cki_rf_last_name']);
     }
 
     // register user
