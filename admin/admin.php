@@ -71,6 +71,7 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Manage Member Access</h1>
                     </div>
                 </div>
+                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><?= $_POST['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-primary">
@@ -120,6 +121,7 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Verify Events</h1>
                     </div>
                 </div>
+                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><?= $_POST['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="table-responsive">

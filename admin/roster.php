@@ -70,6 +70,7 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Add Member</h1>
                     </div>
                 </div>
+                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><?= $_POST['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
@@ -115,6 +116,7 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Members List</h1>
                     </div>
                 </div>
+                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><?= $_POST['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <form id="search-roster-form">
@@ -163,6 +165,7 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Member Information</h1>
                     </div>
                 </div>
+                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><?= $_POST['errormsg'] ?></div><? } ?>
                 <? if (empty($_GET['id'])) { ?>
                     <h2>No member ID specified.</h2>
                 <? } else { 
@@ -231,6 +234,7 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Manage Dues Paid Members</h1>
                     </div>
                 </div>
+                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><?= $_POST['errormsg'] ?></div><? } ?>
                 <? if (empty($_GET['action'])) { ?>
                     <h2>No action specified.</h2>
                 <? } else { ?>
@@ -325,6 +329,7 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Manage Members Status</h1>
                     </div>
                 </div>
+                <? if (isset($_POST['errormsg'])) { ?><div class="alert alert-danger"><?= $_POST['errormsg'] ?></div><? } ?>
                 <? if (empty($_GET['action'])) { ?>
                     <h2>No action specified.</h2>
                 <? } else { ?>
