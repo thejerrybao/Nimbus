@@ -450,8 +450,14 @@ class EventFunctions extends Database {
 
         if ($query->execute(array(
             ':event_id' => $event_id,
-            ':user_id' => $user_id))) { return true; }
-        else { return false; }
+            ':user_id' => $user_id))) {
+            $query = $this->db->prepare('UPDATE `events`
+                SET num_attendees = num_attendees + 1
+                WHERE event_id=:event_id');
+            if ($query->execute(array(
+                ':event_id' => $event_id))) { return true; }
+            else { return false; }
+        } else { return false; }
     }
 
     // add override hours for users
@@ -515,8 +521,14 @@ class EventFunctions extends Database {
 
         if ($query->execute(array(
             ':event_id' => $event_id,
-            ':user_id' => $user_id))) { return true; }
-        else { return false; }
+            ':user_id' => $user_id))) {
+            $query = $this->db->prepare('UPDATE `events`
+                SET num_attendees = num_attendees - 1
+                WHERE event_id=:event_id');
+            if ($query->execute(array(
+                ':event_id' => $event_id))) { return true; }
+            else { return false; }
+        } else { return false; }
     }
 
     // delete users override hours

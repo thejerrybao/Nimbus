@@ -263,43 +263,6 @@ $userdb = new UserFunctions;
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Event Information</h1>
-                        <? if ($event['status'] > 1) { ?>
-                        <fieldset disabled>
-                        <? } ?>
-                        <form action="events.php" method="get" enctype="multipart/form-data" style="display: inline;">
-                            <input type="hidden" name="view" value="edit">
-                            <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
-                            <div class="form-group" style="display: inline;">
-                                <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Edit Event</button>
-                            </div>
-                        </form>
-                        <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
-                            <input type="hidden" name="form_submit_type" value="delete_event">
-                            <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-                            <div class="form-group" style="display: inline;">
-                                <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Delete Event</button>
-                            </div>
-                        </form>
-                        <? if ($event['status'] > 1) { ?>
-                        </fieldset>
-                        <? } ?>
-                        <? if ($event['status'] == 0) { ?>
-                        <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
-                            <div class="form-group" style="display: inline;">
-                                <input type="hidden" name="form_submit_type" value="post_event">
-                                <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-                                <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Override Post-Event</button>
-                            </div>
-                        </form>
-                        <? } else if ($event['status'] == 1) { ?>
-                        <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
-                            <div class="form-group" style="display: inline;">
-                                <input type="hidden" name="form_submit_type" value="confirm_event">
-                                <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-                                <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Confirm Event</button>
-                            </div>
-                        </form>
-                        <? } ?>
                     </div>
                 </div>
                 <div class="row">
@@ -381,6 +344,38 @@ $userdb = new UserFunctions;
                                     <? } else { ?>No Attendees<? } ?></p>
                                 <label>Attendee Emails</label>
                                 <textarea rows="3" class="form-control"><?= $attendeeEmails ?></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Event Options</div>
+                            <div class="panel-body">
+                                <? if ($event['status'] < 2) { ?>
+                                <form action="events.php" method="get" enctype="multipart/form-data" style="display: inline;">
+                                    <input type="hidden" name="view" value="edit">
+                                    <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
+                                    <div class="form-group" style="display: inline;">
+                                        <button type="submit" class="btn btn-primary">Edit Event</button>
+                                    </div>
+                                </form>
+                                <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
+                                    <input type="hidden" name="form_submit_type" value="delete_event">
+                                    <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
+                                    <div class="form-group" style="display: inline;">
+                                        <button type="submit" class="btn btn-primary">Delete Event</button>
+                                    </div>
+                                </form>
+                                <? } ?>
+                                <? if ($event['status'] == 1) { ?>
+                                <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
+                                    <div class="form-group" style="display: inline;">
+                                        <input type="hidden" name="form_submit_type" value="confirm_event">
+                                        <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
+                                        <button type="submit" class="btn btn-primary">Confirm Event</button>
+                                    </div>
+                                </form>
+                                <? } ?>
                             </div>
                         </div>
                     </div>
