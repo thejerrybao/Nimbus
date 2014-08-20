@@ -51,6 +51,9 @@ $userdb = new UserFunctions;
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <!-- Chosen JQuery Plugin CSS -->
+    <link href="css/chosen.css" rel="stylesheet" type="text/css">
+
     <!-- events.php CSS -->
     <link href="css/events.css" rel="stylesheet" type="text/css">
 
@@ -95,10 +98,14 @@ $userdb = new UserFunctions;
                                     </div>
                                     <div class="form-group">        
                                         <label>Chair</label>
-                                        <select name="chair_id" class="form-control" required>
+                                        <select name="chair_id" id="create-event-chair" class="form-control" required>
                                             <? $users = $userdb->getUsers("active"); ?>
                                             <? foreach ($users as $user) { ?>
-                                                <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
+                                                <? if ($user['user_id'] == $_SESSION['cki_rf_user_id']) { ?>
+                                                    <option value="<?= $user['user_id'] ?>" selected><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
+                                                <? } else { ?>
+                                                    <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
+                                                <? } ?>
                                             <? } ?>
                                         </select>
                                     </div>
@@ -124,7 +131,7 @@ $userdb = new UserFunctions;
                                     </div>
                                     <div class="form-group">
                                         <label>Tags</label>
-                                        <select name="tag_ids[]" class="form-control" multiple required>
+                                        <select name="tag_ids[]" class="form-control" id="create-event-tags" multiple required>
                                             <? $tags = $tagdb->getTags(); ?>
                                             <? foreach ($tags as $tag) { ?>
                                                 <option value="<?= $tag['tag_id'] ?>"><?= $tag['abbr'] ?> (<?= $tag['name'] ?>)</option>
@@ -550,8 +557,11 @@ $userdb = new UserFunctions;
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 
-    <!-- Open Source datejs File -->
+    <!-- Open Source date.js File -->
     <script src="js/date.js"></script>
+
+    <!-- Open Source Chosen JQuery Plugin -->
+    <script src="js/chosen.jquery.min.js"></script>
 
     <!-- events.php JS -->
     <script src="js/events.js"></script>

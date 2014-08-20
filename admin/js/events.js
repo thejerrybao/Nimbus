@@ -4,3 +4,5 @@ $("#start-datetime").keyup(function() {
     $("#end-datetime").val(endDate);
     $("#online-end-datetime").val(onlineEndDate);
 });
+
+$("#create-event-tags, #create-event-chair").chosen();
