@@ -98,7 +98,7 @@ $userdb = new UserFunctions;
                                     </div>
                                     <div class="form-group">        
                                         <label>Chair</label>
-                                        <select name="chair_id" id="create-event-chair" class="form-control" required>
+                                        <select name="chair_id" id="form-event-chair" class="form-control" required>
                                             <? $users = $userdb->getUsers("active"); ?>
                                             <? foreach ($users as $user) { ?>
                                                 <? if ($user['user_id'] == $_SESSION['cki_rf_user_id']) { ?>
@@ -131,7 +131,7 @@ $userdb = new UserFunctions;
                                     </div>
                                     <div class="form-group">
                                         <label>Tags</label>
-                                        <select name="tag_ids[]" class="form-control" id="create-event-tags" multiple required>
+                                        <select name="tag_ids[]" class="form-control" id="form-event-tags" multiple required>
                                             <? $tags = $tagdb->getTags(); ?>
                                             <? foreach ($tags as $tag) { ?>
                                                 <option value="<?= $tag['tag_id'] ?>"><?= $tag['abbr'] ?> (<?= $tag['name'] ?>)</option>
@@ -421,7 +421,7 @@ $userdb = new UserFunctions;
                                         </div>
                                         <div class="form-group">
                                             <label>Chair</label>
-                                            <select name="chair_id" class="form-control" id="chair_id" required>
+                                            <select name="chair_id" class="form-control" id="form-event-chair" required>
                                                 <? $users = $userdb->getUsers("active"); ?>
                                                 <? foreach ($users as $user) { ?>
                                                     <? if ($event['chair_id'] == $user['user_id']) { ?>
@@ -454,7 +454,7 @@ $userdb = new UserFunctions;
                                         </div> 
                                         <div class="form-group">
                                             <label>Tags</label>
-                                            <select name="tag_ids[]" class="form-control" multiple required>
+                                            <select name="tag_ids[]" class="form-control" id="form-event-tags" multiple required>
                                                 <? $tags = $tagdb->getTags(); ?>
                                                 <? foreach ($tags as $tag) { ?>
                                                     <? if (in_array($tag['tag_id'], $event['tag_ids'])) { ?>
