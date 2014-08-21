@@ -258,6 +258,13 @@ $userdb = new UserFunctions;
                 </div>
             <? break; ?>
             <? case "event": ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Event Information</h1>
+                    </div>
+                </div>
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <? if (empty($_GET['id'])) { ?>
                     <h2>No event ID specified.</h2> 
                 <? } else { 
@@ -267,11 +274,6 @@ $userdb = new UserFunctions;
                         $event['status'] = 1;
                     }
                 } ?>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Event Information</h1>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
@@ -351,6 +353,44 @@ $userdb = new UserFunctions;
                                     <? } else { ?>No Attendees<? } ?></p>
                                 <label>Attendee Emails</label>
                                 <textarea rows="3" class="form-control"><?= $attendeeEmails ?></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Add Attendees</div>
+                            <div class="panel-body">
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="add_event_attendees">
+                                    <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
+                                    <select name="add_attendees[]" id="form-add-event-attendees" class="form-control" multiple required>
+                                        <? $users = $userdb->getUsers("active"); ?>
+                                        <? $eventAttendeeIDs = $eventdb->getEventAttendees($event['event_id'], true); ?>
+                                        <? foreach ($users as $user) { ?>
+                                            <? if (!in_array($user['user_id'], $eventAttendeeIDs)) { ?>
+                                                <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
+                                            <? } ?>
+                                        <? } ?>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Add Attendees</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Delete Attendees</div>
+                            <div class="panel-body">
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="delete_event_attendees">
+                                    <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
+                                    <select name="delete_attendees[]" id="form-delete-event-attendees" class="form-control" multiple required>
+                                        <? foreach ($eventAttendees as $eventAttendee) { ?>
+                                            <option value="<?= $eventAttendee['user_id'] ?>"><?= $eventAttendee['first_name'] ?> <?= $eventAttendee['last_name'] ?></option>
+                                        <? } ?>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Delete Attendees</button>
+                                </form>
                             </div>
                         </div>
                     </div>

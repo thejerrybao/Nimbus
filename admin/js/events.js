@@ -5,4 +5,4 @@ $("#start-datetime").keyup(function() {
     $("#online-end-datetime").val(onlineEndDate);
 });
 
-$("#form-event-tags, #form-event-chair").chosen();
+$("#form-event-tags, #form-event-chair, #form-add-event-attendees, #form-delete-event-attendees").chosen();

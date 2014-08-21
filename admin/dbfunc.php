@@ -517,7 +517,7 @@ class EventFunctions extends Database {
     public function deleteEventAttendee($event_id, $user_id) {
 
         $query = $this->db->prepare('DELETE FROM `event_attendees`
-            WHERE event_id=:event_id AND user_id=:user_id)');
+            WHERE event_id=:event_id AND user_id=:user_id');
 
         if ($query->execute(array(
             ':event_id' => $event_id,
@@ -571,7 +571,7 @@ class EventFunctions extends Database {
     }
 
     // get event attendees
-    public function getEventAttendees($event_id) {
+    public function getEventAttendees($event_id, $id_only = false) {
 
         $eventAttendees = array();
 
@@ -583,12 +583,16 @@ class EventFunctions extends Database {
         
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
-            $userInfo = (new UserFunctions)->getUserInfo($row->user_id);
-            $eventAttendees[] = array(
-                'first_name' => $userInfo['first_name'],
-                'last_name' => $userInfo['last_name'],
-                'email' => $userInfo['email'],
-                'phone' => $userInfo['phone']);
+            if ($id_only) { $eventAttendees[] = $row->user_id; }
+            else {
+                $userInfo = (new UserFunctions)->getUserInfo($row->user_id);
+                $eventAttendees[] = array(
+                    'user_id' => $userInfo['user_id'],
+                    'first_name' => $userInfo['first_name'],
+                    'last_name' => $userInfo['last_name'],
+                    'email' => $userInfo['email'],
+                    'phone' => $userInfo['phone']);
+            }
         }
 
         return $eventAttendees;
