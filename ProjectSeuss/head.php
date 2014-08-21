@@ -6,7 +6,8 @@
 		</head>
 	<body>
 		<div class="jumbotron">
-  			<h1><img src="images/graphics/ucbcki.png" style="height:80%; max-width:100%;"/></h1>
+  			<h1>UC Berkeley Circle K</h1>
+  			<p>Oh the places you'll go with service!</p>
 		</div>		
 		<div class = "navbar navbar-inverse navbar-static-top">
 			<div class= "container" > 
@@ -50,7 +51,9 @@
 									<li><a href="#">Technology</a></li>								
 								</ul>
 							</li>
-
+							<li><a class="btn" data-toggle="modal" href="#myModal" >Login</a>
+				
+        					</li>
 						</ul>	
 					</div>
 
