@@ -72,8 +72,6 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Add Committee</h1>
                     </div>
                 </div>
-                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
-                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
@@ -106,52 +104,6 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Manage Committees</h1>
                     </div>
                 </div>
-                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
-                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="table-responsive">
-                            <? $tags = $tagsdb->getCommittees(); ?>
-                            <? if ($committees) { ?>
-                            <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th id="committee-name">Committee Name</th>
-                                        <th id="committee-num-members"># Members</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <? foreach ($committees as $committee) { ?>
-                                    <tr>
-                                        <td><a href="committees.php?view=committee&id=<?= $committee['committee_id'] ?>"><?= $committee['name'] ?></td>
-                                        <td><?= count($committee['members']) ?></td>
-                                    </tr>
-                                <? } ?>
-                                </tbody>
-                            </table>
-                            <? } else { ?>
-                                <h2>No committees found.</h2>
-                            <? } ?>
-                        </div>
-                    </dib>
-                </div>
-            <? break; ?>
-            <? case "mrpadd": ?>
-                <div class="row">
-                    <div class="col-lg-12">
-                    <!--need to change class?-->
-                        <h1 class="page-header">Add MRP Level</h1>
-                    </div>
-                </div>
-<<<<<<< HEAD
-=======
-                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
-                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
-                <? if (empty($_GET['id'])) { ?>
-                    <h2>No committee ID specified.</h2>
-                <? } else { $committee = $committeedb->getCommittee($_GET['id']); } ?>
-                <? if ($committee) { ?>
->>>>>>> FETCH_HEAD
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="table-responsive">
@@ -180,6 +132,78 @@ $userdb = new UserFunctions;
                     </dib>
                 </div>
             <? break; ?>
+            <? case "committee": ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Committee Information</h1>
+                    </div>
+                </div>
+                <? if (empty($_GET['id'])) { ?>
+                    <h2>No committee ID specified.</h2>
+                <? } else { $committee = $committeedb->getCommittee($_GET['id']); } ?>
+                <? if ($committee) { ?>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Committee Members</div>
+                            <div class="panel-body">
+                                <label>Committee Name:</label> <?= $committee['name'] ?><br />
+                                <label># Committee Members:</label> <?= count($committee['members']) ?>
+                                <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th id="committee-member-name">Name</th>
+                                        <th id="committee-member-email">E-mail</th>
+                                        <th id="committee-member-delete">Delete?</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <? $committeeEmails = "" ?>
+                                <? foreach ($committee['members'] as $committeeMember) { ?>
+                                    <? $committeeEmails .= $committeeMember['email'] . "; " ?>
+                                    <tr>
+                                        <td><?= $committeeMember['first_name'] ?> <?= $committeeMember['last_name'] ?></td>
+                                        <td><?= $committeeMember['email'] ?></td>
+                                        <td>
+                                            <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                                <input type="hidden" name="form_submit_type" value="delete_committee_user">
+                                                <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
+                                                <input type="hidden" name="user_id" value="<?= $committeeMember['user_id'] ?>">
+                                                <button type="submit" class="btn btn-primary btn-xs">Delete Member</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <? } ?>
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Committee Management</div>
+                            <div class="panel-body">
+                                <label>Committee Member Emails</label>
+                                <textarea rows="3" class="form-control" style="margin-bottom: 20px;"><?= $committeeEmails ?></textarea>
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="add_committee_user">
+                                    <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
+                                    <label>Select Member to Add</label>
+                                    <select name="user_id" class="form-control" required>
+                                        <? $users = $userdb->getUsers("active"); ?>
+                                        <? foreach ($users as $user) { ?>
+                                            <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
+                                        <? } ?>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Add Member</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <? } else { ?>
+                    <h2>Committee ID not found.</h2>
+                <? } ?>
             <? break; ?>
             <? default: ?>
                 <div class="row">
