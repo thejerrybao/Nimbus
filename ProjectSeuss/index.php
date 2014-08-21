@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	 <?php
-    include("head.php")
+    include("../ProjectSeuss/head.php")
     ?>
   </head>
 	<body>
@@ -146,6 +146,6 @@
     </div><!-- /.container -->
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap.js"></script>
+        <script type="text/javascript" src="../ProjectSeuss/js/bootstrap.js"></script>
 	</body>
     </html>

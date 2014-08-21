@@ -12,7 +12,7 @@
 		<div class = "navbar navbar-inverse navbar-static-top">
 			<div class= "container" > 
 				<div class = "navbar-header">
-					<a href = "index.html" class = "navbar-brand"> UCBCKI</a>
+					<a href = "index.php" class = "navbar-brand"> UCBCKI</a>
 						<button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
 							<span class="icon-bar"></span>
         					<span class="icon-bar"></span>
@@ -21,7 +21,7 @@
 					</div>
 					<div class = "collapse navbar-collapse navHeaderCollapse">
 						<ul class = "nav navbar-nav navbar-right">
-							<li class="active"><a href="index.html">Home</a></li>
+							<li class="active"><a href="../ProjectSeuss/index.php">Home</a></li>
 							<li><a href="index.html">Calendar</a></li>
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">About</a>
@@ -34,7 +34,12 @@
 								</ul>
 							</li>
 							<li><a href="index.html">Service</a></li>
-							<li><a href="index.html">Leadership</a></li>
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Leadership</a>
+								<ul class="dropdown-menu">
+									<li><a href="../ProjectSeuss/Leadership/board.php">Board</a></li>						
+								</ul>
+
+							</li>
 							<li><a href="index.html">Fellowship</a></li>
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Committees</a>
@@ -61,5 +66,5 @@
 
 		</div>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap.js"></script>
+        <script type="text/javascript" src="../js/bootstrap.js"></script>
 		</body>
