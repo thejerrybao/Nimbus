@@ -400,17 +400,24 @@ $userdb = new UserFunctions;
                             <div class="panel-body">
                                 <? if ($event['status'] < 2) { ?>
                                 <form action="events.php" method="get" enctype="multipart/form-data" style="display: inline;">
+                                    <input type="hidden" name="view" value="overridehours">
+                                    <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
+                                    <div class="form-group" style="display: inline;">
+                                        <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Override Event Hours</button>
+                                    </div>
+                                </form>
+                                <form action="events.php" method="get" enctype="multipart/form-data" style="display: inline;">
                                     <input type="hidden" name="view" value="edit">
                                     <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
                                     <div class="form-group" style="display: inline;">
-                                        <button type="submit" class="btn btn-primary">Edit Event</button>
+                                        <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Edit Event</button>
                                     </div>
                                 </form>
                                 <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
                                     <input type="hidden" name="form_submit_type" value="delete_event">
                                     <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
                                     <div class="form-group" style="display: inline;">
-                                        <button type="submit" class="btn btn-primary">Delete Event</button>
+                                        <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Delete Event</button>
                                     </div>
                                 </form>
                                 <? } ?>
@@ -419,7 +426,7 @@ $userdb = new UserFunctions;
                                     <div class="form-group" style="display: inline;">
                                         <input type="hidden" name="form_submit_type" value="confirm_event">
                                         <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-                                        <button type="submit" class="btn btn-primary">Confirm Event</button>
+                                        <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Confirm Event</button>
                                     </div>
                                 </form>
                                 <? } ?>

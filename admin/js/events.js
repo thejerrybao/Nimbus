@@ -5,4 +5,9 @@ $("#start-datetime").keyup(function() {
     $("#online-end-datetime").val(onlineEndDate);
 });
 
-$("#form-event-tags, #form-event-chair, #form-add-event-attendees, #form-delete-event-attendees").chosen();
+$("#form-event-tags, #form-event-chair, #form-add-event-attendees, #form-delete-event-attendees").chosen({
+    placeholder_text_single: " ",
+    placeholder_text_multiple: " ",
+    display_disabled_options: false,
+    search_contains: true,
+});
