@@ -43,6 +43,9 @@ $userdb = new UserFunctions;
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <!-- Chosen JQuery Plugin CSS -->
+    <link href="css/chosen.css" rel="stylesheet" type="text/css">
+
     <!-- committees.php CSS -->
     <link href="css/committees.css" rel="stylesheet" type="text/css">
 
@@ -160,7 +163,6 @@ $userdb = new UserFunctions;
                                     <tr>
                                         <th id="committee-member-name">Name</th>
                                         <th id="committee-member-email">E-mail</th>
-                                        <th id="committee-member-delete">Delete?</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -170,14 +172,6 @@ $userdb = new UserFunctions;
                                     <tr>
                                         <td><?= $committeeMember['first_name'] ?> <?= $committeeMember['last_name'] ?></td>
                                         <td><?= $committeeMember['email'] ?></td>
-                                        <td>
-                                            <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                                <input type="hidden" name="form_submit_type" value="delete_committee_user">
-                                                <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
-                                                <input type="hidden" name="user_id" value="<?= $committeeMember['user_id'] ?>">
-                                                <button type="submit" class="btn btn-primary btn-xs">Delete Member</button>
-                                            </form>
-                                        </td>
                                     </tr>
                                 <? } ?>
                                 </tbody>
@@ -191,17 +185,41 @@ $userdb = new UserFunctions;
                             <div class="panel-body">
                                 <label>Committee Member Emails</label>
                                 <textarea rows="3" class="form-control" style="margin-bottom: 20px;"><?= $committeeEmails ?></textarea>
+                            </div>
+                        </div>
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Add Committee Members</div>
+                            <div class="panel-body">
                                 <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="form_submit_type" value="add_committee_user">
+                                    <input type="hidden" name="form_submit_type" value="add_committee_members">
                                     <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
-                                    <label>Select Member to Add</label>
-                                    <select name="user_id" class="form-control" required>
+                                    <label>Select Members to Add</label>
+                                    <select name="add_committee_members[]" class="form-control" id="form-add-committee-members" multiple required>
                                         <? $users = $userdb->getUsers("active"); ?>
+                                        <? $committeeMemberIDs = $committeedb->getCommitteeMembers($_GET['id']); ?>
                                         <? foreach ($users as $user) { ?>
-                                            <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
+                                            <? if (!in_array($user['user_id'], $committeeMemberIDs)) { ?>
+                                                <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
+                                            <? } ?>
                                         <? } ?>
                                     </select>
-                                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Add Member</button>
+                                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Add Members</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Delete Committee Members</div>
+                            <div class="panel-body">
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="delete_committee_members">
+                                    <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
+                                    <label>Select Members to Delete</label>
+                                    <select name="delete_committee_members[]" class="form-control" id="form-delete-committee-members" multiple required>
+                                        <? foreach ($committee['members'] as $committeeMember) { ?>
+                                            <option value="<?= $committeeMember['user_id'] ?>"><?= $committeeMember['first_name'] ?> <?= $committeeMember['last_name'] ?></option>
+                                        <? } ?>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Delete Members</button>
                                 </form>
                             </div>
                         </div>
@@ -236,6 +254,12 @@ $userdb = new UserFunctions;
 
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
+
+    <!-- Open Source Chosen JQuery Plugin -->
+    <script src="js/chosen.jquery.min.js"></script>
+
+    <!-- committees.php JS -->
+    <script src="js/committees.js"></script>
 
 </body>
 </html>

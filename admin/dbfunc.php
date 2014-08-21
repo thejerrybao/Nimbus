@@ -1053,7 +1053,7 @@ class CommitteeFunctions extends Database {
     }
 
     // get members
-    public function getCommitteeMembers($committee_id) {
+    public function getCommitteeMembers($committee_id, $id_only = false) {
 
         $committeeMembers = array();
 
@@ -1065,12 +1065,15 @@ class CommitteeFunctions extends Database {
 
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
-            $userInfo = (new UserFunctions)->getUserInfo($row->user_id);
-            $committeeMembers[] = array(
-                'user_id' => $userInfo['user_id'],
-                'first_name' => $userInfo['first_name'],
-                'last_name' => $userInfo['last_name'],
-                'email' => $userInfo['email']);
+            if ($id_only) { $committeeMembers[] = $row->user_id; }
+            else {
+                $userInfo = (new UserFunctions)->getUserInfo($row->user_id);
+                $committeeMembers[] = array(
+                    'user_id' => $userInfo['user_id'],
+                    'first_name' => $userInfo['first_name'],
+                    'last_name' => $userInfo['last_name'],
+                    'email' => $userInfo['email']);
+            }
         }
 
         return $committeeMembers;

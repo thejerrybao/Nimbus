@@ -355,8 +355,6 @@ $userdb = new UserFunctions;
                                 <textarea rows="3" class="form-control"><?= $attendeeEmails ?></textarea>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4">
                         <div class="panel panel-info">
                             <div class="panel-heading">Add Attendees</div>
                             <div class="panel-body">
@@ -376,8 +374,6 @@ $userdb = new UserFunctions;
                                 </form>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4">
                         <div class="panel panel-info">
                             <div class="panel-heading">Delete Attendees</div>
                             <div class="panel-body">
@@ -393,8 +389,6 @@ $userdb = new UserFunctions;
                                 </form>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">Event Options</div>
                             <div class="panel-body">

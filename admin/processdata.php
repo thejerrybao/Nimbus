@@ -242,25 +242,31 @@ switch ($_POST['form_submit_type']) {
             $location = 'Location: committees.php?view=add';
         }
         break;
-    case "add_committee_member":
-        $userInfo = $userdb->getUserInfo($_POST['user_id']);
-        if ($committeedb->addCommitteeMember($_POST['committee_id'], $_POST['user_id'])) {
-            $message = "SUCCESS: " . $userInfo['first_name'] . " " . $userInfo['last_name'] . " was added to the committee!";
+    case "add_committee_members":
+        foreach ($_POST['add_committee_members'] as $addCommitteeMember) {
+            if (!$committeedb->addCommitteeMember($_POST['committee_id'], $addCommitteeMember)) {
+                $message = "DATABASE ERROR: A member could not be added to the committee!";
+                setcookie("errormsg", $message, time()+3);
+                break;
+            }
+        }
+        if (!isset($_COOKIE['errormsg'])) {
+            $message = "SUCCESS: Selected members were added to the committee!";
             setcookie("successmsg", $message, time()+3);
-        } else {
-            $message = "DATABASE ERROR: " . $userInfo['first_name'] . " " . $userInfo['last_name'] . " could not be added to the committee!";
-            setcookie("errormsg", $message, time()+3);
         }
         $location = 'Location: committees.php?view=committee&id=' . $_POST['committee_id'];
         break;
-    case "delete_committee_member":
-        $userInfo = $userdb->getUserInfo($_POST['user_id']);
-        if ($committeedb->deleteCommitteeMember($_POST['committee_id'], $_POST['user_id'])) {
-            $message = "SUCCESS: " . $userInfo['first_name'] . " " . $userInfo['last_name'] . " was deleted from committee!";
+    case "delete_committee_members":
+        foreach ($_POST['delete_committee_members'] as $deleteCommitteeMember) {
+            if (!$committeedb->deleteCommitteeMember($_POST['committee_id'], $deleteCommitteeMember)) {
+                $message = "DATABASE ERROR: A member could not be deleted from the committee!";
+                setcookie("errormsg", $message, time()+3);
+                break;
+            }
+        }
+        if (!isset($_COOKIE['errormsg'])) {
+            $message = "SUCCESS: Selected members were deleted from the committee!";
             setcookie("successmsg", $message, time()+3);
-        } else {
-            $message = "DATABASE ERROR: " . $userInfo['first_name'] . " " . $userInfo['last_name'] . " could not be deleted from the committee!";
-            setcookie("errormsg", $message, time()+3);
         }
         $location = 'Location: committees.php?view=committee&id=' . $_POST['committee_id'];
         break;
