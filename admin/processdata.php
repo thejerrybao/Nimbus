@@ -233,13 +233,13 @@ switch ($_POST['form_submit_type']) {
         break;
     case "delete_committee":
         if ($committeedb->deleteCommittee($_POST['committee_id'])) {
-            $message = "SUCCESS: " . $_POST['name'] . " committee was added!";
+            $message = "SUCCESS: Committee was successfully deleted!";
             setcookie("successmsg", $message, time()+3);
             $location = 'Location: committees.php?view=list';
         } else {
-            $message = "DATABASE ERROR: Committee could not be added!";
+            $message = "DATABASE ERROR: Committee could not be deleted!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: committees.php?view=add';
+            $location = 'Location: committees.php?view=committee&id=' . $_POST['committee_id'];
         }
         break;
     case "add_committee_members":

@@ -181,7 +181,7 @@ $userdb = new UserFunctions;
                     </div>
                     <div class="col-lg-4">
                         <div class="panel panel-info">
-                            <div class="panel-heading">Committee Management</div>
+                            <div class="panel-heading">Committee E-mails</div>
                             <div class="panel-body">
                                 <label>Committee Member Emails</label>
                                 <textarea rows="3" class="form-control" style="margin-bottom: 20px;"><?= $committeeEmails ?></textarea>
@@ -221,6 +221,15 @@ $userdb = new UserFunctions;
                                     </select>
                                     <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Delete Members</button>
                                 </form>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Committee Options</div>
+                            <div class="panel-body">
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="delete_committee">
+                                    <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
+                                    <button type="submit" class="btn btn-primary">Delete Committee</button>
                             </div>
                         </div>
                     </div>
