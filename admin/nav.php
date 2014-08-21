@@ -106,14 +106,14 @@ session_start();
                         </li>
                     </ul>
                 </li>
-                <li <? if ($page == "admin") { ?> class="active" <? } ?>>
+                <li <? if ($page == "admin" && $_GET['view'] == "access") { ?> class="active" <? } ?>>
                     <a href="#"><i class="fa fa-wrench fa-fw"></i> Administrative Tasks<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a <? if ($page == "admin" && $_GET['view'] == "access") { ?> class="active" <? } ?> href="admin.php?view=access">Manage Member Access</a></li>
                     </ul>
                 </li>
                 <? if ($_SESSION['cki_rf_access'] > 2) { ?>
-                    <li <? if ($page == "admin" && $_GET['view'] = "verify") { ?> class="active" <? } ?>><a href="admin.php?view=verify"><i class="fa fa-check fa-fw"></i> Verify Events</a></li>
+                    <li <? if ($page == "admin" && $_GET['view'] == "verify") { ?> class="active" <? } ?>><a href="admin.php?view=verify"><i class="fa fa-check fa-fw"></i> Verify Events</a></li>
                 <? } ?>
             </ul>
         </div>

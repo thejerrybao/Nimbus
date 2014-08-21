@@ -57,7 +57,7 @@ $userdb = new UserFunctions;
 <body>
 
     <div id="wrapper">
-
+        
         <!-- Navigation -->
         <? $page = "admin"; 
             require_once("nav.php"); ?>
