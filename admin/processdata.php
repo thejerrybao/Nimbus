@@ -98,6 +98,34 @@ switch ($_POST['form_submit_type']) {
             exit;
         } else { echo "Event failed to verify. Try again."; }
         break;
+    case "add_event_attendees":
+        foreach ($_POST['add_attendees'] as $addAttendee) {
+            if (!$eventdb->addEventAttendee($_POST['event_id'], $addAttendee)) {
+                $message = "DATABASE ERROR: A member could not be added as an attendee!";
+                setcookie("errormsg", $message, time()+3);
+                break;
+            }
+        }
+        if (!isset($_COOKIE['errormsg'])) {
+            $message = "SUCCESS: Selected members were added as attendees!";
+            setcookie("successmsg", $message, time()+3);
+        }
+        $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
+        break;
+    case "delete_event_attendees":
+        foreach ($_POST['delete_attendees'] as $deleteAttendee) {
+            if (!$eventdb->deleteEventAttendee($_POST['event_id'], $deleteAttendee)) {
+                $message = "DATABASE ERROR: A member could not be deleted as an attendee!";
+                setcookie("errormsg", $message, time()+3);
+                break;
+            }
+        }
+        if (!isset($_COOKIE['errormsg'])) {
+            $message = "SUCCESS: Selected members were deleted as attendees!";
+            setcookie("successmsg", $message, time()+3);
+        }
+        $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
+        break;
     case "add_user":
         if (!isset($_POST['username'])) {
             $_POST['username'] = $_POST['password'] = $_POST['phone'] = "";

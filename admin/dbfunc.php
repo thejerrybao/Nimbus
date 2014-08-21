@@ -502,6 +502,26 @@ class EventFunctions extends Database {
         } else { return false; }
     }
 
+<<<<<<< HEAD
+=======
+    public function deleteEventAttendee($event_id, $user_id) {
+
+        $query = $this->db->prepare('DELETE FROM `event_attendees`
+            WHERE event_id=:event_id AND user_id=:user_id');
+
+        if ($query->execute(array(
+            ':event_id' => $event_id,
+            ':user_id' => $user_id))) {
+            $query = $this->db->prepare('UPDATE `events`
+                SET num_attendees = num_attendees - 1
+                WHERE event_id=:event_id');
+            if ($query->execute(array(
+                ':event_id' => $event_id))) { return true; }
+            else { return false; }
+        } else { return false; }
+    }
+
+>>>>>>> FETCH_HEAD
     // delete users override hours
     public function deleteOverrideHours($event_id, $user_ids) {
 
@@ -545,25 +565,42 @@ class EventFunctions extends Database {
     }
 
     // get event attendees
-    public function getEventAttendees($event_id) {
+    public function getEventAttendees($event_id, $id_only = false) {
 
         $eventAttendees = array();
 
         $query = $this->db->prepare('SELECT * FROM `event_attendees`
             WHERE event_id=:event_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
+<<<<<<< HEAD
         if ($query->execute(array(
             ':event_id' => $event_id))) {
             if ($query->rowCount() == 0) { return false; }
             while ($row = $query->fetch()) {
                 $userInfo = $this->getUserInfo($row->user_id);
                 $eventAttendees[] = array(
+=======
+        $query->execute(array(
+            ':event_id' => $event_id));
+        
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+            if ($id_only) { $eventAttendees[] = $row->user_id; }
+            else {
+                $userInfo = (new UserFunctions)->getUserInfo($row->user_id);
+                $eventAttendees[] = array(
+                    'user_id' => $userInfo['user_id'],
+>>>>>>> FETCH_HEAD
                     'first_name' => $userInfo['first_name'],
                     'last_name' => $userInfo['last_name'],
                     'email' => $userInfo['email'],
                     'phone' => $userInfo['phone']);
             }
+<<<<<<< HEAD
         } else { return false; }
+=======
+        }
+>>>>>>> FETCH_HEAD
 
         return $eventAttendees;
     }

@@ -138,6 +138,11 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Committee Information</h1>
                     </div>
                 </div>
+<<<<<<< HEAD
+=======
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
+>>>>>>> FETCH_HEAD
                 <? if (empty($_GET['id'])) { ?>
                     <h2>No committee ID specified.</h2>
                 <? } else { $committee = $committeedb->getCommittee($_GET['id']); } ?>
