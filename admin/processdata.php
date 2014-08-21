@@ -133,8 +133,8 @@ switch ($_POST['form_submit_type']) {
         $location = 'Location: admin.php?view=verify';
         break;
     case "add_event_attendees":
-        foreach ($_POST['add_attendees'] as $addAttendee) {
-            if (!$eventdb->addEventAttendee($_POST['event_id'], $addAttendee)) {
+        foreach ($_POST['user_ids'] as $user_id) {
+            if (!$eventdb->addEventAttendee($_POST['event_id'], $user_id)) {
                 $message = "DATABASE ERROR: A member could not be added as an attendee!";
                 setcookie("errormsg", $message, time()+3);
                 break;
@@ -147,8 +147,8 @@ switch ($_POST['form_submit_type']) {
         $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
         break;
     case "delete_event_attendees":
-        foreach ($_POST['delete_attendees'] as $deleteAttendee) {
-            if (!$eventdb->deleteEventAttendee($_POST['event_id'], $deleteAttendee)) {
+        foreach ($_POST['user_ids'] as $user_id) {
+            if (!$eventdb->deleteEventAttendee($_POST['event_id'], $user_id)) {
                 $message = "DATABASE ERROR: A member could not be deleted as an attendee!";
                 setcookie("errormsg", $message, time()+3);
                 break;
@@ -243,8 +243,8 @@ switch ($_POST['form_submit_type']) {
         }
         break;
     case "add_committee_members":
-        foreach ($_POST['add_committee_members'] as $addCommitteeMember) {
-            if (!$committeedb->addCommitteeMember($_POST['committee_id'], $addCommitteeMember)) {
+        foreach ($_POST['user_ids'] as $user_id) {
+            if (!$committeedb->addCommitteeMember($_POST['committee_id'], $user_id)) {
                 $message = "DATABASE ERROR: A member could not be added to the committee!";
                 setcookie("errormsg", $message, time()+3);
                 break;
@@ -257,8 +257,8 @@ switch ($_POST['form_submit_type']) {
         $location = 'Location: committees.php?view=committee&id=' . $_POST['committee_id'];
         break;
     case "delete_committee_members":
-        foreach ($_POST['delete_committee_members'] as $deleteCommitteeMember) {
-            if (!$committeedb->deleteCommitteeMember($_POST['committee_id'], $deleteCommitteeMember)) {
+        foreach ($_POST['user_ids'] as $user_id) {
+            if (!$committeedb->deleteCommitteeMember($_POST['committee_id'], $user_id)) {
                 $message = "DATABASE ERROR: A member could not be deleted from the committee!";
                 setcookie("errormsg", $message, time()+3);
                 break;

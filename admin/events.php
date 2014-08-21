@@ -361,7 +361,7 @@ $userdb = new UserFunctions;
                                 <form action="processdata.php" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="form_submit_type" value="add_event_attendees">
                                     <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-                                    <select name="add_attendees[]" id="form-add-event-attendees" class="form-control" multiple required>
+                                    <select name="user_ids[]" id="form-add-event-attendees" class="form-control" multiple required>
                                         <? $users = $userdb->getUsers("active"); ?>
                                         <? $eventAttendeeIDs = $eventdb->getEventAttendees($event['event_id'], true); ?>
                                         <? foreach ($users as $user) { ?>
@@ -380,7 +380,7 @@ $userdb = new UserFunctions;
                                 <form action="processdata.php" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="form_submit_type" value="delete_event_attendees">
                                     <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-                                    <select name="delete_attendees[]" id="form-delete-event-attendees" class="form-control" multiple required>
+                                    <select name="user_ids[]" id="form-delete-event-attendees" class="form-control" multiple required>
                                         <? foreach ($eventAttendees as $eventAttendee) { ?>
                                             <option value="<?= $eventAttendee['user_id'] ?>"><?= $eventAttendee['first_name'] ?> <?= $eventAttendee['last_name'] ?></option>
                                         <? } ?>

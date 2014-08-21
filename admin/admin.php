@@ -64,7 +64,7 @@ $userdb = new UserFunctions;
 
         <!-- Page Content -->
         <div id="page-wrapper">
-            <? switch ($_GET["view"]):
+            <? switch ($_GET['view']):
                 case "access": ?>
                 <div class="row">
                     <div class="col-lg-12">

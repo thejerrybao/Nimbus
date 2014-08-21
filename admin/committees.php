@@ -194,7 +194,7 @@ $userdb = new UserFunctions;
                                     <input type="hidden" name="form_submit_type" value="add_committee_members">
                                     <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
                                     <label>Select Members to Add</label>
-                                    <select name="add_committee_members[]" class="form-control" id="form-add-committee-members" multiple required>
+                                    <select name="user_ids[]" class="form-control" id="form-add-committee-members" multiple required>
                                         <? $users = $userdb->getUsers("active"); ?>
                                         <? $committeeMemberIDs = $committeedb->getCommitteeMembers($_GET['id']); ?>
                                         <? foreach ($users as $user) { ?>
@@ -214,7 +214,7 @@ $userdb = new UserFunctions;
                                     <input type="hidden" name="form_submit_type" value="delete_committee_members">
                                     <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
                                     <label>Select Members to Delete</label>
-                                    <select name="delete_committee_members[]" class="form-control" id="form-delete-committee-members" multiple required>
+                                    <select name="user_ids[]" class="form-control" id="form-delete-committee-members" multiple required>
                                         <? foreach ($committee['members'] as $committeeMember) { ?>
                                             <option value="<?= $committeeMember['user_id'] ?>"><?= $committeeMember['first_name'] ?> <?= $committeeMember['last_name'] ?></option>
                                         <? } ?>
