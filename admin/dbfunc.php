@@ -17,6 +17,22 @@ define("MYSQL_USER", "root");
 define("MYSQL_PASS", "root");
 define("MYSQL_DB", "dev_ckirfsystem");
 
+function array_orderby() {
+    $args = func_get_args();
+    $data = array_shift($args);
+    foreach ($args as $n => $field) {
+        if (is_string($field)) {
+            $tmp = array();
+            foreach ($data as $key => $row)
+                $tmp[$key] = $row[$field];
+            $args[$n] = $tmp;
+        }
+    }
+    $args[] = &$data;
+    call_user_func_array('array_multisort', $args);
+    return array_pop($args);
+}
+
 class Database {
 
     protected $db;
@@ -595,7 +611,7 @@ class EventFunctions extends Database {
             }
         }
 
-        return $eventAttendees;
+        return array_orderby($eventAttendees, 'first_name', SORT_ASC);
     }
 
     // get event data with event ID
@@ -1037,7 +1053,7 @@ class CommitteeFunctions extends Database {
 
         $committees = array();
 
-        $query = $this->db->prepare('SELECT * FROM `committees`');
+        $query = $this->db->prepare('SELECT * FROM `committees` ORDER BY `name` ASC');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute();
 
@@ -1076,7 +1092,7 @@ class CommitteeFunctions extends Database {
             }
         }
 
-        return $committeeMembers;
+        return array_orderby($committeeMembers, 'first_name', SORT_ASC);
     }
 }
 
