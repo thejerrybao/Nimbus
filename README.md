@@ -1,7 +1,7 @@
-Nimbus
+Project Nimbus
 ======
 
-Project Nimbus: Circle K Report Form System
+Project Nimbus: Circle K Club Management System
 
 Author: Jerry Bao (jbao@berkeley.edu)  
 Author: Robert Rodriguez (rob.rodriguez@berkeley.edu)  

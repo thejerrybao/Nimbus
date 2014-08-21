@@ -72,6 +72,8 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Add Committee</h1>
                     </div>
                 </div>
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
@@ -104,6 +106,8 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Manage Committees</h1>
                     </div>
                 </div>
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="table-responsive">
@@ -139,6 +143,15 @@ $userdb = new UserFunctions;
                         <h1 class="page-header">Add MRP Level</h1>
                     </div>
                 </div>
+<<<<<<< HEAD
+=======
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
+                <? if (empty($_GET['id'])) { ?>
+                    <h2>No committee ID specified.</h2>
+                <? } else { $committee = $committeedb->getCommittee($_GET['id']); } ?>
+                <? if ($committee) { ?>
+>>>>>>> FETCH_HEAD
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="table-responsive">
