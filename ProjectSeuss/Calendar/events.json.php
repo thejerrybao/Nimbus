@@ -3,7 +3,7 @@
         $path = $_SERVER['DOCUMENT_ROOT'];
         $path .= "/admin/dbfunc.php";
         include_once($path);
-        $db = new DatabaseFunctions;
+        $db = new EventFunctions;
         $m = (integer) date('n');
         $events = $db->getEventsByMonth(date(mktime(1,1,1,$m,1,date('Y'))));
         $out = array();

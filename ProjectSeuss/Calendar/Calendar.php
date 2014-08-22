@@ -9,8 +9,8 @@
 	<meta name="author" content="Serhioromano">
 	<meta charset="UTF-8">
 
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="../../css/bootstrap.css">
+	<link rel="stylesheet" href="../../css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="css/calendar.css">
 
 	<style type="text/css">
@@ -24,18 +24,8 @@
 	</style>
 </head>
 <body>
+<?php include("../head.php") ?>	
 <div class="container">
-	<div class="jumbotron">
-		<h1>Bootstrap Calendar Demo</h1>
-
-		<p>Bootstrap based full view calendar. Template based.</p>
-
-		<a class="btn btn-default btn-primary" href="https://github.com/Serhioromano/bootstrap-calendar">Fork on GitHub</a>
-		<a class="btn btn-default" href="index.html">Use bootstrap 2</a>
-		<a href="https://twitter.com/serhioromano" class="btn btn-default btn-twitter" data-show-count="false" data-size="large">Follow @serhioromano</a>
-		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-		</script>
-	</div>
 
 	<div class="page-header">
 
@@ -63,28 +53,6 @@
 		</div>
 		<div class="col-md-3">
 			<div class="row">
-				<select id="first_day" class="form-control">
-					<option value="" selected="selected">First day of week language-dependant</option>
-					<option value="2">First day of week is Sunday</option>
-					<option value="1">First day of week is Monday</option>
-				</select>
-				<select id="language" class="form-control">
-					<option value="">Select Language (default: en-US)</option>
-					<option value="nl-NL">Dutch</option>
-					<option value="fr-FR">French</option>
-					<option value="de-DE">German</option>
-					<option value="el-GR">Greek</option>
-					<option value="it-IT">Italian</option>
-					<option value="pl-PL">Polish</option>
-					<option value="pt-BR">Portuguese (Brazil)</option>
-					<option value="ro-RO">Romania</option>
-					<option value="es-MX">Spanish (Mexico)</option>
-					<option value="es-ES">Spanish (Spain)</option>
-					<option value="ru-RU">Russian</option>
-					<option value="sv-SE">Swedish</option>
-					<option value="ko-KR">Korean</option>
-					<option value="zh-TW">繁體中文</option>
-				</select>
 				<label class="checkbox">
 					<input type="checkbox" value="#events-modal" id="events-in-modal"> Open events in modal window
 				</label>
@@ -96,10 +64,7 @@
 		</div>
 	</div>
 
-	<div class="clearfix"></div>
-	<br><br>
-	<div id="disqus_thread"></div>
-	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	
 
 	<div class="modal fade" id="events-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -118,20 +83,12 @@
 	</div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script type="text/javascript" src="js/underscore-min.js"></script>
-	<script type="text/javascript" src="js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="js/jstz.min.js"></script>
-	<script type="text/javascript" src="js/calendar.js"></script>
-	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="/ProjectSeuss/js/underscore-min.js"></script>
+	<script type="text/javascript" src="/ProjectSeuss/js/bootstrap.js"></script>
+	<script type="text/javascript" src="/ProjectSeuss/Calendar/js/jstz.min.js"></script>
+	<script type="text/javascript" src="/ProjectSeuss/Calendar/js/calendar.js"></script>
+	<script type="text/javascript" src="/ProjectSeuss/Calendar/js/app.js"></script>
 
-	<script type="text/javascript">
-		var disqus_shortname = 'bootstrapcalendar'; // required: replace example with your forum shortname
-		(function() {
-			var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		})();
-	</script>
 </div>
 </body>
 </html>
