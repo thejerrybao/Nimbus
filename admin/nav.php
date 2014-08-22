@@ -91,6 +91,7 @@ $valid_mrp_views = ["add", "list"];
                         <li><a <? if ($page == "committees" && $_GET['view'] == "list") { ?> class="active" <? } ?> href="committees.php?view=list">Manage Committees</a></li>
                     </ul>
                 </li>
+                <? if ($_SESSION['cki_rf_access'] > 1) { ?>
                 <li <? if ($page == "tags") { ?> class="active" <? } ?>>
                     <a href="#"><i class="fa fa-certificate fa-fw"></i> Tag Management<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -105,12 +106,15 @@ $valid_mrp_views = ["add", "list"];
                         </li>
                     </ul>
                 </li>
+                <? } ?>
+                <? if ($_SESSION['cki_rf_access'] > 3) { ?>
                 <li <? if ($page == "admin" && $_GET['view'] == "access") { ?> class="active" <? } ?>>
                     <a href="#"><i class="fa fa-wrench fa-fw"></i> Administrative Tasks<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a <? if ($page == "admin" && $_GET['view'] == "access") { ?> class="active" <? } ?> href="admin.php?view=access">Manage Member Access</a></li>
                     </ul>
                 </li>
+                <? } ?>
                 <? if ($_SESSION['cki_rf_access'] > 2) { ?>
                     <li <? if ($page == "admin" && $_GET['view'] == "verify") { ?> class="active" <? } ?>><a href="admin.php?view=verify"><i class="fa fa-check fa-fw"></i> Verify Events</a></li>
                 <? } ?>
