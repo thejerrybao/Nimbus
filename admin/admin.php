@@ -138,10 +138,15 @@ $customJS = true;
                                 <td><?= date("F j, Y, g:i a", $event['start_datetime']) ?></td>
                                 <td><?= date("F j, Y, g:i a", $event['end_datetime']) ?></td>
                                 <td>
-                                    <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                        <input type="hidden" name="form_submit_type" value="verify_event">
+                                    <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline; margin-right: 5px;">
+                                        <input type="hidden" name="form_submit_type" value="verify_event_approve">
                                         <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-                                        <button type="submit" class="btn btn-primary btn-xs">Verify Event</button>
+                                        <button type="submit" class="btn btn-primary btn-xs">&nbsp;Approve&nbsp;</button>
+                                    </form>
+                                    <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
+                                        <input type="hidden" name="form_submit_type" value="verify_event_deny">
+                                        <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
+                                        <button type="submit" class="btn btn-primary btn-xs">&nbsp;&nbsp;&nbsp;Deny&nbsp;&nbsp;&nbsp;</button>
                                     </form>
                                 </td></tr>
                             <? } ?>

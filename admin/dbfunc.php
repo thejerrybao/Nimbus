@@ -477,18 +477,21 @@ class EventFunctions extends Database {
     }
 
     // add override hours for users
-    public function addOverrideHours($event_id, $user_id ,$userHours) {
+    public function addOverrideHours($event_id, $user_id) {
 
         $query = $this->db->prepare('INSERT INTO `event_override_hours`
-            VALUES ("", :event_id, :user_id, :service_hours, :admin_hours, :social_hours)');
+            VALUES ("", :event_id, :user_id, 0, 0, 0)');
 
         if ($query->execute(array(
             ':event_id' => $event_id,
-            ':user_id' => $user_id,
-            ':service_hours' => $userHours['service_hours'],
-            ':admin_hours' => $userHours['admin_hours'],
-            ':social_hours' => $userHours['social_hours']))) { return true; }
-        else { return false; }
+            ':user_id' => $user_id))) { 
+            $query = $this->db->prepare('UPDATE `events`
+                SET num_override_hours = num_override_hours + 1
+                WHERE event_id=:event_id');
+            if ($query->execute(array(
+                ':event_id' => $event_id))) { return true; }
+            else { return false; }
+        } else { return false; }
     }
 
     // creates an event
@@ -555,8 +558,14 @@ class EventFunctions extends Database {
 
         if ($query->execute(array(
             ':event_id' => $event_id,
-            ':user_id' => $user_id))) { return true; }
-        else { return false; }
+            ':user_id' => $user_id))) {
+            $query = $this->db->prepare('UPDATE `events`
+                SET num_override_hours = num_override_hours - 1
+                WHERE event_id=:event_id');
+            if ($query->execute(array(
+                ':event_id' => $event_id))) { return true; }
+            else { return false; }
+        } else { return false; }
     }
 
     public function getConfirmedEvents() {
@@ -733,6 +742,34 @@ class EventFunctions extends Database {
         return $events;
     }
 
+    public function getOverrideHours($event_id, $id_only = false) {
+
+        $eventOverrideHours = array();
+
+        $query = $this->db->prepare('SELECT * FROM `event_override_hours`
+            WHERE event_id=:event_id');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':event_id' => $event_id));
+
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+            if ($id_only) { $eventOverrideHours[] = $row->user_id; }
+            else {
+                $userInfo = (new UserFunctions)->getUserInfo($row->user_id);
+                $eventOverrideHours[] = array(
+                    'user_id' => $row->user_id,
+                    'first_name' => $userInfo['first_name'],
+                    'last_name' => $userInfo['last_name'],
+                    'service_hours' => $row->service_hours,
+                    'admin_hours' => $row->admin_hours,
+                    'social_hours' => $row->social_hours);
+            }
+        }
+
+        return array_orderby($eventOverrideHours, 'first_name', SORT_ASC);
+    }
+
     // edit event information
     public function setEvent($event_id, $eventData, $tag_ids) {
 
@@ -812,7 +849,7 @@ class EventFunctions extends Database {
         $eventInfo = $this->getEventInfo($event_id);
         switch ($status) {
             case 1:
-                if ($eventInfo['status'] != 0) { return false; }
+                if ($eventInfo['status'] < 0 && $eventInfo['status'] > 2) { return false; }
                 break;
             case 2:
                 if ($eventInfo['status'] != 1) { return false; }

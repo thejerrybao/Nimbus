@@ -122,12 +122,22 @@ switch ($_POST['form_submit_type']) {
         }
         $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
         break;
-    case "verify_event";
+    case "verify_event_approve";
         if ($eventdb->setEventStatus($_POST['event_id'], 3)) {
-            $message = "SUCCESS: Event successfully verified!";
+            $message = "SUCCESS: Event successfully approved!";
             setcookie("successmsg", $message, time()+3);
         } else {
-            $message = "DATABASE ERROR: Event could not be verified!";
+            $message = "DATABASE ERROR: Event could not be approved!";
+            setcookie("errormsg", $message, time()+3);
+        }
+        $location = 'Location: admin.php?view=verify';
+        break;
+    case "verify_event_deny";
+        if ($eventdb->setEventStatus($_POST['event_id'], 1)) {
+            $message = "SUCCESS: Event successfully denied!";
+            setcookie("successmsg", $message, time()+3);
+        } else {
+            $message = "DATABASE ERROR: Event could not be denied!";
             setcookie("errormsg", $message, time()+3);
         }
         $location = 'Location: admin.php?view=verify';
@@ -159,6 +169,48 @@ switch ($_POST['form_submit_type']) {
             setcookie("successmsg", $message, time()+3);
         }
         $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
+        break;
+    case "add_override_hours":
+        foreach ($_POST['user_ids'] as $user_id) {
+            if (!$eventdb->addOverrideHours($_POST['event_id'], $user_id)) {
+                $message = "DATABASE ERROR: A member could not be added to the override hours list!";
+                setcookie("errormsg", $message, time()+3);
+                break;
+            }
+        }
+        if (!isset($_COOKIE['errormsg'])) {
+            $message = "SUCCESS: Selected members were added to the override hours list!";
+            setcookie("successmsg", $message, time()+3);
+        }
+        $location = 'Location: events.php?view=overridehours&id=' . $_POST['event_id'];
+        break;
+    case "delete_override_hours":
+        foreach ($_POST['user_ids'] as $user_id) {
+            if (!$eventdb->deleteOverrideHours($_POST['event_id'], $user_id)) {
+                $message = "DATABASE ERROR: A member could not be deleted from the override hours list!";
+                setcookie("errormsg", $message, time()+3);
+                break;
+            }
+        }
+        if (!isset($_COOKIE['errormsg'])) {
+            $message = "SUCCESS: Selected members were deleted from the override hours list!";
+            setcookie("successmsg", $message, time()+3);
+        }
+        $location = 'Location: events.php?view=overridehours&id=' . $_POST['event_id'];
+        break;
+    case "set_override_hours":
+        foreach ($_POST['members_override'] as $member_override) {
+            if (!$eventdb->setOverrideHours($_POST['event_id'], $member_override['user_id'], $member_override['hours'])) {
+                $message = "DATABSE ERROR: A member's override hours could not be set!";
+                setcookie("errormsg", $message, time()+3);
+                break;
+            }
+        }
+        if (!isset($_COOKIE['errormsg'])) {
+            $message = "SUCCESS: Override hours were successfully set!";
+            setcookie("successmsg", $message, time()+3);
+        }
+        $location = 'Location: events.php?view=overridehours&id=' . $_POST['event_id'];
         break;
     case "add_user":
         if (!isset($_POST['username'])) {

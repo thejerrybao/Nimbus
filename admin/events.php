@@ -325,6 +325,7 @@ $customJS = true;
                                 <textarea rows="3" class="form-control"><?= $attendeeEmails ?></textarea>
                             </div>
                         </div>
+                        <? if ($event['status'] < 2) { ?>
                         <div class="panel panel-info">
                             <div class="panel-heading">Add Attendees</div>
                             <div class="panel-body">
@@ -362,14 +363,6 @@ $customJS = true;
                         <div class="panel panel-default">
                             <div class="panel-heading">Event Options</div>
                             <div class="panel-body">
-                                <? if ($event['status'] < 2) { ?>
-                                <form action="events.php" method="get" enctype="multipart/form-data" style="display: inline;">
-                                    <input type="hidden" name="view" value="overridehours">
-                                    <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
-                                    <div class="form-group" style="display: inline;">
-                                        <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Override Event Hours</button>
-                                    </div>
-                                </form>
                                 <form action="events.php" method="get" enctype="multipart/form-data" style="display: inline;">
                                     <input type="hidden" name="view" value="edit">
                                     <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
@@ -384,7 +377,6 @@ $customJS = true;
                                         <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Delete Event</button>
                                     </div>
                                 </form>
-                                <? } ?>
                                 <? if ($event['status'] == 1) { ?>
                                 <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
                                     <div class="form-group" style="display: inline;">
@@ -393,9 +385,17 @@ $customJS = true;
                                         <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Confirm Event</button>
                                     </div>
                                 </form>
+                                <form action="events.php" method="get" enctype="multipart/form-data" style="display: inline;">
+                                    <input type="hidden" name="view" value="overridehours">
+                                    <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
+                                    <div class="form-group" style="display: inline;">
+                                        <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Override Event Hours</button>
+                                    </div>
+                                </form>
                                 <? } ?>
                             </div>
                         </div>
+                        <? } ?>
                     </div>
                 </div>
             <? break; ?>
@@ -541,6 +541,106 @@ $customJS = true;
                 </div>
             <? break; ?>
             <? case "calendar": ?>
+            <? break; ?>
+            <? case "overridehours" ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Override Event Hours</h1>
+                    </div>
+                </div>
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
+                <? if (empty($_GET['id'])) { ?>
+                    <h2>No event ID specified.</h2>
+                <? } else { $eventOverrideHours = $eventdb->getOverrideHours($_GET['id']); } ?>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Manage Override Event Hours</div>
+                            <div class="panel-body">
+                                <? if ($eventOverrideHours) { ?>
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                <? } ?>
+                                    <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th id="override-member-name">Name</th>
+                                            <th id="override-member-service">Service Hours</th>
+                                            <th id="override-member-admin">Admin Hours</th>
+                                            <th id="override-member-social">Social Hours</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <? if ($eventOverrideHours) { ?>
+                                        <? $i = 0; ?>
+                                        <? foreach ($eventOverrideHours as $overrideMember) { ?>
+                                            <tr>
+                                                <td id="override-member-name-cell"><?= $overrideMember['first_name'] ?> <?= $overrideMember['last_name'] ?></td>
+                                                <input type="hidden" name="members_override[<?= $i ?>][user_id]" value="<?= $overrideMember['user_id'] ?>">
+                                                <td><input type="number" min="0" name="members_override[<?= $i ?>][hours][service_hours]" class="form-control" value="<?= $overrideMember['service_hours'] ?>" required></td>
+                                                <td><input type="number" min="0" name="members_override[<?= $i ?>][hours][admin_hours]" class="form-control" value="<?= $overrideMember['admin_hours'] ?>" required></td>
+                                                <td><input type="number" min="0" name="members_override[<?= $i ?>][hours][social_hours]" class="form-control" value="<?= $overrideMember['social_hours'] ?>" required></td>
+                                            </tr>
+                                            <? $i++; ?>
+                                        <? } ?>
+                                    <? } else { ?>
+                                        <tr>
+                                            <td>No Overridden Members</td>
+                                            <td>N/A</td>
+                                            <td>N/A</td>
+                                            <td>N/A</td>
+                                        </tr>
+                                    <? } ?>
+                                    </tbody>
+                                </table>
+                                <? if ($eventOverrideHours) { ?>
+                                <input type="hidden" name="form_submit_type" value="set_override_hours">
+                                <input type="hidden" name="event_id" value="<?= $_GET['id'] ?>">
+                                <button type="submit" class="btn btn-primary btn-block">Set Override Hours</button>
+                            </form>
+                            <? } ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Add Member to Override</div>
+                            <div class="panel-body">
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="add_override_hours">
+                                    <input type="hidden" name="event_id" value="<?= $_GET['id'] ?>">
+                                    <label>Select Members to Add</label>
+                                    <select name="user_ids[]" class="form-control" id="form-add-override-hours" multiple required>
+                                        <? $users = $userdb->getUsers("active"); ?>
+                                        <? $overrideIDs = $eventdb->getOverrideHours($_GET['id'], true); ?>
+                                        <? foreach ($users as $user) { ?>
+                                            <? if (!in_array($user['user_id'], $overrideIDs)) { ?>
+                                                <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
+                                            <? } ?>
+                                        <? } ?>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Add Members</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Delete Member from Override</div>
+                            <div class="panel-body">
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="delete_override_hours">
+                                    <input type="hidden" name="event_id" value="<?= $_GET['id'] ?>">
+                                    <label>Select Members to Delete</label>
+                                    <select name="user_ids[]" class="form-control" id="form-delete-override-hours" multiple required>
+                                        <? foreach ($eventOverrideHours as $overrideMember) { ?>
+                                            <option value="<?= $overrideMember['user_id'] ?>"><?= $overrideMember['first_name'] ?> <?= $overrideMember['last_name'] ?></option>
+                                        <? } ?>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Delete Members</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             <? break; ?>
             <? default: ?>
                 <div class="row">
