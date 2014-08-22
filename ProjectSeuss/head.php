@@ -33,7 +33,16 @@
 									<li><a href="http://www.kiwanis.org/">Kiwanis International</a></li>						
 								</ul>
 							</li>
-							<li><a href="#">Service</a></li>
+							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Service</a>
+								
+								<ul class="dropdown-menu">
+									<li><a href="../ProjectSeuss/Service/contproj.php">Continuous Projects Spotlight</a></li>
+									<li><a href="../ProjectSeuss/Service/singleserv.php">Single Service Spotlight</a></li>
+									<li><a href="http://www.cnhcirclek.org/about/district-service-initiative">District Service Initiative</a></li>
+									<li><a href="http://www.cnhcirclek.org/about/district-fundraising-initiatives">District Fundraising Initiatives</a></li>												
+								</ul>
+
+							</li>
 							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Leadership</a>
 								<ul class="dropdown-menu">
 									<li><a href="../ProjectSeuss/Leadership/board.php">Board</a></li>						
@@ -44,15 +53,15 @@
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Committees</a>
 								<ul class="dropdown-menu">
-									<li><a href="#">Fundraising</a></li>
-									<li><a href="#">Historian</a></li>
-									<li><a href="#">Kiwanis Family</a></li>
-									<li><a href="#">MD&E</a></li>
-									<li><a href="#">MRP</a></li>
-									<li><a href="#">Projects</a></li>
+									<li><a href="/ProjectSeuss/committees/fund.php">Fundraising</a></li>
+									<li><a href="/ProjectSeuss/committees/hist.php">Historian</a></li>
+									<li><a href="/ProjectSeuss/committees/kfam.php">Kiwanis Family</a></li>
+									<li><a href="/ProjectSeuss/committees/mde.php">MD&E</a></li>
+									<li><a href="/ProjectSeuss/committees/proj.php">Projects</a></li>
 									<li><a href="/ProjectSeuss/committees/pr.php">Public Relations</a></li>
-									<li><a href="#">Single Service</a></li>
-									<li><a href="#">Spirit & Social</a></li>
+									<li><a href="/ProjectSeuss/committees/publ.php">Publications</a></li>
+									<li><a href="/ProjectSeuss/committees/sserve.php">Single Service</a></li>
+									<li><a href="/ProjectSeuss/committees/spirit.php">Spirit & Social</a></li>
 									<li><a href="/ProjectSeuss/committees/tech.php">Technology</a></li>								
 								</ul>
 							</li>

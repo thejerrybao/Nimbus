@@ -8,18 +8,18 @@
 	 <?php include("../head.php") ?>
   </head>
 	<body>
-    <h1 align="center">Public Relations Committee</h1>
+    <h1 align="center">Spirit & Social Committee</h1>
     <hr class="featurette-divider">
 
       <div class="row featurette">
         <div class="col-md-1"></div>
         <div class="col-md-5">
-          <h2 class="featurette-heading">Welcome to the Public Relations Committee!</h2>
-          <p class="lead">The Public Relations committee acts as a liaison between the home club and other organizations both on campus and in the community. We provide members with the opportunity to advertise and market the amazing service and work we do as an organization at UC Berkeley.</p>
-          <p><span class="text-muted">Stanley Han</span></p>
+          <h2 class="featurette-heading">Welcome to the Spirit & Social Committee!</h2>
+          <p class="lead">.....................................</p>
+          <p><span class="text-muted">Leon Liang</span></p>
         </div>
         <div class="col-md-5">
-          <img class="featurette-image img-circle" align="right" src="../images/pictures/committees/prcomm.jpg" style="width: 100%; height: 100%;">
+          <img class="featurette-image img-circle" align="right" src="../images/pictures/committees/spiritcomm.jpg" style="width: 100%; height: 100%;">
         </div>
         <div class="col-md-1"></div>
       </div>
@@ -34,7 +34,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-4">          
           <h2 class="featurette-heading">Minutes</h2>
-          <a href="#">Public Relations Committee Folder</a>
+          <a href="#">Spirit & Social Committee Folder</a>
         </div>
 
       </div>
