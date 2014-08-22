@@ -13,7 +13,6 @@
 $valid_event_manage_views = ["list", "calendar", "event", "edit"];
 $valid_roster_manage_views = ["list", "dues", "member", "status"];
 $valid_mrp_views = ["add", "list"];
-session_start();
 ?>
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
