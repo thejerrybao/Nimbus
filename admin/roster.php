@@ -15,51 +15,24 @@ if (!isset($_SESSION['cki_rf_user_id'])) { header('Location: ../login.php'); }
 else if ($_SESSION['cki_rf_access'] == 0) { echo "You don't have access to this page."; exit; }
 require_once("dbfunc.php");
 $userdb = new UserFunctions;
+
+$page = "roster";
+$pageTitle = "Roster Administration";
+$customCSS = true;
+$customJS = true;
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Project Nimbus - Roster Administration</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- MetisMenu CSS -->
-    <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="css/sb-admin-2.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- roster.php CSS -->
-    <link href="css/roster.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
+<? require_once("header.php"); ?>
 
 <body>
 
     <div id="wrapper">
 
         <!-- Navigation -->
-        <? $page = "roster"; 
-            require_once("nav.php"); ?>
+        <? require_once("nav.php"); ?>
 
         <!-- Page Content -->
         <div id="page-wrapper">
@@ -427,20 +400,8 @@ $userdb = new UserFunctions;
     </div>
     <!-- /#wrapper -->
 
-    <!-- jQuery Version 1.11.0 -->
-    <script src="js/jquery-1.11.0.js"></script>
+    <? require_once("scripts.php"); ?>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="js/sb-admin-2.js"></script>
-
-    <!-- roster.php JS -->
-    <script src="js/roster.js"></script>
 </body>
 </html>
 ?>

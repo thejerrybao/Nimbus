@@ -17,51 +17,24 @@ else if ($_SESSION['cki_rf_access'] == 0) { echo "You don't have access to this 
 require_once("dbfunc.php");
 $committeedb = new CommitteeFunctions;
 $userdb = new UserFunctions;
+
+$page = "committees";
+$pageTitle = "Committee Administration";
+$customCSS = true;
+$customJS = true;
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Project Nimbus - Committee Administration</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- MetisMenu CSS -->
-    <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="css/sb-admin-2.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- committees.php CSS -->
-    <link href="css/committees.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
+<? require_once("header.php"); ?>
 
 <body>
 
     <div id="wrapper">
 
         <!-- Navigation -->
-        <? $page = "committees"; 
-            require_once("nav.php"); ?>
+        <? require_once("nav.php"); ?>
 
         <!-- Page Content -->
         <div id="page-wrapper">
@@ -159,7 +132,6 @@ $userdb = new UserFunctions;
                                     <tr>
                                         <th id="committee-member-name">Name</th>
                                         <th id="committee-member-email">E-mail</th>
-                                        <th id="committee-member-delete">Delete?</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -169,14 +141,6 @@ $userdb = new UserFunctions;
                                     <tr>
                                         <td><?= $committeeMember['first_name'] ?> <?= $committeeMember['last_name'] ?></td>
                                         <td><?= $committeeMember['email'] ?></td>
-                                        <td>
-                                            <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                                <input type="hidden" name="form_submit_type" value="delete_committee_user">
-                                                <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
-                                                <input type="hidden" name="user_id" value="<?= $committeeMember['user_id'] ?>">
-                                                <button type="submit" class="btn btn-primary btn-xs">Delete Member</button>
-                                            </form>
-                                        </td>
                                     </tr>
                                 <? } ?>
                                 </tbody>
@@ -186,22 +150,55 @@ $userdb = new UserFunctions;
                     </div>
                     <div class="col-lg-4">
                         <div class="panel panel-info">
-                            <div class="panel-heading">Committee Management</div>
+                            <div class="panel-heading">Committee E-mails</div>
                             <div class="panel-body">
                                 <label>Committee Member Emails</label>
                                 <textarea rows="3" class="form-control" style="margin-bottom: 20px;"><?= $committeeEmails ?></textarea>
+                            </div>
+                        </div>
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Add Committee Members</div>
+                            <div class="panel-body">
                                 <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="form_submit_type" value="add_committee_user">
+                                    <input type="hidden" name="form_submit_type" value="add_committee_members">
                                     <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
-                                    <label>Select Member to Add</label>
-                                    <select name="user_id" class="form-control" required>
+                                    <label>Select Members to Add</label>
+                                    <select name="user_ids[]" class="form-control" id="form-add-committee-members" multiple required>
                                         <? $users = $userdb->getUsers("active"); ?>
+                                        <? $committeeMemberIDs = $committeedb->getCommitteeMembers($_GET['id']); ?>
                                         <? foreach ($users as $user) { ?>
-                                            <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
+                                            <? if (!in_array($user['user_id'], $committeeMemberIDs)) { ?>
+                                                <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
+                                            <? } ?>
                                         <? } ?>
                                     </select>
-                                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Add Member</button>
+                                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Add Members</button>
                                 </form>
+                            </div>
+                        </div>
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Delete Committee Members</div>
+                            <div class="panel-body">
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="delete_committee_members">
+                                    <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
+                                    <label>Select Members to Delete</label>
+                                    <select name="user_ids[]" class="form-control" id="form-delete-committee-members" multiple required>
+                                        <? foreach ($committee['members'] as $committeeMember) { ?>
+                                            <option value="<?= $committeeMember['user_id'] ?>"><?= $committeeMember['first_name'] ?> <?= $committeeMember['last_name'] ?></option>
+                                        <? } ?>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Delete Members</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Committee Options</div>
+                            <div class="panel-body">
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="delete_committee">
+                                    <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
+                                    <button type="submit" class="btn btn-primary">Delete Committee</button>
                             </div>
                         </div>
                     </div>
@@ -224,17 +221,7 @@ $userdb = new UserFunctions;
     </div>
     <!-- /#wrapper -->
 
-    <!-- jQuery Version 1.11.0 -->
-    <script src="js/jquery-1.11.0.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="js/sb-admin-2.js"></script>
+    <? require_once("scripts.php") ?>
 
 </body>
 </html>

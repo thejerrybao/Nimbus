@@ -91,16 +91,36 @@ switch ($_POST['form_submit_type']) {
             exit;
         } else { echo "Event failed to verify. Try again."; }
         break;
-    case "verify_event";
+    case "verify_event_approve";
         if ($eventdb->setEventStatus($_POST['event_id'], 3)) {
+<<<<<<< HEAD
             $location = 'Location: admin.php?view=verify';
             header($location);
             exit;
         } else { echo "Event failed to verify. Try again."; }
+=======
+            $message = "SUCCESS: Event successfully approved!";
+            setcookie("successmsg", $message, time()+3);
+        } else {
+            $message = "DATABASE ERROR: Event could not be approved!";
+            setcookie("errormsg", $message, time()+3);
+        }
+        $location = 'Location: admin.php?view=verify';
+        break;
+    case "verify_event_deny";
+        if ($eventdb->setEventStatus($_POST['event_id'], 1)) {
+            $message = "SUCCESS: Event successfully denied!";
+            setcookie("successmsg", $message, time()+3);
+        } else {
+            $message = "DATABASE ERROR: Event could not be denied!";
+            setcookie("errormsg", $message, time()+3);
+        }
+        $location = 'Location: admin.php?view=verify';
+>>>>>>> FETCH_HEAD
         break;
     case "add_event_attendees":
-        foreach ($_POST['add_attendees'] as $addAttendee) {
-            if (!$eventdb->addEventAttendee($_POST['event_id'], $addAttendee)) {
+        foreach ($_POST['user_ids'] as $user_id) {
+            if (!$eventdb->addEventAttendee($_POST['event_id'], $user_id)) {
                 $message = "DATABASE ERROR: A member could not be added as an attendee!";
                 setcookie("errormsg", $message, time()+3);
                 break;
@@ -113,8 +133,8 @@ switch ($_POST['form_submit_type']) {
         $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
         break;
     case "delete_event_attendees":
-        foreach ($_POST['delete_attendees'] as $deleteAttendee) {
-            if (!$eventdb->deleteEventAttendee($_POST['event_id'], $deleteAttendee)) {
+        foreach ($_POST['user_ids'] as $user_id) {
+            if (!$eventdb->deleteEventAttendee($_POST['event_id'], $user_id)) {
                 $message = "DATABASE ERROR: A member could not be deleted as an attendee!";
                 setcookie("errormsg", $message, time()+3);
                 break;
@@ -125,6 +145,48 @@ switch ($_POST['form_submit_type']) {
             setcookie("successmsg", $message, time()+3);
         }
         $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
+        break;
+    case "add_override_hours":
+        foreach ($_POST['user_ids'] as $user_id) {
+            if (!$eventdb->addOverrideHours($_POST['event_id'], $user_id)) {
+                $message = "DATABASE ERROR: A member could not be added to the override hours list!";
+                setcookie("errormsg", $message, time()+3);
+                break;
+            }
+        }
+        if (!isset($_COOKIE['errormsg'])) {
+            $message = "SUCCESS: Selected members were added to the override hours list!";
+            setcookie("successmsg", $message, time()+3);
+        }
+        $location = 'Location: events.php?view=overridehours&id=' . $_POST['event_id'];
+        break;
+    case "delete_override_hours":
+        foreach ($_POST['user_ids'] as $user_id) {
+            if (!$eventdb->deleteOverrideHours($_POST['event_id'], $user_id)) {
+                $message = "DATABASE ERROR: A member could not be deleted from the override hours list!";
+                setcookie("errormsg", $message, time()+3);
+                break;
+            }
+        }
+        if (!isset($_COOKIE['errormsg'])) {
+            $message = "SUCCESS: Selected members were deleted from the override hours list!";
+            setcookie("successmsg", $message, time()+3);
+        }
+        $location = 'Location: events.php?view=overridehours&id=' . $_POST['event_id'];
+        break;
+    case "set_override_hours":
+        foreach ($_POST['members_override'] as $member_override) {
+            if (!$eventdb->setOverrideHours($_POST['event_id'], $member_override['user_id'], $member_override['hours'])) {
+                $message = "DATABSE ERROR: A member's override hours could not be set!";
+                setcookie("errormsg", $message, time()+3);
+                break;
+            }
+        }
+        if (!isset($_COOKIE['errormsg'])) {
+            $message = "SUCCESS: Override hours were successfully set!";
+            setcookie("successmsg", $message, time()+3);
+        }
+        $location = 'Location: events.php?view=overridehours&id=' . $_POST['event_id'];
         break;
     case "add_user":
         if (!isset($_POST['username'])) {
@@ -179,6 +241,7 @@ switch ($_POST['form_submit_type']) {
         } else { echo "Failed to add a committee."; }
         break;
     case "delete_committee":
+<<<<<<< HEAD
         break;
 
     case "add_committee_member":
@@ -194,6 +257,45 @@ switch ($_POST['form_submit_type']) {
             header($location);
             exit;
         } else { echo "Failed to delete a committee member."; }
+=======
+        if ($committeedb->deleteCommittee($_POST['committee_id'])) {
+            $message = "SUCCESS: Committee was successfully deleted!";
+            setcookie("successmsg", $message, time()+3);
+            $location = 'Location: committees.php?view=list';
+        } else {
+            $message = "DATABASE ERROR: Committee could not be deleted!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: committees.php?view=committee&id=' . $_POST['committee_id'];
+        }
+        break;
+    case "add_committee_members":
+        foreach ($_POST['user_ids'] as $user_id) {
+            if (!$committeedb->addCommitteeMember($_POST['committee_id'], $user_id)) {
+                $message = "DATABASE ERROR: A member could not be added to the committee!";
+                setcookie("errormsg", $message, time()+3);
+                break;
+            }
+        }
+        if (!isset($_COOKIE['errormsg'])) {
+            $message = "SUCCESS: Selected members were added to the committee!";
+            setcookie("successmsg", $message, time()+3);
+        }
+        $location = 'Location: committees.php?view=committee&id=' . $_POST['committee_id'];
+        break;
+    case "delete_committee_members":
+        foreach ($_POST['user_ids'] as $user_id) {
+            if (!$committeedb->deleteCommitteeMember($_POST['committee_id'], $user_id)) {
+                $message = "DATABASE ERROR: A member could not be deleted from the committee!";
+                setcookie("errormsg", $message, time()+3);
+                break;
+            }
+        }
+        if (!isset($_COOKIE['errormsg'])) {
+            $message = "SUCCESS: Selected members were deleted from the committee!";
+            setcookie("successmsg", $message, time()+3);
+        }
+        $location = 'Location: committees.php?view=committee&id=' . $_POST['committee_id'];
+>>>>>>> FETCH_HEAD
         break;
     case "set_access":
         break;

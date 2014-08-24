@@ -17,6 +17,22 @@ define("MYSQL_USER", "root");
 define("MYSQL_PASS", "root");
 define("MYSQL_DB", "dev_ckirfsystem");
 
+function array_orderby() {
+    $args = func_get_args();
+    $data = array_shift($args);
+    foreach ($args as $n => $field) {
+        if (is_string($field)) {
+            $tmp = array();
+            foreach ($data as $key => $row)
+                $tmp[$key] = $row[$field];
+            $args[$n] = $tmp;
+        }
+    }
+    $args[] = &$data;
+    call_user_func_array('array_multisort', $args);
+    return array_pop($args);
+}
+
 class Database {
 
     protected $db;
@@ -450,6 +466,7 @@ class UserFunctions extends Database {
 class EventFunctions extends Database {
 
     // add override hours for users
+<<<<<<< HEAD
     public function addOverrideHours($event_id, $overrideUsers) {
 
         foreach ($overrideUsers as $user) {
@@ -465,6 +482,23 @@ class EventFunctions extends Database {
                 continue; 
             } else { return false; }
         }
+=======
+    public function addOverrideHours($event_id, $user_id) {
+
+        $query = $this->db->prepare('INSERT INTO `event_override_hours`
+            VALUES ("", :event_id, :user_id, 0, 0, 0)');
+
+        if ($query->execute(array(
+            ':event_id' => $event_id,
+            ':user_id' => $user_id))) { 
+            $query = $this->db->prepare('UPDATE `events`
+                SET num_override_hours = num_override_hours + 1
+                WHERE event_id=:event_id');
+            if ($query->execute(array(
+                ':event_id' => $event_id))) { return true; }
+            else { return false; }
+        } else { return false; }
+>>>>>>> FETCH_HEAD
     }
 
     // creates an event
@@ -529,12 +563,25 @@ class EventFunctions extends Database {
             $query = $this->db->prepare('DELETE FROM `event_override_hours`
                 WHERE event_id=:event_id AND user_id=:user_id');
 
+<<<<<<< HEAD
             if ($query->execute(array(
                 ':event_id' => $event_id,
                 ':user_id' => $user_id))) { 
                 continue; 
             } else { return false; }
         }
+=======
+        if ($query->execute(array(
+            ':event_id' => $event_id,
+            ':user_id' => $user_id))) {
+            $query = $this->db->prepare('UPDATE `events`
+                SET num_override_hours = num_override_hours - 1
+                WHERE event_id=:event_id');
+            if ($query->execute(array(
+                ':event_id' => $event_id))) { return true; }
+            else { return false; }
+        } else { return false; }
+>>>>>>> FETCH_HEAD
     }
 
     public function getConfirmedEvents() {
@@ -602,7 +649,7 @@ class EventFunctions extends Database {
         }
 >>>>>>> FETCH_HEAD
 
-        return $eventAttendees;
+        return array_orderby($eventAttendees, 'first_name', SORT_ASC);
     }
 
     // get event data with event ID
@@ -722,6 +769,34 @@ class EventFunctions extends Database {
         return $events;
     }
 
+    public function getOverrideHours($event_id, $id_only = false) {
+
+        $eventOverrideHours = array();
+
+        $query = $this->db->prepare('SELECT * FROM `event_override_hours`
+            WHERE event_id=:event_id');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':event_id' => $event_id));
+
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+            if ($id_only) { $eventOverrideHours[] = $row->user_id; }
+            else {
+                $userInfo = (new UserFunctions)->getUserInfo($row->user_id);
+                $eventOverrideHours[] = array(
+                    'user_id' => $row->user_id,
+                    'first_name' => $userInfo['first_name'],
+                    'last_name' => $userInfo['last_name'],
+                    'service_hours' => $row->service_hours,
+                    'admin_hours' => $row->admin_hours,
+                    'social_hours' => $row->social_hours);
+            }
+        }
+
+        return array_orderby($eventOverrideHours, 'first_name', SORT_ASC);
+    }
+
     // edit event information
     public function setEvent($event_id, $eventData, $tag_ids) {
 
@@ -801,7 +876,7 @@ class EventFunctions extends Database {
         $eventInfo = $this->getEventInfo($event_id);
         switch ($status) {
             case 1:
-                if ($eventInfo['status'] != 0) { return false; }
+                if ($eventInfo['status'] < 0 && $eventInfo['status'] > 2) { return false; }
                 break;
             case 2:
                 if ($eventInfo['status'] != 1) { return false; }
@@ -1059,7 +1134,7 @@ class CommitteeFunctions extends Database {
 
         $committees = array();
 
-        $query = $this->db->prepare('SELECT * FROM `committees`');
+        $query = $this->db->prepare('SELECT * FROM `committees` ORDER BY `name` ASC');
         $query->setFetchMode(PDO::FETCH_OBJ);
         if ($query->execute()) {
             if ($query->rowCount() == 0) { return false; }
@@ -1075,17 +1150,27 @@ class CommitteeFunctions extends Database {
     }
 
     // get members
-    public function getCommitteeMembers($committee_id) {
+    public function getCommitteeMembers($committee_id, $id_only = false) {
 
         $committeeMembers = array();
 
         $query = $this->db->prepare('SELECT * FROM `committee_members`
             WHERE committee_id=:committee_id');
         $query->setFetchMode(PDO::FETCH_OBJ);
+<<<<<<< HEAD
         if ($query->execute(array(
             ':committee_id' => $committee_id))) {
             if ($query->rowCount() == 0) { return false; }
             while ($row = $query->fetch()) {
+=======
+        $query->execute(array(
+            ':committee_id' => $committee_id));
+
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+            if ($id_only) { $committeeMembers[] = $row->user_id; }
+            else {
+>>>>>>> FETCH_HEAD
                 $userInfo = (new UserFunctions)->getUserInfo($row->user_id);
                 $committeeMembers[] = array(
                     'user_id' => $userInfo['user_id'],
@@ -1093,9 +1178,13 @@ class CommitteeFunctions extends Database {
                     'last_name' => $userInfo['last_name'],
                     'email' => $userInfo['email']);
             }
+<<<<<<< HEAD
         } else { return false; }
+=======
+        }
+>>>>>>> FETCH_HEAD
 
-        return $committeeMembers;
+        return array_orderby($committeeMembers, 'first_name', SORT_ASC);
     }
 }
 

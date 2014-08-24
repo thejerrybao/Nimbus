@@ -1,5 +1,9 @@
-th#event-name {
-    width: 30%;
+th#event-name, th#override-member-name {
+    width: 35%;
+}
+
+td#override-member-name-cell {
+    vertical-align: middle;
 }
 
 th#event-chair, th#event-start-datetime, th#event-end-datetime, th#event-location, th#event-num-attendees {
