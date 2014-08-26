@@ -30,7 +30,7 @@ $customJS = false;
     <div id="wrapper">
 
         <!-- Navigation -->
-        <?php require_once("nav.php"); ?>
+        <? require_once("nav.php"); ?>
 
         <!-- Page Content -->
         <div id="page-wrapper">
