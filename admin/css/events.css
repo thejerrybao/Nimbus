@@ -9,3 +9,8 @@ td#override-member-name-cell {
 th#event-chair, th#event-start-datetime, th#event-end-datetime, th#event-location, th#event-num-attendees {
     white-space: nowrap;
 }
+
+.btn-back {
+    float: right;
+    margin-top: 2px; /* line up with h1 header */
+}

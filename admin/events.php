@@ -230,7 +230,7 @@ $customJS = true;
             <? case "event": ?>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Event Information</h1>
+                        <h1 class="page-header">Event Information <a href="events.php?view=list"><button class="btn btn-primary btn-back">Back to Events List</button></a></h1>
                     </div>
                 </div>
                 <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
@@ -552,7 +552,7 @@ $customJS = true;
             <? case "overridehours" ?>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Override Event Hours</h1>
+                        <h1 class="page-header">Override Event Hours <a href="events.php?view=event&id=<?= $_GET['id'] ?>"><button class="btn btn-primary btn-back">Back to Event Info</button></a></h1>
                     </div>
                 </div>
                 <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
@@ -652,7 +652,7 @@ $customJS = true;
             <? case "otherattendees": ?>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Manage Other Attendees</h1>
+                        <h1 class="page-header">Manage Other Attendees <a href="events.php?view=event&id=<?= $_GET['id'] ?>"><button class="btn btn-primary btn-back">Back to Event Info</button></a></h1>
                     </div>
                 </div>
                 <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>

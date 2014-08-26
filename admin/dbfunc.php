@@ -156,11 +156,13 @@ class UserFunctions extends Database {
             }
         } else {
             $userEventsID = $this->getUserEvents($user_id);
-            foreach ($userEventsID as $event_id) {
-                $hours = $this->getUserHoursByEvent($user_id, $event_id);
-                $totalHours['service_hours'] += $hours['service_hours'];
-                $totalHours['admin_hours'] += $hours['admin_hours'];
-                $totalHours['social_hours'] += $hours['social_hours'];
+            if ($userEventsID) {
+                foreach ($userEventsID as $event_id) {
+                    $hours = $this->getUserHoursByEvent($user_id, $event_id);
+                    $totalHours['service_hours'] += $hours['service_hours'];
+                    $totalHours['admin_hours'] += $hours['admin_hours'];
+                    $totalHours['social_hours'] += $hours['social_hours'];
+                }
             }
         }
 

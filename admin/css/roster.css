@@ -23,3 +23,8 @@ td.checkbox-series-checkbox:last-child {
     padding: 5px 0 5px 5px;
     border-right: none;
 }
+
+.btn-back {
+    float: right;
+    margin-top: 2px; /* line up with h1 header */
+}

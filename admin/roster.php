@@ -137,7 +137,7 @@ $customJS = true;
             <? case "user": ?>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Member Information</h1>
+                        <h1 class="page-header">Member Information <a href="roster.php?view=list"><button class="btn btn-primary btn-back">Back to Members List</button></a></h1>
                     </div>
                 </div>
                 <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
