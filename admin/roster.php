@@ -43,8 +43,6 @@ $customJS = true;
                         <h1 class="page-header">Add Member</h1>
                     </div>
                 </div>
-                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
-                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
@@ -90,8 +88,6 @@ $customJS = true;
                         <h1 class="page-header">Members List</h1>
                     </div>
                 </div>
-                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
-                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <form id="search-roster-form">
@@ -140,8 +136,6 @@ $customJS = true;
                         <h1 class="page-header">Member Information <a href="roster.php?view=list"><button class="btn btn-primary btn-back">Back to Members List</button></a></h1>
                     </div>
                 </div>
-                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
-                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <? if (empty($_GET['id'])) { ?>
                     <h2>No member ID specified.</h2>
                 <? } else { 
@@ -210,8 +204,6 @@ $customJS = true;
                         <h1 class="page-header">Manage Dues Paid Members</h1>
                     </div>
                 </div>
-                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
-                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <? if (empty($_GET['action'])) { ?>
                     <h2>No action specified.</h2>
                 <? } else { ?>
@@ -306,8 +298,6 @@ $customJS = true;
                         <h1 class="page-header">Manage Members Status</h1>
                     </div>
                 </div>
-                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
-                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <? if (empty($_GET['action'])) { ?>
                     <h2>No action specified.</h2>
                 <? } else { ?>

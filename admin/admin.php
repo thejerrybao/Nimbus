@@ -44,8 +44,6 @@ $customJS = true;
                         <h1 class="page-header">Manage Member Access</h1>
                     </div>
                 </div>
-                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
-                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-primary">
@@ -64,7 +62,7 @@ $customJS = true;
                                                 <tr>
                                             <? } ?>
                                             <td class="checkbox-series-name"><?= $activeUser["first_name"] ?> <?= $activeUser["last_name"] ?></td>
-                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="user_ids[]" value="<?= $activeUser["user_id"] ?>" class="checkbox_series"></td>
+                                            <td class="checkbox-series-checkbox"><input type="checkbox" name="non_active_users[]" value="<?= $activeUser["user_id"] ?>" class="checkbox_series"></td>
                                             <? if ($i % 4 == 3) { ?>
                                             </tr>
                                             <? }
@@ -95,8 +93,6 @@ $customJS = true;
                         <h1 class="page-header">Verify Events</h1>
                     </div>
                 </div>
-                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
-                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="table-responsive">

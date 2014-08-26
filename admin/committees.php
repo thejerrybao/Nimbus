@@ -45,8 +45,6 @@ $customJS = true;
                         <h1 class="page-header">Add Committee</h1>
                     </div>
                 </div>
-                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
-                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
@@ -79,8 +77,6 @@ $customJS = true;
                         <h1 class="page-header">Manage Committees</h1>
                     </div>
                 </div>
-                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
-                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="table-responsive">
@@ -115,8 +111,11 @@ $customJS = true;
                         <h1 class="page-header">Committee Information <a href="committees.php?view=list"><button class="btn btn-primary btn-back">Back to List of Committees</button></a></h1>
                     </div>
                 </div>
+<<<<<<< HEAD
+=======
                 <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
                 <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
+>>>>>>> FETCH_HEAD
                 <? if (empty($_GET['id'])) { ?>
                     <h2>No committee ID specified.</h2>
                 <? } else { $committee = $committeedb->getCommittee($_GET['id']); } ?>
