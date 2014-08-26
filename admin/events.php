@@ -35,24 +35,7 @@ $customJS = true;
 <!DOCTYPE html>
 <html lang="en">
 
-<<<<<<< HEAD
-    <!-- Custom Fonts -->
-    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
-    <!-- events.php CSS -->
-    <link href="css/events.css" rel="stylesheet" type="text/css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-</head>
-=======
 <? require_once("header.php"); ?>
->>>>>>> FETCH_HEAD
 
 <body>
 
@@ -70,12 +53,14 @@ $customJS = true;
                         <h1 class="page-header">Create Event</h1>
                     </div>
                 </div>
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
                             <div class="panel-heading">Create New Event</div>
                             <div class="panel-body">
-                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                <form action="processdata.php" method="post" enctype="multipart/form-data" id="create_event">
                                     <input type="hidden" name="form_submit_type" value="create_event">
                                     <div class="form-group">
                                         <label>Event Name</label>
@@ -83,10 +68,14 @@ $customJS = true;
                                     </div>
                                     <div class="form-group">        
                                         <label>Chair</label>
-                                        <select name="chair_id" class="form-control" required>
+                                        <select name="chair_id" id="form-event-chair" class="form-control" required>
                                             <? $users = $userdb->getUsers("active"); ?>
                                             <? foreach ($users as $user) { ?>
-                                                <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
+                                                <? if ($user['user_id'] == $_SESSION['cki_rf_user_id']) { ?>
+                                                    <option value="<?= $user['user_id'] ?>" selected><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
+                                                <? } else { ?>
+                                                    <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
+                                                <? } ?>
                                             <? } ?>
                                         </select>
                                     </div>
@@ -112,7 +101,7 @@ $customJS = true;
                                     </div>
                                     <div class="form-group">
                                         <label>Tags</label>
-                                        <select name="tag_ids[]" class="form-control" multiple required>
+                                        <select name="tag_ids[]" class="form-control" id="form-event-tags" multiple required>
                                             <? $tags = $tagdb->getTags(); ?>
                                             <? foreach ($tags as $tag) { ?>
                                                 <option value="<?= $tag['tag_id'] ?>"><?= $tag['abbr'] ?> (<?= $tag['name'] ?>)</option>
@@ -152,6 +141,8 @@ $customJS = true;
                         <h1 class="page-header">Events List</h1>
                     </div>
                 </div>
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <form action="events.php" method="get" enctype="multipart/form-data">
@@ -183,7 +174,7 @@ $customJS = true;
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="table-responsive">
-                        <? $events = $eventdb->getEventsByMonth(mktime(0, 0, 0, $_GET['month'], 1, $_GET['year'])); ?>
+                        <? $events = $eventdb->getEventsByMonth(mktime(0, 0, 0, $_GET['month'], 0, $_GET['year'])); ?>
                         <? if ($events) { ?>
                         <table class="table table-striped table-hover">
                             <thead>
@@ -254,51 +245,6 @@ $customJS = true;
                     }
                 } ?>
                 <div class="row">
-<<<<<<< HEAD
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Event Information</h1>
-                        <? if ($event['status'] > 1) { ?>
-                        <fieldset disabled>
-                        <? } ?>
-                        <form action="events.php" method="get" enctype="multipart/form-data" style="display: inline;">
-                            <input type="hidden" name="view" value="edit">
-                            <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
-                            <div class="form-group" style="display: inline;">
-                                <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Edit Event</button>
-                            </div>
-                        </form>
-                        <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
-                            <input type="hidden" name="form_submit_type" value="delete_event">
-                            <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-                            <div class="form-group" style="display: inline;">
-                                <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Delete Event</button>
-                            </div>
-                        </form>
-                        <? if ($event['status'] > 1) { ?>
-                        </fieldset>
-                        <? } ?>
-                        <? if ($event['status'] == 0) { ?>
-                        <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
-                            <div class="form-group" style="display: inline;">
-                                <input type="hidden" name="form_submit_type" value="post_event">
-                                <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-                                <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Override Post-Event</button>
-                            </div>
-                        </form>
-                        <? } else if ($event['status'] == 1) { ?>
-                        <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
-                            <div class="form-group" style="display: inline;">
-                                <input type="hidden" name="form_submit_type" value="confirm_event">
-                                <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-                                <button type="submit" class="btn btn-primary" style="margin-bottom: 20px;">Confirm Event</button>
-                            </div>
-                        </form>
-                        <? } ?>
-                    </div>
-                </div>
-                <div class="row">
-=======
->>>>>>> FETCH_HEAD
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
                             <div class="panel-heading">All Event Data</div>
@@ -379,14 +325,7 @@ $customJS = true;
                                 <textarea rows="3" class="form-control"><?= $attendeeEmails ?></textarea>
                             </div>
                         </div>
-<<<<<<< HEAD
-                    </div>
-<<<<<<< HEAD
-=======
-                    <div class="col-lg-4">
-=======
                         <? if ($event['status'] < 2) { ?>
->>>>>>> FETCH_HEAD
                         <div class="panel panel-info">
                             <div class="panel-heading">Add Attendees</div>
                             <div class="panel-body">
@@ -465,7 +404,6 @@ $customJS = true;
                         </div>
                         <? } ?>
                     </div>
->>>>>>> FETCH_HEAD
                 </div>
             <? break; ?>
             <? case "edit": ?>
@@ -474,6 +412,8 @@ $customJS = true;
                         <h1 class="page-header">Edit Event</h1>
                     </div>
                 </div>
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <? if (empty($_GET['id'])) { ?>
                     <h2>No event ID specified.</h1>
                 <? } else { 
@@ -499,7 +439,7 @@ $customJS = true;
                                         </div>
                                         <div class="form-group">
                                             <label>Chair</label>
-                                            <select name="chair_id" class="form-control" id="chair_id" required>
+                                            <select name="chair_id" class="form-control" id="form-event-chair" required>
                                                 <? $users = $userdb->getUsers("active"); ?>
                                                 <? foreach ($users as $user) { ?>
                                                     <? if ($event['chair_id'] == $user['user_id']) { ?>
@@ -532,7 +472,7 @@ $customJS = true;
                                         </div> 
                                         <div class="form-group">
                                             <label>Tags</label>
-                                            <select name="tag_ids[]" class="form-control" multiple required>
+                                            <select name="tag_ids[]" class="form-control" id="form-event-tags" multiple required>
                                                 <? $tags = $tagdb->getTags(); ?>
                                                 <? foreach ($tags as $tag) { ?>
                                                     <? if (in_array($tag['tag_id'], $event['tag_ids'])) { ?>
@@ -832,27 +772,7 @@ $customJS = true;
     </div>
     <!-- /#wrapper -->
 
-<<<<<<< HEAD
-    <!-- jQuery Version 1.11.0 -->
-    <script src="js/jquery-1.11.0.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="js/sb-admin-2.js"></script>
-
-    <!-- Open Source datejs File -->
-    <script src="js/date.js"></script>
-
-    <!-- events.php JS -->
-    <script src="js/events.js"></script>
-=======
     <? require_once("scripts.php"); ?>
->>>>>>> FETCH_HEAD
 
 </body>
 </html>

@@ -24,7 +24,7 @@ switch ($_POST['form_submit_type']) {
             $_SESSION['cki_rf_access'] = $userData['access'];
             $_SESSION['cki_rf_first_name'] = $userData['first_name'];
             $_SESSION['cki_rf_last_name'] = $userData['last_name'];
-            header('Location: index.php');
+            $location = 'Location: index.php';
         } else { echo "Incorrect username/password."; } 
         break;
     case "create_event":
@@ -38,11 +38,23 @@ switch ($_POST['form_submit_type']) {
             "meeting_location" => $_POST['meeting_location'],
             "online_signups" => $_POST['online_signups'],
             "online_end_datetime" => strtotime($_POST['online_end_datetime']));
-        if ($eventdb->createEvent($eventData, $_POST['tag_ids'])) { 
+        if ($eventData['start_datetime'] > $eventData['end_datetime']) {
+            $message = "ERROR: Start Date and Time cannot be after End Date and Time!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: events.php?view=create';
+        } else if ($event['online_end_datetime'] > $event['start_datetime'] && $event['online_signups']) {
+            $message = "ERROR: Online End Date Time cannot be after Start Date Time!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: events.php?view=create';
+        } else if ($eventdb->createEvent($eventData, $_POST['tag_ids'])) {
+            $message = "SUCCESS: Event \"" . $eventData['name'] . "\" successfully created!";
+            setcookie("successmsg", $message, time()+3);
             $location = 'Location: events.php?view=list&month=' . idate('m') . '&year=' . date('Y');
-            header($location);
-            exit;
-        } else { echo "Event failed to create. Try again."; }
+        } else {
+            $message = "DATABASE ERROR: Event could not be created!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: events.php?view=create';
+        }
         break;
     case "edit_event":
         $status = $_POST['status'];
@@ -71,34 +83,47 @@ switch ($_POST['form_submit_type']) {
             "service_hours" => $_POST['service_hours'],
             "admin_hours" => $_POST['admin_hours'],
             "social_hours" => $_POST['social_hours']);
-        if ($eventdb->editEvent($_POST['event_id'], $eventData, $_POST['tag_ids'])) { 
+        if ($eventData['start_datetime'] > $eventData['end_datetime']) {
+            $message = "ERROR: Start Date and Time cannot be after End Date and Time!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: events.php?view=edit&id=' . $_POST['event_id'];
+        } else if ($event['online_end_datetime'] > $event['start_datetime'] && $event['online_signups']) {
+            $message = "ERROR: Online End Date Time cannot be after Start Date Time!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: events.php?view=edit&id=' . $_POST['event_id'];
+        } else if ($eventdb->editEvent($_POST['event_id'], $eventData, $_POST['tag_ids'])) {
+            $message = "SUCCESS: Event \"" . $eventData['name'] . "\" successfully created!";
+            setcookie("successmsg", $message, time()+3);
             $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
-            header($location);
-            exit;
-        } else { echo "Event failed to edit. Try again."; }
+        } else {
+            $message = "DATABASE ERROR: Event could not be created!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: events.php?view=edit&id=' . $_POST['event_id'];
+        }
         break;
     case "delete_event":
         if ($eventdb->deleteEvent($_POST['event_id'])) {
+            $message = "SUCCESS: Event successfully deleted!";
+            setcookie("successmsg", $message, time()+3);
             $location = 'Location: events.php?view=list';
-            header($location);
-            exit;
-        } else { echo "Event failed to delete. Try again."; }
+        } else { 
+            $message = "DATABASE ERROR: Event could not be deleted!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
+        }
         break;
     case "confirm_event":
         if ($eventdb->setEventStatus($_POST['event_id'], 2)) {
-            $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
-            header($location);
-            exit;
-        } else { echo "Event failed to verify. Try again."; }
+            $message = "SUCCESS: Event successfully confirmed!";
+            setcookie("successmsg", $message, time()+3);
+        } else {
+            $message = "DATABASE ERROR: Event could not be confirmed!";
+            setcookie("errormsg", $message, time()+3);
+        }
+        $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
         break;
     case "verify_event_approve";
         if ($eventdb->setEventStatus($_POST['event_id'], 3)) {
-<<<<<<< HEAD
-            $location = 'Location: admin.php?view=verify';
-            header($location);
-            exit;
-        } else { echo "Event failed to verify. Try again."; }
-=======
             $message = "SUCCESS: Event successfully approved!";
             setcookie("successmsg", $message, time()+3);
         } else {
@@ -116,7 +141,6 @@ switch ($_POST['form_submit_type']) {
             setcookie("errormsg", $message, time()+3);
         }
         $location = 'Location: admin.php?view=verify';
->>>>>>> FETCH_HEAD
         break;
     case "add_event_attendees":
         foreach ($_POST['user_ids'] as $user_id) {
@@ -221,72 +245,74 @@ switch ($_POST['form_submit_type']) {
         if (!isset($_POST['username'])) {
             $_POST['username'] = $_POST['password'] = $_POST['phone'] = "";
         }
-        $memberData = array(
+        $userData = array(
             "first_name" => $_POST['first_name'],
             "last_name" => $_POST['last_name'],
             "username" => $_POST['username'],
             "password" => $_POST['password'],
             "email" => $_POST['email'],
             "phone" => $_POST['phone']);
-        if ($userdb->addMember($memberData)) {
-            $location = 'Location: roster.php?view=list';
-            header($location);
-            exit;
-        } else { echo "Member failed to add. Try again."; }
+        if ($userdb->addUser($userData)) {
+            $message = "SUCCESS: " . $userData['first_name'] . " " . $userData['last_name'] . " was added to the database!";
+            setcookie("successmsg", $message, time()+3);
+        } else {
+            $message = "DATABASE ERROR: User could not be added!";
+            setcookie("errormsg", $message, time()+3);
+        }
+        $location = 'Location: roster.php?view=add';
         break;
     case "set_dues_paid":
         if ($userdb->setDuesPaidMembership($_POST['non_dues_paid'], 1)) {
-            $location = 'Location: roster.php?view=dues&action=set';
-            header($location);
-            exit;
-        } else { echo "Failed to set members as dues paid."; }
+            $message = "SUCCESS: Selected members were set as Dues Paid!";
+            setcookie("successmsg", $message, time()+3);
+        } else {
+            $message = "DATABASE ERROR: One or more members could not be set as Dues Paid!";
+            setcookie("errormsg", $message, time()+3);
+        }
+        $location = 'Location: roster.php?view=dues&action=set';
         break;
     case "unset_dues_paid":
         if ($userdb->setDuesPaidMembership($_POST['dues_paid'], 0)) {
-            $location = 'Location: roster.php?view=dues&action=unset';
-            header($location);
-            exit;
-        } else { echo "Failed to unset members as dues paid."; }
+            $message = "SUCCESS: Selected members were unset as Dues Paid!";
+            setcookie("successmsg", $message, time()+3);
+        } else {
+            $message = "DATABASE ERROR: One or more members could not be unset as Dues Paid!";
+            setcookie("errormsg", $message, time()+3);
+        }
+        $location = 'Location: roster.php?view=dues&action=unset';
         break;
     case "activate_members":
         if ($userdb->setActiveMembership($_POST['non_active_users'], 1)) {
-            $location = 'Location: roster.php?view=status&action=activate';
-            header($location);
-            exit;
-        } else { echo "Failed to activate members."; }
+            $message = "SUCCESS: Selected members were Activated!";
+            setcookie("successmsg", $message, time()+3);
+        } else {
+            $message = "DATABASE ERROR: One or more members could not be Activated!";
+            setcookie("errormsg", $message, time()+3);
+        }
+        $location = 'Location: roster.php?view=status&action=activate';
         break;
     case "deactivate_members":
         if ($userdb->setActiveMembership($_POST['active_users'], 0)) {
-            $location = 'Location: roster.php?view=status&action=deactivate';
-            header($location);
-            exit;
-        } else { echo "Failed to deactivate members."; }
+            $message = "SUCCESS: Selected members were Deactivated!";
+            setcookie("successmsg", $message, time()+3);
+        } else {
+            $message = "DATABASE ERROR: One or more members could not be Deactivated!";
+            setcookie("errormsg", $message, time()+3);
+        }
+        $location = 'Location: roster.php?view=status&action=deactivate';
         break;
     case "add_committee":
         if ($committeedb->addCommittee($_POST['name'])) {
+            $message = "SUCCESS: " . $_POST['name'] . " committee was added!";
+            setcookie("successmsg", $message, time()+3);
             $location = 'Location: committees.php?view=list';
-            header($location);
-            exit;
-        } else { echo "Failed to add a committee."; }
+        } else {
+            $message = "DATABASE ERROR: Committee could not be added!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: committees.php?view=add';
+        }
         break;
     case "delete_committee":
-<<<<<<< HEAD
-        break;
-
-    case "add_committee_member":
-        if ($committeedb->addCommitteeMember($_POST['committee_id'], $_POST['user_id'])) {
-            $location = 'Location: committees.php?view=committee&id=' . $_POST['committee_id'];
-            header($location);
-            exit;
-        } else { echo "Failed to add a committee member."; }
-        break;
-    case "delete_committee_member":
-        if ($committeedb->deleteCommitteeMember($_POST['committee_id'], $_POST['user_id'])) {
-            $location = 'Location: committees.php?view=committee&id=' . $_POST['committee_id'];
-            header($location);
-            exit;
-        } else { echo "Failed to delete a committee member."; }
-=======
         if ($committeedb->deleteCommittee($_POST['committee_id'])) {
             $message = "SUCCESS: Committee was successfully deleted!";
             setcookie("successmsg", $message, time()+3);
@@ -324,12 +350,22 @@ switch ($_POST['form_submit_type']) {
             setcookie("successmsg", $message, time()+3);
         }
         $location = 'Location: committees.php?view=committee&id=' . $_POST['committee_id'];
->>>>>>> FETCH_HEAD
         break;
     case "set_access":
+        if ($userdb->setUserAccess($_POST['user_ids'], $_POST['access'])) {
+            $message = "SUCCESS: Selected members access were changed!";
+            setcookie("successmsg", $message, time()+3);
+        } else {
+            $message = "DATABASE ERROR: One or more members access could not be set!";
+            setcookie("errormsg", $message, time()+3);
+        }
+        $location = 'Location: admin.php?view=access';
         break;
     default:
         echo "No Form Submit Type Passed.";
 }
+
+header($location);
+
 ?>
 

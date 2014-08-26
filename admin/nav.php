@@ -12,11 +12,7 @@
 
 $valid_event_manage_views = ["list", "calendar", "event", "edit"];
 $valid_roster_manage_views = ["list", "dues", "member", "status"];
-<<<<<<< HEAD
-session_start();
-=======
 $valid_mrp_views = ["add", "list"];
->>>>>>> FETCH_HEAD
 ?>
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -65,7 +61,7 @@ $valid_mrp_views = ["add", "list"];
                     <a href="#"><i class="fa fa-calendar fa-fw"></i> Event Management<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a <? if ($page == "events" && $_GET['view'] == "create") { ?> class="active" <? } ?> href="events.php?view=create">Create Event</a></li>
-                        <li <? if ($page == "events" && (in_array($_GET['view'], $valid_event_manage_views))) { ?> class="active" <? } ?> >
+                        <li <? if ($page == "events" && in_array($_GET['view'], $valid_event_manage_views)) { ?> class="active" <? } ?> >
                             <a href="#">Manage Events <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                                 <li><a <? if ($page == "events" && $_GET['view'] == "list") { ?> class="active" <? } ?> href="events.php?view=list">Events List</a></li>
@@ -78,7 +74,7 @@ $valid_mrp_views = ["add", "list"];
                     <a href="#"><i class="fa fa-user fa-fw"></i> Club Roster<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a <? if ($page == "roster" && $_GET['view'] == "add") { ?> class="active" <? } ?> href="roster.php?view=add">Add Member</a></li>
-                        <li <? if ($page == "roster" && (in_array($_GET['view'], $valid_roster_manage_views))) { ?> class="active" <? } ?> >
+                        <li <? if ($page == "roster" && in_array($_GET['view'], $valid_roster_manage_views)) { ?> class="active" <? } ?> >
                             <a href="#">Manage Members <span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                                 <li><a <? if ($page == "roster" && $_GET['view'] == "list") { ?> class="active" <? } ?> href="roster.php?view=list">Members List</a></li>
@@ -101,7 +97,7 @@ $valid_mrp_views = ["add", "list"];
                     <ul class="nav nav-second-level">
                         <li><a <? if ($page == "tags" && $_GET['view'] == "add") { ?> class="active" <? } ?> href="tags.php?view=add">Add Tag</a></li>
                         <li><a <? if ($page == "tags" && $_GET['view'] == "list") { ?> class="active" <? } ?> href="tags.php?view=list">Manage Tags</a></li>
-                        <li <? if ($page == "MRP") { ?> class="active" <? } ?>>
+                        <li <? if ($page == "tags" && in_array($_GET['view'], $valid_mrp_views)) { ?> class="active" <? } ?>>
                             <a href="#">MRP<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
                                 <li><a <? if ($page=="tags" && $_GET['view'] == "mrpadd") { ?> class="active" <? } ?> href="tags.php?view=add">Add Level</a></li>
