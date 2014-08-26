@@ -1,5 +1,5 @@
 <?php 
-/** Project Name: Nimbus (Circle K Report Form System)
+/** Project Name: Nimbus (Circle K Club Management)
  ** Page Headers (header.php)
  **
  ** Author: Jerry Bao (jbao@berkeley.edu)

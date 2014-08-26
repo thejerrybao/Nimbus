@@ -1,6 +1,6 @@
 <?php 
-/** Project Name: Nimbus (Circle K Report Form System)
- ** MRP Administration (mrp.php)
+/** Project Name: Nimbus (Circle K Club Management)
+ ** Tag Administration (tags.php)
  **
  ** Author: Jerry Bao (jbao@berkeley.edu)
  ** Author: Robert Rodriguez (rob.rodriguez@berkeley.edu)
