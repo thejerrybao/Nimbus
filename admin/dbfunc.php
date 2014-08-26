@@ -476,6 +476,26 @@ class EventFunctions extends Database {
         } else { return false; }
     }
 
+    public function addEventOtherAttendee($event_id, $data) {
+
+        $query = $this->db->prepare('INSERT INTO `event_other_attendees`
+            VALUES ("", :event_id, :club, :first_name, :last_name, :kiwanis_branch)');
+
+        if ($query->execute(array(
+            ':event_id' => $event_id,
+            ':club' => $data['club'],
+            ':first_name' => $data['first_name'],
+            ':last_name' => $data['last_name'],
+            ':kiwanis_branch' => $data['kiwanis_branch']))) {
+            $query = $this->db->prepare('UPDATE `events`
+                SET num_other_attendees = num_other_attendees + 1
+                WHERE event_id=:event_id');
+            if ($query->execute(array(
+                ':event_id' => $event_id))) { return true; }
+            else { return false; }
+        } else { return false; }
+    }
+
     // add override hours for users
     public function addOverrideHours($event_id, $user_id) {
 
@@ -543,6 +563,23 @@ class EventFunctions extends Database {
             ':user_id' => $user_id))) {
             $query = $this->db->prepare('UPDATE `events`
                 SET num_attendees = num_attendees - 1
+                WHERE event_id=:event_id');
+            if ($query->execute(array(
+                ':event_id' => $event_id))) { return true; }
+            else { return false; }
+        } else { return false; }
+    }
+
+    public function deleteEventOtherAttendee($event_id, $id) {
+
+        $query = $this->db->prepare('DELETE FROM `event_other_attendees`
+            WHERE event_id=:event_id AND id=:id');
+
+        if ($query->execute(array(
+            ':event_id' => $event_id,
+            ':id' => $id))) {
+            $query = $this->db->prepare('UPDATE `events`
+                SET num_other_attendees = num_other_attendees - 1
                 WHERE event_id=:event_id');
             if ($query->execute(array(
                 ':event_id' => $event_id))) { return true; }
@@ -648,7 +685,7 @@ class EventFunctions extends Database {
         $eventInfo['online_end_datetime'] = strtotime($row->online_end_datetime);
         $eventInfo['status'] = $row->status;
         $eventInfo['num_attendees'] = $row->num_attendees;
-        $eventInfo['num_outside_attendees'] = $row->num_outside_attendees;
+        $eventInfo['num_other_attendees'] = $row->num_other_attendees;
         $eventInfo['pros'] = $row->pros;
         $eventInfo['cons'] = $row->cons;
         $eventInfo['do_again'] = $row->do_again;
@@ -659,6 +696,29 @@ class EventFunctions extends Database {
         $eventInfo['num_override_hours'] = $row->num_override_hours;
         $eventInfo['tag_ids'] = $this->getEventTags($row->event_id);
         return $eventInfo;
+    }
+
+    public function getEventOtherAttendees($event_id) {
+
+        $eventOtherAttendees = array();
+
+        $query = $this->db->prepare('SELECT * FROM `event_other_attendees`
+            WHERE event_id=:event_id ORDER BY `first_name` ASC');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':event_id' => $event_id));
+
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+            $eventOtherAttendees[] = array(
+                'id' => $row->id,
+                'first_name' => $row->first_name,
+                'last_name' => $row->last_name,
+                'club' => $row->club,
+                'kiwanis_branch' => $row->kiwanis_branch);
+        }
+
+        return $eventOtherAttendees;
     }
 
     public function getEventTags($event_id) {

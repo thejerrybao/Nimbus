@@ -212,6 +212,35 @@ switch ($_POST['form_submit_type']) {
         }
         $location = 'Location: events.php?view=overridehours&id=' . $_POST['event_id'];
         break;
+    case "add_other_attendee":
+        $otherAttendeeData = array(
+            'first_name' => $_POST['first_name'],
+            'last_name' => $_POST['last_name'],
+            'club' => $_POST['club'],
+            'kiwanis_branch' => $_POST['kiwanis_branch']);
+        if ($eventdb->addEventOtherAttendee($_POST['event_id'], $otherAttendeeData)) {
+            $message = "SUCCESS: " . $otherAttendeeData['first_name'] . " " . $otherAttendeeData['last_name'] . " was added to the other attendees list!";
+            setcookie("successmsg", $message, time()+3);
+        } else { 
+            $message = "DATABASE ERROR: " . $otherAttendeeData['first_name'] . " " . $otherAttendeeData['last_name'] . " could not be added to the other attendees list!";
+            setcookie("errormsg", $message, time()+3);
+        }
+        $location = 'Location: events.php?view=otherattendees&id=' . $_POST['event_id'];
+        break;
+    case "delete_other_attendees":
+        foreach ($_POST['ids'] as $id) {
+            if (!$eventdb->deleteEventOtherAttendee($_POST['event_id'], $id)) {
+                $message = "DATABASE ERROR: An attendee could not be deleted from the other attendees list!";
+                setcookie("errormsg", $message, time()+3);
+                break;
+            }
+        }
+        if (!isset($_COOKIE['errormsg'])) {
+            $message = "SUCCESS: Selected attendees were deleted from the other attendees list!";
+            setcookie("successmsg", $message, time()+3);
+        }
+        $location = 'Location: events.php?view=otherattendees&id=' . $_POST['event_id'];
+        break;
     case "add_user":
         if (!isset($_POST['username'])) {
             $_POST['username'] = $_POST['password'] = $_POST['phone'] = "";

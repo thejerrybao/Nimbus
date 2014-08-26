@@ -392,6 +392,13 @@ $customJS = true;
                                         <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Override Event Hours</button>
                                     </div>
                                 </form>
+                                <form action="events.php" method="get" enctype="multipart/form-data" style="display: inline;">
+                                    <input type="hidden" name="view" value="otherattendees">
+                                    <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
+                                    <div class="form-group" style="display: inline;">
+                                        <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Manage Outside Attendees</button>
+                                    </div>
+                                </form>
                                 <? } ?>
                             </div>
                         </div>
@@ -636,6 +643,115 @@ $customJS = true;
                                         <? } ?>
                                     </select>
                                     <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Delete Members</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <? break; ?>
+            <? case "otherattendees": ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Manage Other Attendees</h1>
+                    </div>
+                </div>
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
+                <? if (empty($_GET['id'])) { ?>
+                    <h2>No event ID specified.</h2>
+                <? } else { $eventOtherAttendees = $eventdb->getEventOtherAttendees($_GET['id']); } ?>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Other Attendees List</div>
+                            <div class="panel-body">
+                                    <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th id="other-attendee-name">Name</th>
+                                            <th id="other-attendee-club">Club</th>
+                                            <th id="other-attendee-kiwanis-branch">Kiwanis Branch</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <? if ($eventOtherAttendees) { ?>
+                                        <? foreach ($eventOtherAttendees as $otherAttendee) { 
+                                            switch ($otherAttendee['kiwanis_branch']) {
+                                                case 0:
+                                                    $otherAttendee['kiwanis_branch'] = "Kiwanis";
+                                                    break;
+                                                case 1:
+                                                    $otherAttendee['kiwanis_branch'] = "Circle K";
+                                                    break;
+                                                case 2:
+                                                    $otherAttendee['kiwanis_branch'] = "Key Club";
+                                                    break;
+                                                case 3:
+                                                    $otherAttendee['kiwanis_branch'] = "Other";
+                                            } ?>
+                                            <tr>
+                                                <td><?= $otherAttendee['first_name'] ?> <?= $otherAttendee['last_name'] ?></td>
+                                                <td><?= $otherAttendee['club'] ?></td>
+                                                <td><?= $otherAttendee['kiwanis_branch'] ?></td>
+                                            </tr>
+                                        <? } ?>
+                                    <? } else { ?>
+                                        <tr>
+                                            <td>No Other Attendees</td>
+                                            <td>N/A</td>
+                                            <td>N/A</td>
+                                        </tr>
+                                    <? } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Add Other Attendee</div>
+                            <div class="panel-body">
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="add_other_attendee">
+                                    <input type="hidden" name="event_id" value="<?= $_GET['id'] ?>">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input type="text" name="first_name" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" name="last_name" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Club</label>
+                                        <input type="text" name="club" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Kiwanis Branch</label>
+                                        <select name="kiwanis_branch" class="form-control" required>
+                                            <option value="0">Kiwanis</option>
+                                            <option value="1">Circle K</option>
+                                            <option value="2">Key Club</option>
+                                            <option value="3">Other</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Add Attendee</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="panel panel-info">
+                            <div class="panel-heading">Delete Other Attendees</div>
+                            <div class="panel-body">
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="delete_other_attendees">
+                                    <input type="hidden" name="event_id" value="<?= $_GET['id'] ?>">
+                                    <label>Select Other Attendees to Delete</label>
+                                    <select name="ids[]" class="form-control" id="form-delete-other-attendees" multiple required>
+                                        <? foreach ($eventOtherAttendees as $otherAttendee) { ?>
+                                            <option value="<?= $otherAttendee['id'] ?>"><?= $otherAttendee['first_name'] ?> <?= $otherAttendee['last_name'] ?></option>
+                                        <? } ?>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Delete Atendees</button>
                                 </form>
                             </div>
                         </div>
