@@ -81,11 +81,11 @@ $customJS = true;
                                     </div>
                                     <div class="form-group">
                                         <label>Start Date and Time</label>
-                                        <input type="datetime-local" name="start_datetime" id="start-datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", time()); ?>" required>
+                                        <input type="datetime-local" name="start_datetime" id="start-datetime" class="form-control" value="<?= date("Y-m-d\TH:i:00", time()); ?>" required>
                                     </div>
                                     <div class="form-group">
                                         <label>End Date and Time</label>
-                                        <input type="datetime-local" name="end_datetime" id="end-datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", strtotime('+3 hours')); ?>" required>
+                                        <input type="datetime-local" name="end_datetime" id="end-datetime" class="form-control" value="<?= date("Y-m-d\TH:i:00", strtotime('+3 hours')); ?>" required>
                                     </div>
                                     <div class="form-group">
                                         <label>Description</label>
@@ -115,7 +115,7 @@ $customJS = true;
                                     </div>
                                     <div class="form-group">
                                         <label>Online Sign-up End Date</label>
-                                        <input type="datetime-local" name="online_end_datetime" id="online-end-datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", strtotime('-1 day')); ?>" required>
+                                        <input type="datetime-local" name="online_end_datetime" id="online-end-datetime" class="form-control" value="<?= date("Y-m-d\TH:i:00", strtotime('-1 day')); ?>" required>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Create Event</button>
                                     <button type="reset" class="btn btn-primary">Reset Fields</button>
@@ -131,6 +131,7 @@ $customJS = true;
                                 <p>Enter the name of the event here.</p>
                                 <label>Chair</label>
                                 <p>Select the person that is chairing this event.</p> 
+                                <label>Start Date Time  
                         </div>
                     </div>
                 </div>
@@ -452,11 +453,11 @@ $customJS = true;
                                         </div>
                                         <div class="form-group">
                                             <label>Start Date and Time</label>
-                                            <input type="datetime-local" name="start_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", $event['start_datetime']); ?>" required>
+                                            <input type="datetime-local" name="start_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:00", $event['start_datetime']); ?>" required>
                                         </div>    
                                         <div class="form-group">
                                             <label>End Date and Time</label>
-                                            <input type="datetime-local" name="end_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", $event['end_datetime']); ?>" required>
+                                            <input type="datetime-local" name="end_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:00", $event['end_datetime']); ?>" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Description</label>
@@ -494,7 +495,7 @@ $customJS = true;
                                         </div>
                                         <div class="form-group">
                                             <label>Online Sign-up End Date</label>
-                                            <input type="datetime-local" name="online_end_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:s", $event['online_end_datetime']); ?>" required>
+                                            <input type="datetime-local" name="online_end_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:00", $event['online_end_datetime']); ?>" required>
                                         </div>
                                         <? if ($event['status'] == 1) { ?>
                                         <div class="form-group">
