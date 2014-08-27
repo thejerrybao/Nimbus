@@ -114,7 +114,7 @@ $customJS = true;
                                         <input type="checkbox" name="online_signups" value="1" checked>
                                     </div>
                                     <div class="form-group">
-                                        <label>Online Sign-up End Date</label>
+                                        <label>Online Sign-up End Date and Time</label>
                                         <input type="datetime-local" name="online_end_datetime" id="online-end-datetime" class="form-control" value="<?= date("Y-m-d\TH:i:00", strtotime('-1 day')); ?>" required>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Create Event</button>
@@ -128,10 +128,25 @@ $customJS = true;
                             <div class="panel-heading">Help Panel</div>
                             <div class="panel-body">
                                 <label>Event Name</label>
-                                <p>Enter the name of the event here.</p>
+                                <p>Name of the event.</p>
                                 <label>Chair</label>
                                 <p>Select the person that is chairing this event.</p> 
-                                <label>Start Date Time  
+                                <label>Start Date and Time</label>
+                                <p>Start date and time of the event.</p>
+                                <label>End Date and Time</label>
+                                <p>End date and time of the event.</p>
+                                <label>Description</label>
+                                <p>Event Description. Be as descriptive as you like!</p>
+                                <label>Location</label>
+                                <p>Actual location of the event.</p>
+                                <label>Meeting Location</label>
+                                <p>Location of where to meet up for the event.</p>
+                                <label>Tags</label>
+                                <p>Event tags.</p>
+                                <label>Online Sign-ups?</label>
+                                <p>Select whether or not people can sign-up online.</p>
+                                <label>Online Sign-up End Date and Time</label>
+                                <p>End date and time of online sign-ups.</p>
                         </div>
                     </div>
                 </div>
@@ -287,7 +302,7 @@ $customJS = true;
                                     $tag = $tagdb->getTag($tag_id) ?>
                                 <?= $tag['abbr'] ?> (<?= $tag['name'] ?>)</br>
                                 <? } ?></p>
-                                <label>Online Signups?</label>
+                                <label>Online Sign-ups?</label>
                                 <p><? if ($event['online_signups']) { ?> Yes 
                                 <? } else { ?> No <? } ?></p>
                                 <? if ($event['status'] > 0) { ?>
@@ -494,7 +509,7 @@ $customJS = true;
                                             <? } ?>
                                         </div>
                                         <div class="form-group">
-                                            <label>Online Sign-up End Date</label>
+                                            <label>Online Sign-up End Date and Time</label>
                                             <input type="datetime-local" name="online_end_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:00", $event['online_end_datetime']); ?>" required>
                                         </div>
                                         <? if ($event['status'] == 1) { ?>
@@ -538,9 +553,31 @@ $customJS = true;
                                 <div class="panel-heading">Help Panel</div>
                                 <div class="panel-body">
                                     <label>Event Name</label>
-                                    <p>Enter the name of the event here.</p>
+                                    <p>Name of the event.</p>
                                     <label>Chair</label>
                                     <p>Select the person that is chairing this event.</p> 
+                                    <label>Start Date and Time</label>
+                                    <p>Start date and time of the event.</p>
+                                    <label>End Date and Time</label>
+                                    <p>End date and time of the event.</p>
+                                    <label>Description</label>
+                                    <p>Event Description. Be as descriptive as you like!</p>
+                                    <label>Location</label>
+                                    <p>Actual location of the event.</p>
+                                    <label>Meeting Location</label>
+                                    <p>Location of where to meet up for the event.</p>
+                                    <label>Tags</label>
+                                    <p>Event tags.</p>
+                                    <label>Online Sign-ups?</label>
+                                    <p>Select whether or not people can sign-up online.</p>
+                                    <label>Online Sign-up End Date and Time</label>
+                                    <p>End date and time of online sign-ups.</p>
+                                    <label>Pros of the Event</label>
+                                    <p>What was good about the event?</p>
+                                    <label>Cons of the Event</label>
+                                    <p>What was bad about the event?</p>
+                                    <label>Should we do this again?</label>
+                                    <p>Talk about whether or not the event is worth doing again.</p>
                             </div>
                         </div>
                     <? } else { ?>
