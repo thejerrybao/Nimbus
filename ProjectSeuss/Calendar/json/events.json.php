@@ -13,8 +13,8 @@
         $out[] = array(
             'id' => $event["event_id"],
             'title' => $event["name"],
-            'start' => date("c",strtotime($event["start_datetime"])),
-            'end' => date("c",strtotime($event["end_datetime"])) 
+            'start' => date("c",$event["start_datetime"]),
+            'end' => date("c",$event["end_datetime"]) 
         );
     }
     echo json_encode($out);

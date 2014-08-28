@@ -803,6 +803,35 @@ class EventFunctions extends Database {
 
         return $events;
     }
+    public function getEventsInterval($start, $end) {
+
+        $events = array();
+        $dateBegin = $start;
+        $dateEnd = $end;
+
+        $query = $this->db->prepare('SELECT * FROM `events`
+            WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND start_datetime < FROM_UNIXTIME(:dateEnd) ORDER BY `status` ASC' );
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':dateBegin' => $dateBegin,
+            ':dateEnd' => $dateEnd));
+
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+            $events[] = array(
+                'event_id' => $row->event_id,
+                'name' => $row->name,
+                'chair_id' => $row->chair_id,
+                'start_datetime' => strtotime($row->start_datetime),
+                'end_datetime' => strtotime($row->end_datetime),
+                'meeting_location' => $row->meeting_location,
+                'location' => $row->location,
+                'num_attendees' => $row->num_attendees,
+                'status' => $row->status);
+        }
+
+        return $events;
+    }
 
     public function getOverrideHours($event_id, $id_only = false) {
 
