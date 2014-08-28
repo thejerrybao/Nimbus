@@ -19,7 +19,7 @@
           <p><span class="text-muted">Heyun Jeong</span></p>
         </div>
         <div class="col-md-5">
-          <img class="featurette-image img-circle" align="right" src="../images/pictures/committees/publcomm.jpg" style="width: 100%; height: 100%;">
+          <img class="featurette-image img-circle" align="right" src="../images/pictures/board/hey.jpg" style="width: 100%; height: 100%;">
         </div>
         <div class="col-md-1"></div>
       </div>

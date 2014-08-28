@@ -121,7 +121,7 @@
       <div class="row">        
 
         <div class="col-lg-3">
-          <img class="img-circle" src="../images/pictures/board/publ1.jpg" alt="Generic placeholder image" style="width: 75%; height: 75%;">
+          <img class="img-circle" src="../images/pictures/board/hey.jpg" alt="Generic placeholder image" style="width: 75%; height: 75%;">
           <h2><b>Heyun Jeong</b></h2>
           <h3><em>Publications Editor</em></h3>
           <p>cki-publications@lists.berkeley.edu</p>
