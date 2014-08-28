@@ -361,6 +361,24 @@ switch ($_POST['form_submit_type']) {
         }
         $location = 'Location: admin.php?view=access';
         break;
+    case "add_tag":
+        $tagData = array(
+            "name" => $_POST['name'],
+            "abbr" => $_POST['abbr'],
+            "auto_manage" =>$_POST['auto_manage'],
+            "mrp_tag" => $_POST['mrp_tag'],
+            "number" => $_POST['number'],
+            "active" => $_POST['active']);
+        if ($tagData->addTag($_POST['name'])) {
+            $message = "SUCCESS: " . $_POST['name'] . " tag was added!";
+            setcookie("successmsg", $message, time()+3);
+            $location = 'Location: tags.php?view=list';
+        } else {
+            $message = "DATABASE ERROR: Tag could not be added!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: tags.php?view=add';
+        }
+        break;
     default:
         echo "No Form Submit Type Passed.";
 }

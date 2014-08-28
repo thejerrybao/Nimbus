@@ -50,11 +50,33 @@ $customJS = true;
                             <div class="panel-heading">Add New Tag</div>
                             <div class="panel-body">
                                 <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="form_submit_type" value="add_committee">
+                                    <input type="hidden" name="form_submit_type" value="add_tag">
                                     <div class="form-group">
                                         <label>Tag Name</label>
                                         <input type="text" name="name" class="form-control" required>
                                     </div>
+                                    <div class="form-group">
+                                        <label>Tag Abbr</label>
+                                        <input type="text" name="abbr" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>MRP Tag?</label>
+                                        <input type="hidden" name="mrp_tag" value="0">
+                                        <input type="checkbox" name="mrp_tag" value="1" checked id="mrptag_checked">
+                                    </div>
+                                    <div class="mrp-options">
+                                        <div class="form-group">
+                                            <label>Auto-Manage Tag?</label>
+                                            <input type="hidden" name="auto_manage" value="0">
+                                            <input type="checkbox" name="auto_manage" value="1" checked>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Number?</label>
+                                            <input type="hidden" name="auto_manage" value="0">
+                                            <input type="checkbox" name="auto_manage" value="1" checked>
+                                        </div>
+                                    </div>
+
                                     <button type="submit" class="btn btn-primary">Add Tag</button>
                                     <button type="reset" class="btn btn-primary">Reset Fields</button>
                                 </form>
@@ -90,10 +112,10 @@ $customJS = true;
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <? foreach ($committees as $committee) { ?>
+                                <? foreach ($tags as $tag) { ?>
                                     <tr>
-                                        <td><a href="committees.php?view=committee&id=<?= $committee['committee_id'] ?>"><?= $committee['name'] ?></td>
-                                        <td><?= count($committee['members']) ?></td>
+                                        <td><a href="tags.php?view=tag&id=<?= $tag['tag_id'] ?>"><?= $tag['name'] ?></td>
+                                        <td><?= count($tag['abbr']) ?></td>
                                     </tr>
                                 <? } ?>
                                 </tbody>
@@ -105,115 +127,39 @@ $customJS = true;
                     </dib>
                 </div>
             <? break; ?>
-            <? case "committee": ?>
-                <div class="row">
+            <? case "mrpadd": ?>
+            <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Committee Information</h1>
+                        <h1 class="page-header">Add MRP Level</h1>
                     </div>
                 </div>
-<<<<<<< HEAD
-=======
-                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
-                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
->>>>>>> FETCH_HEAD
-                <? if (empty($_GET['id'])) { ?>
-                    <h2>No committee ID specified.</h2>
-                <? } else { $committee = $committeedb->getCommittee($_GET['id']); } ?>
-                <? if ($committee) { ?>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
-                            <div class="panel-heading">Committee Members</div>
+                            <div class="panel-heading">Add New MRP</div>
                             <div class="panel-body">
-                                <label>Committee Name:</label> <?= $committee['name'] ?><br />
-                                <label># Committee Members:</label> <?= count($committee['members']) ?>
-                                <table class="table table-striped table-hover">
-                                <thead>
-                                    <tr>
-                                        <th id="committee-member-name">Name</th>
-                                        <th id="committee-member-email">E-mail</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <? $committeeEmails = "" ?>
-                                <? foreach ($committee['members'] as $committeeMember) { ?>
-                                    <? $committeeEmails .= $committeeMember['email'] . "; " ?>
-                                    <tr>
-                                        <td><?= $committeeMember['first_name'] ?> <?= $committeeMember['last_name'] ?></td>
-                                        <td><?= $committeeMember['email'] ?></td>
-                                    </tr>
-                                <? } ?>
-                                </tbody>
-                            </table>
+                                <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="add_committee">
+                                    <div class="form-group">
+                                        <label>Tag Name</label>
+                                        <input type="text" name="name" class="form-control" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Add Tag</button>
+                                    <button type="reset" class="btn btn-primary">Reset Fields</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="panel panel-info">
-                            <div class="panel-heading">Committee E-mails</div>
+                            <div class="panel-heading">Help Panel</div>
                             <div class="panel-body">
-                                <label>Committee Member Emails</label>
-                                <textarea rows="3" class="form-control" style="margin-bottom: 20px;"><?= $committeeEmails ?></textarea>
-                            </div>
-                        </div>
-                        <div class="panel panel-info">
-                            <div class="panel-heading">Add Committee Members</div>
-                            <div class="panel-body">
-                                <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="form_submit_type" value="add_committee_members">
-                                    <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
-                                    <label>Select Members to Add</label>
-                                    <select name="user_ids[]" class="form-control" id="form-add-committee-members" multiple required>
-                                        <? $users = $userdb->getUsers("active"); ?>
-                                        <? $committeeMemberIDs = $committeedb->getCommitteeMembers($_GET['id']); ?>
-                                        <? foreach ($users as $user) { ?>
-                                            <? if (!in_array($user['user_id'], $committeeMemberIDs)) { ?>
-                                                <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
-                                            <? } ?>
-                                        <? } ?>
-                                    </select>
-                                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Add Members</button>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="panel panel-info">
-                            <div class="panel-heading">Delete Committee Members</div>
-                            <div class="panel-body">
-                                <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="form_submit_type" value="delete_committee_members">
-                                    <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
-                                    <label>Select Members to Delete</label>
-                                    <select name="user_ids[]" class="form-control" id="form-delete-committee-members" multiple required>
-                                        <? foreach ($committee['members'] as $committeeMember) { ?>
-                                            <option value="<?= $committeeMember['user_id'] ?>"><?= $committeeMember['first_name'] ?> <?= $committeeMember['last_name'] ?></option>
-                                        <? } ?>
-                                    </select>
-                                    <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Delete Members</button>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Committee Options</div>
-                            <div class="panel-body">
-                                <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="form_submit_type" value="delete_committee">
-                                    <input type="hidden" name="committee_id" value="<?= $committee['committee_id'] ?>">
-                                    <button type="submit" class="btn btn-primary">Delete Committee</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <? } else { ?>
-                    <h2>Committee ID not found.</h2>
-                <? } ?>
             <? break; ?>
-            <? default: ?>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1>No view was selected.</h1>
-                    </div>
-                </div>
-            <? endswitch; ?>
+                <? endswitch; ?>
             </div>
         </div>
         <!-- /#page-wrapper -->
