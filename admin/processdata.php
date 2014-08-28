@@ -42,7 +42,7 @@ switch ($_POST['form_submit_type']) {
             $message = "ERROR: Start Date and Time cannot be after End Date and Time!";
             setcookie("errormsg", $message, time()+3);
             $location = 'Location: events.php?view=create';
-        } else if ($event['online_end_datetime'] > $event['start_datetime'] && $event['online_signups']) {
+        } else if ($event['online_end_datetime'] > $eventData['start_datetime'] && $eventData['online_signups']) {
             $message = "ERROR: Online End Date Time cannot be after Start Date Time!";
             setcookie("errormsg", $message, time()+3);
             $location = 'Location: events.php?view=create';
