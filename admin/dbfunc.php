@@ -1090,7 +1090,11 @@ class TagFunctions extends Database {
             $tags[] = array(
                 "tag_id" => $row->tag_id,
                 "name" => $row->name,
-                "abbr" => $row->abbr);
+                "abbr" => $row->abbr,
+                "mrp_tag" => $row->mrp_tag,
+                "auto_manage" => $row->auto_manage,
+                "number" => $row->number,
+                "active" => $row->active);
         }
 
         return $tags;
