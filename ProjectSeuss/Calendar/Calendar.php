@@ -14,13 +14,15 @@
 	$(document).ready(function() {
 		
 		$('#calendar').fullCalendar({
-    events: 'json/events.json.php',
+    events: 'json/events.json',
+    'default': true,
     eventClick: function(event) {
         if (event.url) {
             window.open(event.url);
             return false;
         }
-    }
+    },
+
 });
 		
 	});

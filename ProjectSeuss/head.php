@@ -5,10 +5,8 @@
 		<link rel="stylesheet" type="text/css" href="/ProjectSeuss/css/bootstrap.css" media="all">
 		</head>
 	<body>
-		<div class="jumbotron" align="middle">
-  			<h1>UC Berkeley Circle K</h1>
-  			<p>Oh the places you'll go with service!</p>
-		</div>		
+		      <img src="/ProjectSeuss/images/graphics/banner.jpg" style="width: 100%; height: 100%;">
+				
 		<div class = "navbar navbar-inverse navbar-static-top">
 			<div class= "container" > 
 				<div class = "navbar-header">
@@ -45,7 +43,7 @@
 							</li>
 							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Leadership</a>
 								<ul class="dropdown-menu">
-									<li><a href="../ProjectSeuss/Leadership/board.php">Board</a></li>						
+									<li><a href="/ProjectSeuss/Leadership/board.php">Board</a></li>						
 								</ul>
 
 							</li>
