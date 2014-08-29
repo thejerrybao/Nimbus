@@ -14,7 +14,7 @@ session_start();
 if (!isset($_SESSION['cki_rf_user_id'])) { header('Location: ../login.php'); }
 else if ($_SESSION['cki_rf_access'] == 0) { echo "You don't have access to this page."; exit; }
 require_once("dbfunc.php");
-$committeedb = new CommitteeFunctions;
+$tagdb = new TagFunctions;
 $userdb = new UserFunctions;
 
 $page = "tags";
@@ -102,26 +102,27 @@ $customJS = true;
                     <div class="col-lg-12">
                         <div class="table-responsive">
                             <? $tags = $tagdb->getTags(); ?>
-                            <? if ($ctags) { ?>
+                            <? if ($tags) { ?>
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
                                         <th id="tag-name">Tag Name</th>
                                         <th id="tag-abbr">Abbreviation</th>
-                                        <th id="mrp-tag ">Abbreviation</th>
+                                        <th id="mrp-tag ">MRP Tag?</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <? foreach ($tags as $tag) { ?>
                                     <tr>
                                         <td><a href="tags.php?view=tag&id=<?= $tag['tag_id'] ?>"><?= $tag['name'] ?></td>
-                                        <td><?= count($tag['abbr']) ?></td>
+                                        <td><?= $tag['abbr'] ?></td>
+                                        <td><?= $tag['number'] ?></td>
                                     </tr>
                                 <? } ?>
                                 </tbody>
                             </table>
                             <? } else { ?>
-                                <h2>No committees found.</h2>
+                                <h2>No tags found.</h2>
                             <? } ?>
                         </div>
                     </dib>
