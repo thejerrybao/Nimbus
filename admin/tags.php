@@ -101,7 +101,7 @@ $customJS = true;
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="table-responsive">
-                            <? $tags = $tagdb->getTags(); ?>
+                            <? $tags = $tagdb->getTags('all', 1); ?>
                             <? if ($tags) { ?>
                             <table class="table table-striped table-hover">
                                 <thead>
@@ -114,7 +114,7 @@ $customJS = true;
                                 <tbody>
                                 <? foreach ($tags as $tag) { ?>
                                     <tr>
-                                        <td><a href="tags.php?view=tag&id=<?= $tag['tag_id'] ?>"><?= $tag['name'] ?></td>
+                                        <td><?= $tag['name'] ?></td>
                                         <td><?= $tag['abbr'] ?></td>
                                         <td><?= $tag['number'] ?></td>
                                     </tr>
@@ -126,8 +126,10 @@ $customJS = true;
                             <? } ?>
                         </div>
                     </dib>
+                    <!--is this supposed to say dib?-->
                 </div>
             <? break; ?>
+
             <? case "mrpadd": ?>
             <div class="row">
                     <div class="col-lg-12">

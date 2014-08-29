@@ -1076,6 +1076,9 @@ class TagFunctions extends Database {
                 $query = $this->db->prepare('SELECT * FROM `tags`
                     WHERE mrp_tag=1 AND active=:active ORDER BY `abbr` ASC');
                 break;
+            case "all":
+                $query = $this->db->prepare('SELECT * FROM `tags`
+                    WHERE active=:active ORDER BY `abbr` ASC');
             default:
                 $query = $this->db->prepare('SELECT * FROM `tags`
                     WHERE active=:active ORDER BY `abbr` ASC');
