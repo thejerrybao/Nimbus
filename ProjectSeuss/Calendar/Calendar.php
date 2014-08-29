@@ -14,7 +14,7 @@
 	$(document).ready(function() {
 		
 		$('#calendar').fullCalendar({
-    events: 'json/events.json',
+    events: 'json/events.json.php',
     'default': true,
     eventClick: function(event) {
         if (event.url) {
