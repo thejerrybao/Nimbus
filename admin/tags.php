@@ -62,7 +62,7 @@ $customJS = true;
                                     <div class="form-group">
                                         <label>MRP Tag?</label>
                                         <input type="hidden" name="mrp_tag" value="0">
-                                        <input type="checkbox" name="mrp_tag" value="1" checked id="mrptag_checked">
+                                        <input type="checkbox" name="mrp_tag" value="1" id="mrptag_checked">
                                     </div>
                                     <div class="mrp-options">
                                         <div class="form-group">
@@ -72,8 +72,8 @@ $customJS = true;
                                         </div>
                                         <div class="form-group">
                                             <label>Number?</label>
-                                            <input type="hidden" name="auto_manage" value="0">
-                                            <input type="checkbox" name="auto_manage" value="1" checked>
+                                            <input type="hidden" name="number" value="0">
+                                            <input type="checkbox" name="number" value="1" checked>
                                         </div>
                                     </div>
 

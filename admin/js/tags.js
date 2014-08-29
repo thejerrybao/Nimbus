@@ -1,5 +1,3 @@
-
-$("#mrptag_checked").click(function(){
-    $(#mrptag_checked).prop("checked"){
-    	$(.mrp-options).show();
-  });
+$('#mrptag_checked').change(function () {
+        $(".mrp-options").toggle(this.checked);
+});

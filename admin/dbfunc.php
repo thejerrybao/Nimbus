@@ -988,15 +988,14 @@ class TagFunctions extends Database {
     public function addTag($tagData) {
 
         $query = $this->db->prepare('INSERT INTO `tags`
-            VALUES ("", :name, :abbr, :auto_manage, :mrp_tag, :number, :active)');
+            VALUES ("", :name, :abbr, :auto_manage, :mrp_tag, :number, 1)');
 
         if ($query->execute(array(
             ':name' => $tagData['name'],
             ':abbr' => $tagData['abbr'],
             ':auto_manage' => $tagData['auto_manage'],
             ':mrp_tag' => $tagData['mrp_tag'],
-            ':number' => $tagData['number'],
-            ':active' => $tagData['active']))) { return true; }
+            ':number' => $tagData['number']))) { return true; }
         else { return false; }
     }
 

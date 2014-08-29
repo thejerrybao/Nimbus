@@ -14,6 +14,7 @@ require_once("dbfunc.php");
 $committeedb = new CommitteeFunctions;
 $eventdb = new EventFunctions;
 $userdb = new UserFunctions;
+$tagdb = new TagFunctions;
 
 switch ($_POST['form_submit_type']) {
     case "login":
@@ -42,7 +43,7 @@ switch ($_POST['form_submit_type']) {
             $message = "ERROR: Start Date and Time cannot be after End Date and Time!";
             setcookie("errormsg", $message, time()+3);
             $location = 'Location: events.php?view=create';
-        } else if ($event['online_end_datetime'] > $eventData['start_datetime'] && $eventData['online_signups']) {
+        } else if ($event['online_end_datetime'] > $event['start_datetime'] && $event['online_signups']) {
             $message = "ERROR: Online End Date Time cannot be after Start Date Time!";
             setcookie("errormsg", $message, time()+3);
             $location = 'Location: events.php?view=create';
@@ -362,14 +363,23 @@ switch ($_POST['form_submit_type']) {
         $location = 'Location: admin.php?view=access';
         break;
     case "add_tag":
-        $tagData = array(
-            "name" => $_POST['name'],
-            "abbr" => $_POST['abbr'],
-            "auto_manage" =>$_POST['auto_manage'],
-            "mrp_tag" => $_POST['mrp_tag'],
-            "number" => $_POST['number'],
-            "active" => $_POST['active']);
-        if ($tagData->addTag($_POST['name'])) {
+        if ($_POST['mrp_tag'] == 0) {
+            $tagData = array(
+                "name" => $_POST['name'],
+                "abbr" => $_POST['abbr'],
+                "auto_manage" => 0,
+                "mrp_tag" => $_POST['mrp_tag'],
+                "number" => 0
+                );
+        } else {
+            $tagData = array(
+                "name" => $_POST['name'],
+                "abbr" => $_POST['abbr'],
+                "auto_manage" => $_POST['auto_manage'],
+                "mrp_tag" => $_POST['mrp_tag'],
+                "number" => $_POST['number']);
+        }
+        if ($tagdb->addTag($tagData)) {
             $message = "SUCCESS: " . $_POST['name'] . " tag was added!";
             setcookie("successmsg", $message, time()+3);
             $location = 'Location: tags.php?view=list';
