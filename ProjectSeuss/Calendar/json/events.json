@@ -1,41 +1,9 @@
-[
-  {
-    "title": "All Day Event",
-    "start": "2014-06-01"
-  },
-  {
-    "title": "Long Event",
-    "start": "2014-08-07",
-    "end": "2014-08-10"
-  },
-  {
-    "id": "999",
-    "title": "Repeating Event",
-    "start": "2014-08-09T16:00:00-05:00",
-    "end": "2014-08-09T16:00:00-09:00"
-  },
-  {
-    "id": "999",
-    "title": "Repeating Event",
-    "start": "2014-06-16T16:00:00-05:00"
-  },
-  {
-    "title": "Meeting",
-    "start": "2014-06-12T10:30:00-05:00",
-    "end": "2014-06-12T12:30:00-05:00"
-  },
-  {
-    "title": "Lunch",
-    "start": "2014-06-12T12:00:00-05:00"
-  },
-  {
-    "title": "Birthday Party",
-    "start": "2014-06-13T07:00:00-05:00"
-  },
-  {
-    "title": "Click for Google",
-    "url": "http://google.com/",
-    "start": "2014-06-28"
-  }
-]
-
+[{"allday":"false",
+"borderColor":"#1587bd",
+"color":"#9fc6e7",
+"description":"<p>This is just a test event for source 1.<\/p><p>Nothing to see really.<\/p>",
+"end":"2014-08-02 00:00",
+"start":"2014-08-02 00:00",
+"textColor":"#000000",
+"title":"Event1 1",
+"url":"http:\/\/mikesmithdev.com"}]

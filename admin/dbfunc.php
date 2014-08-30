@@ -827,6 +827,7 @@ class EventFunctions extends Database {
                 'meeting_location' => $row->meeting_location,
                 'location' => $row->location,
                 'num_attendees' => $row->num_attendees,
+                'description' => $row->description,
                 'status' => $row->status);
         }
 
