@@ -389,6 +389,16 @@ switch ($_POST['form_submit_type']) {
             $location = 'Location: tags.php?view=add';
         }
         break;
+    case "deactivate_tag":
+        if ($tagdb->deleteTag($_POST['tag_id'])) {
+        $message = "SUCCESS: Selected tags were deactivated!";
+            setcookie("successmsg", $message, time()+3);
+        } else {
+            $message = "DATABASE ERROR: One or more tags could not be deactivated!";
+            setcookie("errormsg", $message, time()+3);
+        }
+        $location = 'Location: tags.php?view=list';
+        break;
     default:
         echo "No Form Submit Type Passed.";
 }
