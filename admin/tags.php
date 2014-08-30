@@ -124,6 +124,21 @@ $customJS = true;
                             <? } else { ?>
                                 <h2>No tags found.</h2>
                             <? } ?>
+                            <div classs="panel panel-info">
+                                <div class="panel-heading">Deactivate Tags</div>
+                                <div class="panel-body">
+                                    <form action="processdate.php" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="form_submit_type" value="deactivate_tag">
+                                        <input type="hidden" name="tag_id" value="<?= $tag['tag_id'] ?>">
+                                        <select name="tag_ids[]" class="form-control" id="form-delete-tag" multiple required>
+                                            <?foreach ($tag['tag_ids'] as $tag => $value) { ?>
+                                                <option value="<?= $tag ?>"><?= $tag ?> </option>
+                                            <? } ?>
+                                        </select>
+                                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Deactivate Tag</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </dib>
                     <!--is this supposed to say dib?-->
