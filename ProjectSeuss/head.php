@@ -5,7 +5,7 @@
 		<link rel="stylesheet" type="text/css" href="/ProjectSeuss/css/bootstrap.css" media="all">
 		</head>
 	<body>
-		      <img src="/ProjectSeuss/images/graphics/banner.jpg" style="width: 100%; height: 100%;">
+		      <img src="/ProjectSeuss/images/banner_bluebg.png" style="width: 100%; height: 100%;">
 				
 		<div class = "navbar navbar-inverse navbar-static-top">
 			<div class= "container" > 

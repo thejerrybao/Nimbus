@@ -5,28 +5,29 @@
 <meta charset='utf-8' />
 <link href='../css/fullcalendar.css' rel='stylesheet' />
 <link href='../css/fullcalendar.print.css' rel='stylesheet' media='print' />
+<link href="../jquery-ui/jquery-ui.css" rel="stylesheet">
 <script src='lib/moment.min.js'></script>
-<script src='lib/jquery.min.js'></script>
 <script src='lib/jquery-ui.custom.min.js'></script>
-<script src='../js/fullcalendar.min.js'></script>
-<script>
+<script src='../js/fullcalendar.js'></script>
+<script src="/ProjectSeuss/jquery-ui/jquery-ui.js"></script>
 
-	$(document).ready(function() {
+<script>
+	
+    $(document).ready(function() {
 		
 		$('#calendar').fullCalendar({
     events: 'json/events.json.php',
     'default': true,
-    eventClick: function(event) {
-        if (event.url) {
-            window.open(event.url);
-            return false;
+    eventClick: function ( event, jsEvent, view ) {
+
+    	$("#otherModal").load("CalEventInfo.php?id="+event.id);
+        $('#otherModal').modal('show');
         }
-    },
+ 
 
 });
 		
 	});
-
 </script>
 <style>
 
@@ -43,10 +44,21 @@
 	}
 
 </style>
+
+
+
+
+
 </head>
 <body>
 
 	<div id='calendar'></div>
+	
+	<div class="modal fade" id="otherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  		
+	</div>
+
+
 
 </body>
 </html>

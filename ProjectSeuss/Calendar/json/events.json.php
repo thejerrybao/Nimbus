@@ -14,7 +14,8 @@
             'id' => $event["event_id"],
             'title' => $event["name"],
             'start' => date("c",$event["start_datetime"]),
-            'end' => date("c",$event["end_datetime"]) 
+            'end' => date("c",$event["end_datetime"]),
+            'description' => $event["name"], 
         );
     }
     echo json_encode($out);
