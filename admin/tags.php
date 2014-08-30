@@ -189,5 +189,3 @@ $customJS = true;
 
 </body>
 </html>
-?>
-?>
