@@ -87,6 +87,7 @@ $customJS = true;
                         <div class="panel panel-info">
                             <div class="panel-heading">Help Panel</div>
                             <div class="panel-body">
+
                             </div>
                         </div>
                     </div>
@@ -131,9 +132,9 @@ $customJS = true;
                                         <input type="hidden" name="form_submit_type" value="deactivate_tag">
                                         <input type="hidden" name="tag_id" value="<?= $tag['tag_id'] ?>">
                                         <select name="tag_ids[]" class="form-control" id="form-delete-tag" multiple required>
-                                            <? $tags = $tagdb->getTags('all'); ?>
+                                            <? $tags = $tagdb->getTags('all', 1); ?>
                                             <?foreach ($tags as $tag) { ?>
-                                                <? if(!in_array($tags['tag_id', $))
+                                                <? if(!in_array($tags['tag_id', $tag)) {
                                                 <option value="<?= $tag ?>"><?= $tag ?> </option>
                                             <? } ?>
                                         </select>
@@ -142,7 +143,7 @@ $customJS = true;
                                 </div>
                             </div>
                         </div>
-                    </dib>
+                    </div>
                     <!--is this supposed to say dib?-->
                 </div>
             <? break; ?>

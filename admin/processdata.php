@@ -370,8 +370,7 @@ switch ($_POST['form_submit_type']) {
                 "abbr" => $_POST['abbr'],
                 "auto_manage" => 0,
                 "mrp_tag" => $_POST['mrp_tag'],
-                "number" => 0
-                );
+                "number" => 0);
         } else {
             $tagData = array(
                 "name" => $_POST['name'],
@@ -392,7 +391,7 @@ switch ($_POST['form_submit_type']) {
         break;
     case "deactivate_tag":
         if ($tagdb->deleteTag($_POST['tag_id'])) {
-        $message = "SUCCESS: Selected tags were deactivated!";
+            $message = "SUCCESS: Selected tags were deactivated!";
             setcookie("successmsg", $message, time()+3);
         } else {
             $message = "DATABASE ERROR: One or more tags could not be deactivated!";
