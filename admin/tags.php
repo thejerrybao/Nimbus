@@ -102,7 +102,7 @@ $customJS = true;
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="table-responsive">
-                            <? $tags = $tagdb->getTags('all', 1); ?>
+                            <? $tags = $tagdb->getTags('all'); ?>
                             <? if ($tags) { ?>
                             <table class="table table-striped table-hover">
                                 <thead>
@@ -125,16 +125,16 @@ $customJS = true;
                             <? } else { ?>
                                 <h2>No tags found.</h2>
                             <? } ?>
-                            <div classs="panel panel-info">
-                                <div class="panel-heading">Deactivate Tags</div>
+                            <div class="panel panel-info">
+                                <div class="panel-heading">Deactivate Tags Tags</div>
                                 <div class="panel-body">
                                     <form action="processdata.php" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="form_submit_type" value="deactivate_tag">
                                         <input type="hidden" name="tag_id" value="<?= $tag['tag_id'] ?>">
                                         <select name="tag_ids[]" class="form-control" id="form-delete-tag" multiple required>
-                                            <? $tags = $tagdb->getTags('all', 1); ?>
+                                            <? $tags = $tagdb->getTags('all'); ?>
                                             <?foreach ($tags as $tag) { ?>
-                                                <? if(!in_array($tags['tag_id', $tag)) {
+                                                <? if(!in_array($tags['tag_id'], $tag)) { ?>
                                                 <option value="<?= $tag ?>"><?= $tag ?> </option>
                                             <? } ?>
                                         </select>
@@ -144,7 +144,6 @@ $customJS = true;
                             </div>
                         </div>
                     </div>
-                    <!--is this supposed to say dib?-->
                 </div>
             <? break; ?>
 
