@@ -4,8 +4,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="/ProjectSeuss/css/bootstrap.css" media="all">
 		</head>
-	<body>
-		      <img src="/ProjectSeuss/images/banner_bluebg.png" style="width: 100%; height: 100%;">
+	<body style="background-image: url('/ProjectSeuss/images/graphics/books.jpg');background-size: 50%; background-repeat: repeat;">
+		      <img src="/ProjectSeuss/images/graphics/banner.jpg" style="width: 100%; height: 100%;">
 				
 		<div class = "navbar navbar-inverse navbar-static-top">
 			<div class= "container" > 

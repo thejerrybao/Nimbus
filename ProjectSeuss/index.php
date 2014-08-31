@@ -19,10 +19,8 @@
           </div>
         </div>
         <div class="item">
-          <img src="Images/banner_ggotc.jpg" alt="" width = 100% >
-          <div class="container">
-            
-          </div>
+          <img src="Images/banner_ICON.jpg" alt="" width = 100% >
+   
         </div>
       </div>
       <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>

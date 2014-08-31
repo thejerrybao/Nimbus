@@ -1231,4 +1231,104 @@ class CommitteeFunctions extends Database {
     }
 }
 
+class BlogFunctions extends Database {
+    // creates an Blog Post
+    public function createBlogPost($blogData) {
+
+        $query = $this->db->prepare('INSERT INTO `blog`
+            VALUES ("", :title, :author_id, :publish_datetime, :story)');
+        if ($query->execute(array(
+            ':title' => $blogData['title'],
+            ':author_id' => $blogData['author_id'],
+            ':publish_datetime' => date("Y-m-d H:i:s", $blogData['publish_datetime']),
+            ':story' => $blogData['story'],
+            ':location' => $eventData['location']))) {
+            return true;
+        } else { return false; }
+    }
+
+    // deletes an event
+    public function deletePost($post_id) {
+
+        $query = $this->db->prepare('DELETE FROM `blog`
+            WHERE post_id=:post_id');
+        if ($query->execute(array(
+            ':post_id' => $post_id))) {
+            $query = $this->db->prepare('DELETE FROM `blog`
+                WHERE post_id=:post_id');
+            if ($query->execute(array(
+                ':post_id' => $post_id))) { return true; }
+            else { return false; }
+        } else { return false; }
+    }
+    // get posts with post ID
+    public function getPostInfo($post_id) {
+
+        $postInfo = array();
+
+        $query = $this->db->prepare('SELECT * FROM `blog`
+            WHERE post_id=:post_id');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':post_id' => $post_id));
+
+        if ($query->rowCount() == 0) { return false; }
+        $row = $query->fetch();
+        $postInfo['post_id'] = $row->post_id;
+        $postInfo['title'] = $row->title;
+        $postInfo['author_id'] = $row->author_id;
+        $postInfo['publish_datetime'] = strtotime($row->publish_datetime);
+        $postInfo['story'] = $row->story;
+        return $postInfo;
+    }
+    // get month's posts
+    // Assumes the date given is in UnixDateTime and is at the first day of the month at 00:00:00
+    // Finds events that start first day of the month at 00:00:00 to the first day of the next month at 00:00:00
+    // get month's posts
+    // Assumes the date given is in UnixDateTime and is at the first day of the month at 00:00:00
+    // Finds events that start first day of the month at 00:00:00 to the first day of the next month at 00:00:00
+    public function getPostsByMonth($month) {
+        $events = array();
+        $dateBegin = $month;
+        $dateEnd = strtotime('+1 month', $month);
+        $query = $this->db->prepare('SELECT * FROM `blog`
+            WHERE publish_datetime >= FROM_UNIXTIME(:dateBegin) AND publish_datetime < FROM_UNIXTIME(:dateEnd) ORDER BY `publish_datetime` DESC' );
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':dateBegin' => $dateBegin,
+            ':dateEnd' => $dateEnd));
+
+        if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+            $posts[] = array(
+                'post_id' => $row->post_id,
+                'title' => $row->title,
+                'author_id' => $row->author_id,
+                'publish_datetime' => strtotime($row->publish_datetime),
+                'story' => $row->story);
+        }
+
+        return $posts;
+    }
+     // edit event information
+    public function setPost($post_id, $postData) {
+
+        $query = $this->db->prepare('UPDATE `blog`
+            SET title=:title, author_id=:author_id, publish_datetime=:publish_datetime
+            WHERE post_id=:post_id');
+        if ($query->execute(array(
+            ':post_id' => $post_id,
+            ':title' => $postData['title'],
+            ':author_id' => $postData['author_id'],
+            ':publish_datetime' => date("Y-m-d H:m:s", $posData['publish_datetime']),
+            ':story' => $postData['story']))) { return true; }
+        else { return false; }
+    }
+}
+  
+
+
+
+
+
 ?>

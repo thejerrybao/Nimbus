@@ -70,6 +70,13 @@ $valid_mrp_views = ["add", "list"];
                         </li>
                     </ul>
                 </li>
+                <li <? if ($page == "posts") { ?> class="active" <? } ?>>
+                    <a href="#"><i class="fa fa-thumb-tack fa-fw"></i> Blog Management<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a <? if ($page == "events" && $_GET['view'] == "create") { ?> class="active" <? } ?> href="blog.php?view=create">Create Post</a></li>
+                        <li><a <? if ($page == "events" && $_GET['view'] == "manage") { ?> class="active" <? } ?> href="blog.php?view=manage">Manage Posts</a></li> 
+                    </ul>
+                </li>
                 <li <? if ($page == "roster") { ?> class="active" <? } ?>>
                     <a href="#"><i class="fa fa-user fa-fw"></i> Club Roster<span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">

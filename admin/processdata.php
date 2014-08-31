@@ -15,7 +15,7 @@ $committeedb = new CommitteeFunctions;
 $eventdb = new EventFunctions;
 $userdb = new UserFunctions;
 $tagdb = new TagFunctions;
-
+$blogdb = new BlogFunctions;
 switch ($_POST['form_submit_type']) {
     case "login":
         $userData = $userdb->login($_POST['username'], $_POST['password']);
@@ -43,7 +43,7 @@ switch ($_POST['form_submit_type']) {
             $message = "ERROR: Start Date and Time cannot be after End Date and Time!";
             setcookie("errormsg", $message, time()+3);
             $location = 'Location: events.php?view=create';
-        } else if ($event['online_end_datetime'] > $event['start_datetime'] && $event['online_signups']) {
+        } else if ($eventData['online_end_datetime'] > $eventData['start_datetime'] && $eventData['online_signups']) {
             $message = "ERROR: Online End Date Time cannot be after Start Date Time!";
             setcookie("errormsg", $message, time()+3);
             $location = 'Location: events.php?view=create';
@@ -88,11 +88,11 @@ switch ($_POST['form_submit_type']) {
             $message = "ERROR: Start Date and Time cannot be after End Date and Time!";
             setcookie("errormsg", $message, time()+3);
             $location = 'Location: events.php?view=edit&id=' . $_POST['event_id'];
-        } else if ($event['online_end_datetime'] > $event['start_datetime'] && $event['online_signups']) {
+        } else if ($eventData['online_end_datetime'] > $eventData['start_datetime'] && $eventData['online_signups']) {
             $message = "ERROR: Online End Date Time cannot be after Start Date Time!";
             setcookie("errormsg", $message, time()+3);
             $location = 'Location: events.php?view=edit&id=' . $_POST['event_id'];
-        } else if ($eventdb->editEvent($_POST['event_id'], $eventData, $_POST['tag_ids'])) {
+        } else if ($eventdb->setEvent($_POST['event_id'], $eventData, $_POST['tag_ids'])) {
             $message = "SUCCESS: Event \"" . $eventData['name'] . "\" successfully created!";
             setcookie("successmsg", $message, time()+3);
             $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
@@ -242,6 +242,7 @@ switch ($_POST['form_submit_type']) {
         }
         $location = 'Location: events.php?view=otherattendees&id=' . $_POST['event_id'];
         break;
+
     case "add_user":
         if (!isset($_POST['username'])) {
             $_POST['username'] = $_POST['password'] = $_POST['phone'] = "";
@@ -399,6 +400,8 @@ switch ($_POST['form_submit_type']) {
         }
         $location = 'Location: tags.php?view=list';
         break;
+
+    
     default:
         echo "No Form Submit Type Passed.";
 }

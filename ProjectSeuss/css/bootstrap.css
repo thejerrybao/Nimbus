@@ -963,7 +963,11 @@ img {
   height: auto;
 }
 .img-circle {
+  background-image: src;
   border-radius: 50%;
+}
+img-circle{
+
 }
 .img-pres{
   display: block;
