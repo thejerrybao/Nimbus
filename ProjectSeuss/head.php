@@ -25,9 +25,9 @@
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">About</a>
 								<ul class="dropdown-menu">
 									<li><a href="#">UCB CKI</a></li>
-									<li><a href="http://cnhcirclek.org/index.php?option=com_content&view=article&id=132:golden-gate-division">Golden Gate Division</a></li>
-									<li><a href="http://cnhcirclek.org/">CNH Circle K</a></li>
-									<li><a href="http://www.circlek.org/home.aspx">Circle K International</a></li>
+									<li><a href="http://cnhcirclek.org/index.php?option=com_content&view=article&id=132:golden-gate-division" target="_blank">Golden Gate Division</a></li>
+									<li><a href="http://cnhcirclek.org/" target="_blank">CNH Circle K</a></li>
+									<li><a href="http://www.circlek.org/home.aspx" target="_blank">Circle K International</a></li>
 									<li><a href="http://www.kiwanis.org/">Kiwanis International</a></li>						
 								</ul>
 							</li>
