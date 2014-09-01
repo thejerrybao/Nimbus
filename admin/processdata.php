@@ -389,7 +389,7 @@ switch ($_POST['form_submit_type']) {
             $location = 'Location: tags.php?view=add';
         }
         break;
-    case "deactivate_tag":
+    case "delete_tag":
         if ($tagdb->deleteTag($_POST['tag_id'])) {
             $message = "SUCCESS: Selected tags were deactivated!";
             setcookie("successmsg", $message, time()+3);

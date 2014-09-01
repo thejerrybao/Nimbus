@@ -126,16 +126,14 @@ $customJS = true;
                                 <h2>No tags found.</h2>
                             <? } ?>
                             <div class="panel panel-info">
-                                <div class="panel-heading">Deactivate Tags Tags</div>
+                                <div class="panel-heading">Delete Tags</div>
                                 <div class="panel-body">
                                     <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                        <input type="hidden" name="form_submit_type" value="deactivate_tag">
-                                        <input type="hidden" name="tag_id" value="<?= $tag['tag_id'] ?>">
-                                        <select name="tag_ids[]" class="form-control" id="form-delete-tag" multiple required>
+                                        <input type="hidden" name="form_submit_type" value="delete_tag">
+                                        <select name="tag_ids[]" class="form-control" id="form-delete-tags" multiple required>
                                             <? $tags = $tagdb->getTags('all'); ?>
                                             <?foreach ($tags as $tag) { ?>
-                                                <? if(!in_array($tags['tag_id'], $tag)) { ?>
-                                                <option value="<?= $tag ?>"><?= $tag ?> </option>
+                                                <option value="<?= $tag['tag_id'] ?>"><?= $tag['abbr'] ?> (<?= $tag['name'] ?>)</option>
                                             <? } ?>
                                         </select>
                                         <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Deactivate Tag</button>
