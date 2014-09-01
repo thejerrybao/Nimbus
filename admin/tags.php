@@ -109,7 +109,7 @@ $customJS = true;
                                     <tr>
                                         <th id="tag-name">Tag Name</th>
                                         <th id="tag-abbr">Abbreviation</th>
-                                        <th id="mrp-tag ">MRP Tag?</th>
+                                        <th id="tag-mrp">MRP Tag?</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -117,7 +117,7 @@ $customJS = true;
                                     <tr>
                                         <td><?= $tag['name'] ?></td>
                                         <td><?= $tag['abbr'] ?></td>
-                                        <td><?= $tag['number'] ?></td>
+                                        <td><?= $tag['mrp_tag'] ?></td>
                                     </tr>
                                 <? } ?>
                                 </tbody>
@@ -136,7 +136,7 @@ $customJS = true;
                                                 <option value="<?= $tag['tag_id'] ?>"><?= $tag['abbr'] ?> (<?= $tag['name'] ?>)</option>
                                             <? } ?>
                                         </select>
-                                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Deactivate Tag</button>
+                                        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Delete Tags</button>
                                     </form>
                                 </div>
                             </div>

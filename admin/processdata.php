@@ -390,12 +390,15 @@ switch ($_POST['form_submit_type']) {
         }
         break;
     case "delete_tag":
-        if ($tagdb->deleteTag($_POST['tag_id'])) {
-            $message = "SUCCESS: Selected tags were deactivated!";
+        foreach ($_POST['tag_ids'] as $tag_id) {
+            if (!$tagdb->deleteTag($tag_id)) {
+                $message = "DATABASE ERROR: A tag could not be deleted!";
+                setcookie("errormsg", $message, time()+3);
+                break;
+            }
+        } if (!isset($_COOKIE['errormsg'])) {
+            $message = "SUCCESS: Selected tags were deleted!";
             setcookie("successmsg", $message, time()+3);
-        } else {
-            $message = "DATABASE ERROR: One or more tags could not be deactivated!";
-            setcookie("errormsg", $message, time()+3);
         }
         $location = 'Location: tags.php?view=list';
         break;
