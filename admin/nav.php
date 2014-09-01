@@ -12,7 +12,7 @@
 
 $valid_event_manage_views = ["list", "calendar", "event", "edit"];
 $valid_roster_manage_views = ["list", "dues", "member", "status"];
-$valid_mrp_views = ["add", "list"];
+$valid_mrp_views = ["mrpadd", "mrplist"];
 ?>
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -107,8 +107,8 @@ $valid_mrp_views = ["add", "list"];
                         <li <? if ($page == "tags" && in_array($_GET['view'], $valid_mrp_views)) { ?> class="active" <? } ?>>
                             <a href="#">MRP<span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-                                <li><a <? if ($page=="tags" && $_GET['view'] == "mrpadd") { ?> class="active" <? } ?> href="tags.php?view=add">Add Level</a></li>
-                                <li><a <? if ($page=="tags" && $_GET['view'] == "mrplist") { ?> class="active" <? } ?> href="tags.php">Manage Levels</a></li>
+                                <li><a <? if ($page=="tags" && $_GET['view'] == "mrpadd") { ?> class="active" <? } ?> href="tags.php?view=mrpadd">Add Level</a></li>
+                                <li><a <? if ($page=="tags" && $_GET['view'] == "mrplist") { ?> class="active" <? } ?> href="tags.php?view=mrplist">Manage Levels</a></li>
                             </ul>
                         </li>
                     </ul>
