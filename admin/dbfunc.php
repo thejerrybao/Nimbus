@@ -1004,13 +1004,11 @@ class TagFunctions extends Database {
     public function addMRPLevel($mrpdata) {
 
         $query = $this->db->prepare('INSERT INTO `mrp_levels`
-            VALUES("", :level_id, :name, :hours, :num_required)');
+            VALUES("", :name, :hours, 0)');
 
             if ($query->execute(array(
-                ':level_id' => $mrpdata['level_id'],
                 ':name' => $mrpdata['name'],
-                ':hours' => $mrpdata['hours'],
-                ':num_required' => $mrpdata['num_required']))) { return true; }
+                ':hours' => $mrpdata['hours']))) { return true; }
             else { return false; }
     }
 

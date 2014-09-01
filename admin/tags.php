@@ -159,8 +159,10 @@ $customJS = true;
                                 <form action="processdata.php" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="form_submit_type" value="add_committee">
                                     <div class="form-group">
-                                        <label>Tag Name</label>
+                                        <label>MRP Level</label>
                                         <input type="text" name="name" class="form-control" required>
+                                        <label>Hours</label>
+                                        <input type="number" name="hours" class="form-control" min='0' required>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Add Tag</button>
                                     <button type="reset" class="btn btn-primary">Reset Fields</button>
