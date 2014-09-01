@@ -402,20 +402,21 @@ switch ($_POST['form_submit_type']) {
         }
         $location = 'Location: tags.php?view=list';
         break;
-    case "mrpadd":
+    case "add_mrp":
         $MRPData = array(
             "name" => $_POST['name'],
             "hours" => $_POST['hours']); 
         if ($tagdb->addMRPLevel($MRPData)) {
             $message = "SUCCESS: " . $_POST['name'] . " MRP Level was added!";
-            setcookie(("successmsg", $message, time()+3));
+            setcookie("successmsg", $message, time()+3);
             $location = 'Location: tags.php?view=mrplist';
         } else {
             $message =  "DATABASE ERROR: MRP Level could not be added!";
-            setcookie(("successmsg", $message, time()+3));
-            $location = 'Location: ' tags.php?view=mrpadd;
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location:  tags.php?view=mrpadd';
         }
         break;
+
     case "create_post":
 
         $postData = array(

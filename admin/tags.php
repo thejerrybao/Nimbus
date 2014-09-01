@@ -114,6 +114,7 @@ $customJS = true;
                                 </thead>
                                 <tbody>
                                 <? foreach ($tags as $tag) { ?>
+                                    <? $tag['mrp_tag'] = $tag['mrp_tag'] ? "Yes" : "No"; ?>
                                     <tr>
                                         <td><?= $tag['name'] ?></td>
                                         <td><?= $tag['abbr'] ?></td>
@@ -157,14 +158,14 @@ $customJS = true;
                             <div class="panel-heading">Add New MRP</div>
                             <div class="panel-body">
                                 <form action="processdata.php" method="post" enctype="multipart/form-data">
-                                    <input type="hidden" name="form_submit_type" value="add_committee">
+                                    <input type="hidden" name="form_submit_type" value="add_mrp">
                                     <div class="form-group">
                                         <label>MRP Level</label>
                                         <input type="text" name="name" class="form-control" required>
                                         <label>Hours</label>
                                         <input type="number" name="hours" class="form-control" min='0' required>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">Add Tag</button>
+                                    <button type="submit" class="btn btn-primary">Add Level</button>
                                     <button type="reset" class="btn btn-primary">Reset Fields</button>
                                 </form>
                             </div>
@@ -179,6 +180,40 @@ $customJS = true;
                     </div>
                 </div>
             <? break; ?>
+            <? case "mrplist": ?>
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Manage MRP Levels</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-responsive">
+                        <? $levels = $tagdb->getMRPLevels(); ?>
+                        <? if ($levels) { ?>
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>   
+                                    <th id="level-name">Level</th>
+                                    <th id="level-hours">hours</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <? foreach ($levels as $level) { ?>
+                                    <tr>
+                                        <td><?= $level['name'] ?></td>
+                                        <td><?= $level['hours'] ?></td>
+                                    </tr>
+                                <? } ?>
+                            </tbody>
+                        </table>
+                    <? } ?>
+                    </div>
+                </div>
+            </div>
+            <? break; ?>
+
+            
                 <? endswitch; ?>
             </div>
         </div>

@@ -1030,6 +1030,31 @@ class TagFunctions extends Database {
         } else { return false; }
     }
 
+    //Get MRP Levels
+    public function getMRPLevels() {
+        $mrpLevel = array();
+        $query = $this->db->prepare('SELECT * FROM `mrp_levels`
+        ORDER BY `hours` ASC');
+    }
+
+    //Get MRP Info
+    public function getMRPInfo($level_id) {
+        $level = array();
+
+        $query = $this->db->prepare('SELECT * FROM `mrp_levels`
+           WHERE level_id=:level_id');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':level_id' => $level_id));
+
+        if ($query->rowCount() == 0) {return false; }
+        $row = $query->fetch();
+        $level['name'] = $row->level_id;
+        $level['name'] = $row->name;
+        $level['hours'] = $row->hours;
+        $level['num_required'] = $row->num_required;
+    }
+
     // delete mrp level
     public function deleteMRPlevel($level_id) {
 
