@@ -76,8 +76,7 @@ $customJS = true;
                                                     <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
                                                 <? } ?>
                                             <? } ?>
-                                        </select>
-                                    </div>
+                                        </select>                                    </div>
                                     <div class="form-group">
                                         <label>Publish Date and Time</label>
                                         <input type="datetime-local" name="publish_datetime" id="publish-datetime" class="form-control" value="<?= date("Y-m-d\TH:i:00", time()); ?>" required>
@@ -85,7 +84,7 @@ $customJS = true;
                 
                                     <div class="form-group">
                                         <label>Story</label>
-                                        <textarea name="story" form="create_post" rows="3" class="form-control" required></textarea>
+                                        <textarea name="story" form="create_post" rows="3" id="story" class="form-control" required></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Post</button>
                                     <button type="reset" class="btn btn-primary">Reset Fields</button>

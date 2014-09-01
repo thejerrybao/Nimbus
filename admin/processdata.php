@@ -399,6 +399,27 @@ switch ($_POST['form_submit_type']) {
         }
         $location = 'Location: tags.php?view=list';
         break;
+    case "create_post":
+
+        $postData = array(
+            "title" => $_POST['title'],
+            "author_id" => $_POST['author_id'],
+            "publish_datetime" => strtotime($_POST['publish_datetime']),
+            "story" => $_POST['story']);
+         if ($postData['publish_datetime'] > time()) {
+            $message = "ERROR: Publish Date and Time cannot be in the future!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: blog.php?view=create';
+        } else if ($blogdb->createBlogPost($postData)) {
+            $message = "SUCCESS: Post \"" . $postData['title'] . "\" successfully created!";
+            setcookie("successmsg", $message, time()+3);
+            $location = 'Location: blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
+        }  else {
+            $message = "DATABASE ERROR: Post could not be created!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: blog.php?view=create';
+        }            
+        break;    
 
     
     default:

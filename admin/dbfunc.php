@@ -1233,16 +1233,15 @@ class CommitteeFunctions extends Database {
 
 class BlogFunctions extends Database {
     // creates an Blog Post
-    public function createBlogPost($blogData) {
+    public function createBlogPost($postData) {
 
         $query = $this->db->prepare('INSERT INTO `blog`
-            VALUES ("", :title, :author_id, :publish_datetime, :story)');
+            VALUES ("", :title, :story, :author_id, :publish_datetime  )');
         if ($query->execute(array(
-            ':title' => $blogData['title'],
-            ':author_id' => $blogData['author_id'],
-            ':publish_datetime' => date("Y-m-d H:i:s", $blogData['publish_datetime']),
-            ':story' => $blogData['story'],
-            ':location' => $eventData['location']))) {
+            ':title' => $postData['title'],
+            ':story' => $postData['story'],
+            ':author_id' => $postData['author_id'],
+            ':publish_datetime' => date("Y-m-d H:i:s", $postData['publish_datetime'])))) {
             return true;
         } else { return false; }
     }
@@ -1320,7 +1319,7 @@ class BlogFunctions extends Database {
             ':post_id' => $post_id,
             ':title' => $postData['title'],
             ':author_id' => $postData['author_id'],
-            ':publish_datetime' => date("Y-m-d H:m:s", $posData['publish_datetime']),
+            ':publish_datetime' => date("Y-m-d H:m:s", $postData['publish_datetime']),
             ':story' => $postData['story']))) { return true; }
         else { return false; }
     }
