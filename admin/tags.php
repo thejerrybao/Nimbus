@@ -87,7 +87,16 @@ $customJS = true;
                         <div class="panel panel-info">
                             <div class="panel-heading">Help Panel</div>
                             <div class="panel-body">
-
+                                <label>Tag Name</label>
+                                <p>Name of the Tag</p>
+                                <label>Tag Abbr</label>
+                                <p>Abbreviation of the tag</p>
+                                <label>MRP Tag?</label>
+                                <p>Is the tag an MRP Tag?</p>
+                                <label>Auto-Manage tag</label>
+                                <p>If it is an MRP tag, is it managed automatically?</p>
+                                <label>Number?</label>
+                                <p>Is there a minimum number that must be completed?</p>
                             </div>
                         </div>
                     </div>
@@ -175,6 +184,11 @@ $customJS = true;
                         <div class="panel panel-info">
                             <div class="panel-heading">Help Panel</div>
                             <div class="panel-body">
+                                 <label>MRP Level</label>
+                                <p>Name of the MRP Level</p>
+                                <label>Hours</label>
+                                <p>How many Service Hours are needed</p>
+                            </div>
                             </div>
                         </div>
                     </div>

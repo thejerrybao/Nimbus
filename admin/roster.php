@@ -79,6 +79,14 @@ $customJS = true;
                         <div class="panel panel-info">
                             <div class="panel-heading">Help Panel</div>
                             <div class="panel-body">
+                                <label>First Name</label>
+                                <p>First Name of the Member</p>
+                                <label>Last Name</label>
+                                <p>Last Name of the Member</p>
+                                <label>Email Address</label>
+                                <p>Email Address of the Member in the format: <i>sampleemail@email.com</i></p>
+                                <label>Dues Paid</label>
+                                <p>Is the member dues paid?</p>
                             </div>
                         </div>
                     </div>

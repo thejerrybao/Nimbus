@@ -68,6 +68,9 @@ $customJS = true;
                         <div class="panel panel-info">
                             <div class="panel-heading">Help Panel</div>
                             <div class="panel-body">
+                                <label>Committee</label>
+                                <p>Name of the committee</p>
+                                <p>You can edit the attendees in manage committees</p>
                             </div>
                         </div>
                     </div>
