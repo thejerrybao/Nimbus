@@ -263,6 +263,24 @@ switch ($_POST['form_submit_type']) {
         }
         $location = 'Location: roster.php?view=add';
         break;
+
+    case "create_account":
+        $userData = array(
+            "first_name" => $_POST['first_name'],
+            "last_name" => $_POST['last_name'],
+            "username" => $_POST['username'],
+            "password" => $_POST['password'],
+            "email" => $_POST['email'],
+            "phone" => $_POST['phone']);
+        if ($userdb->addUser($userData)) {
+            $message = "SUCCESS: Your account has been created!";
+            setcookie("successmsg", $message, time()+3);
+        } else {
+            $message = "DATABASE ERROR: User could not be added!";
+            setcookie("errormsg", $message, time()+3);
+        }
+        $location = 'Location: ../ProjectSeuss/index.php';
+        break;
     case "set_dues_paid":
         if ($userdb->setDuesPaidMembership($_POST['non_dues_paid'], 1)) {
             $message = "SUCCESS: Selected members were set as Dues Paid!";

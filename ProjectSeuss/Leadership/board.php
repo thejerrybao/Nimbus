@@ -7,10 +7,11 @@
 	 <?php include("../head.php") ?>
   </head>
 	<body>
-    <div class="jumbotron" align="middle">
-        <img src="../images/pictures/board/all.jpg"  style="width: 65%; height: 65%;">
-     </div>   
-		 <div class="container marketing" align="middle">
+        <div class="row" align="middle" >
+        <img src="../images/pictures/board/all.jpg"  style="width: 65%; height: 65%;" align="middle">
+		    
+        </div>
+     <div class="container marketing" style="background-color:rgba(255,255,255,0.98)" align="middle" >
       <style>
       
       #pres{
@@ -180,7 +181,7 @@
       } 
   </style>
 
-      <div class="row">
+      <div class="row" >
         <div class="col-lg-3">
           <img class="img-circle" id="pres" alt="Generic placeholder image">
           <h2><b>Bertha Te</b></h2>

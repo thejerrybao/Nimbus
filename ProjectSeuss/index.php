@@ -29,17 +29,11 @@
     </div>
 		<div class="container">
 
+      <div class="row" >
 
-      <div class="blog-header">
-        <h1 class="blog-title">The Bootstrap Blog</h1>
-        <p class="lead blog-description">The official example template of creating a blog with Bootstrap.</p>
-      </div>
+        <div class="col-sm-8 blog-main" style="background-color:rgba(255,255,255,0.98)">
 
-      <div class="row">
-
-        <div class="col-sm-8 blog-main">
-
-          <div class="blog-post">
+          <div class="blog-post" >
             <h2 class="blog-post-title">Sample blog post</h2>
             <p class="blog-post-meta">January 1, 2014 by <a href="#">Mark</a></p>
 
@@ -105,7 +99,7 @@
 
         </div><!-- /.blog-main -->
 
-        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar" style="background-color:rgba(255,255,255,0.98)">
           <div class="sidebar-module sidebar-module-inset">
             <h4>Follow us on instagram @UCBCKI</h4>
             <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>

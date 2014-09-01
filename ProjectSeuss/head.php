@@ -122,55 +122,37 @@
             </form>
         </div>
         <div class="tab-pane fade" id="signup">
-            <form >
-            <fieldset>
-            <!-- Sign Up Form -->
-            <!-- Text input-->
-            <div class="control-group">
-              <label class="control-label" for="Email">Email:</label>
-              <div class="controls">
-                <input id="Email" name="Email" class="form-control" type="text" placeholder="thejerrybao@.com" class="input-large" required="">
-              </div>
-            </div>
-            
-            <!-- Text input-->
-            <div class="control-group">
-              <label class="control-label" for="userid">Username:</label>
-              <div class="controls">
-                <input id="userid" name="userid" class="form-control" type="text" placeholder="Jerry Bao" class="input-large" required="">
-              </div>
-            </div>
-            
-            <!-- Password input-->
-            <div class="control-group">
-              <label class="control-label" for="password">Password:</label>
-              <div class="controls">
-                <input id="password" name="password" class="form-control" type="jerryspassword" placeholder="********" class="input-large" required="">
-                <em>1-8 Characters</em>
-              </div>
-            </div>
-            
-            <!-- Text input-->
-            <div class="control-group">
-              <label class="control-label" for="reenterpassword">Re-Enter Password:</label>
-              <div class="controls">
-                <input id="reenterpassword" class="form-control" name="reenterpassword" type="password" placeholder="********" class="input-large" required="">
-              </div>
-            </div>
-            
-            <!-- Multiple Radios (inline) -->
-            <br>
+             <form action="../admin/processdata.php" method="post" enctype="multipart/form-data">
+                                    <input type="hidden" name="form_submit_type" value="create_account">
+                                    <div class="form-group">
+                                        <label>First Name</label>
+                                        <input type="text" name="first_name" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Last Name</label>
+                                        <input type="text" name="last_name" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email Address</label>
+                                        <input type="email" name="email" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Username</label>
+                                        <input type="text" name="username" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="text" name="password" class="form-control" required>
+                                    </div>
 
-            <!-- Button -->
-            <div class="control-group">
-              <label class="control-label" for="confirmsignup"></label>
-              <div class="controls">
-                <button id="confirmsignup" name="confirmsignup" class="btn btn-success">Sign Up</button>
-              </div>
-            </div>
-            </fieldset>
-            </form>
-      </div>
+                                    <div class="form-group">
+                                        <label>Phone Number</label>
+                                        <input type="text" name="phone" class="form-control" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="reset" class="btn btn-primary">Reset Fields</button>
+                                </form>
+                  </div>
     </div>
 	</div>
     </div>

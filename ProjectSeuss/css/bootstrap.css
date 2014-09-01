@@ -963,20 +963,9 @@ img {
   height: auto;
 }
 .img-circle {
-  background-image: src;
   border-radius: 50%;
 }
-img-circle{
 
-}
-.img-pres{
-  display: block;
-  border-radius: 50%;
-  background-image: url('../images/pictures/board/pres1.jpg')!important;
-  background-color: #cccccc;
-  width: 75%; 
-  height: 75%;
-}
 hr {
   margin-top: 20px;
   margin-bottom: 20px;
