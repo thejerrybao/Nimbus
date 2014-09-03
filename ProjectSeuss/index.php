@@ -39,20 +39,16 @@
         
 
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar" style="background-color:rgba(255,255,255,0.98); border-radius: 25px;">
+          <div class="sidebar-module">
+            <h4>Today's Events</h4>
+            
+
+          </div>
           <div class="sidebar-module sidebar-module-inset">
             <h4>Follow us on instagram @UCBCKI</h4>
-            <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
           </div>
           <div class="sidebar-module">
 			<iframe src="http://widget.websta.me/in/ucbcki/?s=250&w=1&h=8&b=1&p=5" allowtransparency="true" frameborder="0" scrolling="no" style="border:none;overflow:hidden;width:330px; height: 1320px" ></iframe> <!-- websta - web.stagram.com -->
-          </div>
-          <div class="sidebar-module">
-            <h4>Elsewhere</h4>
-            <ol class="list-unstyled">
-              <li><a href="#">GitHub</a></li>
-              <li><a href="#">Twitter</a></li>
-              <li><a href="#">Facebook</a></li>
-            </ol>
           </div>
         </div><!-- /.blog-sidebar -->
 
