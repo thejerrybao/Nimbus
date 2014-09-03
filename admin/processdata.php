@@ -94,11 +94,11 @@ switch ($_POST['form_submit_type']) {
             setcookie("errormsg", $message, time()+3);
             $location = 'Location: events.php?view=edit&id=' . $_POST['event_id'];
         } else if ($eventdb->setEvent($_POST['event_id'], $eventData, $_POST['tag_ids'])) {
-            $message = "SUCCESS: Event \"" . $eventData['name'] . "\" successfully created!";
+            $message = "SUCCESS: Event \"" . $eventData['name'] . "\" successfully edited!";
             setcookie("successmsg", $message, time()+3);
             $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
         } else {
-            $message = "DATABASE ERROR: Event could not be created!";
+            $message = "DATABASE ERROR: Event could not be edited!";
             setcookie("errormsg", $message, time()+3);
             $location = 'Location: events.php?view=edit&id=' . $_POST['event_id'];
         }
