@@ -419,7 +419,6 @@ switch ($_POST['form_submit_type']) {
             $location = 'Location:  tags.php?view=mrpadd';
         }
         break;
-
     case "create_post":
         $postData = array(
             "title" => $_POST['title'],
