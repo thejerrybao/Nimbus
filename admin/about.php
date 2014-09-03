@@ -58,6 +58,7 @@ $customJS = false;
                         Bootstrap<br />
                         Chosen JQuery Plugin<br />
                         Font Awesome Icons<br />
+                        Date JS Plugin<br />
                     </p>
                 </div>
                 <div class="col-lg-4">

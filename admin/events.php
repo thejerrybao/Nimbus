@@ -230,8 +230,8 @@ $customJS = true;
                                 <tr><td><a href="events.php?view=event&id=<?= $event['event_id'] ?>"><?= $event['name'] ?></a></td>
                                 <td><?= $chair['first_name'] ?> <?= $chair['last_name'] ?></td>
                                 <td><?= $status ?></td>
-                                <td><?= date("F j, Y, g:i a", $event['start_datetime']) ?></td>
-                                <td><?= date("F j, Y, g:i a", $event['end_datetime']) ?></td>
+                                <td><?= date("F j, g:i a", $event['start_datetime']) ?></td>
+                                <td><?= date("F j, g:i a", $event['end_datetime']) ?></td>
                                 <td><?= $event['location'] ?></td>
                                 <td><?= $event['num_attendees'] ?></td></tr>
                             <? } ?>
