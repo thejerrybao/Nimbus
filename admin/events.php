@@ -305,8 +305,10 @@ $customJS = true;
                                 <label>Online Sign-ups?</label>
                                 <p><? if ($event['online_signups']) { ?> Yes 
                                 <? } else { ?> No <? } ?></p>
+                                <? if ($event['online_signups']) { ?>
                                 <label>Online Sign-ups End Date and Time</label>
                                 <p><?= date("F j, Y, g:i a", $event['online_end_datetime']); ?></p>
+                                <? } ?>
                                 <? if ($event['status'] > 0) { ?>
                                     <label>Pros of the Event</label>
                                     <p><?= $event['pros'] ?></p>
