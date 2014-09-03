@@ -565,13 +565,13 @@ class EventFunctions extends Database {
         if ($query->execute(array(
             ':name' => $eventData['name'],
             ':chair_id' => $eventData['chair_id'],
-            ':start_datetime' => date("Y-m-d H:i:s", $eventData['start_datetime']),
-            ':end_datetime' => date("Y-m-d H:i:s", $eventData['end_datetime']),
+            ':start_datetime' => date("Y-m-d H:i:00", $eventData['start_datetime']),
+            ':end_datetime' => date("Y-m-d H:i:00", $eventData['end_datetime']),
             ':description' => $eventData['description'],
             ':location' => $eventData['location'],
             ':meeting_location' => $eventData['meeting_location'],
             ':online_signups' => $eventData['online_signups'],
-            ':online_end_datetime' => date("Y-m-d H:i:s", $eventData['online_end_datetime'])))) {
+            ':online_end_datetime' => date("Y-m-d H:i:00", $eventData['online_end_datetime'])))) {
             return $this->setEventTags($this->db->lastInsertId(), $tag_ids);
         } else { return false; }
     }
@@ -926,13 +926,13 @@ class EventFunctions extends Database {
             ':event_id' => $event_id,
             ':name' => $eventData['name'],
             ':chair_id' => $eventData['chair_id'],
-            ':start_datetime' => date("Y-m-d H:m:s", $eventData['start_datetime']),
-            ':end_datetime' => date("Y-m-d H:m:s", $eventData['end_datetime']),
+            ':start_datetime' => date("Y-m-d H:i:00", $eventData['start_datetime']),
+            ':end_datetime' => date("Y-m-d H:i:00", $eventData['end_datetime']),
             ':description' => $eventData['description'],
             ':location' => $eventData['location'],
             ':meeting_location' => $eventData['meeting_location'],
             ':online_signups' => $eventData['online_signups'],
-            ':online_end_datetime' => date("Y-m-d H:m:s", $eventData['online_end_datetime']),
+            ':online_end_datetime' => date("Y-m-d H:i:00", $eventData['online_end_datetime']),
             ':status' => $eventData['status'],
             ':pros' => $eventData['pros'],
             ':cons' => $eventData['cons'],
