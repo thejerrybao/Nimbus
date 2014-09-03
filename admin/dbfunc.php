@@ -1399,11 +1399,24 @@ class BlogFunctions extends Database {
 
         return $posts;
     }
-    public function getRecentPosts($num){
+    public function getRecentPosts($numstart, $numend){
         $query = $this->db->prepare('SELECT * FROM `blog`
-            WHERE publish_datetime >= FROM_UNIXTIME(:dateBegin) AND publish_datetime < FROM_UNIXTIME(:dateEnd) ORDER BY `publish_datetime` DESC' LIMIT 3 );
+             ORDER BY `publish_datetime` DESC LIMIT :numstart, :numend');
         $query->setFetchMode(PDO::FETCH_OBJ);
-       
+        $query->execute(array(
+            ':numstart' => $numstart,
+            ':numend' => $numend));
+       if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+            $posts[] = array(
+                'post_id' => $row->post_id,
+                'title' => $row->title,
+                'author_id' => $row->author_id,
+                'publish_datetime' => strtotime($row->publish_datetime),
+                'story' => $row->story);
+        }
+
+        return $posts;
     }
 
     // edit event information
