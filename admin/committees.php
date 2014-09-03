@@ -130,7 +130,7 @@ $customJS = true;
                             <div class="panel-heading">Committee Members</div>
                             <div class="panel-body">
                                 <label>Committee Name:</label> <?= $committee['name'] ?><br />
-                                <label># Committee Members:</label> <?= count($committee['members']) ?>
+                                <label># Committee Members:</label> <?= $committee['members'] = $committee['members'] ? count($committee['members']) : 0; ?>
                                 <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>
@@ -140,11 +140,18 @@ $customJS = true;
                                 </thead>
                                 <tbody>
                                 <? $committeeEmails = "" ?>
-                                <? foreach ($committee['members'] as $committeeMember) { ?>
-                                    <? $committeeEmails .= $committeeMember['email'] . "; " ?>
+                                <? if ($committee['members']) { ?>
+                                    <? foreach ($committee['members'] as $committeeMember) { ?>
+                                        <? $committeeEmails .= $committeeMember['email'] . "; " ?>
+                                        <tr>
+                                            <td><?= $committeeMember['first_name'] ?> <?= $committeeMember['last_name'] ?></td>
+                                            <td><?= $committeeMember['email'] ?></td>
+                                        </tr>
+                                    <? } ?>
+                                <? } else { ?>
                                     <tr>
-                                        <td><?= $committeeMember['first_name'] ?> <?= $committeeMember['last_name'] ?></td>
-                                        <td><?= $committeeMember['email'] ?></td>
+                                        <td>No Committee Members</td>
+                                        <td>N/A</td>
                                     </tr>
                                 <? } ?>
                                 </tbody>
