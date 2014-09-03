@@ -1032,10 +1032,13 @@ class TagFunctions extends Database {
 
     //Get MRP Levels
     public function getMRPLevels() {
-        $mrpLevel = array();
+        $mrpLevels = array();
         $query = $this->db->prepare('SELECT * FROM `mrp_levels`
         ORDER BY `hours` ASC');
-        return $mrpLevel;
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array());
+        if ($query->rowCount() == 0) { return false; }
+        return $mrpLevels;
     }
 
     //Get MRP Info
