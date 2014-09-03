@@ -33,6 +33,7 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="fonts/fonts.css" rel="stylesheet" type="text/css">
 
     <!-- Chosen JQuery Plugin CSS -->
     <link href="css/chosen.css" rel="stylesheet" type="text/css">
