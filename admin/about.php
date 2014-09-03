@@ -63,7 +63,7 @@ $customJS = false;
                 </div>
                 <div class="col-lg-4">
                     <h3 style="margin-top: 0px;">A Word From the Devs</h4>
-                    <p>This project was developed in response to a need for a new system at UC Berkeley to manage the club's events and hours. With over 1000+ hours spent
+                    <p>This project was developed in response to a need for a new system at UC Berkeley Circle K to manage the club's events and hours. With over 1000+ hours spent
                         on the project and 10k+ lines of code written in a mix of PHP, HTML5, JS, and JQuery, we're proud of what we've accomplished. We want to thank everyone
                         who's supported us in our endeavors and ultimately want to thank Circle K, for providing us with some of the best memores of our college life. We do this
                         all for Circle K, the organization we love.</p>
