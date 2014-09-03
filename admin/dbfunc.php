@@ -1036,8 +1036,16 @@ class TagFunctions extends Database {
         $query = $this->db->prepare('SELECT * FROM `mrp_levels`
         ORDER BY `hours` ASC');
         $query->setFetchMode(PDO::FETCH_OBJ);
-        $query->execute(array());
+        $query->execute();
         if ($query->rowCount() == 0) { return false; }
+        while ($row = $query->fetch()) {
+
+            $mrpLevels[] = array(
+                "level_id" => $row->level_id,
+                "name" => $row->name,
+                "hours" => $row->hours,
+                "num_required" => $row->num_required);
+        }
         return $mrpLevels;
     }
 
