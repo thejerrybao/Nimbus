@@ -13,7 +13,7 @@ ini_set('display_errors', 1);
 session_start();
 require_once("admin/dbfunc.php");
 $userdb = new UserFunctions;
-if (isset($_SESSION['cki_rf_user_id'])) {
+if (isset($_SESSION['nimbus_user_id'])) {
     header("Location: admin/index.php");
 }
 
