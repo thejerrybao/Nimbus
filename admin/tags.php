@@ -235,6 +235,12 @@ $customJS = true;
                     </div>
                 </div>
             <? break; ?>
+            <? default: ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>No view was selected.</h1>
+                    </div>
+                </div>
             <? endswitch; ?>
         </div>
         <!-- /#page-wrapper -->
