@@ -100,7 +100,7 @@ $customJS = true;
                                 <? foreach ($committees as $committee) { ?>
                                     <tr>
                                         <td><a href="committees.php?view=committee&id=<?= $committee['committee_id'] ?>"><?= $committee['name'] ?></td>
-                                        <td><?= count($committee['members']) ?></td>
+                                        <td><?= $committee['members'] = $committee['members'] ? count($committee['members']) : 0; ?></td>
                                     </tr>
                                 <? } ?>
                                 </tbody>
@@ -130,7 +130,7 @@ $customJS = true;
                             <div class="panel-heading">Committee Members</div>
                             <div class="panel-body">
                                 <label>Committee Name:</label> <?= $committee['name'] ?><br />
-                                <label># Committee Members:</label> <?= $committee['members'] = $committee['members'] ? count($committee['members']) : 0; ?>
+                                <label># Committee Members:</label> <?= $committee['members'] ? count($committee['members']) : 0; ?>
                                 <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>

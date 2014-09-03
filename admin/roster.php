@@ -125,13 +125,23 @@ $customJS = true;
                                 </thead>
                                 <tbody id="search-roster-result">
                                     <? foreach ($activeUser as $user) { ?>
-                                        <? $user['dues_paid'] = $user['dues_paid'] ? "Yes" : "No"; ?>
-                                        <? $user['email_confirmed'] = $user['email_confirmed'] ? "Yes" : "No"; ?>
                                         <tr><td><a href="roster.php?view=user&id=<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></a></td>
                                         <td><?= $user['email'] ?></td>
                                         <td><?= $user['phone'] ?></td>
-                                        <td><?= $user['dues_paid'] ?></td>
-                                        <td><?= $user['email_confirmed'] ?></td>
+                                        <td>
+                                            <? if ($user['dues_paid']) { ?>
+                                                <i class="fa fa-check fa-fw"></i>
+                                            <? } else { ?>
+                                                <i class="fa fa-times fa-fw"></i>
+                                            <? } ?>
+                                        </td>
+                                        <td>
+                                            <? if ($user['email_confirmed']) { ?>
+                                                <i class="fa fa-check fa-fw"></i>
+                                            <? } else { ?>
+                                                <i class="fa fa-times fa-fw"></i>
+                                            <? } ?>
+                                        </td>
                                     <? } ?>
                                 </tbody>
                             </table>

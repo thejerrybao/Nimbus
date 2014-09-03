@@ -127,11 +127,16 @@ $customJS = true;
                                 </thead>
                                 <tbody>
                                 <? foreach ($tags as $tag) { ?>
-                                    <? $tag['mrp_tag'] = $tag['mrp_tag'] ? "Yes" : "No"; ?>
                                     <tr>
                                         <td><?= $tag['name'] ?></td>
                                         <td><?= $tag['abbr'] ?></td>
-                                        <td><?= $tag['mrp_tag'] ?></td>
+                                        <td>
+                                            <? if ($tag['mrp_tag']) { ?>
+                                                <i class="fa fa-check fa-fw"></i>
+                                            <? } else { ?>
+                                                <i class="fa fa-times fa-fw"></i>
+                                            <? } ?>
+                                        </td>
                                     </tr>
                                 <? } ?>
                                 </tbody>
