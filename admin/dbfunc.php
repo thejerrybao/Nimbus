@@ -586,13 +586,23 @@ class EventFunctions extends Database {
                 WHERE event_id=:event_id');
             if ($query->execute(array(
                 ':event_id' => $event_id))) {
-                $query = $this->db->prepare('DELETE FROM `events`
+                $query = $this->db->prepare('DELETE FROM `event_other_attendees`
                     WHERE event_id=:event_id');
                 if ($query->execute(array(
-                    ':event_id' => $event_id))) { return true; }
-                else { return false; }
-            } else { return false; }
-        } else { return false; }
+                    ':event_id' => $event_id))) {
+                    $query = $this->db->prepare('DELETE FROM `event_override_hours`
+                        WHERE event_id=:event_id');
+                    if ($query->execute(array(
+                        ':event_id' => $event_id))) {
+                        $query = $this->db->prepare('DELETE FROM `events`
+                            WHERE event_id=:event_id');
+                        if ($query->execute(array(
+                            ':event_id' => $event_id))) { return true; }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public function deleteEventAttendee($event_id, $user_id) {
