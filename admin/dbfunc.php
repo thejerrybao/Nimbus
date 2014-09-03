@@ -483,6 +483,20 @@ class UserFunctions extends Database {
 
         return $users;
     }
+
+    public function verifyUserPassword($user_id, $password) {
+
+        $query = $this->db->prepare('SELECT `password` FROM `users`
+            WHERE user_id=:user_id');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':user_id' => $user_id));
+
+        if ($query->rowCount() == 0) { return false; }
+        $row = $query->fetch();
+        if (password_verify($password, $row->password)) { return true; }
+        else { return false; }
+    }
 }
 
 class EventFunctions extends Database {
