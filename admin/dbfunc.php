@@ -281,7 +281,7 @@ class UserFunctions extends Database {
 
         return $hours;
     }
-
+    
     // get user data with user ID; option to include hours or not
     public function getUserInfo($user_id, $hours = false) {
 
