@@ -14,8 +14,8 @@ session_start();
 if (!isset($_SESSION['cki_rf_user_id'])) { header('Location: ../login.php'); }
 else if ($_SESSION['cki_rf_access'] == 0) { echo "You don't have access to this page."; exit; }
 date_default_timezone_set('America/Los_Angeles');
-if (empty($_GET['month']) && empty($_GET['year']) && $_GET['view'] == "manage") {
-    $location = 'Location: blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
+if (empty($_GET['month']) && empty($_GET['year']) && $_GET['view'] == "list") {
+    $location = 'Location: blog.php?view=list&month=' . idate('m') . '&year=' . date('Y');
     header($location); 
     exit;
 }
@@ -109,7 +109,7 @@ $customJS = true;
                     </div>
                 </div>
             <? break; ?>
-            <? case "manage": ?>
+            <? case "list": ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Blog Post List</h1>
@@ -121,7 +121,7 @@ $customJS = true;
                     <div class="col-lg-12">
                         <form action="blog.php" method="get" enctype="multipart/form-data">
                             <div class="form-group">
-                                <input type="hidden" name="view" value="manage">
+                                <input type="hidden" name="view" value="list">
                                 <select name="month" class="form-control" style="width: 20%; display: inline;">
                                     <? for ($i = 1; $i <= 12; $i++) { ?>
                                         <? if ($_GET['month'] == $i) { ?>
@@ -178,7 +178,7 @@ $customJS = true;
             <? case "post": ?>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Post Information <a href="blog.php?view=manage"><button class="btn btn-primary btn-back">Back to Manage Posts</button></a></h1>
+                        <h1 class="page-header">Post Information <a href="blog.php?view=list"><button class="btn btn-primary btn-back">Back to Manage Posts</button></a></h1>
                     </div>
                 </div>
                 <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
@@ -292,7 +292,7 @@ $customJS = true;
                                 <p>Date and time story was published</p>
                                 <label>Story</label>
                                 <p>Write the story in this field! If you would like to add a picture to this story please paste:"&lt;img src='link to image' &gt;" to the front of the story.</p>
-                                
+                            </div>  
                         </div>
                     </div>
                 </div>
