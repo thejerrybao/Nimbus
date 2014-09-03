@@ -70,7 +70,7 @@ $customJS = true;
                                         <select name="chair_id" id="form-event-chair" class="form-control" required>
                                             <? $users = $userdb->getUsers("active"); ?>
                                             <? foreach ($users as $user) { ?>
-                                                <? if ($user['user_id'] == $_SESSION['cki_rf_user_id']) { ?>
+                                                <? if ($user['user_id'] == $_SESSION['nimbus_user_id']) { ?>
                                                     <option value="<?= $user['user_id'] ?>" selected><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
                                                 <? } else { ?>
                                                     <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
@@ -197,10 +197,9 @@ $customJS = true;
                                     <th id="event-name">Name</th>
                                     <th id="event-chair">Chair</th>
                                     <th id="event-status">Status</th>
-                                    <th id="event-start-datetime">Start Date</th>
-                                    <th id="event-end-datetime">End Date</th>
+                                    <th id="event-date-time">Date & Time</th>
                                     <th id="event-location">Location</th>
-                                    <th id="event-num-attendees"># Attendees</th>
+                                    <th id="event-num-attendees">#</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -225,12 +224,17 @@ $customJS = true;
                                         break;
                                     default:
                                         $status = "Incorrect Status Number";
-                                } ?>
+                                }
+                                $startDate = date("M d", $event['start_datetime']);
+                                $endDate = date("M d", $event['end_datetime']); ?>
                                 <tr><td><a href="events.php?view=event&id=<?= $event['event_id'] ?>"><?= $event['name'] ?></a></td>
                                 <td><?= $chair['first_name'] ?> <?= $chair['last_name'] ?></td>
                                 <td><?= $status ?></td>
-                                <td><?= date("F j, g:i a", $event['start_datetime']) ?></td>
-                                <td><?= date("F j, g:i a", $event['end_datetime']) ?></td>
+                                <? if ($startDate == $endDate) { ?>
+                                    <td><?= $startDate ?>, <?= date("g:i a", $event['start_datetime']) ?> - <?= date("g:i a", $event['end_datetime']) ?></td>
+                                <? } else { ?>
+                                    <td><?= date("M d, g:i a", $event['start_datetime']) ?> - <?= date("M d, g:i a", $event['end_datetime']) ?> </td>
+                                <? } ?>
                                 <td><?= $event['location'] ?></td>
                                 <td><?= $event['num_attendees'] ?></td></tr>
                             <? } ?>
