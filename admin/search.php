@@ -20,15 +20,25 @@ switch ($_POST['search_type']) {
         $users = $userdb->searchUsers($_POST['search_words'], $_POST['search_category']);
 
         if ($users) {
-            foreach ($users as $user) {
-                $user['dues_paid'] = $user['dues_paid'] ? "Yes" : "No";
-                $user['email_confirmed'] = $user['email_confirmed'] ? "Yes" : "No"; ?>
+            foreach ($users as $user) { ?>
 
                 <tr><td><a href="roster.php?view=member&id=<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></a></td>
                 <td><?= $user['email'] ?></td>
-                <td><?= $user['phone'] ?></td>
-                <td><?= $user['dues_paid'] ?></td>
-                <td><?= $user['email_confirmed'] ?></td></tr>
+                <td><?= "(".substr($user['phone'], 0, 3).") ".substr($user['phone'], 3, 3)."-".substr($user['phone'],6); ?></td>
+                <td>
+                    <? if ($user['dues_paid']) { ?>
+                        <i class="fa fa-check fa-fw"></i>
+                    <? } else { ?>
+                        <i class="fa fa-times fa-fw"></i>
+                    <? } ?>
+                </td>
+                <td>
+                    <? if ($user['email_confirmed']) { ?>
+                        <i class="fa fa-check fa-fw"></i>
+                    <? } else { ?>
+                        <i class="fa fa-times fa-fw"></i>
+                    <? } ?>
+                </td></tr>
 <?          }
         } else { ?>
             <tr><td>No Members Found.</td>
