@@ -41,6 +41,14 @@ $customJS = false;
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>Welcome UC Berkeley to your Club Management System!</h3>
+                    <p>The front page of the management system is still under construction as well as many other features of this backend, so please be patient
+                        with us as we continue to develop this project. If you have any questions or issues, please direct them to either Diyar Aniwar, Jerry Bao,
+                        or Robert Rodriguez.</p>
+                </div>
+            </div>
         </div>
         <!-- /#page-wrapper -->
 
