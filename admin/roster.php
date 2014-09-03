@@ -85,6 +85,8 @@ $customJS = true;
                                 <p>Last Name of the Member</p>
                                 <label>Email Address</label>
                                 <p>Email Address of the Member in the format: <i>sampleemail@email.com</i></p>
+                                <p><i>USE CORRECT EMAIL OR MERGE ACCOUNT ERRORS WILL OCCUR WHEN THE MEMBER REGISTERS</i> </p>
+                                <P>Also ensure that the member registers with the email given to you. (They can change their email once they register).</P>
                                 <label>Dues Paid</label>
                                 <p>Is the member dues paid?</p>
                             </div>
@@ -291,7 +293,7 @@ $customJS = true;
                                     <? if ($duesPaidMembers) {
                                         $i = 0; ?>
                                         <table>
-                                        <? foreach ($nonDuesPaidMembers as $nonDuesPaidMember) { ?>
+                                        <? foreach ($duesPaidMembers as $duesPaidMember) { ?>
                                             <? if ($i % 4 == 0) { ?>
                                                 <tr>
                                             <? } ?>
