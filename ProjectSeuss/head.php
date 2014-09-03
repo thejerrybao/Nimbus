@@ -151,7 +151,7 @@
                                         <label>Password</label>
                                         <input required="" name="password" class="form-control" type="password" class="input-medium">
                                     </div>
-
+                                      
                                     <div class="form-group">
                                         <label>Phone Number</label>
                                         <input type="text" name="phone" class="form-control" required>

@@ -19,4 +19,7 @@
             $message = "DATABASE ERROR: User could not be added!";
             setcookie("errormsg", $message, time()+3);
         }
-        $location = 'Location: /ProjectSeuss/index.php'; ?>
+        $location = 'Location: /ProjectSeuss/index.php'; 
+        header($location);
+
+        ?>

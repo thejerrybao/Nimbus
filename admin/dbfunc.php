@@ -122,7 +122,7 @@ class UserFunctions extends Database {
                     ':email' => $userData['email'],
                     ':phone' => $userData['phone']
                     ))) { return true; }
-                    else { return false; } 
+                    else { return false; }
             } else { return false; }
         }
     }

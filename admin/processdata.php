@@ -246,7 +246,8 @@ switch ($_POST['form_submit_type']) {
     case "add_user":
         if (!isset($_POST['username'])) {
             $_POST['username'] = null;
-            $_POST['password'] = $_POST['phone'] = "";
+            $_POST['password'] = password_hash("", PASSWORD_BCRYPT);
+            $_POST['phone'] = "";
         }
         $userData = array(
             "first_name" => $_POST['first_name'],
