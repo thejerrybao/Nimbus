@@ -74,8 +74,20 @@
                 </ul>
               </li>
                 <?php              
-                  if (!isset($_SESSION['cki_rf_user_id'])) {
-                ?> <li>You're in!</li>
+                  if (isset($_SESSION['nimbus_user_id'])) {
+                ?> <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?= $_SESSION['nimbus_first_name'] ?> <?= $_SESSION['nimbus_last_name'] ?> <i class="fa fa-user fa-fw"></i></a>
+                <ul class="dropdown-menu">
+                  <?php              
+                  if ($_SESSION['nimbus_access'] > 0) {
+                ?>
+                  <li><a href="../admin/">Admin</a></li>
+                  <? } ?>
+                  <li><a href="http://instagram.com/ucbcki"><i class="fa fa-instagram fa-fw"></i> Instagram</a></li>
+                  <li><a href="https://twitter.com/UCBCKI"><i class="fa fa-facebook fa-fw"></i> Twitter</a></li>
+                  <li><a href="https://drive.google.com/a/berkeley.edu/folderview?id=0B1MfH83HOZRMWDNpUlhLUVBhVTQ&usp=drive_web#"><i class="fa fa-picture-o"></i> Image Gallery</a></li>
+                </ul>
+                </li>
 							<? } else { ?>
                      <li><a class="btn" data-toggle="modal" href="#myModal" >Login</a></li>
                      <?}?>
@@ -105,7 +117,7 @@
         <p></p><br> Please contact <a mailto:href="thejerrybao@gmail.com"></a>thejerrybao@gmail.com</a> for any other inquiries.</p>
         </div>
         <div class="tab-pane fade active in" id="signin">
-            <form action="../admin/processdata.php" method="post" enctype="multipart/form-data">
+            <form action="login.php" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="form_submit_type" value="login">
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Username" name="username" autofocus>
@@ -113,6 +125,7 @@
                             <div class="form-group">
                                 <input type="password" class="form-control" placeholder="Password" name="password">
                             </div>
+                            <input type="hidden" name="url" value="<? echo "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];?>">
                             <button type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
             </form>
         </div>
