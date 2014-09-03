@@ -439,7 +439,39 @@ switch ($_POST['form_submit_type']) {
             setcookie("errormsg", $message, time()+3);
             $location = 'Location: blog.php?view=create';
         }            
-        break;    
+        break;
+    case "delete_post":
+        if ($blogdb->deletePost($_POST['post_id'])) {
+            $message = "SUCCESS: Post successfully deleted!";
+            setcookie("successmsg", $message, time()+3);
+            $location = 'Location: blog.php?view=manage';
+        } else { 
+            $message = "DATABASE ERROR: Event could not be deleted!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: blog.php?view=manage&id=' . $_POST['event_id'];
+        }
+        break;
+    case "edit_post":
+        $postData = array(
+            "title" => $_POST['title'],
+            "author_id" => $_POST['author_id'],
+            "publish_datetime" => strtotime($_POST['publish_datetime']),
+            "story" => $_POST['story']);
+         if ($postData['publish_datetime'] > time()) {
+            $message = "ERROR: Publish Date and Time cannot be in the future!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: blog.php?view=create';
+        } else if ($blogdb->setPost($_POST['post_id'],$postData)) {
+            $message = "SUCCESS: Post \"" . $postData['title'] . "\" successfully edited!";
+            setcookie("successmsg", $message, time()+3);
+            $location = 'Location: blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
+        }  else {
+            $message = "DATABASE ERROR: Post could not be changed!";
+            setcookie("errormsg", $message, time()+3);
+            $location = 'Location: blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
+        }            
+        break;
+        break; 
     
     default:
         echo "No Form Submit Type Passed.";

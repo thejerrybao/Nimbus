@@ -12,6 +12,6 @@ ini_set('display_errors', 1);
             $_SESSION['nimbus_first_name'] = $userData['first_name'];
             $_SESSION['nimbus_last_name'] = $userData['last_name'];
             $location = "Location: ".$_POST['url'];
-        } else { echo "Incorrect username/password."; } 
+        } else { $location = "Location: ".$_POST['url']; } 
         header($location);
 ?>

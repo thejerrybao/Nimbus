@@ -3,7 +3,7 @@
         $path = $_SERVER['DOCUMENT_ROOT'];
         $path .= "/admin/dbfunc.php";
         include_once($path);
-
+        
         $userdb = new UserFunctions;
         $userData = array(
             "first_name" => $_POST['first_name'],

@@ -1399,12 +1399,18 @@ class BlogFunctions extends Database {
 
         return $posts;
     }
+    public function getRecentPosts($num){
+        $query = $this->db->prepare('SELECT * FROM `blog`
+            WHERE publish_datetime >= FROM_UNIXTIME(:dateBegin) AND publish_datetime < FROM_UNIXTIME(:dateEnd) ORDER BY `publish_datetime` DESC' LIMIT 3 );
+        $query->setFetchMode(PDO::FETCH_OBJ);
+       
+    }
 
     // edit event information
     public function setPost($post_id, $postData) {
 
         $query = $this->db->prepare('UPDATE `blog`
-            SET title=:title, author_id=:author_id, publish_datetime=:publish_datetime
+            SET title=:title, author_id=:author_id, publish_datetime=:publish_datetime, story=:story
             WHERE post_id=:post_id');
         if ($query->execute(array(
             ':post_id' => $post_id,

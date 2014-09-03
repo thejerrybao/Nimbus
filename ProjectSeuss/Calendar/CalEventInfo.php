@@ -71,8 +71,9 @@
       <div class="modal-footer">
       <? if($loggedin){
          if(! $signedup){ 
-          if($event['online_end_datetime'] < date('U')){ ?>
-            <p>Sign-ups are closed, if you would still like to attend please contact <?php $chair = $userdb->getUserInfo($event['chair_id']); echo $chair['first_name']; echo " "; echo $chair['last_name']; ?></p>
+          date_default_timezone_set('America/Los_Angeles');
+          if($event['online_end_datetime'] < time()){ ?>
+            <p> Sign-ups are closed, if you would still like to attend please contact <?php $chair = $userdb->getUserInfo($event['chair_id']); echo $chair['first_name']; echo " "; echo $chair['last_name']; ?></p>
           <? } else{?>
         <form action="eventsignup.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">

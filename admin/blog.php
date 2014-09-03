@@ -14,8 +14,8 @@ session_start();
 if (!isset($_SESSION['nimbus_user_id'])) { header('Location: login.php'); }
 else if ($_SESSION['nimbus_access'] == 0) { echo "You don't have access to this page."; exit; }
 date_default_timezone_set('America/Los_Angeles');
-if (empty($_GET['month']) && empty($_GET['year']) && $_GET['view'] == "list") {
-    $location = 'Location: blog.php?view=list&month=' . idate('m') . '&year=' . date('Y');
+if (empty($_GET['month']) && empty($_GET['year']) && $_GET['view'] == "manage") {
+    $location = 'Location: blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
     header($location); 
     exit;
 }
@@ -109,7 +109,7 @@ $customJS = true;
                     </div>
                 </div>
             <? break; ?>
-            <? case "list": ?>
+            <? case "manage": ?>
                 <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Blog Post List</h1>
@@ -121,7 +121,7 @@ $customJS = true;
                     <div class="col-lg-12">
                         <form action="blog.php" method="get" enctype="multipart/form-data">
                             <div class="form-group">
-                                <input type="hidden" name="view" value="list">
+                                <input type="hidden" name="view" value="manage">
                                 <select name="month" class="form-control" style="width: 20%; display: inline;">
                                     <? for ($i = 1; $i <= 12; $i++) { ?>
                                         <? if ($_GET['month'] == $i) { ?>
@@ -178,7 +178,7 @@ $customJS = true;
             <? case "post": ?>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Post Information <a href="blog.php?view=list"><button class="btn btn-primary btn-back">Back to Manage Posts</button></a></h1>
+                        <h1 class="page-header">Post Information <a href="blog.php?view=manage"><button class="btn btn-primary btn-back">Back to Manage Posts</button></a></h1>
                     </div>
                 </div>
                 <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
@@ -256,7 +256,7 @@ $customJS = true;
                                             <input type="text" name="title" class="form-control" value="<?= $post['title']; ?>" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>Chair</label>
+                                            <label>Author</label>
                                             <select name="author_id" class="form-control" id="form-author" required>
                                                 <? $users = $userdb->getUsers("active"); ?>
                                                 <? foreach ($users as $user) { ?>
