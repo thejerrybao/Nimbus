@@ -1035,6 +1035,7 @@ class TagFunctions extends Database {
         $mrpLevel = array();
         $query = $this->db->prepare('SELECT * FROM `mrp_levels`
         ORDER BY `hours` ASC');
+        return $mrpLevel;
     }
 
     //Get MRP Info
@@ -1049,10 +1050,11 @@ class TagFunctions extends Database {
 
         if ($query->rowCount() == 0) {return false; }
         $row = $query->fetch();
-        $level['name'] = $row->level_id;
+        $level['level_id'] = $row->level_id;
         $level['name'] = $row->name;
         $level['hours'] = $row->hours;
         $level['num_required'] = $row->num_required;
+        return $level;
     }
 
     // delete mrp level
