@@ -264,6 +264,7 @@ switch ($_POST['form_submit_type']) {
         }
         $location = 'Location: roster.php?view=add';
         break;
+<<<<<<< HEAD
     case "create_account":
         $userData = array(
             "first_name" => $_POST['first_name'],
@@ -281,6 +282,8 @@ switch ($_POST['form_submit_type']) {
         }
         $location = 'Location: ../ProjectSeuss/index.php';
         break;
+=======
+>>>>>>> 48065a48395806e887286cab3d7560c3bc533fe2
     case "set_dues_paid":
         if ($userdb->setDuesPaidMembership($_POST['non_dues_paid'], 1)) {
             $message = "SUCCESS: Selected members were set as Dues Paid!";

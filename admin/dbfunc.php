@@ -307,7 +307,7 @@ class UserFunctions extends Database {
 
         return $hours;
     }
-
+    
     // get user data with user ID; option to include hours or not
     public function getUserInfo($user_id, $hours = false) {
 
@@ -1276,7 +1276,7 @@ class CommitteeFunctions extends Database {
         $query->execute(array(
             ':committee_id' => $committee_id));
 
-        if ($query->rowCount() == 0) { return false; }
+        if ($query->rowCount() == 0) { return 0; }
         while ($row = $query->fetch()) {
             if ($id_only) { $committeeMembers[] = $row->user_id; }
             else {

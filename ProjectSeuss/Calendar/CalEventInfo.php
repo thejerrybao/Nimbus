@@ -7,7 +7,7 @@
           $userdb = new UserFunctions;
           $id = $_GET["id"];
           $event = $eventdb->getEventInfo($id);
-          echo $event['name']
+          session_start();
 ?>
 <div class="modal-dialog">
     <div class="modal-content">
@@ -42,22 +42,51 @@
             Meeting Location
           </label>
             <p> <?php echo $event['meeting_location'] ?> <p>
+          <label>
+            Attendees
+          </label>
+            <p>
+             <?if (isset($_SESSION['nimbus_user_id'])) { 
+              $loggedin = true;
+              } else {
+                $loggedin = false;
+              } 
+              $signedup = false;
+              if ($eventAttendees = $eventdb->getEventAttendees($event['event_id'])) { ?>
+                  <ul>
+                  <? foreach ($eventAttendees as $eventAttendee) { ?>
+                    <li>
+                    <?= $eventAttendee['first_name']?> <?= $eventAttendee['last_name']; ?>
+                  </li>
+                    <? if($loggedin){
+                    if($eventAttendee['user_id'] == $_SESSION["nimbus_user_id"]){
+                      $signedup = true;
+                      }
+                    }
+                  }
+                }?>
+              </ul>
+            </p>
       </div>
       <div class="modal-footer">
-        <form action="/admin/processdata.php" method="post" enctype="multipart/form-data">
-          <input type="hidden" name="form_submit_type" value="add_event_attendees">
+      <? if($loggedin){
+         if(! $signedup){ 
+          if($event['online_end_datetime'] < date('U')){ ?>
+            <p>Sign-ups are closed, if you would still like to attend please contact <?php $chair = $userdb->getUserInfo($event['chair_id']); echo $chair['first_name']; echo " "; echo $chair['last_name']; ?></p>
+          <? } else{?>
+        <form action="eventsignup.php" method="post" enctype="multipart/form-data">
           <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-          <select name="user_ids[]" id="form-add-event-attendees" class="form-control" multiple required>
-          <? $users = $userdb->getUsers("active"); ?>
-          <? $eventAttendeeIDs = $eventdb->getEventAttendees($event['event_id'], true); ?>
-          <? foreach ($users as $user) { ?>
-          <? if (!in_array($user['user_id'], $eventAttendeeIDs)) { ?>
-          <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
-          <? } ?>
-          <? } ?>
-          </select>
-          <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Add Attendees</button>
-          </form>       
+              <button type="submit" class="btn btn-primary">Sign Up</button>
+          </form>
+         <? }} else { ?>
+          <form action="notattending.php" method="post" enctype="multipart/form-data">
+          <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
+              <button type="submit" class="btn btn-primary">Remove</button>
+          </form>
+          <? }
+          } else { ?> 
+        <label>Please Login to signup for this event.</label>
+        <? } ?>
       </div>
     </div>
   </div>
