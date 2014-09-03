@@ -16,6 +16,7 @@ $eventdb = new EventFunctions;
 $userdb = new UserFunctions;
 $tagdb = new TagFunctions;
 $blogdb = new BlogFunctions;
+
 switch ($_POST['form_submit_type']) {
     case "login":
         $userData = $userdb->login($_POST['username'], $_POST['password']);
@@ -436,7 +437,6 @@ switch ($_POST['form_submit_type']) {
         break;
 
     case "create_post":
-
         $postData = array(
             "title" => $_POST['title'],
             "author_id" => $_POST['author_id'],

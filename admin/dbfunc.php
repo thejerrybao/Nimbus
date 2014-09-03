@@ -78,10 +78,10 @@ class UserFunctions extends Database {
     public function logout() {
 
         session_start();
-        unset($_SESSION['cki_rf_user_id']);
-        unset($_SESSION['cki_rf_access']);
-        unset($_SESSION['cki_rf_first_name']);
-        unset($_SESSION['cki_rf_last_name']);
+        unset($_SESSION['nimbus_user_id']);
+        unset($_SESSION['nimbus_access']);
+        unset($_SESSION['nimbus_first_name']);
+        unset($_SESSION['nimbus_last_name']);
     }
 
     // register user

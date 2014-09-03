@@ -11,8 +11,8 @@
  **/
 ini_set('display_errors', 1);
 session_start();
-if (!isset($_SESSION['cki_rf_user_id'])) { header('Location: ../login.php'); }
-else if ($_SESSION['cki_rf_access'] < 1) { echo "You don't have access to this page."; exit; }
+if (!isset($_SESSION['nimbus_user_id'])) { header('Location: ../login.php'); }
+else if ($_SESSION['nimbus_access'] < 1) { echo "You don't have access to this page."; exit; }
 require_once("dbfunc.php");
 $eventdb = new EventFunctions;
 $userdb = new UserFunctions;
