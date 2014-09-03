@@ -129,7 +129,7 @@
             </form>
         </div>
         <div class="tab-pane fade" id="signup">
-             <form action="../admin/processdata.php" method="post" enctype="multipart/form-data">
+             <form action="register.php" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="form_submit_type" value="create_account">
                                     <div class="form-group">
                                         <label>First Name</label>
