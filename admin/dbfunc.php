@@ -1255,6 +1255,7 @@ class CommitteeFunctions extends Database {
 }
 
 class BlogFunctions extends Database {
+
     // creates an Blog Post
     public function createBlogPost($postData) {
 
@@ -1283,6 +1284,7 @@ class BlogFunctions extends Database {
             else { return false; }
         } else { return false; }
     }
+
     // get posts with post ID
     public function getPostInfo($post_id) {
 
@@ -1303,6 +1305,7 @@ class BlogFunctions extends Database {
         $postInfo['story'] = $row->story;
         return $postInfo;
     }
+
     // get month's posts
     // Assumes the date given is in UnixDateTime and is at the first day of the month at 00:00:00
     // Finds events that start first day of the month at 00:00:00 to the first day of the next month at 00:00:00
@@ -1310,6 +1313,7 @@ class BlogFunctions extends Database {
     // Assumes the date given is in UnixDateTime and is at the first day of the month at 00:00:00
     // Finds events that start first day of the month at 00:00:00 to the first day of the next month at 00:00:00
     public function getPostsByMonth($month) {
+        
         $events = array();
         $dateBegin = $month;
         $dateEnd = strtotime('+1 month', $month);
@@ -1332,7 +1336,8 @@ class BlogFunctions extends Database {
 
         return $posts;
     }
-     // edit event information
+
+    // edit event information
     public function setPost($post_id, $postData) {
 
         $query = $this->db->prepare('UPDATE `blog`

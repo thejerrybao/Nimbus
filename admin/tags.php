@@ -142,7 +142,7 @@ $customJS = true;
                                         <input type="hidden" name="form_submit_type" value="delete_tag">
                                         <select name="tag_ids[]" class="form-control" id="form-delete-tags" multiple required>
                                             <? $tags = $tagdb->getTags('all'); ?>
-                                            <?foreach ($tags as $tag) { ?>
+                                            <? foreach ($tags as $tag) { ?>
                                                 <option value="<?= $tag['tag_id'] ?>"><?= $tag['abbr'] ?> (<?= $tag['name'] ?>)</option>
                                             <? } ?>
                                         </select>
@@ -154,9 +154,8 @@ $customJS = true;
                     </div>
                 </div>
             <? break; ?>
-
             <? case "mrpadd": ?>
-            <div class="row">
+                <div class="row">
                     <div class="col-lg-12">
                         <h1 class="page-header">Add MRP Level</h1>
                     </div>
@@ -171,6 +170,8 @@ $customJS = true;
                                     <div class="form-group">
                                         <label>MRP Level</label>
                                         <input type="text" name="name" class="form-control" required>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Hours</label>
                                         <input type="number" name="hours" class="form-control" min='0' required>
                                     </div>
@@ -195,41 +196,38 @@ $customJS = true;
                 </div>
             <? break; ?>
             <? case "mrplist": ?>
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Manage MRP Levels</h1>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="table-responsive">
-                        <? $levels = $tagdb->getMRPLevels(); ?>
-                        <? if ($levels) { ?>
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>   
-                                    <th id="level-name">Level</th>
-                                    <th id="level-hours">hours</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <? foreach ($levels as $level) { ?>
-                                    <tr>
-                                        <td><?= $level['name'] ?></td>
-                                        <td><?= $level['hours'] ?></td>
-                                    </tr>
-                                <? } ?>
-                            </tbody>
-                        </table>
-                    <? } ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Manage MRP Levels</h1>
                     </div>
                 </div>
-            </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                            <? $levels = $tagdb->getMRPLevels(); ?>
+                            <? if ($levels) { ?>
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>   
+                                        <th id="level-name">Level</th>
+                                        <th id="level-hours">Hours Required</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <? foreach ($levels as $level) { ?>
+                                        <tr>
+                                            <td><?= $level['name'] ?></td>
+                                            <td><?= $level['hours'] ?></td>
+                                        </tr>
+                                    <? } ?>
+                                </tbody>
+                            </table>
+                        <? } ?>
+                        </div>
+                    </div>
+                </div>
             <? break; ?>
-
-            
-                <? endswitch; ?>
-            </div>
+            <? endswitch; ?>
         </div>
         <!-- /#page-wrapper -->
 
