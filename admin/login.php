@@ -33,16 +33,16 @@ if (isset($_SESSION['nimbus_user_id'])) {
     <title>Project Nimbus - Login</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="admin/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="admin/css/sb-admin-2.css" rel="stylesheet">
+    <link href="css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="admin/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -80,16 +80,16 @@ if (isset($_SESSION['nimbus_user_id'])) {
     </div>
 
     <!-- jQuery Version 1.11.0 -->
-    <script src="admin/js/jquery-1.11.0.js"></script>
+    <script src="js/jquery-1.11.0.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="admin/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="admin/js/plugins/metisMenu/metisMenu.min.js"></script>
+    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="admin/js/sb-admin-2.js"></script>
+    <script src="js/sb-admin-2.js"></script>
 
 </body>
 
