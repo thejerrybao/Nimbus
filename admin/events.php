@@ -13,7 +13,6 @@ ini_set('display_errors', 1);
 session_start();
 if (!isset($_SESSION['nimbus_user_id'])) { header('Location: login.php'); }
 else if ($_SESSION['nimbus_access'] == 0) { echo "You don't have access to this page."; exit; }
-date_default_timezone_set('America/Los_Angeles');
 if (empty($_GET['month']) && empty($_GET['year']) && $_GET['view'] == "list") {
     $location = 'Location: events.php?view=list&month=' . idate('m') . '&year=' . date('Y');
     header($location); 

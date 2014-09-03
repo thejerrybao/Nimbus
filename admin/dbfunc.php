@@ -798,7 +798,7 @@ class EventFunctions extends Database {
         $dateEnd = strtotime('+1 day', $date);
 
         $query = $this->db->prepare('SELECT * FROM `events`
-            WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND start_datetime < FROM_UNIXTIME(:dateEnd)' );
+            WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND start_datetime < FROM_UNIXTIME(:dateEnd) ORDER BY `status` ASC, `start_datetime` ASC' );
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':dateBegin' => $dateBegin,
@@ -831,7 +831,7 @@ class EventFunctions extends Database {
         $dateEnd = strtotime('+1 month', $month);
 
         $query = $this->db->prepare('SELECT * FROM `events`
-            WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND start_datetime < FROM_UNIXTIME(:dateEnd) ORDER BY `status` ASC' );
+            WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) AND start_datetime < FROM_UNIXTIME(:dateEnd) ORDER BY `status` ASC, `start_datetime` ASC' );
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':dateBegin' => $dateBegin,

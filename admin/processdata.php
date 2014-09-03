@@ -10,6 +10,7 @@
  ** COPYRIGHT 2014-2015 - ALL RIGHTS RESERVED
  **/
 ini_set('display_errors', 1);
+
 require_once("dbfunc.php");
 $committeedb = new CommitteeFunctions;
 $eventdb = new EventFunctions;
