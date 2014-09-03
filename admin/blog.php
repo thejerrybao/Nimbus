@@ -164,7 +164,7 @@ $customJS = true;
                             ?>
                                 <tr><td><a href="blog.php?view=post&id=<?= $post['post_id'] ?>"><?= $post['title'] ?></a></td>
                                 <td><?= $author['first_name'] ?> <?= $author['last_name'] ?></td>
-                                <td><?= date("F j, Y, g:i a", $post['publish_datetime']) ?></td>
+                                <td><?= date("M d, g:i a", $post['publish_datetime']) ?></td>
                                 
                             <? } ?>
                             </tbody>
