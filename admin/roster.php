@@ -11,7 +11,7 @@
  **/
 ini_set('display_errors', 1);
 session_start();
-if (!isset($_SESSION['nimbus_user_id'])) { header('Location: ../login.php'); }
+if (!isset($_SESSION['nimbus_user_id'])) { header('Location: login.php'); }
 else if ($_SESSION['nimbus_access'] == 0) { echo "You don't have access to this page."; exit; }
 require_once("dbfunc.php");
 $userdb = new UserFunctions;

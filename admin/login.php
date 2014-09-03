@@ -11,10 +11,10 @@
  **/
 ini_set('display_errors', 1);
 session_start();
-require_once("admin/dbfunc.php");
+require_once("dbfunc.php");
 $userdb = new UserFunctions;
 if (isset($_SESSION['nimbus_user_id'])) {
-    header("Location: admin/index.php");
+    header("Location: index.php");
 }
 
 ?>
@@ -63,7 +63,7 @@ if (isset($_SESSION['nimbus_user_id'])) {
                         <h3 class="panel-title">Administration Login</h3>
                     </div>
                     <div class="panel-body">
-                        <form action="admin/processdata.php" method="post" enctype="multipart/form-data">
+                        <form action="processdata.php" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="form_submit_type" value="login">
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Username" name="username" autofocus>
