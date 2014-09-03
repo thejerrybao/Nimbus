@@ -30,8 +30,9 @@
 		<div class="container">
 
       <div class="row" >
+        <div class="col-sm-1"></div>
 
-        <div class="col-sm-8 blog-main" style="background-color:rgba(255,255,255,0.98); border-radius: 25px;">
+        <div class="col-sm-7 blog-main" style="background-color:rgba(255,255,255,0.98); border-radius: 25px; width=50%;">
 
           <div class="blog-post" >
             <h2 class="blog-post-title">Sample blog post</h2>

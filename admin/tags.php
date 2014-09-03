@@ -224,7 +224,7 @@ $customJS = true;
                                 <tbody>
                                     <? foreach ($levels as $level) { ?>
                                         <tr>
-                                            <td><?= $level['name'] ?></td>
+                                            <td><a href="tags.php?view=level&id=<?= $level['level_id'] ?>"><?= $level['name'] ?></a></td>
                                             <td><?= $level['hours'] ?></td>
                                         </tr>
                                     <? } ?>
@@ -232,6 +232,13 @@ $customJS = true;
                             </table>
                         <? } ?>
                         </div>
+                    </div>
+                </div>
+            <? break; ?>
+            <? case "level": ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">MRP Level Information <a href="tags.php?view=mrplist"><button class="btn btn-primary btn-back">Back to List of Levels</button></a></h1>
                     </div>
                 </div>
             <? break; ?>
