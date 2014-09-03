@@ -1,8 +1,9 @@
-<?php?>
 		<head> 
+    <?php session_start(); ?>
 		<title>Bootstrap 3</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="/ProjectSeuss/css/bootstrap.css" media="all">
+        <link rel="stylesheet" type="text/css" href="/admin/font-awesome-4.1.0/css/font-awesome.css" media="all">
 		</head>
 	<body style="background-image: url('/ProjectSeuss/images/graphics/books.jpg');background-size: 50%; background-repeat: repeat;">
 		      <img src="/ProjectSeuss/images/graphics/banner.jpg" style="width: 100%; height: 100%;">
@@ -63,9 +64,21 @@
 									<li><a href="/ProjectSeuss/committees/tech.php">Technology</a></li>								
 								</ul>
 							</li>
-							<li><a class="btn" data-toggle="modal" href="#myModal" >Login</a>
-							
-        					</li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Social Media</a>
+                <ul class="dropdown-menu">
+                  <li><a href="https://www.facebook.com/groups/66850859271/"><i class="fa fa-facebook fa-fw"></i> Facebook Group</a></li>
+                  <li><a href="http://instagram.com/ucbcki"><i class="fa fa-instagram fa-fw"></i> Instagram</a></li>
+                  <li><a href="https://twitter.com/UCBCKI"><i class="fa fa-facebook fa-fw"></i> Twitter</a></li>
+                  <li><a href="https://drive.google.com/a/berkeley.edu/folderview?id=0B1MfH83HOZRMWDNpUlhLUVBhVTQ&usp=drive_web#"><i class="fa fa-picture-o"></i> Image Gallery</a></li>
+                </ul>
+              </li>
+                <?php              
+                  if (!isset($_SESSION['cki_rf_user_id'])) {
+                ?> <li>You're in!</li>
+							<? } else { ?>
+                     <li><a class="btn" data-toggle="modal" href="#myModal" >Login</a></li>
+                     <?}?>
 						</ul>	
 					</div>
 
@@ -92,33 +105,15 @@
         <p></p><br> Please contact <a mailto:href="thejerrybao@gmail.com"></a>thejerrybao@gmail.com</a> for any other inquiries.</p>
         </div>
         <div class="tab-pane fade active in" id="signin">
-            <form id="login">
-            <fieldset>
-            <!-- Sign In Form -->
-            <!-- Text input-->
-            <div class="control-group">
-              <label class="control-label" for="username">Username:</label>
-              <div class="controls">
-                <input required="" name="username" type="text" class="form-control" placeholder="Jerry Bao" class="input-medium" required="">
-              </div>
-            </div>
-
-            <!-- Password input-->
-            <div class="control-group">
-              <label class="control-label" for="password">Password:</label>
-              <div class="controls">
-                <input required="" name="password" class="form-control" type="password" placeholder="********" class="input-medium">
-              </div>
-            </div>
-
-            <!-- Button -->
-            <div class="control-group">
-              <label class="control-label" for="signin"></label>
-              <div class="controls">
-                <button id="signin" name="signin" class="btn btn-success">Sign In</button>
-              </div>
-            </div>
-            </fieldset>
+            <form action="../admin/processdata.php" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="form_submit_type" value="login">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Username" name="username" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" placeholder="Password" name="password">
+                            </div>
+                            <button type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
             </form>
         </div>
         <div class="tab-pane fade" id="signup">
@@ -142,7 +137,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Password</label>
-                                        <input type="text" name="password" class="form-control" required>
+                                        <input required="" name="password" class="form-control" type="password" placeholder="********" class="input-medium">
                                     </div>
 
                                     <div class="form-group">
