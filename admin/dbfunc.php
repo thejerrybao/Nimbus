@@ -1399,14 +1399,17 @@ class BlogFunctions extends Database {
 
         return $posts;
     }
+
     public function getRecentPosts($numstart, $numposts){
+
         $query = $this->db->prepare('SELECT * FROM `blog`
              ORDER BY `publish_datetime` DESC LIMIT :numstart, :numposts');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':numstart' => $numstart,
             ':numposts' => $numposts));
-       if ($query->rowCount() == 0) { return false; }
+        
+        if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
             $posts[] = array(
                 'post_id' => $row->post_id,
