@@ -87,18 +87,44 @@ class UserFunctions extends Database {
     // register user
     public function addUser($userData) {
 
-        $query = $this->db->prepare('INSERT INTO `users`
-            VALUES ("", :first_name, :last_name, :username, :password, :email, 0, :phone, 0, 0, 1)');
+        $query = $this->db->prepare('SELECT * FROM `users`
+            WHERE email=:email');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute(array(
+            ':email' => $userData['email']));
 
-        if ($query->execute(array(
-            ':first_name' => $userData['first_name'],
-            ':last_name' => $userData['last_name'],
-            ':username' => $userData['username'],
-            ':password' => $userData['password'],
-            ':email' => $userData['email'],
-            ':phone' => $userData['phone']
-            ))) { return true; }
-            else { return false; } 
+        if ($query->rowCount() == 0) {
+            $query = $this->db->prepare('INSERT INTO `users`
+                VALUES ("", :first_name, :last_name, :username, :password, :email, 0, :phone, 0, 0, 1)');
+
+            if ($query->execute(array(
+                ':first_name' => $userData['first_name'],
+                ':last_name' => $userData['last_name'],
+                ':username' => $userData['username'],
+                ':password' => $userData['password'],
+                ':email' => $userData['email'],
+                ':phone' => $userData['phone']
+                ))) { return true; }
+                else { return false; } 
+        } else {
+            $row = $query->fetch();
+            if (password_verify("", $row->password)) {
+                $query = $this->db->prepare('UPDATE `users`
+                    SET first_name=:first_name, last_name=:last_name, username=:username, password=:password,
+                        phone=:phone
+                    WHERE email=:email');
+
+                if ($query->execute(array(
+                    ':first_name' => $userData['first_name'],
+                    ':last_name' => $userData['last_name'],
+                    ':username' => $userData['username'],
+                    ':password' => $userData['password'],
+                    ':email' => $userData['email'],
+                    ':phone' => $userData['phone']
+                    ))) { return true; }
+                    else { return false; } 
+            } else { return false; }
+        }
     }
 
     public function deleteUser($user_id) {

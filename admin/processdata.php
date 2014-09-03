@@ -243,7 +243,6 @@ switch ($_POST['form_submit_type']) {
         }
         $location = 'Location: events.php?view=otherattendees&id=' . $_POST['event_id'];
         break;
-
     case "add_user":
         if (!isset($_POST['username'])) {
             $_POST['username'] = $_POST['password'] = $_POST['phone'] = "";
@@ -264,7 +263,6 @@ switch ($_POST['form_submit_type']) {
         }
         $location = 'Location: roster.php?view=add';
         break;
-
     case "create_account":
         $userData = array(
             "first_name" => $_POST['first_name'],
