@@ -78,7 +78,6 @@ $customJS = true;
                                             <input type="checkbox" name="number" value="1" checked>
                                         </div>
                                     </div>
-
                                     <button type="submit" class="btn btn-primary">Add Tag</button>
                                     <button type="reset" class="btn btn-primary">Reset Fields</button>
                                 </form>

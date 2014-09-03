@@ -111,9 +111,9 @@ $customJS = true;
                                     <div class="form-group">
                                         <label>Online Sign-ups?</label>
                                         <input type="hidden" name="online_signups" value="0">
-                                        <input type="checkbox" name="online_signups" value="1" checked>
+                                        <input type="checkbox" name="online_signups" class="online-signups-checkbox" value="1" checked>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group online-signups">
                                         <label>Online Sign-up End Date and Time</label>
                                         <input type="datetime-local" name="online_end_datetime" id="online-end-datetime" class="form-control" value="<?= date("Y-m-d\TH:i:00", strtotime('-1 day')); ?>" required>
                                     </div>
@@ -505,12 +505,12 @@ $customJS = true;
                                             <label>Online Sign-ups?</label>
                                             <input type="hidden" name="online_signups" value="0">
                                             <? if ($event['online_signups']) { ?>
-                                                <input type="checkbox" name="online_signups" value="1" checked>
+                                                <input type="checkbox" name="online_signups" class="online-signups-checkbox" value="1" checked>
                                             <? } else { ?>
-                                                <input type="checkbox" name="online_signups" value="1">
+                                                <input type="checkbox" name="online_signups" class="online-signups-checkbox" value="1">
                                             <? } ?>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group online-signups" <? if (!$event['online_signups']) { ?> style="display: none;" <? } ?>>
                                             <label>Online Sign-up End Date and Time</label>
                                             <input type="datetime-local" name="online_end_datetime" class="form-control" value="<?= date("Y-m-d\TH:i:00", $event['online_end_datetime']); ?>" required>
                                         </div>

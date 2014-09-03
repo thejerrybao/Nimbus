@@ -1,5 +1,5 @@
 $('#mrptag_checked').change(function () {
-        $(".mrp-options").toggle(this.checked);
+    $(".mrp-options").toggle(this.checked);
 });
 
 $("#form-delete-tags").chosen({

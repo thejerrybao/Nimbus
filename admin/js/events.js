@@ -11,3 +11,7 @@ $("#form-event-tags, #form-event-chair, #form-add-event-attendees, #form-delete-
     display_disabled_options: false,
     search_contains: true,
 });
+
+$('.online-signups-checkbox').change(function () {
+    $(".online-signups").toggle(this.checked);
+});
