@@ -51,7 +51,7 @@
 
 </head>
 <body>
-	<div style="background-color:rgba(255,255,255,0.98)">
+	<div style="background-color:rgba(255,255,255,0.98); border-radius: 25px;">
 	<div id='calendar' ></div>
 	</div>
 	<div class="modal fade" id="otherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

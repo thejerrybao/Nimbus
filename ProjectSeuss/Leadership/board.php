@@ -11,7 +11,7 @@
         <img src="../images/pictures/board/all.jpg"  style="width: 65%; height: 65%;" align="middle">
 		    
         </div>
-     <div class="container marketing" style="background-color:rgba(255,255,255,0.98)" align="middle" >
+     <div class="container marketing" style="background-color:rgba(255,255,255,0.98); border-radius:25px;" align="middle" >
       <style>
       
       #pres{
@@ -180,8 +180,7 @@
         height: 84.5%;
       } 
   </style>
-
-      <div class="row" >
+      <div class="row" style="padding-top: 25px;">
         <div class="col-lg-3">
           <img class="img-circle" id="pres" alt="Generic placeholder image">
           <h2><b>Bertha Te</b></h2>

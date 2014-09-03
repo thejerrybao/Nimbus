@@ -31,7 +31,7 @@
 
       <div class="row" >
 
-        <div class="col-sm-8 blog-main" style="background-color:rgba(255,255,255,0.98)">
+        <div class="col-sm-8 blog-main" style="background-color:rgba(255,255,255,0.98); border-radius: 25px;">
 
           <div class="blog-post" >
             <h2 class="blog-post-title">Sample blog post</h2>
@@ -99,7 +99,7 @@
 
         </div><!-- /.blog-main -->
 
-        <div class="col-sm-3 col-sm-offset-1 blog-sidebar" style="background-color:rgba(255,255,255,0.98)">
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar" style="background-color:rgba(255,255,255,0.98); border-radius: 25px;">
           <div class="sidebar-module sidebar-module-inset">
             <h4>Follow us on instagram @UCBCKI</h4>
             <p>Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
