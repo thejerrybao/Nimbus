@@ -102,6 +102,20 @@ facility to spend a wonderful Friday afternoon with the residents. There’s all
         </div>
       </div>
     </div>
+    <div class="featurette" style="margin-top:30px;" >
+        <div class="row">
+        <div class="col-lg-7">
+        <div style="background-color:rgba(255,255,255,0.98); border-radius: 10px; padding:10px 10px 20px 20px;  ">
+        <h2 class="featurette-heading">Rock</h2>
+        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;"> Real Option for City Kids is a service event that takes place at Visitacion Elementary on Saturday mornings. There, we are able to teach the kids involved in the program, grades K - 5th, a sport of the season and skills associated with it. A typical schedule of events for us volunteers include volunteer debriefing, warm-up runs, station drills, congratulations and awards, then snack and freeplay. We also help foment better ideals such as healthy living. This event gives kids a better option of how to spend their saturday morning instead of roaming the streets and getting involved with the wrong crowd. Most of the kids attending love our company; there is nothing that brings them more joy than challenging us college kids to a race during warm-ups and having us play on their team whether it is to shoot the basket or pass the soccer ball. To simply put it ROCK rocks!</p> 
+        <p><span class="text-muted">Akash Patel</span></p>
+        </div>
+        </div>
+        <div class="col-lg-5" >
+        <img class="featurette-image pull-right" src="../images/pictures/contproj/rock.jpg" style="width:100%; height:100%; border-radius: 50%;">  
+      </div>
+      </div>
+      </div>
 
 
       <hr class="featurette-divider">
