@@ -1,8 +1,6 @@
 <?php 
 ini_set('display_errors', 1);
-$path = $_SERVER['DOCUMENT_ROOT'];
-$path .= "/admin/dbfunc.php";
-include_once($path);
+require_once("dbfunc.php");
 
 if (isset($_POST['first_name'])) {
     $userdb = new UserFunctions;
