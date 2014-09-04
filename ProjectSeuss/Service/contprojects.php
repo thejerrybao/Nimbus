@@ -8,57 +8,137 @@
    <?php include("../head.php") ?>
   </head>
 	<body>
-		<hr class="featurette-divider">
+		<div class="container marketing">
 
-      <div class="row featurette" style="background-color:rgba(255,255,255,0.98); border-radius: 25px; width:95%; padding-left:20px">
-        <div class="col-md-1"></div>
-        <div class="col-md-6">
-          <h2 class="featurette-heading">Aquatic Park EGRET</h2>
-          <p class="lead">Aquatic Park Egret is an environmental service project during which we visit Berkeley Aquatic Park to help remove weeds, provide the native species with nutrients and improve the wildlife habitat! 
 
-The event is called “Egret” because we’re working to provide the egrets and other birds around the shoreline  a better environment with plenty of trees to rest on. This is  one of the service projects that require a bit of physical work, but it’s a rewarding experience and if you like nature or bird watching, you get to see native Berkeley bird species as well as migratory birds around the beautiful Aquatic Park!
-</p>
+
+      <!-- START THE FEATURETTES -->
+
+
+      <div class="featurette" >
+        <div class="row">
+        <div class="col-lg-7">
+        <div style="background-color:rgba(255,255,255,0.98); border-radius: 10px; padding:10px 10px 20px 20px;  ">
+        <h2 class="featurette-heading">Aquatic Park EGRET</h2>
+        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;">Aquatic Park Egret is an environmental service project during which we visit Berkeley Aquatic Park to help remove weeds, provide the native species with nutrients and improve the wildlife habitat! </p>
+        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;"> The event is called “Egret” because we’re working to provide the egrets and other birds around the shoreline  a better environment with plenty of trees to rest on. This is  one of the service projects that require a bit of physical work, but it’s a rewarding experience and if you like nature or bird watching, you get to see native Berkeley bird species as well as migratory birds around the beautiful Aquatic Park!</p>
+        <p><span class="text-muted">Liane Kuo</span></p>
         </div>
-        <div class="col-md-4">
-          <img class="featurette-image img-responsive" src="../images/pictures/contproj/egret.jpg" data-src="holder.js/500x500/auto" alt="Generic placeholder image" style="padding-top:70px;">
         </div>
-        <div class="col-md-1"></div>
+        <div class="col-lg-5">
+        <img class="featurette-image pull-right" src="../images/pictures/contproj/egret.jpg" style="width:100%; height:100%; border-radius: 50%;">  
       </div>
-    </hr>
+      </div>
+      </div>
+
+      <div class="featurette" style="margin-top:30px;">
+        <div class="row">
+        <img class="featurette-image pull-left" src="../images/pictures/contproj/chap.jpg" style="width:35%; height:35%; border-radius: 50%;">
+        <div class="col-lg-7">
+        <div style="background-color:rgba(255,255,255,0.98); border-radius: 10px; padding:10px 10px 20px 20px;  ">
+        <h2 class="featurette-heading">Chaparral House</h2>
+        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;"> Chaparral House is a nearby elderly care facility here in Berkeley. Every other week, we bus to the 
+
+facility to spend a wonderful Friday afternoon with the residents. There’s all sorts of activities to participate in, such as board games. There’s also an abundance of art supplies, from origami paper to pastels and paint. It’s an especially great experience being able to create beautiful artwork with the residents. However, what makes this event particularly memorable is not the material supplies, but the non-physical ones. Chaparral House is about engaging in conversation and interacting with the people. Simply taking a small walk in the garden while sharing experiences and listening to stories is eye opening. For the quieter patients, seeing the gentle smile that appears upon their face is one of the most heart-warming feelings and is always a great start to the weekend.</p>
+        <p><span class="text-muted">Robert Rodriguez</span></p>
+        </div>
+        </div>
+      </div>
+    </div>
+      <div class="featurette" style="margin-top:30px;" >
+        <div class="row">
+        <div class="col-lg-7">
+        <div style="background-color:rgba(255,255,255,0.98); border-radius: 10px; padding:10px 10px 20px 20px;  ">
+        <h2 class="featurette-heading">Hands on Science</h2>
+        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;"> Folding paper airplanes, elephant toothpaste, making ice cream, what could be better? At Hands on Science, not only do volunteers get to perform these experiments, they also get to amaze students at LeConte Elementary of the actual science behind what is happening. Even if science is not your strong suit, you can learn along with the kids while also having a lot of fun.</p> 
+        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;">Hands on Science has 2 parts. One is the Planning Meeting, where we get together in order to figure out what experiments to run with the kids as well as what concepts we will be teaching. The 2nd part of the event is where we actually take a bus over to LeConte Elementary and execute our plans. 
+        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;">This continuous service project is definitely one of my favorites since the kids are always so excited and willing to participate in whatever activity we come up with. Help spread some knowledge while gaining a bit yourself and come out to the next Hands on Science!</p>
+        <p><span class="text-muted">Jenny Voong</span></p>
+        </div>
+        </div>
+        <div class="col-lg-5">
+        <img class="featurette-image pull-right" src="../images/pictures/contproj/hos.jpg" style="width:85%; height:85%; border-radius: 50%;">  
+      </div>
+      </div>
+      </div>
+
+      <div class="featurette" style="margin-top:30px;">
+        <div class="row">
+        <img class="featurette-image pull-left" src="../images/pictures/contproj/laf.jpg" style="width:32%; height:32%; border-radius: 50%;">
+        <div class="col-lg-7">
+        <div style="background-color:rgba(255,255,255,0.98); border-radius: 10px; padding:10px 10px 20px 20px;  ">
+        <h2 class="featurette-heading">Loaves & Fishes</h2>
+        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;">It’s no secret that there are a lot of homeless people in Berkeley. We see them everywhere, but do we really know about them and their stories? Loaves & Fishes changes that!</p>
+        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;"> This project is unique in that although we volunteer as servers, we sit down and enjoy a (free) dinner with the guests, the homeless people invited to the church. Throughout dinner, it’s our responsibility  to bring and take away dishes. There is also entertainment throughout dinner provided by other volunteers. Having the chance to talk to the guests at your table is one of the most rewarding parts of this project because of the different insights they provide on life, school, and work! The event is one of my favorites as it’s a really great and rewarding experience and being able to interact with the homeless people gives you a different perspective.</p>
+        <p><span class="text-muted">Vivian Nguyen</span></p>
+        </div>
+        </div>
+      </div>
+    </div>
+    <div class="featurette" style="margin-top:30px;" >
+        <div class="row">
+        <div class="col-lg-7">
+        <div style="background-color:rgba(255,255,255,0.98); border-radius: 10px; padding:10px 10px 20px 20px;  ">
+        <h2 class="featurette-heading">Rock</h2>
+        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;"> Real Option for City Kids is a service event that takes place at Visitacion Elementary on Saturday mornings. There, we are able to teach the kids involved in the program, grades K - 5th, a sport of the season and skills associated with it. A typical schedule of events for us volunteers include volunteer debriefing, warm-up runs, station drills, congratulations and awards, then snack and freeplay. We also help foment better ideals such as healthy living. This event gives kids a better option of how to spend their saturday morning instead of roaming the streets and getting involved with the wrong crowd. Most of the kids attending love our company; there is nothing that brings them more joy than challenging us college kids to a race during warm-ups and having us play on their team whether it is to shoot the basket or pass the soccer ball. To simply put it ROCK rocks!</p> 
+        <p><span class="text-muted">Akash Patel</span></p>
+        </div>
+        </div>
+        <div class="col-lg-5" >
+        <img class="featurette-image pull-right" src="../images/pictures/contproj/rock.jpg" style="width:100%; height:100%; border-radius: 50%;">  
+      </div>
+      </div>
+      </div>
+
+      <div class="featurette" style="margin-top:30px;">
+        <div class="row">
+        <img class="featurette-image pull-left" src="../images/pictures/contproj/egret.jpg" style="width:40%; height:40%; border-radius: 50%;">
+        <div class="col-lg-7">
+        <div style="background-color:rgba(255,255,255,0.98); border-radius: 10px; padding:10px 10px 20px 20px;  ">
+        <h2 class="featurette-heading">Loaves & Fishes</h2>
+        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;">Aquatic Park Egret is an environmental service project during which we visit Berkeley Aquatic Park to help remove weeds, provide the native species with nutrients and improve the wildlife habitat! </p>
+        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;"> The event is called “Egret” because we’re working to provide the egrets and other birds around the shoreline  a better environment with plenty of trees to rest on. This is  one of the service projects that require a bit of physical work, but it’s a rewarding experience and if you like nature or bird watching, you get to see native Berkeley bird species as well as migratory birds around the beautiful Aquatic Park!</p>
+        <p><span class="text-muted">Liane Kuo</span></p>
+        </div>
+        </div>
+      </div>
+    </div>
+
 
       <hr class="featurette-divider">
 
-      <div class="row featurette" style="background-color:rgba(255,255,255,0.98); border-radius: 25px; width:95%; padding-left:20px">
-        <div class="col-md-1"></div>
-        <div class="col-md-4">
-          <img class="featurette-image img-responsive" src="../images/pictures/contproj/egret.jpg" data-src="holder.js/500x500/auto" alt="Generic placeholder image" style="padding-top:70px;">
-        </div>
-        <div class="col-md-1"></div>
-      </div>
-        <div class="col-md-6">
-          <h2 class="featurette-heading">Aquatic Park EGRET</h2>
-          <p class="lead">Aquatic Park Egret is an environmental service project during which we visit Berkeley Aquatic Park to help remove weeds, provide the native species with nutrients and improve the wildlife habitat! 
-
-The event is called “Egret” because we’re working to provide the egrets and other birds around the shoreline  a better environment with plenty of trees to rest on. This is  one of the service projects that require a bit of physical work, but it’s a rewarding experience and if you like nature or bird watching, you get to see native Berkeley bird species as well as migratory birds around the beautiful Aquatic Park!
-</p>
-        </div>
-        <div class="col-md-1"></div>
+      <div class="featurette">
+        <img class="featurette-image pull-right" src="../assets/img/examples/browser-icon-safari.png">
+        <h2 class="featurette-heading">And lastly, this one. <span class="muted">Checkmate.</span></h2>
+        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
       </div>
 
       <hr class="featurette-divider">
 
-      <div class="row featurette">
-        <div class="col-md-1"></div>
-        <div class="col-md-6">
-          <h2 class="featurette-heading">And lastly, this one. <span class="text-muted">Checkmate.</span></h2>
-          <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
-        </div>
-        <div class="col-md-4">
-          <img class="featurette-image img-responsive" data-src="holder.js/500x500/auto" alt="Generic placeholder image">
-        </div>
-        <div class="col-md-1"></div>
-      </div>
+      <!-- /END THE FEATURETTES -->
 
-      <hr class="featurette-divider">
+
+      <!-- FOOTER -->
+      <footer>
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>&copy; 2013 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+      </footer>
+
+    </div><!-- /.container -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	</body>
 </html>
