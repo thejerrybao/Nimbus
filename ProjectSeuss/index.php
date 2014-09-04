@@ -13,8 +13,8 @@
       }
     </script>
 	 <?php
-    include("../ProjectSeuss/head.php"); 
-    require_once("../admin/dbfunc.php");
+    include("head.php"); 
+    require_once("admin/dbfunc.php");
     $eventdb = new EventFunctions;
     $userdb = new UserFunctions;
     $todayevents = $eventdb->getEventsByDate(strtotime('today midnight'));          

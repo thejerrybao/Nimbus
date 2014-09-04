@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<?php include('/~circlek/head.php'); 
+	<?php include('head.php'); 
 		session_start();
 		ini_set('display_errors', 1);
-        $path = $_SERVER['DOCUMENT_ROOT'];
-        $path .= "/~circlek/admin/dbfunc.php";
-        include_once($path);
-        
+        include_once('admin/dbfunc.php');
         $userdb = new UserFunctions;
          ?>
 <meta charset='utf-8' />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-<link href="../jquery-ui/jquery-ui.css" rel="stylesheet">
+<link href="jquery-ui/jquery-ui.css" rel="stylesheet">
 <script src='lib/moment.min.js'></script>
 <script src='lib/jquery-ui.custom.min.js'></script>
-<script src="/ProjectSeuss/jquery-ui/jquery-ui.js"></script>
+<script src="jquery-ui/jquery-ui.js"></script>
 </head>
 <body>
 <div style="background-color:rgba(255,255,255,0.98); border-radius: 25px;">
@@ -46,7 +43,7 @@
                   </div>
 
 </div>
-<script src="/~circlek/js/maskedinput.jquery.min.js"></script>
-<script src="/~circlek/js/head.js"></script>
+<script src="js/maskedinput.jquery.min.js"></script>
+<script src="js/head.js"></script>
 </body>
 </html>
