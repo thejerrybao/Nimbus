@@ -23,7 +23,7 @@ $valid_mrp_views = ["mrpadd", "mrplist"];
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.php">Project Nimbus</a>
+        <a class="navbar-brand" href="index.php">Project Nimbus: Circle K Club Management</a>
     </div>
     <!-- /.navbar-header -->
 
