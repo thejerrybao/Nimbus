@@ -122,7 +122,7 @@
         <p></p><br> Please contact <a mailto:href="thejerrybao@gmail.com"></a>thejerrybao@gmail.com</a> for any other inquiries.</p>
         </div>
         <div class="tab-pane fade active in" id="signin">
-            <form action="~circlek/login.php" method="post" enctype="multipart/form-data">
+            <form action="/~circlek/login.php" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="form_submit_type" value="login">
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Username" name="username" autofocus>

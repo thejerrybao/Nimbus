@@ -1,7 +1,7 @@
 
  <div class="col-sm-7 blog-main" style="background-color:rgba(255,255,255,0.98); border-radius: 25px; height=100%">
  		<?php ini_set('display_errors', 1);
-			require_once("../admin/dbfunc.php");
+			require_once("admin/dbfunc.php");
 			$blogdb = new BlogFunctions;
 			$userdb = new UserFunctions;
 			$posts = $blogdb->getRecentPosts($start,$numposts);
