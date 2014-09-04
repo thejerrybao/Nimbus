@@ -446,7 +446,7 @@ switch ($_POST['form_submit_type']) {
         } else if ($blogdb->createBlogPost($postData)) {
             $message = "SUCCESS: Post \"" . $postData['title'] . "\" successfully created!";
             setcookie("successmsg", $message, time()+3);
-            $location .= 'blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
+            $location .= 'blog.php?view=list&month=' . idate('m') . '&year=' . date('Y');
         }  else {
             $message = "DATABASE ERROR: Post could not be created!";
             setcookie("errormsg", $message, time()+3);
