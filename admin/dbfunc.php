@@ -1442,10 +1442,4 @@ class BlogFunctions extends Database {
         else { return false; }
     }
 }
-  
-
-
-
-
-
 ?>

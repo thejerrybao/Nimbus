@@ -54,26 +54,28 @@
           </div>
       </div>
       <div class="modal-footer">
-      <? if($loggedin){
-         if(! $signedup){ 
-          date_default_timezone_set('America/Los_Angeles');
-          if($event['online_end_datetime'] < time()){ ?>
-            <label style="margin: 0;">Sign-ups are closed!</label>
-            <label style="margin: 0;">Contact <?php $chair = $userdb->getUserInfo($event['chair_id']); echo $chair['first_name']; echo " "; echo $chair['last_name']; ?> if you still want to attend.</label>
-          <? } else{?>
-        <form action="eventsignup.php" method="post" enctype="multipart/form-data">
-          <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-              <button type="submit" class="btn btn-primary">Sign Up</button>
-          </form>
-         <? } } else { ?>
-          <form action="notattending.php" method="post" enctype="multipart/form-data">
-          <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-              <button type="submit" class="btn btn-primary">Remove</button>
-          </form>
-          <? }
-          } else { ?> 
-        <label>Please Login to signup for this event.</label>
-        <? } ?>
+      <? if ($loggedin) {
+          if ($event['online_signups']) {
+            if ($event['online_end_datetime'] < time()) { ?>
+              <label style="margin: 0;">Sign-ups are closed!</label>
+              <label style="margin: 0;">Contact <?php $chair = $userdb->getUserInfo($event['chair_id']); echo $chair['first_name']; echo " "; echo $chair['last_name']; ?> if you still want to attend.</label>
+            <? } else if (!$signedup) { ?>
+              <form action="eventsignup.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
+                <button type="submit" class="btn btn-primary">Sign Up</button>
+              </form>
+            <? } else { ?>
+              <form action="notattending.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
+                <button type="submit" class="btn btn-primary">Remove</button>
+              </form>
+            <? } ?>
+          <? } else { ?>
+            <label style="margin: 0;">No online sign-ups are allowed for this event.</label>
+          <? } ?>
+      <? } else { ?> 
+        <label style="margin: 0;">Please login to sign-up for this event.</label>
+      <? } ?>
       </div>
     </div>
   </div>
