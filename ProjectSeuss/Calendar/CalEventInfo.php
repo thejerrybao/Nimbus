@@ -18,34 +18,47 @@
         </h4>
       </div>
       <div class="modal-body">
-          <label>
-            Chair
-          </label>
-            <p><?php $chair = $userdb->getUserInfo($event['chair_id']); echo $chair['first_name']; echo " "; echo $chair['last_name']; ?>  </p>
-          <label>
-            Start Time
-          </label>
-            <p> <?php echo date("F d, Y, h:i A",$event['start_datetime']); ?> <p>
-          <label>
-            End Time
-          </label>
-            <p> <?php echo date("F d, Y, h:i A",$event['end_datetime']); ?> <p>
-          <label>
-            Description
-          </label>
-            <p> <?php echo $event['description'] ?> <p>
-          <label>
-            Location
-          </label>
-            <p> <?php echo $event['location'] ?> <p>
-          <label>
-            Meeting Location
-          </label>
-            <p> <?php echo $event['meeting_location'] ?> <p>
+          <p style="margin: 0;">
+            <label>
+              Chair
+            </label>
+              <span style="float: right;"><?php $chair = $userdb->getUserInfo($event['chair_id']); echo $chair['first_name']; echo " "; echo $chair['last_name']; ?></span>
+          </p>
+          <p style="margin: 0;">
+            <label>
+              Start Time
+            </label>
+              <span style="float: right;"><?php echo date("F d, Y, h:i A",$event['start_datetime']); ?></span>
+          </p>
+          <p style="margin: 0;">
+            <label>
+              End Time
+            </label>
+              <span style="float: right;"><?php echo date("F d, Y, h:i A",$event['end_datetime']); ?></span>
+          </p>
+          <p style="margin: 0;">
+            <label>
+              Location
+            </label>
+              <span style="float: right;"><?php echo $event['location'] ?></span>
+          </p>
+          <p style="margin: 0;">
+            <label>
+              Meeting Location
+            </label>
+              <span style="float: right;"><?php echo $event['meeting_location'] ?></span>
+          </p>
+          <p style="margin: 0;">
+            <label>
+              Description
+            </label>
+              <div style="margin: 0;"><?php echo $event['description'] ?></div>
+          </p>
+          <p style="margin: 0;">
           <label>
             Attendees
           </label>
-            <p>
+            <ul>
              <?if (isset($_SESSION['nimbus_user_id'])) { 
               $loggedin = true;
               } else {
@@ -53,7 +66,7 @@
               } 
               $signedup = false;
               if ($eventAttendees = $eventdb->getEventAttendees($event['event_id'])) { ?>
-                  <ul>
+                  
                   <? foreach ($eventAttendees as $eventAttendee) { ?>
                     <li>
                     <?= $eventAttendee['first_name']?> <?= $eventAttendee['last_name']; ?>
@@ -64,7 +77,9 @@
                       }
                     }
                   }
-                }?>
+                } else { ?>
+                  <li>No Attendees</li>
+                  <? } ?>
               </ul>
             </p>
       </div>
