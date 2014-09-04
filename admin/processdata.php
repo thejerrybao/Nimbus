@@ -481,11 +481,11 @@ switch ($_POST['form_submit_type']) {
         } else if ($blogdb->setPost($_POST['post_id'],$postData)) {
             $message = "SUCCESS: Post \"" . $postData['title'] . "\" successfully edited!";
             setcookie("successmsg", $message, time()+3);
-            $location .= 'blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
+            $location .= 'blog.php?view=list&month=' . idate('m') . '&year=' . date('Y');
         }  else {
             $message = "DATABASE ERROR: Post could not be changed!";
             setcookie("errormsg", $message, time()+3);
-            $location .= 'blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
+            $location .= 'blog.php?view=list&month=' . idate('m') . '&year=' . date('Y');
         }            
         break;
         break; 
