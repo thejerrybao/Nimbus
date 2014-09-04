@@ -186,8 +186,7 @@ $customJS = true;
                             break;
                         default:
                             $user['access'] = "Access Value Invalid";
-                    }
-                } ?>
+                    } ?>
                 <? if ($user) { ?>
                 <div class="row">
                     <div class="col-lg-8">
@@ -228,6 +227,7 @@ $customJS = true;
                 </div>
                 <? } else { ?>
                     <h2>Member ID not found.</h2>
+                <? } ?>
                 <? } ?>
             <? break; ?>
             <? case "edit":
