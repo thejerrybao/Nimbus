@@ -252,6 +252,11 @@ $customJS = true;
                         <h1>No view was selected.</h1>
                     </div>
                 </div>
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
+                <? if (empty($_GET['id'])) { ?>
+                    <h2>No event ID specified.</h2>
+                <? } else { $mrpLevelRequirements = $tagsdb->getOverrideHours($_GET['id']); } ?>
             <? endswitch; ?>
         </div>
         <!-- /#page-wrapper -->
