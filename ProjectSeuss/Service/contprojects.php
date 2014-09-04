@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 	<head> 
-	<title>Bootstrap 3</title>
+
   <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/~circlek/css/bootstrap.css" media="all">
    <?php include("../head.php") ?>
   </head>
 	<body>
@@ -26,14 +26,14 @@
         </div>
         </div>
         <div class="col-lg-5">
-        <img class="featurette-image pull-right" src="../images/pictures/contproj/egret.jpg" style="width:100%; height:100%; border-radius: 50%;">  
+        <img class="featurette-image pull-right" src="../images/pictures/contproj/egret.JPG" style="width:100%; height:100%; border-radius: 50%;">  
       </div>
       </div>
       </div>
 
       <div class="featurette" style="margin-top:30px;">
         <div class="row">
-        <img class="featurette-image pull-left" src="../images/pictures/contproj/chap.jpg" style="width:35%; height:35%; border-radius: 50%;">
+        <img class="featurette-image pull-left" src="../images/pictures/contproj/chap.JPG" style="width:35%; height:35%; border-radius: 50%;">
         <div class="col-lg-7">
         <div style="background-color:rgba(255,255,255,0.98); border-radius: 10px; padding:10px 10px 20px 20px;  ">
         <h2 class="featurette-heading">Chaparral House</h2>
@@ -133,6 +133,6 @@ facility to spend a wonderful Friday afternoon with the residents. There’s all
 
 
 
-
+    <? include("../footer.php") ?>
 	</body>
 </html>

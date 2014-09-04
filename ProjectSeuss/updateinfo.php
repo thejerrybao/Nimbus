@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<?php include('head.php'); 
+	<?php include('/~circlek/head.php'); 
 		session_start();
 		ini_set('display_errors', 1);
         $path = $_SERVER['DOCUMENT_ROOT'];
-        $path .= "/admin/dbfunc.php";
+        $path .= "/~circlek/admin/dbfunc.php";
         include_once($path);
         
         $userdb = new UserFunctions;
@@ -46,7 +46,7 @@
                   </div>
 
 </div>
-<script src="/ProjectSeuss/js/maskedinput.jquery.min.js"></script>
-<script src="/ProjectSeuss/js/head.js"></script>
+<script src="/~circlek/js/maskedinput.jquery.min.js"></script>
+<script src="/~circlek/js/head.js"></script>
 </body>
 </html>

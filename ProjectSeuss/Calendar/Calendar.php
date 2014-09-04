@@ -3,20 +3,20 @@
 <head>
 	<?php include('../head.php') ?>
 <meta charset='utf-8' />
-<link href='../css/fullcalendar.css' rel='stylesheet' />
-<link href='../css/fullcalendar.print.css' rel='stylesheet' media='print' />
-<link href="../jquery-ui/jquery-ui.css" rel="stylesheet">
+<link href='/~circlek/css/fullcalendar.css' rel='stylesheet' />
+<link href='/~circlek/css/fullcalendar.print.css' rel='stylesheet' media='print' />
+<link href="/~circlek/jquery-ui/jquery-ui.css" rel="stylesheet">
 <script src='lib/moment.min.js'></script>
 <script src='lib/jquery-ui.custom.min.js'></script>
-<script src='../js/fullcalendar.js'></script>
-<script src="/ProjectSeuss/jquery-ui/jquery-ui.js"></script>
+<script src='/~circlek/js/fullcalendar.js'></script>
+<script src="/~circlek/jquery-ui/jquery-ui.js"></script>
 
 <script>
 	
     $(document).ready(function() {
 		
 		$('#calendar').fullCalendar({
-    events: 'json/events.json.php',
+    events: '/~circlek/Calendar/events.json.php',
     'default': true,
     eventClick: function ( event, jsEvent, view ) {
 
@@ -60,6 +60,6 @@
 	</div>
 
 
-
+<? include("../footer.php") ?>
 </body>
 </html>

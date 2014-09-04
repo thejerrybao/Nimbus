@@ -1,0 +1,12 @@
+* {
+margin: 0;
+}
+
+.push {
+	height: 4em;
+}
+
+.footer {
+	height: 9em;
+	background-color: #003366;
+}

@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', 1);
         $path = $_SERVER['DOCUMENT_ROOT'];
-        $path .= "/admin/dbfunc.php";
+        $path .= "/~circlek/admin/dbfunc.php";
         include_once($path);
         $db = new UserFunctions;
         $userData = $db->login($_POST['username'], $_POST['password']);

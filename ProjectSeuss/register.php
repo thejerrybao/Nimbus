@@ -1,7 +1,7 @@
 <?php 
         ini_set('display_errors', 1);
         $path = $_SERVER['DOCUMENT_ROOT'];
-        $path .= "/admin/dbfunc.php";
+        $path .= "/~circlek//admin/dbfunc.php";
         include_once($path);
         
         $userdb = new UserFunctions;
@@ -19,7 +19,7 @@
             $message = "DATABASE ERROR: User could not be added!";
             setcookie("errormsg", $message, time()+3);
         }
-        $location = 'Location: /ProjectSeuss/index.php'; 
+        $location = 'Location: /~circlek/index.php'; 
         header($location);
 
         ?>
