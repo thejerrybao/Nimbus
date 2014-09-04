@@ -574,6 +574,7 @@ class EventFunctions extends Database {
             ':meeting_location' => $eventData['meeting_location'],
             ':online_signups' => $eventData['online_signups'],
             ':online_end_datetime' => date("Y-m-d H:i:00", $eventData['online_end_datetime'])))) {
+            $this->addEventAttendee($this->db->lastInsertId(), $eventData['chair_id']);
             return $this->setEventTags($this->db->lastInsertId(), $tag_ids);
         } else { return false; }
     }
