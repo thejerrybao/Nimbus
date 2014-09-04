@@ -176,9 +176,12 @@ $customJS = true;
                             $user['access'] = 'Board Member';
                             break;
                         case "2":
+                            $user['access'] = 'MRP Chair';
+                            break;
+                        case "3":
                             $user['access'] = 'Secretary';
                             break;
-                        case "3":  
+                        case "4":  
                             $user['access'] = 'Technology Chair/Administrator';
                             break;
                         default:
