@@ -108,8 +108,7 @@ $customJS = true;
                                     <th id="event-name">Name</th>
                                     <th id="event-chair">Chair</th>
                                     <th id="event-status">Status</th>
-                                    <th id="event-start-datetime">Start Date</th>
-                                    <th id="event-end-datetime">End Date</th>
+                                    <th id="event-start-datetime">Date & Time</th>
                                     <th id="event-verify">Verify Event?</th>
                                 </tr>
                             </thead>
@@ -131,12 +130,17 @@ $customJS = true;
                                         break;
                                     default:
                                         $status = "Incorrect Status Number";
-                                } ?>
+                                }
+                                $startDate = date("M d", $event['start_datetime']);
+                                $endDate = date("M d", $event['end_datetime']); ?>
                                 <tr><td><a href="events.php?view=event&id=<?= $event['event_id'] ?>"><?= $event['name'] ?></a></td>
                                 <td><?= $chair['first_name'] ?> <?= $chair['last_name'] ?></td>
                                 <td><?= $status ?></td>
-                                <td><?= date("F j, Y, g:i a", $event['start_datetime']) ?></td>
-                                <td><?= date("F j, Y, g:i a", $event['end_datetime']) ?></td>
+                                <? if ($startDate == $endDate) { ?>
+                                    <td><?= $startDate ?>, <?= date("g:i a", $event['start_datetime']) ?> - <?= date("g:i a", $event['end_datetime']) ?></td>
+                                <? } else { ?>
+                                    <td><?= date("M d, g:i a", $event['start_datetime']) ?> - <?= date("M d, g:i a", $event['end_datetime']) ?> </td>
+                                <? } ?>
                                 <td>
                                     <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline; margin-right: 5px;">
                                         <input type="hidden" name="form_submit_type" value="verify_event_approve">
