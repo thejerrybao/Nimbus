@@ -155,7 +155,7 @@
                                       
                                     <div class="form-group">
                                         <label>Phone Number</label>
-                                        <input type="text" name="phone" class="form-control" id="edit-phone" required>
+                                        <input type="text" name="phone" class="form-control phone" required>
                                     </div>
                                     <button type="submit" class="btn btn-success">Submit</button>
                                     <button type="reset" class="btn btn-primary">Reset Fields</button>
@@ -168,8 +168,8 @@
     </div>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript" src="/ProjectSeuss/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/ProjectSeuss/js/head.js"></script>
     <script type="text/javascript" src="/ProjectSeuss/js/maskedinput.jquery.min.js"></script>
+    <script type="text/javascript" src="/ProjectSeuss/js/head.js"></script>
     
 
 		</body>
