@@ -38,6 +38,8 @@ $customJS = false;
                         <h3 class="panel-title">Administration Login</h3>
                     </div>
                     <div class="panel-body">
+                        <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                        <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                         <form action="processdata.php" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="form_submit_type" value="login">
                             <div class="form-group">

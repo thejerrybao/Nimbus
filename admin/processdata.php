@@ -29,7 +29,11 @@ switch ($_POST['form_submit_type']) {
             $_SESSION['nimbus_first_name'] = $userData['first_name'];
             $_SESSION['nimbus_last_name'] = $userData['last_name'];
             $location .= 'index.php';
-        } else { echo "Incorrect username/password."; } 
+        } else {
+            $message = "ERROR: Incorrect username/password!";
+            setcookie("errormsg", $message, time()+3);
+            $location .= 'login.php';
+        } 
         break;
     case "create_event":
         $eventData = array(
