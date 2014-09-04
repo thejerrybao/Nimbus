@@ -22,6 +22,10 @@
 
     <title>Project Nimbus - <?= $pageTitle ?></title>
 
+    <!-- Custom Fonts -->
+    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="fonts/fonts.css" rel="stylesheet" type="text/css">
+
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -30,10 +34,6 @@
 
     <!-- Custom CSS -->
     <link href="css/sb-admin-2.css" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="fonts/fonts.css" rel="stylesheet" type="text/css">
 
     <!-- Chosen JQuery Plugin CSS -->
     <link href="css/chosen.css" rel="stylesheet" type="text/css">
