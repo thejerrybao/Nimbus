@@ -186,8 +186,7 @@ $customJS = true;
                 <? if (empty($_GET['id'])) { ?>
                     <h2>No post ID specified.</h2> 
                 <? } else { 
-                    $post = $blogdb->getPostInfo($_GET['id']);   
-                } ?>
+                    $post = $blogdb->getPostInfo($_GET['id']); ?>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
@@ -227,6 +226,7 @@ $customJS = true;
                         </div>
                     </div>
                 </div>
+                <? } ?>
             <? break; ?>
             <? case "edit": ?>
                 <div class="row">
