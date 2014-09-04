@@ -285,7 +285,7 @@ switch ($_POST['form_submit_type']) {
         }
         break;
     case "set_dues_paid":
-        if ($userdb->setDuesPaidMembership($_POST['non_dues_paid'], 1)) {
+        if ($userdb->setDuesPaidUser($_POST['non_dues_paid'], 1)) {
             $message = "SUCCESS: Selected members were set as Dues Paid!";
             setcookie("successmsg", $message, time()+3);
         } else {
@@ -295,7 +295,7 @@ switch ($_POST['form_submit_type']) {
         $location .= 'roster.php?view=dues&action=set';
         break;
     case "unset_dues_paid":
-        if ($userdb->setDuesPaidMembership($_POST['dues_paid'], 0)) {
+        if ($userdb->setDuesPaidUser($_POST['dues_paid'], 0)) {
             $message = "SUCCESS: Selected members were unset as Dues Paid!";
             setcookie("successmsg", $message, time()+3);
         } else {
@@ -304,8 +304,8 @@ switch ($_POST['form_submit_type']) {
         }
         $location .= 'roster.php?view=dues&action=unset';
         break;
-    case "activate_members":
-        if ($userdb->setActiveMembership($_POST['non_active_users'], 1)) {
+    case "activate_users":
+        if ($userdb->setActiveUser($_POST['non_active_users'], 1)) {
             $message = "SUCCESS: Selected members were Activated!";
             setcookie("successmsg", $message, time()+3);
         } else {
@@ -314,8 +314,8 @@ switch ($_POST['form_submit_type']) {
         }
         $location .= 'roster.php?view=status&action=activate';
         break;
-    case "deactivate_members":
-        if ($userdb->setActiveMembership($_POST['active_users'], 0)) {
+    case "deactivate_users":
+        if ($userdb->setActiveUser($_POST['active_users'], 0)) {
             $message = "SUCCESS: Selected members were Deactivated!";
             setcookie("successmsg", $message, time()+3);
         } else {
