@@ -247,22 +247,24 @@ $customJS = true;
                 </div>
             <? break; ?>
             <? case "event": ?>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h1 class="page-header">Event Information <a href="events.php?view=list"><button class="btn btn-primary btn-back">Back to Events List</button></a></h1>
-                    </div>
-                </div>
-                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
-                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
-                <? if (empty($_GET['id'])) { ?>
-                    <h2>No event ID specified.</h2> 
-                <? } else { 
-                    $event = $eventdb->getEventInfo($_GET['id']);
-                    if ($event['end_datetime'] <= time() && $event['status'] == 0) { 
-                        $eventdb->setEventStatus($event['event_id'], 1);
-                        $event['status'] = 1;
+                <? if (empty($_GET['id'])) {
+                        $noEventID = true; 
+                    } else { 
+                        $noEventID = false;
+                        $event = $eventdb->getEventInfo($_GET['id']);
+                        if ($event['end_datetime'] <= time() && $event['status'] == 0) { 
+                            $eventdb->setEventStatus($event['event_id'], 1);
+                            $event['status'] = 1;
                     }
                 } ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Event Information <a href="events.php?view=list&month=<?= date("n", $event['start_datetime']) ?>&year=<?= date("Y", $event['start_datetime']) ?>"><button class="btn btn-primary btn-back">Back to Events List</button></a></h1>
+                    </div>
+                </div>
+                <? if ($noEventID) { ?><h2>No event ID specified.</h2><? } ?>
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
