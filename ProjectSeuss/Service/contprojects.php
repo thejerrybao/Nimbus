@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 	<head> 
-	<title>Bootstrap 3</title>
+
   <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/~circlek/css/bootstrap.css" media="all">
    <?php include("../head.php") ?>
   </head>
 	<body>
@@ -26,14 +26,14 @@
         </div>
         </div>
         <div class="col-lg-5">
-        <img class="featurette-image pull-right" src="../images/pictures/contproj/egret.jpg" style="width:100%; height:100%; border-radius: 50%;">  
+        <img class="featurette-image pull-right" src="../images/pictures/contproj/egret.JPG" style="width:100%; height:100%; border-radius: 50%;">  
       </div>
       </div>
       </div>
 
       <div class="featurette" style="margin-top:30px;">
         <div class="row">
-        <img class="featurette-image pull-left" src="../images/pictures/contproj/chap.jpg" style="width:35%; height:35%; border-radius: 50%;">
+        <img class="featurette-image pull-left" src="../images/pictures/contproj/chap.JPG" style="width:35%; height:35%; border-radius: 50%;">
         <div class="col-lg-7">
         <div style="background-color:rgba(255,255,255,0.98); border-radius: 10px; padding:10px 10px 20px 20px;  ">
         <h2 class="featurette-heading">Chaparral House</h2>
@@ -102,26 +102,21 @@ facility to spend a wonderful Friday afternoon with the residents. There’s all
         </div>
       </div>
     </div>
-
-
-      <hr class="featurette-divider">
-
-      <div class="featurette">
-        <img class="featurette-image pull-right" src="../assets/img/examples/browser-icon-safari.png">
-        <h2 class="featurette-heading">And lastly, this one. <span class="muted">Checkmate.</span></h2>
-        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus commodo.</p>
+    <div class="featurette" style="margin-top:30px;" >
+        <div class="row">
+        <div class="col-lg-7">
+        <div style="background-color:rgba(255,255,255,0.98); border-radius: 10px; padding:10px 10px 20px 20px;  ">
+        <h2 class="featurette-heading">Start With a Story</h2>
+        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;"> Waking up before 7am on any day takes tremendous effort, but even more so on a weekend. However on every 2nd and 4th Sunday of the month, three Circle K-ers will gladly do this for Start with a Story! Promoting our District Service Initiative, A Leap for Literacy, Start with a Story involves giving free books and reading to young children who are waiting to visit their relatives at Oakland’s Glenn Dyer Detention Facility. This meaningful project provides some joyous sunshine at an otherwise gloomy setting.</p> 
+        <p><span class="text-muted">Bertha Te</span></p>
+        </div>
+        </div>
+        <div class="col-lg-5" >
+        <img class="featurette-image pull-right" src="../images/pictures/contproj/swas.jpg" style="width:100%; height:100%; border-radius: 50%;">  
+      </div>
+      </div>
       </div>
 
-      <hr class="featurette-divider">
-
-      <!-- /END THE FEATURETTES -->
-
-
-      <!-- FOOTER -->
-      <footer>
-        <p class="pull-right"><a href="#">Back to top</a></p>
-        <p>&copy; 2013 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-      </footer>
 
     </div><!-- /.container -->
 

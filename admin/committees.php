@@ -176,7 +176,7 @@ $customJS = true;
                                     <label>Select Members to Add</label>
                                     <select name="user_ids[]" class="form-control" id="form-add-committee-members" multiple required>
                                         <? $users = $userdb->getUsers("active"); ?>
-                                        <? $committeeMemberIDs = $committeedb->getCommitteeMembers($_GET['id']); ?>
+                                        <? $committeeMemberIDs = $committeedb->getCommitteeMembers($_GET['id'], true); ?>
                                         <? foreach ($users as $user) { ?>
                                             <? if (!in_array($user['user_id'], $committeeMemberIDs)) { ?>
                                                 <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>

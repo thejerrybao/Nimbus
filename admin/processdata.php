@@ -29,7 +29,11 @@ switch ($_POST['form_submit_type']) {
             $_SESSION['nimbus_first_name'] = $userData['first_name'];
             $_SESSION['nimbus_last_name'] = $userData['last_name'];
             $location .= 'index.php';
-        } else { echo "Incorrect username/password."; } 
+        } else {
+            $message = "ERROR: Incorrect username/password!";
+            setcookie("errormsg", $message, time()+3);
+            $location .= 'login.php';
+        } 
         break;
     case "create_event":
         $eventData = array(
@@ -477,11 +481,11 @@ switch ($_POST['form_submit_type']) {
         } else if ($blogdb->setPost($_POST['post_id'],$postData)) {
             $message = "SUCCESS: Post \"" . $postData['title'] . "\" successfully edited!";
             setcookie("successmsg", $message, time()+3);
-            $location .= 'blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
+            $location .= 'blog.php?view=list&month=' . idate('m') . '&year=' . date('Y');
         }  else {
             $message = "DATABASE ERROR: Post could not be changed!";
             setcookie("errormsg", $message, time()+3);
-            $location .= 'blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
+            $location .= 'blog.php?view=list&month=' . idate('m') . '&year=' . date('Y');
         }            
         break;
         break; 

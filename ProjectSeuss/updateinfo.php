@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<?php include('head.php'); 
+	<?php include('/~circlek/head.php'); 
 		session_start();
 		ini_set('display_errors', 1);
         $path = $_SERVER['DOCUMENT_ROOT'];
-        $path .= "/admin/dbfunc.php";
+        $path .= "/~circlek/admin/dbfunc.php";
         include_once($path);
         
         $userdb = new UserFunctions;
@@ -29,16 +29,16 @@
                                   <? $userData = $userdb->getUserInfo($_SESSION['nimbus_user_id']); ?>
                                   <p style="text-indent: 50px;">Please only fill out fields that you would like to change.</p>
                                   <div class="form-group">
-                                     <label>Email Address</label>
-                                        <input type="email" name="email" value="<?= $userData['email'] ?>" class="form-control" required>
-                                    </div>
                                     <div class="form-group">
                                         <label>New Password</label>
                                         <input name="password" class="form-control" type="password" class="input-medium">
                                     </div>
+                                     <label>Email Address</label>
+                                        <input type="email" name="email" value="<?= $userData['email'] ?>" class="form-control" required>
+                                    </div>
                                     <div class="form-group">
                                         <label>Phone Number</label>
-                                        <input type="text" name="phone" value="<?= $userData['phone'] ?>" class="form-control" required>
+                                        <input type="text" name="phone" value="<?= $userData['phone'] ?>" class="form-control phone" required>
                                     </div>
                                     <button type="submit" class="btn btn-success">Submit</button>
                                     <button type="reset" class="btn btn-primary">Reset Fields</button>
@@ -46,6 +46,7 @@
                   </div>
 
 </div>
-
+<script src="/~circlek/js/maskedinput.jquery.min.js"></script>
+<script src="/~circlek/js/head.js"></script>
 </body>
 </html>

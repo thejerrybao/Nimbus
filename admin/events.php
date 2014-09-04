@@ -189,7 +189,7 @@ $customJS = true;
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="table-responsive">
-                        <? $events = $eventdb->getEventsByMonth(mktime(0, 0, 0, $_GET['month'], 0, $_GET['year'])); ?>
+                        <? $events = $eventdb->getEventsByMonth(mktime(1, 1, 1, $_GET['month'], 1, $_GET['year'])); ?>
                         <? if ($events) { ?>
                         <table class="table table-striped table-hover">
                             <thead>

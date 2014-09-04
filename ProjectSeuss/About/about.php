@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 	<head> 
-		<title>Bootstrap 3</title>
+		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" media="all">
+		<link rel="stylesheet" type="text/css" href="/~circlek/css/bootstrap.css" media="all">
 	 <?php include("../head.php") ?>
   </head>
 	<body >
       <div class="row featurette" >
         <div class="col-md-1"></div>
         <div class="col-md-4" >
-          <img class="featurette-image img-circle" align="right" src="../images/pictures/board/preswelcome.jpg" style="width: 100%; height: 100%;">
+          <img class="featurette-image img-circle" align="right" src="/~circlek/images/pictures/board/preswelcome.jpg" style="width: 100%; height: 100%;">
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-5" style="background-color:rgba(255,255,255,0.98); border-radius: 25px;">
@@ -27,7 +27,11 @@
     
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<<<<<<< HEAD
     <script type="text/javascript" src="../ProjectSeuss/js/bootstrap.js"></script>
     <? include("../footer.php") ?>
+=======
+    <script type="text/javascript" src="/~circlek/js/bootstrap.js"></script>
+>>>>>>> FETCH_HEAD
 	</body>
     </html>
