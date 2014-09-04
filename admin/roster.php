@@ -216,6 +216,9 @@ $customJS = true;
                                 <p><?= $user['email_confirmed'] ?></p>
                                 <label>Access Level</label>
                                 <p><?= $user['access'] ?></p>
+                                <? if ($_SESSION['nimbus_access'] > 3) { ?>
+                                <a href="roster.php?view=edit&id=<?= $_GET['id'] ?>"><button type="submit" class="btn btn-primary">Edit User Information</button></a>
+                                <? } ?>
                             </div>
                         </div>
                     </div>
@@ -223,6 +226,62 @@ $customJS = true;
                 <? } else { ?>
                     <h2>Member ID not found.</h2>
                 <? } ?>
+            <? break; ?>
+            <? case "edit":
+                if ($_SESSION['nimbus_access'] < 4) { echo "You don't have access to this page."; exit; } ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Edit Member Information <a href="roster.php?view=user&id=<?= $_GET['id'] ?>"><button class="btn btn-primary btn-back">Back to Member Information</button></a></h1>
+                    </div>
+                </div>
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
+                <? if (empty($_GET['id'])) { ?>
+                    <h2>No member ID specified.</h2>
+                <? } else { $user = $userdb->getUserInfo($_GET['id']); } ?>
+                <? if ($user) { ?> 
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">Edit User Information</div>
+                                <div class="panel-body">
+                                    <form action="processdata.php" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="form_submit_type" value="set_user">
+                                        <input type="hidden" name="user_id" value="<?= $_GET['id'] ?>">
+                                        <div class="form-group">
+                                            <label>First Name</label>
+                                            <input type="text" name="first_name" class="form-control" value="<?= $user['first_name']; ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                            <input type="text" name="last_name" class="form-control" value="<?= $user['last_name']; ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>E-mail</label>
+                                            <input type="email" name="email" class="form-control" value="<?= $user['email']; ?>" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Phone Number</label>
+                                            <input type="text" name="phone" class="form-control" value="<?= $user['phone']; ?>" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Edit User</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">Help Panel</div>
+                                <div class="panel-body">
+                                    <p>Ensure that all of the member's information is accurate and correct.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <? } else { ?>
+                    <h2>Member ID not found.</h2>
+                <? } ?> 
             <? break; ?>
             <? case "dues": ?>
                 <div class="row">

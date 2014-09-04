@@ -11,7 +11,7 @@
  **/
 
 $valid_event_manage_views = ["list", "calendar", "event", "edit"];
-$valid_roster_manage_views = ["list", "dues", "member", "status"];
+$valid_roster_manage_views = ["list", "dues", "user", "status", "edit"];
 $valid_mrp_views = ["mrpadd", "mrplist"];
 ?>
 <!-- Navigation -->

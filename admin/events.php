@@ -386,13 +386,7 @@ $customJS = true;
                         <div class="panel panel-default">
                             <div class="panel-heading">Event Options</div>
                             <div class="panel-body">
-                                <form action="events.php" method="get" enctype="multipart/form-data" style="display: inline;">
-                                    <input type="hidden" name="view" value="edit">
-                                    <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
-                                    <div class="form-group" style="display: inline;">
-                                        <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Edit Event</button>
-                                    </div>
-                                </form>
+                                <a href="events.php?view=edit&id=<?= $_GET['id'] ?>"><button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Edit Event</button></a>
                                 <form action="processdata.php" method="post" enctype="multipart/form-data" style="display: inline;">
                                     <input type="hidden" name="form_submit_type" value="delete_event">
                                     <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
@@ -408,20 +402,8 @@ $customJS = true;
                                         <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Confirm Event</button>
                                     </div>
                                 </form>
-                                <form action="events.php" method="get" enctype="multipart/form-data" style="display: inline;">
-                                    <input type="hidden" name="view" value="overridehours">
-                                    <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
-                                    <div class="form-group" style="display: inline;">
-                                        <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Override Event Hours</button>
-                                    </div>
-                                </form>
-                                <form action="events.php" method="get" enctype="multipart/form-data" style="display: inline;">
-                                    <input type="hidden" name="view" value="otherattendees">
-                                    <input type="hidden" name="id" value="<?= $event['event_id'] ?>">
-                                    <div class="form-group" style="display: inline;">
-                                        <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Manage Outside Attendees</button>
-                                    </div>
-                                </form>
+                                <a href="events.php?view=overridehours&id=<?= $_GET['id'] ?>"><button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Override Event Hours</button></a>
+                                <a href="events.php?view=otherattendees&id=<?= $_GET['id'] ?>"><button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Manage Outside Attendees</button></a>
                                 <? } ?>
                             </div>
                         </div>

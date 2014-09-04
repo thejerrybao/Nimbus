@@ -17,6 +17,7 @@ $eventdb = new EventFunctions;
 $userdb = new UserFunctions;
 $tagdb = new TagFunctions;
 $blogdb = new BlogFunctions;
+$location = 'Location: ';
 
 switch ($_POST['form_submit_type']) {
     case "login":
@@ -27,7 +28,7 @@ switch ($_POST['form_submit_type']) {
             $_SESSION['nimbus_access'] = $userData['access'];
             $_SESSION['nimbus_first_name'] = $userData['first_name'];
             $_SESSION['nimbus_last_name'] = $userData['last_name'];
-            $location = 'Location: index.php';
+            $location .= 'index.php';
         } else { echo "Incorrect username/password."; } 
         break;
     case "create_event":
@@ -44,19 +45,19 @@ switch ($_POST['form_submit_type']) {
         if ($eventData['start_datetime'] > $eventData['end_datetime']) {
             $message = "ERROR: Start Date and Time cannot be after End Date and Time!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: events.php?view=create';
+            $location .= 'events.php?view=create';
         } else if ($eventData['online_end_datetime'] > $eventData['start_datetime'] && $eventData['online_signups']) {
             $message = "ERROR: Online End Date Time cannot be after Start Date Time!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: events.php?view=create';
+            $location .= 'events.php?view=create';
         } else if ($eventdb->createEvent($eventData, $_POST['tag_ids'])) {
             $message = "SUCCESS: Event \"" . $eventData['name'] . "\" successfully created!";
             setcookie("successmsg", $message, time()+3);
-            $location = 'Location: events.php?view=list&month=' . idate('m') . '&year=' . date('Y');
+            $location .= 'events.php?view=list&month=' . idate('m') . '&year=' . date('Y');
         } else {
             $message = "DATABASE ERROR: Event could not be created!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: events.php?view=create';
+            $location .= 'events.php?view=create';
         }
         break;
     case "edit_event":
@@ -89,30 +90,30 @@ switch ($_POST['form_submit_type']) {
         if ($eventData['start_datetime'] > $eventData['end_datetime']) {
             $message = "ERROR: Start Date and Time cannot be after End Date and Time!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: events.php?view=edit&id=' . $_POST['event_id'];
+            $location .= 'events.php?view=edit&id=' . $_POST['event_id'];
         } else if ($eventData['online_end_datetime'] > $eventData['start_datetime'] && $eventData['online_signups']) {
             $message = "ERROR: Online End Date Time cannot be after Start Date Time!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: events.php?view=edit&id=' . $_POST['event_id'];
+            $location .= 'events.php?view=edit&id=' . $_POST['event_id'];
         } else if ($eventdb->setEvent($_POST['event_id'], $eventData, $_POST['tag_ids'])) {
             $message = "SUCCESS: Event \"" . $eventData['name'] . "\" successfully edited!";
             setcookie("successmsg", $message, time()+3);
-            $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
+            $location .= 'events.php?view=event&id=' . $_POST['event_id'];
         } else {
             $message = "DATABASE ERROR: Event could not be edited!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: events.php?view=edit&id=' . $_POST['event_id'];
+            $location .= 'events.php?view=edit&id=' . $_POST['event_id'];
         }
         break;
     case "delete_event":
         if ($eventdb->deleteEvent($_POST['event_id'])) {
             $message = "SUCCESS: Event successfully deleted!";
             setcookie("successmsg", $message, time()+3);
-            $location = 'Location: events.php?view=list';
+            $location .= 'events.php?view=list';
         } else { 
             $message = "DATABASE ERROR: Event could not be deleted!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
+            $location .= 'events.php?view=event&id=' . $_POST['event_id'];
         }
         break;
     case "confirm_event":
@@ -123,7 +124,7 @@ switch ($_POST['form_submit_type']) {
             $message = "DATABASE ERROR: Event could not be confirmed!";
             setcookie("errormsg", $message, time()+3);
         }
-        $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
+        $location .= 'events.php?view=event&id=' . $_POST['event_id'];
         break;
     case "verify_event_approve";
         if ($eventdb->setEventStatus($_POST['event_id'], 3)) {
@@ -133,7 +134,7 @@ switch ($_POST['form_submit_type']) {
             $message = "DATABASE ERROR: Event could not be approved!";
             setcookie("errormsg", $message, time()+3);
         }
-        $location = 'Location: admin.php?view=verify';
+        $location .= 'admin.php?view=verify';
         break;
     case "verify_event_deny";
         if ($eventdb->setEventStatus($_POST['event_id'], 1)) {
@@ -143,7 +144,7 @@ switch ($_POST['form_submit_type']) {
             $message = "DATABASE ERROR: Event could not be denied!";
             setcookie("errormsg", $message, time()+3);
         }
-        $location = 'Location: admin.php?view=verify';
+        $location .= 'admin.php?view=verify';
         break;
     case "add_event_attendees":
         foreach ($_POST['user_ids'] as $user_id) {
@@ -157,7 +158,7 @@ switch ($_POST['form_submit_type']) {
             $message = "SUCCESS: Selected members were added as attendees!";
             setcookie("successmsg", $message, time()+3);
         }
-        $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
+        $location .= 'events.php?view=event&id=' . $_POST['event_id'];
         break;
     case "delete_event_attendees":
         foreach ($_POST['user_ids'] as $user_id) {
@@ -171,7 +172,7 @@ switch ($_POST['form_submit_type']) {
             $message = "SUCCESS: Selected members were deleted as attendees!";
             setcookie("successmsg", $message, time()+3);
         }
-        $location = 'Location: events.php?view=event&id=' . $_POST['event_id'];
+        $location .= 'events.php?view=event&id=' . $_POST['event_id'];
         break;
     case "add_override_hours":
         foreach ($_POST['user_ids'] as $user_id) {
@@ -185,7 +186,7 @@ switch ($_POST['form_submit_type']) {
             $message = "SUCCESS: Selected members were added to the override hours list!";
             setcookie("successmsg", $message, time()+3);
         }
-        $location = 'Location: events.php?view=overridehours&id=' . $_POST['event_id'];
+        $location .= 'events.php?view=overridehours&id=' . $_POST['event_id'];
         break;
     case "delete_override_hours":
         foreach ($_POST['user_ids'] as $user_id) {
@@ -199,7 +200,7 @@ switch ($_POST['form_submit_type']) {
             $message = "SUCCESS: Selected members were deleted from the override hours list!";
             setcookie("successmsg", $message, time()+3);
         }
-        $location = 'Location: events.php?view=overridehours&id=' . $_POST['event_id'];
+        $location .= 'events.php?view=overridehours&id=' . $_POST['event_id'];
         break;
     case "set_override_hours":
         foreach ($_POST['members_override'] as $member_override) {
@@ -213,7 +214,7 @@ switch ($_POST['form_submit_type']) {
             $message = "SUCCESS: Override hours were successfully set!";
             setcookie("successmsg", $message, time()+3);
         }
-        $location = 'Location: events.php?view=overridehours&id=' . $_POST['event_id'];
+        $location .= 'events.php?view=overridehours&id=' . $_POST['event_id'];
         break;
     case "add_other_attendee":
         $otherAttendeeData = array(
@@ -228,7 +229,7 @@ switch ($_POST['form_submit_type']) {
             $message = "DATABASE ERROR: " . $otherAttendeeData['first_name'] . " " . $otherAttendeeData['last_name'] . " could not be added to the other attendees list!";
             setcookie("errormsg", $message, time()+3);
         }
-        $location = 'Location: events.php?view=otherattendees&id=' . $_POST['event_id'];
+        $location .= 'events.php?view=otherattendees&id=' . $_POST['event_id'];
         break;
     case "delete_other_attendees":
         foreach ($_POST['ids'] as $id) {
@@ -242,7 +243,7 @@ switch ($_POST['form_submit_type']) {
             $message = "SUCCESS: Selected attendees were deleted from the other attendees list!";
             setcookie("successmsg", $message, time()+3);
         }
-        $location = 'Location: events.php?view=otherattendees&id=' . $_POST['event_id'];
+        $location .= 'events.php?view=otherattendees&id=' . $_POST['event_id'];
         break;
     case "add_user":
         if (!isset($_POST['username'])) {
@@ -264,7 +265,20 @@ switch ($_POST['form_submit_type']) {
             $message = "DATABASE ERROR: User could not be added!";
             setcookie("errormsg", $message, time()+3);
         }
-        $location = 'Location: roster.php?view=add';
+        $location .= 'roster.php?view=add';
+        break;
+    case "set_user":
+        if ($userdb->setName($_POST['user_id'], $_POST['first_name'], $_POST['last_name'])
+            && $userdb->setEmail($_POST['user_id'], $_POST['email'])
+            && $userdb->setPhone($_POST['user_id'], $_POST['phone'])) {
+            $message = "SUCCESS: " . $_POST['first_name'] . " " . $_POST['last_name'] . " was successfully edited!";
+            setcookie("successmsg", $message, time()+3);
+            $location .= 'roster.php?view=user&id=' . $_POST['user_id'];
+        } else {
+            $message = "DATABASE ERROR: User could not be edited!";
+            setcookie("errormsg", $message, time()+3);
+            $location .= 'roster.php?view=edit&id=' . $_POST['user_id'];
+        }
         break;
     case "set_dues_paid":
         if ($userdb->setDuesPaidMembership($_POST['non_dues_paid'], 1)) {
@@ -274,7 +288,7 @@ switch ($_POST['form_submit_type']) {
             $message = "DATABASE ERROR: One or more members could not be set as Dues Paid!";
             setcookie("errormsg", $message, time()+3);
         }
-        $location = 'Location: roster.php?view=dues&action=set';
+        $location .= 'roster.php?view=dues&action=set';
         break;
     case "unset_dues_paid":
         if ($userdb->setDuesPaidMembership($_POST['dues_paid'], 0)) {
@@ -284,7 +298,7 @@ switch ($_POST['form_submit_type']) {
             $message = "DATABASE ERROR: One or more members could not be unset as Dues Paid!";
             setcookie("errormsg", $message, time()+3);
         }
-        $location = 'Location: roster.php?view=dues&action=unset';
+        $location .= 'roster.php?view=dues&action=unset';
         break;
     case "activate_members":
         if ($userdb->setActiveMembership($_POST['non_active_users'], 1)) {
@@ -294,7 +308,7 @@ switch ($_POST['form_submit_type']) {
             $message = "DATABASE ERROR: One or more members could not be Activated!";
             setcookie("errormsg", $message, time()+3);
         }
-        $location = 'Location: roster.php?view=status&action=activate';
+        $location .= 'roster.php?view=status&action=activate';
         break;
     case "deactivate_members":
         if ($userdb->setActiveMembership($_POST['active_users'], 0)) {
@@ -304,28 +318,28 @@ switch ($_POST['form_submit_type']) {
             $message = "DATABASE ERROR: One or more members could not be Deactivated!";
             setcookie("errormsg", $message, time()+3);
         }
-        $location = 'Location: roster.php?view=status&action=deactivate';
+        $location .= 'roster.php?view=status&action=deactivate';
         break;
     case "add_committee":
         if ($committeedb->addCommittee($_POST['name'])) {
             $message = "SUCCESS: " . $_POST['name'] . " committee was added!";
             setcookie("successmsg", $message, time()+3);
-            $location = 'Location: committees.php?view=list';
+            $location .= 'committees.php?view=list';
         } else {
             $message = "DATABASE ERROR: Committee could not be added!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: committees.php?view=add';
+            $location .= 'committees.php?view=add';
         }
         break;
     case "delete_committee":
         if ($committeedb->deleteCommittee($_POST['committee_id'])) {
             $message = "SUCCESS: Committee was successfully deleted!";
             setcookie("successmsg", $message, time()+3);
-            $location = 'Location: committees.php?view=list';
+            $location .= 'committees.php?view=list';
         } else {
             $message = "DATABASE ERROR: Committee could not be deleted!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: committees.php?view=committee&id=' . $_POST['committee_id'];
+            $location .= 'committees.php?view=committee&id=' . $_POST['committee_id'];
         }
         break;
     case "add_committee_members":
@@ -340,7 +354,7 @@ switch ($_POST['form_submit_type']) {
             $message = "SUCCESS: Selected members were added to the committee!";
             setcookie("successmsg", $message, time()+3);
         }
-        $location = 'Location: committees.php?view=committee&id=' . $_POST['committee_id'];
+        $location .= 'committees.php?view=committee&id=' . $_POST['committee_id'];
         break;
     case "delete_committee_members":
         foreach ($_POST['user_ids'] as $user_id) {
@@ -354,7 +368,7 @@ switch ($_POST['form_submit_type']) {
             $message = "SUCCESS: Selected members were deleted from the committee!";
             setcookie("successmsg", $message, time()+3);
         }
-        $location = 'Location: committees.php?view=committee&id=' . $_POST['committee_id'];
+        $location .= 'committees.php?view=committee&id=' . $_POST['committee_id'];
         break;
     case "set_access":
         if ($userdb->setUserAccess($_POST['user_ids'], $_POST['access'])) {
@@ -364,7 +378,7 @@ switch ($_POST['form_submit_type']) {
             $message = "DATABASE ERROR: One or more members access could not be set!";
             setcookie("errormsg", $message, time()+3);
         }
-        $location = 'Location: admin.php?view=access';
+        $location .= 'admin.php?view=access';
         break;
     case "add_tag":
         if ($_POST['mrp_tag'] == 0) {
@@ -385,11 +399,11 @@ switch ($_POST['form_submit_type']) {
         if ($tagdb->addTag($tagData)) {
             $message = "SUCCESS: " . $_POST['name'] . " tag was added!";
             setcookie("successmsg", $message, time()+3);
-            $location = 'Location: tags.php?view=list';
+            $location .= 'tags.php?view=list';
         } else {
             $message = "DATABASE ERROR: Tag could not be added!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: tags.php?view=add';
+            $location .= 'tags.php?view=add';
         }
         break;
     case "delete_tag":
@@ -403,7 +417,7 @@ switch ($_POST['form_submit_type']) {
             $message = "SUCCESS: Selected tags were deleted!";
             setcookie("successmsg", $message, time()+3);
         }
-        $location = 'Location: tags.php?view=list';
+        $location .= 'tags.php?view=list';
         break;
     case "add_mrp":
         $MRPData = array(
@@ -412,11 +426,11 @@ switch ($_POST['form_submit_type']) {
         if ($tagdb->addMRPLevel($MRPData)) {
             $message = "SUCCESS: " . $_POST['name'] . " MRP Level was added!";
             setcookie("successmsg", $message, time()+3);
-            $location = 'Location: tags.php?view=mrplist';
+            $location .= 'tags.php?view=mrplist';
         } else {
             $message =  "DATABASE ERROR: MRP Level could not be added!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location:  tags.php?view=mrpadd';
+            $location .= ' tags.php?view=mrpadd';
         }
         break;
     case "create_post":
@@ -428,26 +442,26 @@ switch ($_POST['form_submit_type']) {
          if ($postData['publish_datetime'] > time()) {
             $message = "ERROR: Publish Date and Time cannot be in the future!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: blog.php?view=create';
+            $location .= 'blog.php?view=create';
         } else if ($blogdb->createBlogPost($postData)) {
             $message = "SUCCESS: Post \"" . $postData['title'] . "\" successfully created!";
             setcookie("successmsg", $message, time()+3);
-            $location = 'Location: blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
+            $location .= 'blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
         }  else {
             $message = "DATABASE ERROR: Post could not be created!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: blog.php?view=create';
+            $location .= 'blog.php?view=create';
         }            
         break;
     case "delete_post":
         if ($blogdb->deletePost($_POST['post_id'])) {
             $message = "SUCCESS: Post successfully deleted!";
             setcookie("successmsg", $message, time()+3);
-            $location = 'Location: blog.php?view=manage';
+            $location .= 'blog.php?view=manage';
         } else { 
             $message = "DATABASE ERROR: Event could not be deleted!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: blog.php?view=manage&id=' . $_POST['event_id'];
+            $location .= 'blog.php?view=manage&id=' . $_POST['event_id'];
         }
         break;
     case "edit_post":
@@ -459,15 +473,15 @@ switch ($_POST['form_submit_type']) {
          if ($postData['publish_datetime'] > time()) {
             $message = "ERROR: Publish Date and Time cannot be in the future!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: blog.php?view=create';
+            $location .= 'blog.php?view=create';
         } else if ($blogdb->setPost($_POST['post_id'],$postData)) {
             $message = "SUCCESS: Post \"" . $postData['title'] . "\" successfully edited!";
             setcookie("successmsg", $message, time()+3);
-            $location = 'Location: blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
+            $location .= 'blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
         }  else {
             $message = "DATABASE ERROR: Post could not be changed!";
             setcookie("errormsg", $message, time()+3);
-            $location = 'Location: blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
+            $location .= 'blog.php?view=manage&month=' . idate('m') . '&year=' . date('Y');
         }            
         break;
         break; 
