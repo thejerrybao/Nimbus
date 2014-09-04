@@ -11,7 +11,7 @@
 		<div class = "navbar navbar-inverse navbar-static-top">
 			<div class= "container" > 
 				<div class = "navbar-header">
-					<a href = "/~circlek//index.php" class = "navbar-brand"> UCBCKI</a>
+					<a href = "/~circlek/index.php" class = "navbar-brand"> UCBCKI</a>
 						<button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
 							<span class="icon-bar"></span>
         					<span class="icon-bar"></span>

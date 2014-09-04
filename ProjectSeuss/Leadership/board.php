@@ -229,7 +229,7 @@
           <h2><b>Kristy Kim</b></h2>
           <h3><em>Fundraising Chair</em></h3>
           <p>cki-fundraising@lists.berkeley.edu</p>
-          <p><a class="btn btn-default" href="/ProjectSeuss/committees/fund.php" role="button">Fundraising Committee &raquo;</a></p>
+          <p><a class="btn btn-default" href="../committees/fund.php" role="button">Fundraising Committee &raquo;</a></p>
         </div><!-- /.col-lg-3 -->
         
 
@@ -238,7 +238,7 @@
           <h2><b>Thomas Miao</b></h2>
           <h3><em>Historian</em></h3>
           <p>cki-historian@lists.berkeley.edu</p>
-          <p><a class="btn btn-default" href="/ProjectSeuss/committees/hist.php" role="button">Historian Committee &raquo;</a></p>
+          <p><a class="btn btn-default" href="../committees/hist.php" role="button">Historian Committee &raquo;</a></p>
         </div><!-- /.col-lg-3 -->
 
         <div class="col-lg-3">
@@ -246,7 +246,7 @@
           <h2><b>Vivian Nguyen</b></h2>
           <h3><em>Kiwanis Family Chair</em></h3>
           <p>cki-k_family@lists.berkeley.edu</p>
-          <p><a class="btn btn-default" href="/ProjectSeuss/committees/kfam.php" role="button">Kiwanis Family Committee &raquo;</a></p>
+          <p><a class="btn btn-default" href="../committees/kfam.php" role="button">Kiwanis Family Committee &raquo;</a></p>
         </div><!-- /.col-lg-3 -->
 
       </div><!-- /.row -->
@@ -257,7 +257,7 @@
           <h2><b>Tina You</b></h2>
           <h3><em>Membership Development and Education Chair</em></h3>
           <p>cki-membership@lists.berkeley.edu</p>
-          <p><a class="btn btn-default" href="/ProjectSeuss/committees/mde.php" role="button">MD&E Committee &raquo;</a></p>
+          <p><a class="btn btn-default" href="../committees/mde.php" role="button">MD&E Committee &raquo;</a></p>
         </div><!-- /.col-lg-3 -->
 
         <div class="col-lg-3">
@@ -272,7 +272,7 @@
           <h2><b>Cherie Leung</b></h2>
           <h3><em>Projects Chair</em></h3>
           <p>cki-projectcoord@lists.berkeley.edu</p>
-          <p><a class="btn btn-default" href="/ProjectSeuss/committees/proj.php" role="button">Projects Committee &raquo;</a></p>
+          <p><a class="btn btn-default" href="../committees/proj.php" role="button">Projects Committee &raquo;</a></p>
         </div><!-- /.col-lg-3 -->
 
 
@@ -281,7 +281,7 @@
           <h2><b>Stanley Han</b></h2>
           <h3><em>Public Relations Chair</em></h3>
           <p>cki-publicrelations@lists.berkeley.edu</p>
-          <p><a class="btn btn-default" href="/ProjectSeuss/committees/pr.php" role="button">Public Relations Committee &raquo;</a></p>
+          <p><a class="btn btn-default" href="../committees/pr.php" role="button">Public Relations Committee &raquo;</a></p>
         </div><!-- /.col-lg-3 -->
 
       </div><!-- /.row -->
@@ -292,7 +292,7 @@
           <h2><b>Heyun Jeong</b></h2>
           <h3><em>Publications Editor</em></h3>
           <p>cki-publications@lists.berkeley.edu</p>
-          <p><a class="btn btn-default" href="/ProjectSeuss/committees/publ.php" role="button">Publication Committee &raquo;</a></p>
+          <p><a class="btn btn-default" href="../committees/publ.php" role="button">Publication Committee &raquo;</a></p>
         </div><!-- /.col-lg-3 -->
         
         <div class="col-lg-3">
@@ -300,7 +300,7 @@
           <h2><b>Jasmine Park</b></h2>
           <h3><em>Single Service</em></h3>
           <p>cki-singleservice@lists.berkeley.edu</p>
-          <p><a class="btn btn-default" href="/ProjectSeuss/committees/sserve.php" role="button"> Single Service Committee &raquo;</a></p>
+          <p><a class="btn btn-default" href="../committees/sserve.php" role="button"> Single Service Committee &raquo;</a></p>
         </div><!-- /.col-lg-3 -->
         
 
@@ -309,7 +309,7 @@
           <h2><b>Leon Liang</b></h2>
           <h3><em>Spirit & Social Chair</em></h3>
           <p>cki-social@lists.berkeley.edu</p>
-          <p><a class="btn btn-default" href="/ProjectSeuss/committees/spirit.php" role="button">Spirit & Social Committee &raquo;</a></p>
+          <p><a class="btn btn-default" href="../committees/spirit.php" role="button">Spirit & Social Committee &raquo;</a></p>
         </div><!-- /.col-lg-3 -->
         
 
@@ -318,7 +318,7 @@
           <h2><b>Diyar Aniwar</b></h2>
           <h3><em>Technology Chair</em></h3>
           <p>cki-webmaster@lists.berkeley.edu</p>
-          <p><a class="btn btn-default" href="/ProjectSeuss/committees/tech.php" role="button">Technology Committee &raquo;</a></p>
+          <p><a class="btn btn-default" href="../committees/tech.php" role="button">Technology Committee &raquo;</a></p>
         </div><!-- /.col-lg-3 -->
       </div><!-- /.row -->
 
