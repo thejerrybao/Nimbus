@@ -92,13 +92,12 @@ facility to spend a wonderful Friday afternoon with the residents. There’s all
 
       <div class="featurette" style="margin-top:30px;">
         <div class="row">
-        <img class="featurette-image pull-left" src="../images/pictures/contproj/egret.jpg" style="width:40%; height:40%; border-radius: 50%;">
+        <img class="featurette-image pull-left" src="../images/pictures/contproj/smarks.jpg" style="width:35%; height:35%; border-radius: 50%;">
         <div class="col-lg-7">
         <div style="background-color:rgba(255,255,255,0.98); border-radius: 10px; padding:10px 10px 20px 20px;  ">
-        <h2 class="featurette-heading">Loaves & Fishes</h2>
-        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;">Aquatic Park Egret is an environmental service project during which we visit Berkeley Aquatic Park to help remove weeds, provide the native species with nutrients and improve the wildlife habitat! </p>
-        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;"> The event is called “Egret” because we’re working to provide the egrets and other birds around the shoreline  a better environment with plenty of trees to rest on. This is  one of the service projects that require a bit of physical work, but it’s a rewarding experience and if you like nature or bird watching, you get to see native Berkeley bird species as well as migratory birds around the beautiful Aquatic Park!</p>
-        <p><span class="text-muted">Liane Kuo</span></p>
+        <h2 class="featurette-heading">St. Marks</h2>
+        <p class="lead" style="font-size:19px; margin:.5em 0 .5em 0; text-indent: 30px;">If food is your thing, you should definitely check out St. Marks Soup Kitchen! This event is both the preparation and serving of dinner to those who need it. At the first shift of this amazing, tasks involve a variety in the kitchen and the dining hall. Not only does this soup kitchen focus on dinner, but volunteers also are able to make sandwiches and load up lunch bags. The originally empty dining hall is set up with tables, chairs, and place settings for our guests while cooking occurs in the kitchen. At the second shift, volunteers are able to serve a table for dinner while also talking and learning about their respective guests. The guests, and even the other volunteers whether from the church or fellow service organizations, make this an unforgettable and enjoyable experience.</p>
+        <p><span class="text-muted">Mimi Ton</span></p>
         </div>
         </div>
       </div>
