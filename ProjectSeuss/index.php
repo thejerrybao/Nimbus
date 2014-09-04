@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <script type="text/javascript">
       function modalOpen(eventid) {
-      $("#eventModal").load("Calendar/CalEventInfo.php?id="+eventid);
+      $("#eventModal").load("/~circlek/Calendar/CalEventInfo.php?id="+eventid);
         $('#eventModal').modal('show');
       }
     </script>
@@ -26,12 +26,12 @@
 		<div id="myCarousel" class="carousel slide" >
       <div class="carousel-inner">
         <div class="item active">
-          <img src="Images/banner_ICON.jpg" alt="" width = 100%>
+          <img src="images/banner_ICON.jpg" alt="" width = 100%>
           <div class="container">
           </div>
         </div>
         <div class="item">
-          <img src="Images/banner_ICON.jpg" alt="" width = 100% >
+          <img src="images/banner_ICON.jpg" alt="" width = 100% >
    
         </div>
       </div>
@@ -47,7 +47,7 @@
         <?php
         $start = 0;
         $numposts = 3;
-    include("../ProjectSeuss/blogview.php");
+    include("blogview.php");
     ?>
         
 
@@ -79,6 +79,6 @@
     </div><!-- /.container -->
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <? include("../ProjectSeuss/footer.php") ?>
+    <? include("footer.php") ?>
 	</body>
     </html>
