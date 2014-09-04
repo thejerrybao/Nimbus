@@ -207,7 +207,6 @@ $customJS = true;
                     </div>
                     <div class="col-lg-4">
                         <div class="panel panel-info">
-                            <div class="panel panel-default">
                             <div class="panel-heading">Post Options</div>
                             <div class="panel-body">
                                 <form action="blog.php" method="get" enctype="multipart/form-data" style="display: inline;">
@@ -224,7 +223,6 @@ $customJS = true;
                                         <button type="submit" class="btn btn-primary" style="margin-bottom: 5px;">Delete Post</button>
                                     </div>
                                 </form>
-                        
                             </div>
                         </div>
                     </div>
