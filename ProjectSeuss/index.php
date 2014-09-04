@@ -54,11 +54,15 @@
           <div class="sidebar-module">
             <h4>Today's Events</h4>
             
-            <?foreach ($todayevents as $event) { ?>
-              <p style="text-indent:20px">
-              <a onclick="javascript:modalOpen(<?= $event['event_id'] ?>);"> <? echo $event['name']; ?> at <?= date("h:i A",$event['start_datetime']); ?> </a>
-              <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
-              </p>
+            <? if ($todayevents) { ?>
+              <?foreach ($todayevents as $event) { ?>
+                <p style="text-indent:20px">
+                <a onclick="javascript:modalOpen(<?= $event['event_id'] ?>);"> <? echo $event['name']; ?> at <?= date("h:i A",$event['start_datetime']); ?> </a>
+                <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+                </p>
+              <? } ?>
+            <? } else { ?>
+                  <p>No Events Today</p>
             <? } ?>
           </div>
           <div class="sidebar-module sidebar-module-inset">
