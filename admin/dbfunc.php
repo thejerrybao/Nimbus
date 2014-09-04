@@ -19,6 +19,12 @@ define("MYSQL_USER", "root");
 define("MYSQL_PASS", "root");
 define("MYSQL_DB", "dev_ckirfsystem");
 
+/** Function: array_orderby
+ ** Parameters: None
+ ** Return: Sorted multi-dimensional array.
+ **
+ ** Sorts a multi-dimensional array.
+ **/
 function array_orderby() {
     $args = func_get_args();
     $data = array_shift($args);
@@ -35,6 +41,11 @@ function array_orderby() {
     return array_pop($args);
 }
 
+/** Class: Database
+ ** Extends: None
+ ** 
+ ** Contains constructor and destructor to initiate connections to the database.
+ **/
 class Database {
 
     protected $db;
@@ -53,8 +64,19 @@ class Database {
     public function __destruct() { $this->db = null; }
 }
 
+/** Class: UserFunctions
+ ** Extends: Database
+ ** 
+ ** Contains functions related to user data.
+ **/
 class UserFunctions extends Database {
 
+    /** Function: login
+     ** Parameters: Username, Un-hashed Password
+     ** Return: User data if successful login, false otherwise.
+     ** 
+     ** Attempts to log a user in.
+     **/
     public function login($username, $password) {
 
         $userData = array();
@@ -77,6 +99,12 @@ class UserFunctions extends Database {
         } else { return false; }
     }
 
+    /** Function: logout
+     ** Parameters: None
+     ** Return: None
+     ** 
+     ** Logs a user out by unsetting session variables.
+     **/
     public function logout() {
 
         session_start();
@@ -86,7 +114,12 @@ class UserFunctions extends Database {
         unset($_SESSION['nimbus_last_name']);
     }
 
-    // register user
+    /** Function: addUser
+     ** Parameters: User data in an array
+     ** Return: True if successful, false otherwise.
+     ** 
+     ** Adds a user to the database.
+     **/
     public function addUser($userData) {
 
         $query = $this->db->prepare('SELECT * FROM `users`
@@ -129,6 +162,12 @@ class UserFunctions extends Database {
         }
     }
 
+    /** Function: deleteUser
+     ** Parameters: User ID
+     ** Return: True if successful, false otherwise.
+     ** 
+     ** Deletes a user from the database.
+     **/
     public function deleteUser($user_id) {
 
         $query = $this->db->prepare('SELECT * FROM `event_attendees`
@@ -146,8 +185,12 @@ class UserFunctions extends Database {
         } else { return false; }
     }
 
-    // get total hours of the club or a user
-    // can specify what type of hours or all hours (service, admin, social, all)
+    /** Function: getTotalHours
+     ** Parameters: Type of hours (service, admin, social, all), and a User ID (default: null)
+     ** Return: Hours requested of a user or of the entire club.
+     ** 
+     ** Calculates the total hours specified of either a user or the entire club.
+     **/
     public function getTotalHours($typeHours, $user_id = null) {
 
         $totalHours = array();
@@ -208,7 +251,12 @@ class UserFunctions extends Database {
         }
     }
 
-    // get all member information based on parameters
+    /** Function: getUsers
+     ** Parameters: Type of User (default: all, dues_paid, non_dues_paid, active, non_active), and Ordering (default: first_name)
+     ** Return: Users that match the parameters.
+     ** 
+     ** Gets users based on the type selected and orders them.
+     **/
     public function getUsers($type = "all", $ordering = "first_name") {
 
         $users = array();
@@ -267,7 +315,12 @@ class UserFunctions extends Database {
         return $users;
     }
 
-    // get ID of all events a user has attended
+    /** Function: getUserEvents
+     ** Parameters: User ID
+     ** Return: All event IDs a user has attended.
+     **
+     ** Gets all events a user has attended in the form of event IDs.
+     **/
     public function getUserEvents($user_id) {
 
         $userEventsID = array();
@@ -283,7 +336,12 @@ class UserFunctions extends Database {
         return $userEventsID;
     }
 
-    // get user hours of an event; returns all hour types
+    /** Function: getUserHoursByEvent
+     ** Parameters: User ID, Event ID
+     ** Return: User's hours at an event.
+     **
+     ** Gets the hours of an event that a user went to.
+     **/
     public function getUserHoursByEvent($user_id, $event_id) {
 
         $hours = array();
@@ -310,7 +368,12 @@ class UserFunctions extends Database {
         return $hours;
     }
     
-    // get user data with user ID; option to include hours or not
+    /** Function: getUserInfo
+     ** Parameters: User ID, Hours (true/default: false)
+     ** Return: All of a user's information, including hours if selected.
+     **
+     ** Gets all information about a user, including their total hours if selected.
+     **/
     public function getUserInfo($user_id, $hours = false) {
 
         $userInfo = array();
@@ -337,7 +400,12 @@ class UserFunctions extends Database {
         return $userInfo;
     }
 
-    // edit membership from active to non-active and vice-versa
+    /** Function: setActiveUser
+     ** Parameters: User IDs, Active Status
+     ** Return: True if successful, false otherwise.
+     **
+     ** Sets a set of user IDs to the requested active status.
+     **/
     public function setActiveUser($user_ids, $active) {
 
         foreach ($user_ids as $user_id) {
@@ -351,7 +419,12 @@ class UserFunctions extends Database {
         return true;
     }
 
-    // edit status from dues-paid to non-dues-paid and vice-versa
+    /** Function: setDuesPaidUser
+     ** Parameters: User IDs, Dues Paid Status
+     ** Return: True if successful, false otherwise.
+     **
+     ** Sets a set of user IDs to the requested dues paid status.
+     **/
     public function setDuesPaidUser($user_ids, $dues_paid) {
 
         foreach ($user_ids as $user_id) {
@@ -366,7 +439,12 @@ class UserFunctions extends Database {
     }
 
 
-    // edit email
+    /** Function: setEmail
+     ** Parameters: User ID, E-mail Address
+     ** Return: True if successful, false otherwise.
+     **
+     ** Sets a user's email address.
+     **/
     public function setEmail($user_id, $email) {
 
         $query = $this->db->prepare('UPDATE users
@@ -378,7 +456,12 @@ class UserFunctions extends Database {
         else { return false; }
     }
 
-    // edit user access
+    /** Function: setUserAccess
+     ** Parameters: User IDs, Access Level
+     ** Return: True if successful, false otherwise.
+     **
+     ** Sets a set of user IDs to the requested access level.
+     **/
     public function setUserAccess($user_ids, $access) {
 
         foreach ($user_ids as $user_id) {
@@ -392,7 +475,12 @@ class UserFunctions extends Database {
         return true;
     }
 
-    // edit first/last name 
+    /** Function: setName
+     ** Parameters: User IDs, First Name, Last Name
+     ** Return: True if successful, false otherwise.
+     **
+     ** Sets a user's first name and last name.
+     **/
     public function setName($user_id, $first_name, $last_name) {
 
         $query = $this->db->prepare('UPDATE users
@@ -405,7 +493,12 @@ class UserFunctions extends Database {
         else { return false; }
     }
 
-    // edit password
+    /** Function: setPassword
+     ** Parameters: User IDs, Hashed BCRYPT Password
+     ** Return: True if successful, false otherwise.
+     **
+     ** Sets a user's password. Encrypt the password before sending to the functino.
+     **/
     public function setPassword($user_id, $password) {
 
         $query = $this->db->prepare('UPDATE users
@@ -417,7 +510,12 @@ class UserFunctions extends Database {
         else { return false; }
     }
 
-    // edit phone number
+    /** Function: setPhone
+     ** Parameters: User IDs, Phone Number
+     ** Return: True if successful, false otherwise.
+     **
+     ** Sets a user's phone number.
+     **/
     public function setPhone($user_id, $phone) {
 
         $query = $this->db->prepare('UPDATE users
@@ -429,7 +527,12 @@ class UserFunctions extends Database {
         else { return false; }
     }
 
-    // given a string, separate the words and search users that contain those words
+    /** Function: searchUsers
+     ** Parameters: Search Words, Search Type
+     ** Return: Users that match search.
+     **
+     ** Searches users that contain those words in the type of search.
+     **/
     public function searchUsers($searchWords, $searchType) {
 
         $users = array();
@@ -486,6 +589,12 @@ class UserFunctions extends Database {
         return $users;
     }
 
+    /** Function: verifyUserPassword
+     ** Parameters: User ID, Hashed BCRYPT Password
+     ** Return: True if successful, false otherwise.
+     **
+     ** Checks to see if a user's password is correct.
+     **/
     public function verifyUserPassword($user_id, $password) {
 
         $query = $this->db->prepare('SELECT `password` FROM `users`
@@ -501,8 +610,19 @@ class UserFunctions extends Database {
     }
 }
 
+/** Class: EventFunctions
+ ** Extends: Database
+ **
+ ** Contains functions related to event data.
+ **/
 class EventFunctions extends Database {
 
+    /** Function: addEventAttendee
+     ** Parameters: Event ID, User ID
+     ** Return: True if successful, false otherwise.
+     **
+     ** Adds a user to the event attending list.
+     **/
     public function addEventAttendee($event_id, $user_id) {
 
         $query = $this->db->prepare('INSERT INTO `event_attendees`
@@ -520,6 +640,12 @@ class EventFunctions extends Database {
         } else { return false; }
     }
 
+    /** Function: addEventOtherAttendee
+     ** Parameters: Event ID, User Data
+     ** Return: True if successful, false otherwise.
+     **
+     ** Adds a user without an account to the event attending list.
+     **/
     public function addEventOtherAttendee($event_id, $data) {
 
         $query = $this->db->prepare('INSERT INTO `event_other_attendees`
@@ -540,7 +666,12 @@ class EventFunctions extends Database {
         } else { return false; }
     }
 
-    // add override hours for users
+    /** Function: addOverrideHours
+     ** Parameters: Event ID, User ID
+     ** Return: True if successful, false otherwise.
+     **
+     ** Adds a user to the event override hours list.
+     **/
     public function addOverrideHours($event_id, $user_id) {
 
         $query = $this->db->prepare('INSERT INTO `event_override_hours`
@@ -558,7 +689,12 @@ class EventFunctions extends Database {
         } else { return false; }
     }
 
-    // creates an event
+    /** Function: createEvent
+     ** Parameters: Event Data, Event Tags
+     ** Return: True if successful, false otherwise.
+     **
+     ** Creates an event with the specified data and adds tags to them. Adds chair to the attending list.
+     **/
     public function createEvent($eventData, $tag_ids) {
 
         $query = $this->db->prepare('INSERT INTO `events`
@@ -579,7 +715,12 @@ class EventFunctions extends Database {
         } else { return false; }
     }
 
-    // deletes an event
+    /** Function: deleteEvent
+     ** Parameters: Event ID
+     ** Return: True if successful, false otherwise.
+     **
+     ** Deletes an event from the attending list, other attendees list, override hours list, and the event itself.
+     **/
     public function deleteEvent($event_id) {
 
         $eventInfo = $this->getEventInfo($event_id);
@@ -608,6 +749,12 @@ class EventFunctions extends Database {
         return false;
     }
 
+    /** Function: deleteEventAttendee
+     ** Parameters: Event ID, User ID
+     ** Return: True if successful, false otherwise.
+     **
+     ** Deletes a user from the event attendee list.
+     **/
     public function deleteEventAttendee($event_id, $user_id) {
 
         $query = $this->db->prepare('DELETE FROM `event_attendees`
@@ -625,6 +772,12 @@ class EventFunctions extends Database {
         } else { return false; }
     }
 
+    /** Function: deleteEventOtherAttendee
+     ** Parameters: Event ID, ID of Other Attendee
+     ** Return: True if successful, false otherwise.
+     **
+     ** Deletes a user without an account from the event attendee list.
+     **/
     public function deleteEventOtherAttendee($event_id, $id) {
 
         $query = $this->db->prepare('DELETE FROM `event_other_attendees`
@@ -642,7 +795,12 @@ class EventFunctions extends Database {
         } else { return false; }
     }
 
-    // delete users override hours
+    /** Function: deleteOverrideHours
+     ** Parameters: Event ID, User ID
+     ** Return: True if successful, false otherwise.
+     **
+     ** Deletes a user from the override hours list.
+     **/
     public function deleteOverrideHours($event_id, $user_id) {
 
         $query = $this->db->prepare('DELETE FROM `event_override_hours`
@@ -660,6 +818,12 @@ class EventFunctions extends Database {
         } else { return false; }
     }
 
+    /** Function: getConfirmedEvents
+     ** Parameters: None
+     ** Return: All events that are confirmed.
+     **
+     ** Gets all events that have a status of confirmed.
+     **/
     public function getConfirmedEvents() {
 
         $events = array();
@@ -687,7 +851,12 @@ class EventFunctions extends Database {
         return $events;
     }
 
-    // get event attendees
+    /** Function: getEventAttendees
+     ** Parameters: Event ID, ID Only (true/default: false)
+     ** Return: List of event attendees either full data or ID only.
+     **
+     ** Gets the event attendee list either with all data or just the IDs.
+     **/
     public function getEventAttendees($event_id, $id_only = false) {
 
         $eventAttendees = array();
@@ -715,7 +884,12 @@ class EventFunctions extends Database {
         return array_orderby($eventAttendees, 'first_name', SORT_ASC);
     }
 
-    // get event data with event ID
+    /** Function: getEventInfo
+     ** Parameters: Event ID
+     ** Return: Event Data.
+     **
+     ** Gets the event data.
+     **/
     public function getEventInfo($event_id) {
 
         $eventInfo = array();
@@ -753,6 +927,12 @@ class EventFunctions extends Database {
         return $eventInfo;
     }
 
+    /** Function: getEventOtherAttendees
+     ** Parameters: Event ID
+     ** Return: All event attendees without an account.
+     **
+     ** Gets the event attendees list for those without an account.
+     **/
     public function getEventOtherAttendees($event_id) {
 
         $eventOtherAttendees = array();
@@ -776,6 +956,12 @@ class EventFunctions extends Database {
         return $eventOtherAttendees;
     }
 
+    /** Function: getEventTags
+     ** Parameters: Event ID
+     ** Return: Tags of an event.
+     **
+     ** Gets the event tags.
+     **/
     public function getEventTags($event_id) {
 
         $tag_ids = array();
@@ -791,9 +977,12 @@ class EventFunctions extends Database {
         return $tag_ids;
     }
 
-    // get today's events
-    // Assumes the date given is in UnixDateTime and is at the Date at 00:00:00
-    // Finds events that start at the date at 00:00:00 to the next day at 00:00:00 
+    /** Function: getEventsByDate
+     ** Parameters: Date in UNIX Time (Start of the day at 00:00:00)
+     ** Return: Events of a specific day.
+     **
+     ** Gets the list of events happening on a specific day.
+     **/
     public function getEventsByDate($date) {
 
         $events = array();
@@ -824,9 +1013,12 @@ class EventFunctions extends Database {
         return $events;
     }
 
-    // get month's events
-    // Assumes the date given is in UnixDateTime and is at the first day of the month at 00:00:00
-    // Finds events that start first day of the month at 00:00:00 to the first day of the next month at 00:00:00
+    /** Function: getEventsByMonth
+     ** Parameters: Date in UNIX Time (1st of the month at 00:00:00)
+     ** Return: Events of a specific month.
+     **
+     ** Gets the list of events happening on a specific month.
+     **/
     public function getEventsByMonth($month) {
 
         $events = array();
@@ -856,6 +1048,13 @@ class EventFunctions extends Database {
 
         return $events;
     }
+
+    /** Function: getEventsInterval
+     ** Parameters: Date in UNIX Time (Start of the interval at 00:00:00), Date in UNIX Time (End of the interval at 00:00:00)
+     ** Return: Events of a specific interval
+     **
+     ** Gets the list of events happening on a specific time interval.
+     **/
     public function getEventsInterval($start, $end) {
 
         $events = array();
@@ -887,6 +1086,12 @@ class EventFunctions extends Database {
         return $events;
     }
 
+    /** Function: getOverrideHours
+     ** Parameters: Event ID, ID Only (true/default: false)
+     ** Return: User override hours list.
+     **
+     ** Gets the list of users who have overridden hours.
+     **/
     public function getOverrideHours($event_id, $id_only = false) {
 
         $eventOverrideHours = array();
@@ -915,7 +1120,12 @@ class EventFunctions extends Database {
         return array_orderby($eventOverrideHours, 'first_name', SORT_ASC);
     }
 
-    // edit event information
+    /** Function: setEvent
+     ** Parameters: Event ID, Event Data, Tag IDs
+     ** Return: True if successful, false otherwise.
+     **
+     ** Sets the event data.
+     **/
     public function setEvent($event_id, $eventData, $tag_ids) {
 
         $query = $this->db->prepare('UPDATE `events`
@@ -947,6 +1157,12 @@ class EventFunctions extends Database {
         else { return false; }
     }
 
+    /** Function: setEventTags
+     ** Parameters: Event ID, Tag IDs
+     ** Return: True if successful, false otherwise.
+     **
+     ** Sets the event tags.
+     **/
     public function setEventTags($event_id, $tag_ids) {
 
         $query = $this->db->prepare('SELECT * FROM `event_tags`
@@ -988,7 +1204,12 @@ class EventFunctions extends Database {
         return true;
     }
 
-    // verify event
+    /** Function: setEventStatus
+     ** Parameters: Event ID, Status ID
+     ** Return: True if successful, false otherwise.
+     **
+     ** Sets the event status.
+     **/
     public function setEventStatus($event_id, $status) {
 
         $eventInfo = $this->getEventInfo($event_id);
@@ -1015,7 +1236,12 @@ class EventFunctions extends Database {
         } else { return false; }
     }
 
-    // edits users override hours
+    /** Function: setOverrideHours
+     ** Parameters: Event ID, User ID, User Hours
+     ** Return: True if successful, false otherwise.
+     **
+     ** Sets a user's override hours of an event.
+     **/
     public function setOverrideHours($event_id, $user_id, $userHours) {
 
         $query = $this->db->prepare('UPDATE `event_override_hours`
@@ -1032,13 +1258,19 @@ class EventFunctions extends Database {
     }
 }
 
-class GeneralFunctions extends Database {
-
-}
-
+/** Class: TagFunctions
+ ** Extends: Database
+ ** 
+ ** Contains functions related to tag data.
+ **/
 class TagFunctions extends Database {
 
-    // add mrp or mrf tag
+    /** Function: addTag
+     ** Parameters: TagData
+     ** Return: True if successful, false otherwise.
+     **
+     ** Adds a tag to the database. MRF or MRP.
+     **/
     public function addTag($tagData) {
 
         $query = $this->db->prepare('INSERT INTO `tags`
@@ -1053,7 +1285,12 @@ class TagFunctions extends Database {
         else { return false; }
     }
 
-    // add mrp level
+    /** Function: addMRPLevel
+     ** Parameters: MRP Data
+     ** Return: True if successful, false otherwise.
+     **
+     ** Adds an MRP Level to the database.
+     **/
     public function addMRPLevel($mrpdata) {
 
         $query = $this->db->prepare('INSERT INTO `mrp_levels`
@@ -1065,7 +1302,28 @@ class TagFunctions extends Database {
             else { return false; }
     }
 
-    // delete mrp or mrf tags; requires that no events have
+    /** Function: deleteMRPLevel
+     ** Parameters: Level ID
+     ** Return: True if successful, false otherwise.
+     **
+     ** Deletes a MRP Level.
+     **/
+    public function deleteMRPLevel($level_id) {
+
+        $query = $this->db->prepare('DELETE FROM `mrp_levels`
+            WHERE level_id=:level_id');
+
+        if ($query->execute(array(
+            ':level_id' => $level_id))) { return true; }
+        else { return false; }
+    }
+
+    /** Function: deleteTag
+     ** Parameters: Tag ID
+     ** Return: True if successful, false otherwise.
+     **
+     ** Deletes a tag. Must have no events with this tag in order to delete.
+     **/
     public function deleteTag($tag_id) {
 
         $query = $this->db->prepare('SELECT * FROM `event_tags`
@@ -1083,13 +1341,21 @@ class TagFunctions extends Database {
         } else { return false; }
     }
 
-    //Get MRP Levels
+    /** Function: getMRPLevels
+     ** Parameters: None
+     ** Return: MRP Levels.
+     **
+     ** Gets all the MRP Levels.
+     **/
     public function getMRPLevels() {
+
         $mrpLevels = array();
+
         $query = $this->db->prepare('SELECT * FROM `mrp_levels`
         ORDER BY `hours` ASC');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute();
+
         if ($query->rowCount() == 0) { return false; }
         while ($row = $query->fetch()) {
 
@@ -1102,8 +1368,14 @@ class TagFunctions extends Database {
         return $mrpLevels;
     }
 
-    //Get MRP Info
+    /** Function: getMRPInfo
+     ** Parameters: Level ID
+     ** Return: MRP Requirements.
+     **
+     ** Gets MRP Level data from the database.
+     **/
     public function getMRPInfo($level_id) {
+
         $level = array();
 
         $query = $this->db->prepare('SELECT * FROM `mrp_levels`
@@ -1121,17 +1393,12 @@ class TagFunctions extends Database {
         return $level;
     }
 
-    // delete mrp level
-    public function deleteMRPlevel($level_id) {
-
-        $query = $this->db->prepare('DELETE FROM `mrp_levels`
-            WHERE level_id=:level_id');
-
-        if ($query->execute(array(
-            ':level_id' => $level_id))) { return true; }
-        else { return false; }
-    }
-
+    /** Function: getTag
+     ** Parameters: Tag ID
+     ** Return: Tag Data.
+     **
+     ** Gets tag data from the database.
+     **/
     public function getTag($tag_id) {
 
         $tag = array();
@@ -1154,6 +1421,12 @@ class TagFunctions extends Database {
         return $tag;
     }
 
+    /** Function: getTags
+     ** Parameters: Tag Type, Active Status
+     ** Return: All tags that match the type and active status.
+     **
+     ** Gets all tag data that match the type and active status.
+     **/
     public function getTags($tag_type = "mrf", $active = 1) {
 
         $tags = array();
@@ -1195,7 +1468,12 @@ class TagFunctions extends Database {
         return $tags;
     }
 
-    // change whether a tag is active or deactive
+    /** Function: setActiveTag
+     ** Parameters: Tag ID, Active Status
+     ** Return: True if successful, false otherwise.
+     **
+     ** Sets a tag's active status.
+     **/
     public function setActiveTag($tag_id, $active) {
 
         $query = $this->db->prepare('UPDATE `tags`
@@ -1207,9 +1485,19 @@ class TagFunctions extends Database {
     }
 }
 
+/** Class: CommitteeFunctions
+ ** Extends: Database
+ ** 
+ ** Contains functions related to committee data.
+ **/
 class CommitteeFunctions extends Database {
 
-    // add a committee
+    /** Function: addCommittee
+     ** Parameters: Name of Committee
+     ** Return: True if successful, false otherwise.
+     **
+     ** Adds a committee to the database.
+     **/
     public function addCommittee($name) {
 
         $query = $this->db->prepare('INSERT INTO `committees`
@@ -1219,7 +1507,12 @@ class CommitteeFunctions extends Database {
         else { return false; }
     }
 
-    // delete a committee
+    /** Function: deleteCommittee
+     ** Parameters: Committee ID
+     ** Return: True if successful, false otherwise.
+     **
+     ** Deletes a committee to the database.
+     **/
     public function deleteCommittee($committee_id) {
 
         $query = $this->db->prepare('DELETE FROM `committee_members`
@@ -1234,7 +1527,12 @@ class CommitteeFunctions extends Database {
         } else { return false; }
     }
 
-    // add a committee member to a committee
+    /** Function: addCommitteeMember
+     ** Parameters: Committee ID, User ID
+     ** Return: True if successful, false otherwise.
+     **
+     ** Adds a committee member to a committee.
+     **/
     public function addCommitteeMember($committee_id, $user_id) {
 
         $query = $this->db->prepare('INSERT INTO `committee_members`
@@ -1246,7 +1544,12 @@ class CommitteeFunctions extends Database {
         } else { return false; }
     }
 
-    // remove a committee member to a committee
+    /** Function: deleteCommitteeMember
+     ** Parameters: Committee ID, User ID
+     ** Return: True if successful, false otherwise.
+     **
+     ** Deletes a committee member from a committee.
+     **/
     public function deleteCommitteeMember($committee_id, $user_id) {
         
         $query = $this->db->prepare('DELETE FROM `committee_members`
@@ -1257,6 +1560,12 @@ class CommitteeFunctions extends Database {
         } else { return false; }
     }
 
+    /** Function: getCommittee
+     ** Parameters: Committee ID
+     ** Return: Committee Data.
+     **
+     ** Gets committee data and its members.
+     **/
     public function getCommittee($committee_id) {
 
         $query = $this->db->prepare('SELECT * FROM `committees`
@@ -1275,6 +1584,12 @@ class CommitteeFunctions extends Database {
         return $committee;
     }
 
+    /** Function: getCommittees
+     ** Parameters: None
+     ** Return: All committees.
+     **
+     ** Gets all committees and their members.
+     **/
     public function getCommittees() {
 
         $committees = array();
@@ -1294,7 +1609,12 @@ class CommitteeFunctions extends Database {
         return $committees;
     }
 
-    // get members
+    /** Function: getCommitteeMembers
+     ** Parameters: Committee ID, ID Only (true/default: false)
+     ** Return: All members of a committee.
+     **
+     ** Gets all members of a committee.
+     **/
     public function getCommitteeMembers($committee_id, $id_only = false) {
 
         $committeeMembers = array();
@@ -1322,9 +1642,19 @@ class CommitteeFunctions extends Database {
     }
 }
 
+/** Class: BlogFunctions
+ ** Extends: Database
+ ** 
+ ** Contains functions related to blog data.
+ **/
 class BlogFunctions extends Database {
 
-    // creates an Blog Post
+    /** Function: createBlogPost
+     ** Parameters: Blog Data
+     ** Return: True if successful, false otherwise.
+     **
+     ** Adds a blog post to the database.
+     **/
     public function createBlogPost($postData) {
 
         $query = $this->db->prepare('INSERT INTO `blog`
@@ -1338,7 +1668,12 @@ class BlogFunctions extends Database {
         } else { return false; }
     }
 
-    // deletes an event
+    /** Function: deletePost
+     ** Parameters: Post ID
+     ** Return: True if successful, false otherwise.
+     **
+     ** Deletes a blog post from the database.
+     **/
     public function deletePost($post_id) {
 
         $query = $this->db->prepare('DELETE FROM `blog`
@@ -1353,7 +1688,12 @@ class BlogFunctions extends Database {
         } else { return false; }
     }
 
-    // get posts with post ID
+    /** Function: getPostInfo
+     ** Parameters: Post ID
+     ** Return: Blog Data
+     **
+     ** Gets blog data.
+     **/
     public function getPostInfo($post_id) {
 
         $postInfo = array();
@@ -1374,12 +1714,12 @@ class BlogFunctions extends Database {
         return $postInfo;
     }
 
-    // get month's posts
-    // Assumes the date given is in UnixDateTime and is at the first day of the month at 00:00:00
-    // Finds events that start first day of the month at 00:00:00 to the first day of the next month at 00:00:00
-    // get month's posts
-    // Assumes the date given is in UnixDateTime and is at the first day of the month at 00:00:00
-    // Finds events that start first day of the month at 00:00:00 to the first day of the next month at 00:00:00
+    /** Function: getPostsByMonth
+     ** Parameters: Date in UNIX Time (1st of the month at 00:00:00)
+     ** Return: Blog posts of a specific month.
+     **
+     ** Gets the list of blog posts on a specific month.
+     **/
     public function getPostsByMonth($month) {
         
         $events = array();
@@ -1405,7 +1745,13 @@ class BlogFunctions extends Database {
         return $posts;
     }
 
-    public function getRecentPosts($numstart, $numposts){
+    /** Function: getRecentPosts
+     ** Parameters: Starting Post Number, Number of Posts
+     ** Return: Blog Posts.
+     **
+     ** Gets a number of blog posts starting from a post number.
+     **/
+    public function getRecentPosts($numstart, $numposts) {
 
         $query = $this->db->prepare('SELECT * FROM `blog`
              ORDER BY `publish_datetime` DESC LIMIT :numstart, :numposts');
@@ -1427,7 +1773,12 @@ class BlogFunctions extends Database {
         return $posts;
     }
 
-    // edit event information
+    /** Function: setPost
+     ** Parameters: Post ID, Post Data
+     ** Return: True if successful, false otherwise.
+     **
+     ** Sets blog post data.
+     **/
     public function setPost($post_id, $postData) {
 
         $query = $this->db->prepare('UPDATE `blog`
