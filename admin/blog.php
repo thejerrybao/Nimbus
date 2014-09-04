@@ -70,7 +70,7 @@ $customJS = true;
                                         <select name="author_id" id="form-author" class="form-control" required>
                                             <? $users = $userdb->getUsers("active"); ?>
                                             <? foreach ($users as $user) { ?>
-                                                <? if ($user['user_id'] == $_SESSION['cki_rf_user_id']) { ?>
+                                                <? if ($user['user_id'] == $_SESSION['nimbus_user_id']) { ?>
                                                     <option value="<?= $user['user_id'] ?>" selected><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
                                                 <? } else { ?>
                                                     <option value="<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></option>
@@ -160,7 +160,7 @@ $customJS = true;
                             </thead>
                             <tbody>
                             <? foreach ($posts as $post) {
-                                $author = $blogdb->getPostInfo($post['author_id']); 
+                                $author = $userdb->getUserInfo($post['author_id']); 
                             ?>
                                 <tr><td><a href="blog.php?view=post&id=<?= $post['post_id'] ?>"><?= $post['title'] ?></a></td>
                                 <td><?= $author['first_name'] ?> <?= $author['last_name'] ?></td>
