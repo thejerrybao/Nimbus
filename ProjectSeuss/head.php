@@ -20,7 +20,7 @@
 					</div>
 					<div class = "collapse navbar-collapse navHeaderCollapse">
 						<ul class = "nav navbar-nav navbar-right">
-							<li><a href="/ProjectSeuss/index.php">Home</a></li>
+
 							<li><a href="/ProjectSeuss/Calendar/Calendar.php">Calendar</a></li>
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">About</a>
@@ -36,7 +36,7 @@
 								
 								<ul class="dropdown-menu">
 									<li><a href="/ProjectSeuss/Service/contprojects.php">Continuous Projects Spotlight</a></li>
-									<li><a href="../ProjectSeuss/Service/singleserv.php">Single Service Spotlight</a></li>
+									<li><a href="/ProjectSeuss/Service/singleserv.php">Single Service Spotlight</a></li>
 									<li><a href="http://www.cnhcirclek.org/about/district-service-initiative">District Service Initiative</a></li>
 									<li><a href="http://www.cnhcirclek.org/about/district-fundraising-initiatives">District Fundraising Initiatives</a></li>												
 								</ul>
@@ -48,7 +48,12 @@
 								</ul>
 
 							</li>
-							<li><a href="/ProjectSeuss/index.php">Fellowship</a></li>
+							<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Fellowship</a>
+                <ul class="dropdown-menu">
+                    <li><a href="/ProjectSeuss/Fellowship/socials.php">Socials</a></li>           
+                  <li><a href="/ProjectSeuss/Fellowship/family.php">Family System</a></li>           
+                </ul>
+              </li>               
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Committees</a>
 								<ul class="dropdown-menu">
@@ -69,7 +74,7 @@
                 <ul class="dropdown-menu">
                   <li><a href="https://www.facebook.com/groups/66850859271/"><i class="fa fa-facebook fa-fw"></i> Facebook Group</a></li>
                   <li><a href="http://instagram.com/ucbcki"><i class="fa fa-instagram fa-fw"></i> Instagram</a></li>
-                  <li><a href="https://twitter.com/UCBCKI"><i class="fa fa-facebook fa-fw"></i> Twitter</a></li>
+                  <li><a href="https://twitter.com/UCBCKI"><i class="fa fa-twitter fa-fw"></i> Twitter</a></li>
                   <li><a href="https://drive.google.com/a/berkeley.edu/folderview?id=0B1MfH83HOZRMWDNpUlhLUVBhVTQ&usp=drive_web#"><i class="fa fa-picture-o"></i> Image Gallery</a></li>
                 </ul>
               </li>

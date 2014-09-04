@@ -8,12 +8,10 @@
 	 <?php include("../head.php") ?>
   </head>
 	<body>
-    <h1 align="center">Public Relations Committee</h1>
-    <hr class="featurette-divider">
 
       <div class="row featurette">
         <div class="col-md-1"></div>
-        <div class="col-md-5">
+        <div class="col-md-5" style="background-color:rgba(255,255,255,0.98);border-radius: 10px;">
           <h2 class="featurette-heading">Welcome to the Public Relations Committee!</h2>
           <p class="lead">The Public Relations committee acts as a liaison between the home club and other organizations both on campus and in the community. We provide members with the opportunity to advertise and market the amazing service and work we do as an organization at UC Berkeley.</p>
           <p><span class="text-muted">Stanley Han</span></p>
@@ -25,20 +23,20 @@
       </div>
       <div class="row featurette">
         <div class="col-md-1"></div>
-        <div class="col-md-3">
+        <div class="col-md-3" style="background-color:rgba(255,255,255,0.98);border-radius: 10px;">
           <h2 class="featurette-heading">Updates</h2>
-          <p>This week we did blah blah blah blah blah blah blah blah blah come back next week for more!</p>
+          <p>Coming Soon!</p>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-1"></div>
         <div class="col-md-1"></div>
-        <div class="col-md-4">          
+        <div class="col-md-4" style="background-color:rgba(255,255,255,0.98);border-radius: 10px; padding-bottom:10px;">          
           <h2 class="featurette-heading">Minutes</h2>
-          <a href="#">Public Relations Committee Folder</a>
+          <a href="https://drive.google.com/folderview?id=0Bw2ZbwZsFIWgNEJMZFk3Nzh1WWs&usp=sharing">Public Relations Committee Folder</a>
         </div>
 
       </div>
-    <hr class="featurette-divider">
+
 
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
