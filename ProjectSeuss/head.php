@@ -1,6 +1,6 @@
 		<head> 
     <?php session_start(); ?>
-		<title>Bootstrap 3</title>
+		<title>UC Berkeley Circle K</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="/ProjectSeuss/css/bootstrap.css" media="all">
         <link rel="stylesheet" type="text/css" href="/admin/font-awesome-4.1.0/css/font-awesome.css" media="all">
