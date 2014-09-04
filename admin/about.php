@@ -42,27 +42,31 @@ $customJS = false;
             </div>
             <!-- /.row -->
             <div class="row">
-                <div class="col-lg-4">
-                    <h3 style="margin-top: 0px;">Developers</h4>
-                    <p>Jerry Bao (<a href="mailto:jbao@berkeley.edu">jbao@berkeley.edu</a>)<br />2013-2014 CNH Circle K District Technology Chair</p>
-                    <p>Robert Rodriguez (<a href="mailto:rob.rodriguez@berkeley.edu">rob.rodriguez@berkeley.edu</a>)<br /> 2013-2014 UC Berkeley Circle K Technology Chair</p>
-                    <p>Diyar Aniwar (<a href="mailto:diyaraniwar@berkeley.edu">diyaraniwar@berkeley.edu</a>)<br /> 2014-2015 UC Berkeley Circle K Technology Chair</p>
+                <div class="col-lg-4" style="border-right: 1px solid #000; height: 500px;">
+                    <h3 style="margin-top: 0px; text-align: center;">Developers</h4>
+                    <p style="text-align: center;">Jerry Bao (<a href="mailto:jbao@berkeley.edu">jbao@berkeley.edu</a>)<br />2013-2014 CNH Circle K District Technology Chair</p>
+                    <p style="text-align: center;">Robert Rodriguez (<a href="mailto:rob.rodriguez@berkeley.edu">rob.rodriguez@berkeley.edu</a>)<br /> 2013-2014 UC Berkeley Circle K Technology Chair</p>
+                    <p style="text-align: center;">Diyar Aniwar (<a href="mailto:diyaraniwar@berkeley.edu">diyaraniwar@berkeley.edu</a>)<br /> 2014-2015 UC Berkeley Circle K Technology Chair</p>
                 </div>
-                <div class="col-lg-4">
-                    <h3 style="margin-top: 0px;">Technology Used</h4>
-                    <p>PHP 5+<br />
+                <div class="col-lg-4" style="border-right: 1px solid #000; height: 500px;">
+                    <h3 style="margin-top: 0px; text-align: center;">Technology Used</h4>
+                    <p style="display: inline; float: left; text-align: center;">
+                        PHP 5.3+<br />
                         HTML5/CSS3<br />
                         JQuery<br />
                         Javascript<br />
                         SB Admin 2.0 Framework<br />
+                    </p>
+                    <p style="display: inline; float: right; text-align: center;">
                         Bootstrap<br />
                         Chosen JQuery Plugin<br />
                         Font Awesome Icons<br />
                         Date JS Plugin<br />
+                        Masked Input JS Plugin<br />
                     </p>
                 </div>
-                <div class="col-lg-4">
-                    <h3 style="margin-top: 0px;">A Word From the Devs</h4>
+                <div class="col-lg-4" style="height: 500px;">
+                    <h3 style="margin-top: 0px; text-align: center;">A Word From the Devs</h4>
                     <p>This project was developed in response to a need for a new system at UC Berkeley Circle K to manage the club's events and hours. With over 1000+ hours spent
                         on the project and 10k+ lines of code written in a mix of PHP, HTML5, JS, and JQuery, we're proud of what we've accomplished. We want to thank everyone
                         who's supported us in our endeavors and ultimately want to thank Circle K, for providing us with some of the best memores of our college life. We do this
