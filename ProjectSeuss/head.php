@@ -168,7 +168,8 @@
     </div>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript" src="/ProjectSeuss/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/ProjectSeuss/js/maskedinput.jquery.min.js"></script>
     <script type="text/javascript" src="/ProjectSeuss/js/head.js"></script>
+    <script type="text/javascript" src="/ProjectSeuss/js/maskedinput.jquery.min.js"></script>
+    
 
 		</body>
