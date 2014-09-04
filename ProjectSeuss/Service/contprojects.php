@@ -138,6 +138,6 @@ facility to spend a wonderful Friday afternoon with the residents. There’s all
 
 
 
-
+    <? include("../footer.php") ?>
 	</body>
 </html>

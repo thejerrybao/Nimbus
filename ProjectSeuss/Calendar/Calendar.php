@@ -60,6 +60,6 @@
 	</div>
 
 
-
+<? include("../footer.php") ?>
 </body>
 </html>

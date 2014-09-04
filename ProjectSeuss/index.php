@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
     <script type="text/javascript">
       function modalOpen(eventid) {
       $("#eventModal").load("Calendar/CalEventInfo.php?id="+eventid);
@@ -20,7 +21,7 @@
     ?>
   </head>
 	<body>
-
+    
     <div id="jumbotron" align="middle" style=" padding-bottom: 50px; padding-top: 30px;">
 		<div id="myCarousel" class="carousel slide" >
       <div class="carousel-inner">
@@ -78,6 +79,6 @@
     </div><!-- /.container -->
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
+    <? include("../ProjectSeuss/footer.php") ?>
 	</body>
     </html>

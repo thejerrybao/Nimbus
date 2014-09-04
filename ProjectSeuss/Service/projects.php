@@ -51,5 +51,6 @@
       </div>
 
       <hr class="featurette-divider">
+      <? include("../footer.php") ?>
 	</body>
 </html>
