@@ -8,14 +8,11 @@
 	 <?php include("../head.php") ?>
   </head>
 	<body>
-    <h1 align="center">Projects Committee</h1>
-    <hr class="featurette-divider">
-
       <div class="row featurette">
         <div class="col-md-1"></div>
-        <div class="col-md-5">
+        <div class="col-md-5" style="background-color:rgba(255,255,255,0.98);border-radius: 10px;">
           <h2 class="featurette-heading">Welcome to the Projects Committee!</h2>
-          <p class="lead">.....................................</p>
+          <p class="lead">The Projects Committee is in charge of handling all the continuous service projects our organization performs each month. As the Coordinator, my role is to keep in close contact with and act as a liaison to outside organizations we work with, to ensure our projects are going accordingly. Additionally, our committee will also be leading the monthly mini service projects, and we will be working closely with the SVP as well!</p>
           <p><span class="text-muted">Cherie Leung</span></p>
         </div>
         <div class="col-md-5">
@@ -25,21 +22,19 @@
       </div>
       <div class="row featurette">
         <div class="col-md-1"></div>
-        <div class="col-md-3">
+        <div class="col-md-3" style="background-color:rgba(255,255,255,0.98);border-radius: 10px;">
           <h2 class="featurette-heading">Updates</h2>
-          <p>This week we did blah blah blah blah blah blah blah blah blah come back next week for more!</p>
+          <p>Coming Soon!</p>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-1"></div>
         <div class="col-md-1"></div>
-        <div class="col-md-4">          
+        <div class="col-md-4" style="background-color:rgba(255,255,255,0.98);border-radius: 10px; padding-bottom:10px;">          
           <h2 class="featurette-heading">Minutes</h2>
           <a href="#">Projects Committee Folder</a>
         </div>
 
       </div>
-    <hr class="featurette-divider">
-
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript" src="../ProjectSeuss/js/bootstrap.js"></script>
