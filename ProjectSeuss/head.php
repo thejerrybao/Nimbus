@@ -155,7 +155,7 @@
                                       
                                     <div class="form-group">
                                         <label>Phone Number</label>
-                                        <input type="text" name="phone" class="form-control" required>
+                                        <input type="text" name="phone" class="form-control" id="edit-phone" required>
                                     </div>
                                     <button type="submit" class="btn btn-success">Submit</button>
                                     <button type="reset" class="btn btn-primary">Reset Fields</button>
@@ -167,5 +167,8 @@
     </div>
     </div>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script type="text/javascript" src="../js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/maskedinput.jquery.min.js"></script>
+    <script type="text/javascript" src="js/head.js"></script>
+
 		</body>
