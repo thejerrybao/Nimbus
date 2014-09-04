@@ -11,6 +11,8 @@
  **/
 ini_set('display_errors', 1);
 
+require_once("passwordLib.php");
+
 // SQL Database Info
 define("MYSQL_HOST", "localhost");
 define("MYSQL_USER", "root");
