@@ -9,7 +9,7 @@
 	<body>
 		<hr class="featurette-divider">
 
-      <div class="row featurette">
+      <div class="row featurette" style="background-color:rgba(255,255,255,0.98); border-radius: 25px; width:95%; padding-left:30px;">
         <div class="col-md-1"></div>
         <div class="col-md-6">
           <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your mind.</span></h2>

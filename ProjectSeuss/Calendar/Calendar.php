@@ -51,7 +51,7 @@
 
 </head>
 <body>
-	<div style="background-color:rgba(255,255,255,0.98); border-radius: 25px;">
+	<div class="container" style="background-color:rgba(255,255,255,0.98); border-radius: 25px; width:75%">
 	<div id='calendar' ></div>
 	</div>
 

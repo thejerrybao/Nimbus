@@ -1,5 +1,5 @@
 
- <div class="col-sm-7 blog-main" style="background-color:rgba(255,255,255,0.98); border-radius: 25px; width=50%;">
+ <div class="col-sm-7 blog-main" style="background-color:rgba(255,255,255,0.98); border-radius: 25px; height=100%">
  		<?php ini_set('display_errors', 1);
 			require_once("../admin/dbfunc.php");
 			$blogdb = new BlogFunctions;
@@ -14,8 +14,8 @@
 <? }?>
 
           <ul class="pager">
-            <li><a href="#">Previous</a></li>
-            <li><a href="#">Next</a></li>
+            <!-- <li><a href="#">Previous</a></li> -->
+            <!-- <li><a href="#">Next</a></li> -->
           </ul>
 
-        </div><!-- /.blog-main -->
+</div>

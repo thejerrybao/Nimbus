@@ -25,7 +25,7 @@
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">About</a>
 								<ul class="dropdown-menu">
-									<li><a href="#">UCB CKI</a></li>
+									<li><a href="/ProjectSeuss/about/about.php">UCB CKI</a></li>
 									<li><a href="http://cnhcirclek.org/index.php?option=com_content&view=article&id=132:golden-gate-division" target="_blank">Golden Gate Division</a></li>
 									<li><a href="http://cnhcirclek.org/" target="_blank">CNH Circle K</a></li>
 									<li><a href="http://www.circlek.org/home.aspx" target="_blank">Circle K International</a></li>
@@ -35,7 +35,7 @@
 							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Service</a>
 								
 								<ul class="dropdown-menu">
-									<li><a href="../ProjectSeuss/Service/contproj.php">Continuous Projects Spotlight</a></li>
+									<li><a href="/ProjectSeuss/Service/contprojects.php">Continuous Projects Spotlight</a></li>
 									<li><a href="../ProjectSeuss/Service/singleserv.php">Single Service Spotlight</a></li>
 									<li><a href="http://www.cnhcirclek.org/about/district-service-initiative">District Service Initiative</a></li>
 									<li><a href="http://www.cnhcirclek.org/about/district-fundraising-initiatives">District Fundraising Initiatives</a></li>												
@@ -81,7 +81,7 @@
                   <?php              
                   if ($_SESSION['nimbus_access'] > 0) {
                   ?>
-                  <li><a href="../admin">Admin</a></li>
+                  <li><a href="/admin">Admin</a></li>
                   <? } ?>
                   <li><a href="#">My MRP</a></li>
                   <li><a href="/ProjectSeuss/logout.php?url=<? echo "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];?>" > Logout</a></li>
