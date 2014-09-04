@@ -22,9 +22,9 @@ switch ($_POST['search_type']) {
         if ($users) {
             foreach ($users as $user) { ?>
 
-                <tr><td><a href="roster.php?view=member&id=<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></a></td>
+                <tr><td><a href="roster.php?view=user&id=<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></a></td>
                 <td><?= $user['email'] ?></td>
-                <td><?= "(".substr($user['phone'], 0, 3).") ".substr($user['phone'], 3, 3)."-".substr($user['phone'],6); ?></td>
+                <td><?= $user['phone']; ?></td>
                 <td>
                     <? if ($user['dues_paid']) { ?>
                         <i class="fa fa-check fa-fw"></i>

@@ -30,6 +30,9 @@
 <!-- Open Source Chosen JQuery Plugin -->
 <script src="js/chosen.jquery.min.js"></script>
 
+<!-- Open Source Masked Input JQuery Plugin -->
+<script src="js/maskedinput.jquery.min.js"></script>
+
 <? if ($customJS) { ?>
 <!-- Page Specific JS -->
 <script src="js/<?= $page ?>.js"></script>

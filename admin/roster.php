@@ -129,7 +129,7 @@ $customJS = true;
                                     <? foreach ($activeUser as $user) { ?>
                                         <tr><td><a href="roster.php?view=user&id=<?= $user['user_id'] ?>"><?= $user['first_name'] ?> <?= $user['last_name'] ?></a></td>
                                         <td><?= $user['email'] ?></td>
-                                        <td><?= "(".substr($user['phone'], 0, 3).") ".substr($user['phone'], 3, 3)."-".substr($user['phone'],6); ?></td>
+                                        <td><?= $user['phone'] ?></td>
                                         <td>
                                             <? if ($user['dues_paid']) { ?>
                                                 <i class="fa fa-check fa-fw"></i>
@@ -262,7 +262,7 @@ $customJS = true;
                                         </div>
                                         <div class="form-group">
                                             <label>Phone Number</label>
-                                            <input type="text" name="phone" class="form-control" value="<?= $user['phone']; ?>" required>
+                                            <input type="text" name="phone" id="edit-phone" class="form-control" value="<?= $user['phone']; ?>" required>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Edit User</button>
                                     </form>
