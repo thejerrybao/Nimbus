@@ -84,8 +84,8 @@
                   <li><a href="/admin">Admin</a></li>
                   <? } ?>
                   <li><a href="#">My MRP</a></li>
+                  <li><a href="/ProjectSeuss/updateinfo.php">Update User Info</a></li>
                   <li><a href="/ProjectSeuss/logout.php?url=<? echo "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];?>" > Logout</a></li>
-                  <li><a href="/ProjectSeuss/updateinfo.php">Update Account Info</a></li>
                 </ul>
                 </li>
 							<? } else { ?>
