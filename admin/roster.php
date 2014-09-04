@@ -166,68 +166,68 @@ $customJS = true;
                     <h2>No member ID specified.</h2>
                 <? } else { 
                     $user = $userdb->getUserInfo($_GET['id'], true);
-                    $user['dues_paid'] = $user['dues_paid'] ? "Yes" : "No";
-                    $user['email_confirmed'] = $user['email_confirmed'] ? "Yes" : "No"; 
-                    switch ($user['access']) {
-                        case "0":
-                            $user['access'] = 'General Member';
-                            break;
-                        case "1":
-                            $user['access'] = 'Board Member';
-                            break;
-                        case "2":
-                            $user['access'] = 'MRP Chair';
-                            break;
-                        case "3":
-                            $user['access'] = 'Secretary';
-                            break;
-                        case "4":  
-                            $user['access'] = 'Technology Chair/Administrator';
-                            break;
-                        default:
-                            $user['access'] = "Access Value Invalid";
-                    } ?>
-                <? if ($user) { ?>
-                <div class="row">
-                    <div class="col-lg-8">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">MRP Information</div>
-                            <div class="panel-body">
-                                <label>Service Hours:</label>
-                                <p style="display: inline; margin-right: 50px;"><?= $user['hours']['service_hours'] ?></p>
-                                <label>Admin Hours:</label>
-                                <p style="display: inline; margin-right: 50px;"><?= $user['hours']['admin_hours'] ?></p>
-                                <label>Social Hours:</label>
-                                <p style="display: inline; margin-right: 50px;"><?= $user['hours']['social_hours'] ?></p>
+                    if ($user) {
+                        $user['dues_paid'] = $user['dues_paid'] ? "Yes" : "No";
+                        $user['email_confirmed'] = $user['email_confirmed'] ? "Yes" : "No"; 
+                        switch ($user['access']) {
+                            case "0":
+                                $user['access'] = 'General Member';
+                                break;
+                            case "1":
+                                $user['access'] = 'Board Member';
+                                break;
+                            case "2":
+                                $user['access'] = 'MRP Chair';
+                                break;
+                            case "3":
+                                $user['access'] = 'Secretary';
+                                break;
+                            case "4":  
+                                $user['access'] = 'Technology Chair/Administrator';
+                                break;
+                            default:
+                                $user['access'] = "Access Value Invalid";
+                        } ?>
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">MRP Information</div>
+                                <div class="panel-body">
+                                    <label>Service Hours:</label>
+                                    <p style="display: inline; margin-right: 50px;"><?= $user['hours']['service_hours'] ?></p>
+                                    <label>Admin Hours:</label>
+                                    <p style="display: inline; margin-right: 50px;"><?= $user['hours']['admin_hours'] ?></p>
+                                    <label>Social Hours:</label>
+                                    <p style="display: inline; margin-right: 50px;"><?= $user['hours']['social_hours'] ?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="panel panel-info">
+                                <div class="panel-heading">All Member Data</div>
+                                <div class="panel-body">
+                                    <label>Name</label>
+                                    <p><?= $user['first_name'] ?> <?= $user['last_name'] ?></p>
+                                    <label>E-mail</label>
+                                    <p><?= $user['email'] ?></p>
+                                    <label>Phone</label>
+                                    <p><?= $user['phone'] ?></p>
+                                    <label>Dues Paid?</label>
+                                    <p><?= $user['dues_paid'] ?></p>
+                                    <label>Email Confirmed?</label>
+                                    <p><?= $user['email_confirmed'] ?></p>
+                                    <label>Access Level</label>
+                                    <p><?= $user['access'] ?></p>
+                                    <? if ($_SESSION['nimbus_access'] > 3) { ?>
+                                    <a href="roster.php?view=edit&id=<?= $_GET['id'] ?>"><button type="submit" class="btn btn-primary">Edit User Information</button></a>
+                                    <? } ?>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">All Member Data</div>
-                            <div class="panel-body">
-                                <label>Name</label>
-                                <p><?= $user['first_name'] ?> <?= $user['last_name'] ?></p>
-                                <label>E-mail</label>
-                                <p><?= $user['email'] ?></p>
-                                <label>Phone</label>
-                                <p><?= $user['phone'] ?></p>
-                                <label>Dues Paid?</label>
-                                <p><?= $user['dues_paid'] ?></p>
-                                <label>Email Confirmed?</label>
-                                <p><?= $user['email_confirmed'] ?></p>
-                                <label>Access Level</label>
-                                <p><?= $user['access'] ?></p>
-                                <? if ($_SESSION['nimbus_access'] > 3) { ?>
-                                <a href="roster.php?view=edit&id=<?= $_GET['id'] ?>"><button type="submit" class="btn btn-primary">Edit User Information</button></a>
-                                <? } ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <? } else { ?>
-                    <h2>Member ID not found.</h2>
-                <? } ?>
+                    <? } else { ?>
+                        <h2>Member ID not found.</h2>
+                    <? } ?>
                 <? } ?>
             <? break; ?>
             <? case "edit":

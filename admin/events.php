@@ -249,23 +249,23 @@ $customJS = true;
             <? case "event": ?>
                 <? if (empty($_GET['id'])) {
                         $noEventID = true; 
-                    } else { 
+                    } else {
                         $noEventID = false;
                         $event = $eventdb->getEventInfo($_GET['id']);
-                        if ($event['end_datetime'] <= time() && $event['status'] == 0) { 
+                        if ($event && $event['end_datetime'] <= time() && $event['status'] == 0) { 
                             $eventdb->setEventStatus($event['event_id'], 1);
                             $event['status'] = 1;
                         }
                     } ?>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Event Information <a href="events.php?view=list<? if (!$noEventID) { ?>&month=<?= date("n", $event['start_datetime']) ?>&year=<?= date("Y", $event['start_datetime']) ?><? } ?>"><button class="btn btn-primary btn-back">Back to Events List</button></a></h1>
+                        <h1 class="page-header">Event Information <a href="events.php?view=list<? if (!$noEventID && $event) { ?>&month=<?= date("n", $event['start_datetime']) ?>&year=<?= date("Y", $event['start_datetime']) ?><? } ?>"><button class="btn btn-primary btn-back">Back to Events List</button></a></h1>
                     </div>
                 </div>
                 <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
                 <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
                 <? if ($noEventID) { ?><h2>No event ID specified.</h2>
-                <? } else { ?>
+                <? } else if ($event) { ?>
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="panel panel-primary">
@@ -413,12 +413,14 @@ $customJS = true;
                         <? } ?>
                     </div>
                 </div>
+                <? } else { ?>
+                    <h2>Event ID not found.</h2>
                 <? } ?>
             <? break; ?>
             <? case "edit": ?>
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Edit Event</h1>
+                        <h1 class="page-header">Edit Event <a href="events.php?view=event&id=<?= $_GET['id'] ?>"><button class="btn btn-primary btn-back">Back to Event Info</button></a></h1>
                     </div>
                 </div>
                 <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
@@ -427,13 +429,12 @@ $customJS = true;
                     <h2>No event ID specified.</h1>
                 <? } else { 
                     $event = $eventdb->getEventInfo($_GET['id']);
-                    if ($event['end_datetime'] <= time() && $event['status'] == 0) { 
+                    if ($event && $event['end_datetime'] <= time() && $event['status'] == 0) { 
                         $eventdb->setEventStatus($event['event_id'], 1);
                         $event['status'] = 1;
                     }
-                } ?>
-                <div class="row">
-                    <? if ($event['status'] < 2) { ?>
+                    if ($event && $event['status'] < 2) { ?>
+                    <div class="row">
                         <div class="col-lg-8">
                             <div class="panel panel-primary">
                                 <div class="panel-heading">Edit Current Event</div>
@@ -573,10 +574,13 @@ $customJS = true;
                                     <p>Talk about whether or not the event is worth doing again.</p>
                             </div>
                         </div>
+                    </div>
+                    <? } else if (!$event) { ?>
+                        <h2>Event ID not found.</h2>
                     <? } else { ?>
-                        <h2>Can't edit a completed event! If you need to edit, ask the secretary to un-complete the event.</h2>
+                        <h2>Can't edit a completed event! If you need to edit, ask the Secretary to un-complete the event.</h2>
                     <? } ?>
-                </div>
+                <? } ?>
             <? break; ?>
             <? case "calendar": ?>
             <? break; ?>
