@@ -1,8 +1,6 @@
 <?php
         ini_set('display_errors', 1);
-        $path = $_SERVER['DOCUMENT_ROOT'];
-        $path .= "/admin/dbfunc.php";
-        include_once($path);
+        include_once("../admin/dbfunc.php");
         $db = new EventFunctions;
         $m = (integer) date('n');
         $start = date("U",strtotime($_GET['start']));
@@ -13,8 +11,8 @@
         $out[] = array(
             'id' => $event["event_id"],
             'title' => $event["name"],
-            'start' => date("c",strtotime($event["start_datetime"])),
-            'end' => date("c",strtotime($event["end_datetime"])) 
+            'start' => date("c",$event["start_datetime"]),
+            'end' => date("c",$event["end_datetime"]) 
         );
     }
     echo json_encode($out);

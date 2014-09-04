@@ -2,16 +2,16 @@
     <?php session_start(); ?>
 		<title>UC Berkeley Circle K</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" type="text/css" href="/ProjectSeuss/css/bootstrap.css" media="all">
-        <link rel="stylesheet" type="text/css" href="/admin/font-awesome-4.1.0/css/font-awesome.css" media="all">
+		<link rel="stylesheet" type="text/css" href="/~circlek/css/bootstrap.css" media="all">
+        <link rel="stylesheet" type="text/css" href="/~circlek/admin/font-awesome-4.1.0/css/font-awesome.css" media="all">
 		</head>
-	<body style="background-image: url('/ProjectSeuss/images/graphics/books.jpg');background-size: 50%; background-repeat: repeat;">
-		      <img src="/ProjectSeuss/images/graphics/banner.jpg" style="width: 100%; height: 100%;">
+	<body style="background-image: url('/~circlek/images/graphics/books.jpg');background-size: 50%; background-repeat: repeat;">
+		      <img src="/~circlek/images/graphics/banner.jpg" style="width: 100%; height: 100%;">
 				
 		<div class = "navbar navbar-inverse navbar-static-top">
 			<div class= "container" > 
 				<div class = "navbar-header">
-					<a href = "/ProjectSeuss/index.php" class = "navbar-brand"> UCBCKI</a>
+					<a href = "/~circlek//index.php" class = "navbar-brand"> UCBCKI</a>
 						<button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
 							<span class="icon-bar"></span>
         					<span class="icon-bar"></span>
@@ -21,11 +21,11 @@
 					<div class = "collapse navbar-collapse navHeaderCollapse">
 						<ul class = "nav navbar-nav navbar-right">
 
-							<li><a href="/ProjectSeuss/Calendar/Calendar.php">Calendar</a></li>
+							<li><a href="/~circlek/Calendar/Calendar.php">Calendar</a></li>
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">About</a>
 								<ul class="dropdown-menu">
-									<li><a href="/ProjectSeuss/about/about.php">UCB CKI</a></li>
+									<li><a href="/~circlek/About/about.php">UCB CKI</a></li>
 									<li><a href="http://cnhcirclek.org/index.php?option=com_content&view=article&id=132:golden-gate-division" target="_blank">Golden Gate Division</a></li>
 									<li><a href="http://cnhcirclek.org/" target="_blank">CNH Circle K</a></li>
 									<li><a href="http://www.circlek.org/home.aspx" target="_blank">Circle K International</a></li>
@@ -35,8 +35,8 @@
 							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Service</a>
 								
 								<ul class="dropdown-menu">
-									<li><a href="/ProjectSeuss/Service/contprojects.php">Continuous Projects Spotlight</a></li>
-									<li><a href="/ProjectSeuss/Service/singleserv.php">Single Service Spotlight</a></li>
+									<li><a href="/~circlek/Service/contprojects.php">Continuous Projects Spotlight</a></li>
+									<li><a href="/~circlek//Service/singleserv.php">Single Service Spotlight</a></li>
 									<li><a href="http://www.cnhcirclek.org/about/district-service-initiative">District Service Initiative</a></li>
 									<li><a href="http://www.cnhcirclek.org/about/district-fundraising-initiatives">District Fundraising Initiatives</a></li>												
 								</ul>
@@ -44,29 +44,29 @@
 							</li>
 							<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Leadership</a>
 								<ul class="dropdown-menu">
-									<li><a href="/ProjectSeuss/Leadership/board.php">Board</a></li>						
+									<li><a href="/~circlek/Leadership/board.php">Board</a></li>						
 								</ul>
 
 							</li>
 							<li><a href="#" class="dropdown-toggle" data-toggle="dropdown">Fellowship</a>
                 <ul class="dropdown-menu">
-                    <li><a href="/ProjectSeuss/Fellowship/socials.php">Socials</a></li>           
-                  <li><a href="/ProjectSeuss/Fellowship/family.php">Family System</a></li>           
+                    <li><a href="/~circlek/Fellowship/socials.php">Socials</a></li>           
+                  <li><a href="/~circlek/Fellowship/family.php">Family System</a></li>           
                 </ul>
               </li>               
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Committees</a>
 								<ul class="dropdown-menu">
-									<li><a href="/ProjectSeuss/committees/fund.php">Fundraising</a></li>
-									<li><a href="/ProjectSeuss/committees/hist.php">Historian</a></li>
-									<li><a href="/ProjectSeuss/committees/kfam.php">Kiwanis Family</a></li>
-									<li><a href="/ProjectSeuss/committees/mde.php">MD&E</a></li>
-									<li><a href="/ProjectSeuss/committees/proj.php">Projects</a></li>
-									<li><a href="/ProjectSeuss/committees/pr.php">Public Relations</a></li>
-									<li><a href="/ProjectSeuss/committees/publ.php">Publications</a></li>
-									<li><a href="/ProjectSeuss/committees/sserve.php">Single Service</a></li>
-									<li><a href="/ProjectSeuss/committees/spirit.php">Spirit & Social</a></li>
-									<li><a href="/ProjectSeuss/committees/tech.php">Technology</a></li>								
+									<li><a href="/~circlek/committees/fund.php">Fundraising</a></li>
+									<li><a href="/~circlek/committees/hist.php">Historian</a></li>
+									<li><a href="/~circlek/committees/kfam.php">Kiwanis Family</a></li>
+									<li><a href="/~circlek/committees/mde.php">MD&E</a></li>
+									<li><a href="/~circlek/committees/proj.php">Projects</a></li>
+									<li><a href="/~circlek/committees/pr.php">Public Relations</a></li>
+									<li><a href="/~circlek/committees/publ.php">Publications</a></li>
+									<li><a href="/~circlek/committees/sserve.php">Single Service</a></li>
+									<li><a href="/~circlek/committees/spirit.php">Spirit & Social</a></li>
+									<li><a href="/~circlek/committees/tech.php">Technology</a></li>								
 								</ul>
 							</li>
               <li class="dropdown">
@@ -86,11 +86,11 @@
                   <?php              
                   if ($_SESSION['nimbus_access'] > 0) {
                   ?>
-                  <li><a href="/admin">Admin</a></li>
+                  <li><a href="/~circlek/admin/index.php">Admin</a></li>
                   <? } ?>
                   <li><a href="#">My MRP</a></li>
-                  <li><a href="/ProjectSeuss/updateinfo.php">Update User Info</a></li>
-                  <li><a href="/ProjectSeuss/logout.php?url=<? echo "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];?>" > Logout</a></li>
+                  <li><a href="/~circlek/updateinfo.php">Update User Info</a></li>
+                  <li><a href="/~circlek/logout.php?url=<? echo "http://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];?>" > Logout</a></li>
                 </ul>
                 </li>
 							<? } else { ?>
@@ -122,7 +122,7 @@
         <p></p><br> Please contact <a mailto:href="thejerrybao@gmail.com"></a>thejerrybao@gmail.com</a> for any other inquiries.</p>
         </div>
         <div class="tab-pane fade active in" id="signin">
-            <form action="/ProjectSeuss/login.php" method="post" enctype="multipart/form-data">
+            <form action="~circlek/login.php" method="post" enctype="multipart/form-data">
                             <input type="hidden" name="form_submit_type" value="login">
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Username" name="username" autofocus>
@@ -135,7 +135,7 @@
             </form>
         </div>
         <div class="tab-pane fade" id="signup">
-             <form action="register.php" method="post" enctype="multipart/form-data">
+             <form action="/~circlek/egister.php" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="form_submit_type" value="create_account">
                                     <div class="form-group">
                                         <label>First Name</label>
@@ -172,9 +172,9 @@
     </div>
     </div>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/ProjectSeuss/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/ProjectSeuss/js/maskedinput.jquery.min.js"></script>
-    <script type="text/javascript" src="/ProjectSeuss/js/head.js"></script>
+    <script type="text/javascript" src="/~circlek/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/~circlek/js/maskedinput.jquery.min.js"></script>
+    <script type="text/javascript" src="/~circlek/js/head.js"></script>
     
 
 		</body>
