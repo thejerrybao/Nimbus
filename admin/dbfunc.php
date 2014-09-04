@@ -1168,9 +1168,11 @@ class TagFunctions extends Database {
             case "all":
                 $query = $this->db->prepare('SELECT * FROM `tags`
                     WHERE active=:active ORDER BY `abbr` ASC');
-            default:
+                break;
+            case "event":
                 $query = $this->db->prepare('SELECT * FROM `tags`
-                    WHERE active=:active ORDER BY `abbr` ASC');
+                    WHERE ((mrp_tag=1 AND number=1) OR mrp_tag=0) AND active=:active ORDER BY `abbr` ASC');
+                break;
         }
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(

@@ -101,7 +101,7 @@ $customJS = true;
                                     <div class="form-group">
                                         <label>Tags</label>
                                         <select name="tag_ids[]" class="form-control" id="form-event-tags" multiple required>
-                                            <? $tags = $tagdb->getTags(); ?>
+                                            <? $tags = $tagdb->getTags('event'); ?>
                                             <? foreach ($tags as $tag) { ?>
                                                 <option value="<?= $tag['tag_id'] ?>"><?= $tag['abbr'] ?> (<?= $tag['name'] ?>)</option>
                                             <? } ?>
@@ -478,7 +478,7 @@ $customJS = true;
                                         <div class="form-group">
                                             <label>Tags</label>
                                             <select name="tag_ids[]" class="form-control" id="form-event-tags" multiple required>
-                                                <? $tags = $tagdb->getTags(); ?>
+                                                <? $tags = $tagdb->getTags('event'); ?>
                                                 <? foreach ($tags as $tag) { ?>
                                                     <? if (in_array($tag['tag_id'], $event['tag_ids'])) { ?>
                                                         <option value="<?= $tag['tag_id'] ?>" selected><?= $tag['abbr'] ?> (<?= $tag['name'] ?>)</option>
