@@ -66,7 +66,7 @@ var defaults = {
 	},
 
 	displayEventEnd: {
-		month: false,
+		month: true,
 		basicWeek: false,
 		'default': true
 	},

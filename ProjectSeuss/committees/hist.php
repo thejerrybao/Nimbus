@@ -18,7 +18,7 @@
           <p><span class="text-muted">Thomas Miao</span></p>
         </div>
         <div class="col-md-5" >
-          <img class="featurette-image img-circle" align="right" src="../images/pictures/committees/kfamcomm.jpg" style="width: 100%; height: 100%;">
+          <img class="featurette-image img-circle" align="right" src="../images/pictures/committees/histcomm.jpg" style="width: 100%; height: 100%;">
         </div>
         <div class="col-md-1"></div>
       </div>

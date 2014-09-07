@@ -1,8 +1,7 @@
 <?php 
         ini_set('display_errors', 1);
-        $path = $_SERVER['DOCUMENT_ROOT'];
-        $path .= "/~circlek//admin/dbfunc.php";
-        include_once($path);
+        
+        require_once("admin/dbfunc.php");
         
         $userdb = new UserFunctions;
         $userData = array(

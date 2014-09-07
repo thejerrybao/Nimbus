@@ -522,19 +522,19 @@ $customJS = true;
                                         <label>Funds Raised</label>
                                         <div class="form-group input-group">
                                             <span class="input-group-addon">$</span>
-                                            <input type="number" step="any" min="0" name="funds_raised" class="form-control" value="<?= $event['funds_raised'] ?>" required>
+                                            <input type="number" step=".01" min="0" name="funds_raised" class="form-control" value="<?= $event['funds_raised'] ?>" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Service Hours Per Person</label>
-                                            <input type="number" min="0" name="service_hours" class="form-control" value="<?= $event['service_hours'] ?>" required>
+                                            <input type="number" step="0.5" min="0" name="service_hours" class="form-control" value="<?= $event['service_hours'] ?>" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Admin Hours Per Person</label>
-                                            <input type="number" min="0" name="admin_hours" class="form-control" value="<?= $event['admin_hours'] ?>" required>
+                                            <input type="number" step="0.5" min="0" name="admin_hours" class="form-control" value="<?= $event['admin_hours'] ?>" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Social Hours Per Person</label>
-                                            <input type="number" min="0" name="social_hours" class="form-control" value="<?= $event['social_hours'] ?>" required>
+                                            <input type="number" step="0.5" min="0" name="social_hours" class="form-control" value="<?= $event['social_hours'] ?>" required>
                                         </div>
                                         <? } ?>
                                         <button type="submit" class="btn btn-primary">Edit Event</button>
@@ -619,9 +619,9 @@ $customJS = true;
                                             <tr>
                                                 <td id="override-member-name-cell"><?= $overrideMember['first_name'] ?> <?= $overrideMember['last_name'] ?></td>
                                                 <input type="hidden" name="members_override[<?= $i ?>][user_id]" value="<?= $overrideMember['user_id'] ?>">
-                                                <td><input type="number" min="0" name="members_override[<?= $i ?>][hours][service_hours]" class="form-control" value="<?= $overrideMember['service_hours'] ?>" required></td>
-                                                <td><input type="number" min="0" name="members_override[<?= $i ?>][hours][admin_hours]" class="form-control" value="<?= $overrideMember['admin_hours'] ?>" required></td>
-                                                <td><input type="number" min="0" name="members_override[<?= $i ?>][hours][social_hours]" class="form-control" value="<?= $overrideMember['social_hours'] ?>" required></td>
+                                                <td><input type="number" min="0" step="0.5" name="members_override[<?= $i ?>][hours][service_hours]" class="form-control" value="<?= $overrideMember['service_hours'] ?>" required></td>
+                                                <td><input type="number" min="0" step="0.5" name="members_override[<?= $i ?>][hours][admin_hours]" class="form-control" value="<?= $overrideMember['admin_hours'] ?>" required></td>
+                                                <td><input type="number" min="0" step="0.5" name="members_override[<?= $i ?>][hours][social_hours]" class="form-control" value="<?= $overrideMember['social_hours'] ?>" required></td>
                                             </tr>
                                             <? $i++; ?>
                                         <? } ?>

@@ -5,7 +5,7 @@
 		<link rel="stylesheet" type="text/css" href="/~circlek/css/bootstrap.css" media="all">
         <link rel="stylesheet" type="text/css" href="/~circlek/admin/font-awesome-4.1.0/css/font-awesome.css" media="all">
 		</head>
-	<body style="background-image: url('/~circlek/images/graphics/books.jpg');background-size: 50%; background-repeat: repeat;">
+	<body style="background-image: url('/~circlek/images/graphics/books.jpg');background-size: 50%; background-repeat: repeat;  background-attachment: fixed;">
 		      <img src="/~circlek/images/graphics/banner.jpg" style="width: 100%; height: 100%;">
 				
 		<div class = "navbar navbar-inverse navbar-static-top">
@@ -26,7 +26,7 @@
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">About</a>
 								<ul class="dropdown-menu">
 									<li><a href="/~circlek/About/about.php">UCB CKI</a></li>
-									<li><a href="http://cnhcirclek.org/index.php?option=com_content&view=article&id=132:golden-gate-division" target="_blank">Golden Gate Division</a></li>
+									<li><a href="https://www.facebook.com/groups/144874468912556/" target="_blank">Golden Gate Division</a></li>
 									<li><a href="http://cnhcirclek.org/" target="_blank">CNH Circle K</a></li>
 									<li><a href="http://www.circlek.org/home.aspx" target="_blank">Circle K International</a></li>
 									<li><a href="http://www.kiwanis.org/">Kiwanis International</a></li>						
@@ -119,7 +119,7 @@
         <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in" id="help">
         <p></p>
-        <p></p><br> Please contact <a mailto:href="thejerrybao@gmail.com"></a>thejerrybao@gmail.com</a> for any other inquiries.</p>
+        <p></p><br> Please contact diyaraniwar@berkeley.edu</a> for any other inquiries.</p>
         </div>
         <div class="tab-pane fade active in" id="signin">
             <form action="/~circlek/login.php" method="post" enctype="multipart/form-data">
@@ -135,7 +135,7 @@
             </form>
         </div>
         <div class="tab-pane fade" id="signup">
-             <form action="/~circlek/egister.php" method="post" enctype="multipart/form-data">
+             <form action="/~circlek/register.php" method="post" enctype="multipart/form-data">
                                     <input type="hidden" name="form_submit_type" value="create_account">
                                     <div class="form-group">
                                         <label>First Name</label>

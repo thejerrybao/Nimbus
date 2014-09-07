@@ -181,7 +181,7 @@
       } 
   </style>
       <div class="row" style="padding-top: 25px;">
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="pres" alt="Generic placeholder image">
           <h2><b>Bertha Te</b></h2>
           <h3><em>President</em></h3>
@@ -189,7 +189,7 @@
         </div><!-- /.col-lg-3 -->
         
 
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="avp" alt="Generic placeholder image" >
           <h2><b>Philip Nguyen</b></h2>
           <h3><em>Vice President of Administration</em></h3>
@@ -197,7 +197,7 @@
         </div><!-- /.col-lg-3 -->
         
 
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="svp" alt="Generic placeholder image" >
           <h2><b>Edison Xu</b></h2>
           <h3><em>Vice President of Service</em></h3>
@@ -205,7 +205,7 @@
         </div><!-- 
         /.col-lg-3 -->
         
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="tres" alt="Generic placeholder image" >
           <h2><b>Liane Kuo</b></h2>
           <h3><em>Treasurer</em></h3>
@@ -216,7 +216,7 @@
       </div><!-- /.row -->
       <div class="row">
 
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="sec" alt="Generic placeholder image">
           <h2><b>Jenny Voong</b></h2>
           <h3><em>Secretary</em></h3>
@@ -224,7 +224,7 @@
         </div><!-- /.col-lg-3 -->
         
 
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="fund"  alt="Generic placeholder image" >
           <h2><b>Kristy Kim</b></h2>
           <h3><em>Fundraising Chair</em></h3>
@@ -233,7 +233,7 @@
         </div><!-- /.col-lg-3 -->
         
 
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="hist" alt="Generic placeholder image">
           <h2><b>Thomas Miao</b></h2>
           <h3><em>Historian</em></h3>
@@ -241,7 +241,7 @@
           <p><a class="btn btn-default" href="../committees/hist.php" role="button">Historian Committee &raquo;</a></p>
         </div><!-- /.col-lg-3 -->
 
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="kfam" alt="Generic placeholder image">
           <h2><b>Vivian Nguyen</b></h2>
           <h3><em>Kiwanis Family Chair</em></h3>
@@ -252,7 +252,7 @@
       </div><!-- /.row -->
       <div class="row">
 
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="mde" alt="Generic placeholder image">
           <h2><b>Tina You</b></h2>
           <h3><em>Membership Development and Education Chair</em></h3>
@@ -260,14 +260,14 @@
           <p><a class="btn btn-default" href="../committees/mde.php" role="button">MD&E Committee &raquo;</a></p>
         </div><!-- /.col-lg-3 -->
 
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="mrp" alt="Generic placeholder image">
           <h2><b>Wendy Hyunh</b></h2>
           <h3><em>Membership Recognition Program Chair</em></h3>
           <p>cki-mrp_chair@lists.berkeley.edu</p>
         </div><!-- /.col-lg-3 -->
 
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="proj" alt="Generic placeholder image">
           <h2><b>Cherie Leung</b></h2>
           <h3><em>Projects Chair</em></h3>
@@ -276,7 +276,7 @@
         </div><!-- /.col-lg-3 -->
 
 
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="pr" alt="Generic placeholder image">
           <h2><b>Stanley Han</b></h2>
           <h3><em>Public Relations Chair</em></h3>
@@ -287,7 +287,7 @@
       </div><!-- /.row -->
       <div class="row">        
 
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="publ" alt="Generic placeholder image">
           <h2><b>Heyun Jeong</b></h2>
           <h3><em>Publications Editor</em></h3>
@@ -295,7 +295,7 @@
           <p><a class="btn btn-default" href="../committees/publ.php" role="button">Publication Committee &raquo;</a></p>
         </div><!-- /.col-lg-3 -->
         
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="sserve" alt="Generic placeholder image">
           <h2><b>Jasmine Park</b></h2>
           <h3><em>Single Service</em></h3>
@@ -304,7 +304,7 @@
         </div><!-- /.col-lg-3 -->
         
 
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="ss" alt="Generic placeholder image">
           <h2><b>Leon Liang</b></h2>
           <h3><em>Spirit & Social Chair</em></h3>
@@ -313,7 +313,7 @@
         </div><!-- /.col-lg-3 -->
         
 
-        <div class="col-lg-3">
+        <div class="col-sm-3">
           <img class="img-circle" id="tech" alt="Generic placeholder image">
           <h2><b>Diyar Aniwar</b></h2>
           <h3><em>Technology Chair</em></h3>

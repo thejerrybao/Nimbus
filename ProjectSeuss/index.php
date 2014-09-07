@@ -21,25 +21,41 @@
     ?>
   </head>
 	<body>
-    
+
     <div id="jumbotron" align="middle" style=" padding-bottom: 50px; padding-top: 30px;">
 		<div id="myCarousel" class="carousel slide" >
       <div class="carousel-inner">
         <div class="item active">
-          <img src="images/banner_ICON.jpg" alt="" width = 100%>
+          <img src="images/graphics/websitebanner1.png" alt="" width = 100%>
           <div class="container">
           </div>
         </div>
         <div class="item">
-          <img src="images/banner_ICON.jpg" alt="" width = 100% >
+          <img class="img-responsive" src="images/graphics/websitebanner2.png" alt=""  >
+   
+        </div>
+                <div class="item">
+          <img class="img-responsive" src="images/graphics/nmmbanner.png" alt=""  >
+   
+        </div>
+                <div class="item">
+          <img class="img-responsive" src="images/graphics/committees.png" alt=""  >
+   
+        </div>
+                <div class="item">
+          <img class="img-responsive" src="images/graphics/jamproject.png" alt=""  >
    
         </div>
       </div>
+
+
     
       <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
       <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+    
     </div><!-- /.carousel -->
-    </div>
+  </div>
+  </div>
 		<div class="container">
 
       <div class="row" >
@@ -79,6 +95,6 @@
     </div><!-- /.container -->
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <? include("footer.php") ?>
+    
 	</body>
     </html>

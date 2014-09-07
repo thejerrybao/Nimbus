@@ -12,11 +12,21 @@
 <script src="/~circlek/jquery-ui/jquery-ui.js"></script>
 
 <script>
-	
-    $(document).ready(function() {
-		
-		$('#calendar').fullCalendar({
+	//function to calculate window height
+function get_calendar_height() {
+      return $(window).height() - 30;
+}
+
+//attacht resize event to window and set fullcalendar height property
+$(document).ready(function() {
+$(window).resize(function() {
+    $('#calendar').fullCalendar('option', 'height', get_calendar_height());
+});
+//set fullcalendar height property
+
+	$('#calendar').fullCalendar({
     events: '/~circlek/Calendar/events.json.php',
+height: get_calendar_height,
     'default': true,
     eventClick: function ( event, jsEvent, view ) {
 
@@ -25,7 +35,7 @@
         }
  
 
-});
+});   
 		
 	});
 </script>
@@ -51,14 +61,13 @@
 
 </head>
 <body>
-	<div class="container" style="background-color:rgba(255,255,255,0.98); border-radius: 25px; width:75%; margin-bottom: 25px;">
-	<div id='calendar' ></div>
+	
+	<div id='calendar' style="background-color:rgba(255,255,255,0.98); border-radius: 25px; width:75%; margin-bottom: 25px; padding: 10px 10px 10px 10px;"></div>
 	</div>
 
 	<div class="modal fade" id="otherModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   		
-	</div>
-
+	
 
 <? include("../footer.php") ?>
 </body>
