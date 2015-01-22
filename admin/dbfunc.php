@@ -14,10 +14,10 @@ ini_set('display_errors', 1);
 require_once("passwordLib.php");
 
 // SQL Database Info
-define("MYSQL_HOST", "localhost");
-define("MYSQL_USER", "root");
-define("MYSQL_PASS", "root");
-define("MYSQL_DB", "dev_ckirfsystem");
+define("MYSQL_HOST", "mysql");
+define("MYSQL_USER", "circlek");
+define("MYSQL_PASS", "UUE1KwH0FccYtq6AXBHX");
+define("MYSQL_DB", "circlek");
 
 /** Function: array_orderby
  ** Parameters: None
@@ -326,7 +326,7 @@ class UserFunctions extends Database {
         $userEventsID = array();
 
         $query = $this->db->prepare('SELECT `event_id` FROM `event_attendees`
-            WHERE user_id=:user_id');
+            WHERE user_id=:user_id' );
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':user_id' => $user_id));
@@ -699,7 +699,7 @@ class EventFunctions extends Database {
 
         $query = $this->db->prepare('INSERT INTO `events`
             VALUES ("", :name, :chair_id, :start_datetime, :end_datetime, :description, :location, :meeting_location,
-                :online_signups, :online_end_datetime, 0, 0, 0, "", "", "", 0, 0, 0, 0, 0)');
+                :color,:online_signups, :online_end_datetime, 0, 0, 0, "", "", "", 0, 0, 0, 0, 0)');
         if ($query->execute(array(
             ':name' => $eventData['name'],
             ':chair_id' => $eventData['chair_id'],
@@ -708,6 +708,7 @@ class EventFunctions extends Database {
             ':description' => $eventData['description'],
             ':location' => $eventData['location'],
             ':meeting_location' => $eventData['meeting_location'],
+            ':color' => $eventData['color'],
             ':online_signups' => $eventData['online_signups'],
             ':online_end_datetime' => date("Y-m-d H:i:00", $eventData['online_end_datetime'])))) {
             $event_id = $this->db->lastInsertId();
@@ -911,6 +912,7 @@ class EventFunctions extends Database {
         $eventInfo['description'] = $row->description;
         $eventInfo['location'] = $row->location;
         $eventInfo['meeting_location'] = $row->meeting_location;
+        $eventInfo['color'] = $row->color;
         $eventInfo['online_signups'] = $row->online_signups;
         $eventInfo['online_end_datetime'] = strtotime($row->online_end_datetime);
         $eventInfo['status'] = $row->status;
@@ -1078,6 +1080,7 @@ class EventFunctions extends Database {
                 'start_datetime' => strtotime($row->start_datetime),
                 'end_datetime' => strtotime($row->end_datetime),
                 'meeting_location' => $row->meeting_location,
+                'color' => $row->color,
                 'location' => $row->location,
                 'num_attendees' => $row->num_attendees,
                 'description' => $row->description,
@@ -1131,7 +1134,7 @@ class EventFunctions extends Database {
 
         $query = $this->db->prepare('UPDATE `events`
             SET name=:name, chair_id=:chair_id, start_datetime=:start_datetime, end_datetime=:end_datetime,
-            description=:description, location=:location, meeting_location=:meeting_location,
+            description=:description, location=:location, meeting_location=:meeting_location, color=:color,
             online_signups=:online_signups, online_end_datetime=:online_end_datetime, status=:status,
             pros=:pros, cons=:cons, do_again=:do_again, funds_raised=:funds_raised,
             service_hours=:service_hours, admin_hours=:admin_hours, social_hours=:social_hours
@@ -1145,6 +1148,7 @@ class EventFunctions extends Database {
             ':description' => $eventData['description'],
             ':location' => $eventData['location'],
             ':meeting_location' => $eventData['meeting_location'],
+            ':color' => $eventData['color'],
             ':online_signups' => $eventData['online_signups'],
             ':online_end_datetime' => date("Y-m-d H:i:00", $eventData['online_end_datetime']),
             ':status' => $eventData['status'],
@@ -1659,12 +1663,13 @@ class BlogFunctions extends Database {
     public function createBlogPost($postData) {
 
         $query = $this->db->prepare('INSERT INTO `blog`
-            VALUES ("", :title, :story, :author_id, :publish_datetime  )');
+            VALUES ("", :title, :story, :author_id, :publish_datetime, :newsletter  )');
         if ($query->execute(array(
             ':title' => $postData['title'],
             ':story' => $postData['story'],
             ':author_id' => $postData['author_id'],
-            ':publish_datetime' => date("Y-m-d H:i:s", $postData['publish_datetime'])))) {
+            ':publish_datetime' => date("Y-m-d H:i:s", $postData['publish_datetime']),
+            ':newsletter' => $postData['newsletter']))) {
             return true;
         } else { return false; }
     }
@@ -1727,7 +1732,7 @@ class BlogFunctions extends Database {
         $dateBegin = $month;
         $dateEnd = strtotime('+1 month', $month);
         $query = $this->db->prepare('SELECT * FROM `blog`
-            WHERE publish_datetime >= FROM_UNIXTIME(:dateBegin) AND publish_datetime < FROM_UNIXTIME(:dateEnd) ORDER BY `publish_datetime` DESC' );
+            WHERE publish_datetime >= FROM_UNIXTIME(:dateBegin) AND (publish_datetime < FROM_UNIXTIME(:dateEnd) AND newsletter < 1) ORDER BY `publish_datetime` DESC' );
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
             ':dateBegin' => $dateBegin,
@@ -1754,7 +1759,7 @@ class BlogFunctions extends Database {
      **/
     public function getRecentPosts($numstart, $numposts) {
 
-        $query = $this->db->prepare('SELECT * FROM `blog`
+        $query = $this->db->prepare('SELECT * FROM `blog` WHERE newsletter < 1
              ORDER BY `publish_datetime` DESC LIMIT :numstart, :numposts');
         $query->setFetchMode(PDO::FETCH_OBJ);
         $query->execute(array(
@@ -1773,7 +1778,26 @@ class BlogFunctions extends Database {
 
         return $posts;
     }
+    public function getSubmissions () {
 
+        $query = $this->db->prepare('SELECT * FROM `blog` WHERE newsletter = 1 
+             ORDER BY `publish_datetime` DESC');
+        $query->setFetchMode(PDO::FETCH_OBJ);
+        $query->execute();
+        if ($query->rowCount() == 0) { return false; }
+        
+        while ($row = $query->fetch()) {
+            $posts[] = array(
+                'post_id' => $row->post_id,
+                'title' => $row->title,
+                'author_id' => $row->author_id,
+                'publish_datetime' => strtotime($row->publish_datetime),
+                'story' => $row->story);
+        }
+
+        return $posts;
+    }
+    
     /** Function: setPost
      ** Parameters: Post ID, Post Data
      ** Return: True if successful, false otherwise.

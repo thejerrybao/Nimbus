@@ -21,7 +21,7 @@
     <meta name="author" content="">
 
     <title>Project Nimbus - <?= $pageTitle ?></title>
-
+    <link rel="icon" type="image/png" href="/~circlek/images/graphics/icon.png">
     <!-- Custom Fonts -->
     <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="fonts/fonts.css" rel="stylesheet" type="text/css">

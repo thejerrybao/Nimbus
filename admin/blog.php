@@ -86,6 +86,11 @@ $customJS = true;
                                         <label>Story</label>
                                         <textarea name="story" form="create_post" rows="3" id="story" class="form-control" required></textarea>
                                     </div>
+                                    <div class="form-group">
+                                        <label>Newsletter?</label>
+                                        <input type="hidden" name="newsletter" value="0">
+                                        <input type="checkbox" name="newsletter" class="newsletter-checkbox" value="1" checked>
+                                    </div>
                                     <button type="submit" class="btn btn-primary">Post</button>
                                     <button type="reset" class="btn btn-primary">Reset Fields</button>
                                 </form>
@@ -175,6 +180,45 @@ $customJS = true;
                     </div>
                 </div>
             <? break; ?>
+             <? case "submissions": ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Article Submissions</h1>
+                    </div>
+                </div>
+                <? if (isset($_COOKIE['successmsg'])) { ?><div class="alert alert-success"><i class="fa fa-check fa-fw"></i> <?= $_COOKIE['successmsg'] ?></div><? } ?>
+                <? if (isset($_COOKIE['errormsg'])) { ?><div class="alert alert-danger"><i class="fa fa-ban fa-fw"></i> <?= $_COOKIE['errormsg'] ?></div><? } ?>
+                
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                        <? $posts = $blogdb->getSubmissions(); ?>
+                        <? if ($posts) { ?>
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th id="title">Title</th>
+                                    <th id="author">Author</th>
+                                    <th id="publish-datetime">Publish Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <? foreach ($posts as $post) {
+                                $author = $userdb->getUserInfo($post['author_id']); 
+                            ?>
+                                <tr><td><a href="blog.php?view=post&id=<?= $post['post_id'] ?>"><?= $post['title'] ?></a></td>
+                                <td><?= $author['first_name'] ?> <?= $author['last_name'] ?></td>
+                                <td><?= date("M d, g:i a", $post['publish_datetime']) ?></td>
+                                
+                            <? } ?>
+                            </tbody>
+                        </table>
+                        <? } else { ?>
+                            <h2>No posts found
+                        <? } ?>
+                    </div>
+                </div>
+            <? break; ?>
             <? case "post": ?>
                 <div class="row">
                     <div class="col-lg-12">
@@ -228,6 +272,7 @@ $customJS = true;
                 </div>
                 <? } ?>
             <? break; ?>
+
             <? case "edit": ?>
                 <div class="row">
                     <div class="col-lg-12">

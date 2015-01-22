@@ -44,6 +44,7 @@ switch ($_POST['form_submit_type']) {
             "description" => $_POST['description'],
             "location" => $_POST['location'],
             "meeting_location" => $_POST['meeting_location'],
+            "color" => $_POST['color'],
             "online_signups" => $_POST['online_signups'],
             "online_end_datetime" => strtotime($_POST['online_end_datetime']));
         if ($eventData['start_datetime'] > $eventData['end_datetime']) {
@@ -81,6 +82,7 @@ switch ($_POST['form_submit_type']) {
             "description" => $_POST['description'],
             "location" => $_POST['location'],
             "meeting_location" => $_POST['meeting_location'],
+            "color" => $_POST['color'],
             "online_signups" => $_POST['online_signups'],
             "online_end_datetime" => strtotime($_POST['online_end_datetime']),
             "status" => $status,
@@ -442,7 +444,8 @@ switch ($_POST['form_submit_type']) {
             "title" => $_POST['title'],
             "author_id" => $_POST['author_id'],
             "publish_datetime" => strtotime($_POST['publish_datetime']),
-            "story" => $_POST['story']);
+            "story" => $_POST['story'],
+            "newsletter" => $_POST['newsletter']);
          if ($postData['publish_datetime'] > time()) {
             $message = "ERROR: Publish Date and Time cannot be in the future!";
             setcookie("errormsg", $message, time()+3);
@@ -473,7 +476,8 @@ switch ($_POST['form_submit_type']) {
             "title" => $_POST['title'],
             "author_id" => $_POST['author_id'],
             "publish_datetime" => strtotime($_POST['publish_datetime']),
-            "story" => $_POST['story']);
+            "story" => $_POST['story'],
+            "newsletter" => $_POST['newsletter']);
          if ($postData['publish_datetime'] > time()) {
             $message = "ERROR: Publish Date and Time cannot be in the future!";
             setcookie("errormsg", $message, time()+3);

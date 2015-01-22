@@ -108,6 +108,15 @@ $customJS = true;
                                         </select>
                                     </div>
                                     <div class="form-group">
+                                        <label>Color</label>
+                                        <select name="color" class="form-control" required>
+                                            <? $colors = array('Blue' => 0,'Red' => 1,'Grey' => 2,'Orange' => 3, 'Green' => 4 ); ?>
+                                            <? foreach (array('Blue','Red','Grey','Orange','Green') as $color) { ?>
+                                                <option value="<?= $colors[$color] ?>"><?= $color ?></option>
+                                            <? } ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Online Sign-ups?</label>
                                         <input type="hidden" name="online_signups" value="0">
                                         <input type="checkbox" name="online_signups" class="online-signups-checkbox" value="1" checked>
@@ -173,7 +182,7 @@ $customJS = true;
                                     <? } ?>
                                 </select>
                                 <select name="year" class="form-control" style="width: 10%; display: inline;">
-                                    <? for ($i = idate("Y"); $i >= 2006; $i--) { ?>
+                                    <? for ($i = idate("Y") + 3; $i >= 2006; $i--) { ?>
                                         <? if ($_GET['year'] == $i) { ?>
                                             <option value="<?= $i ?>" selected><?= $i ?></option>
                                         <? } else { ?>
@@ -346,9 +355,27 @@ $customJS = true;
                                             $attendeeEmails .= $eventAttendee['email'] . "; "; ?>
                                             <?= $eventAttendee['first_name'] ?> <?= $eventAttendee['last_name'] ?><br />
                                         <? } ?>
-                                    <? } else { ?>No Attendees<? } ?></p>
+                                    <? } else { ?>None<? } ?></p>
                                 <label>Attendee Emails</label>
                                 <textarea rows="3" class="form-control"><?= $attendeeEmails ?></textarea>
+                            </div>
+                            <div class="panel-heading">Event Override Hours</div>
+                            <div class="panel-body">
+
+                                <p><? $attendeeEmails = "";
+                                    if ($eventOverrideHours = $eventdb->getOverrideHours($event['event_id'])) { 
+                                        foreach ($eventOverrideHours as $oh) { ?>
+                                            <b><?= $oh['first_name'] ?> <?= $oh['last_name'] ?></b>
+                                            <br />
+                                            Service Hours: <?= $oh['service_hours'] ?>
+                                            <br />
+                                            Admin Hours: <?= $oh['admin_hours'] ?>
+                                            <br />
+                                            Social Hours: <?= $oh['social_hours'] ?> 
+                                            <br />
+                                            <br />
+                                        <? } ?>
+                                    <? } else { ?>No Attendees<? } ?></p>
                             </div>
                         </div>
                         <? if ($event['status'] < 2) { ?>
@@ -493,6 +520,18 @@ $customJS = true;
                                                 <? } ?>
                                             </select>
                                         </div>
+                                                                            <div class="form-group">
+                                        <label>Color</label>
+                                        <select name="color" class="form-control" required>
+                                            <? $colors = array('Blue' => 0,'Red' => 1,'Grey' => 2,'Orange' => 3, 'Green' => 4 ); ?>
+                                            <? $col2 = array(0 => 'Blue',1 => 'Red',2 => 'Grey',3 => 'Orange', 4 => 'Green' ); ?>
+                                            <option value="<?= $event['color']; ?>"><?= $col2[$event['color']] ?></option>
+                                            <? foreach (array('Blue','Red','Grey','Orange','Green') as $color) { ?>
+                                                <option value="<?= $colors[$color] ?>"><?= $color ?></option>
+                                            <? } ?>
+                                        </select>
+                                    </div>
+
                                         <div class="form-group">
                                             <label>Online Sign-ups?</label>
                                             <input type="hidden" name="online_signups" value="0">
