@@ -14,10 +14,7 @@ ini_set('display_errors', 1);
 require_once("passwordLib.php");
 
 // SQL Database Info
-define("MYSQL_HOST", "mysql");
-define("MYSQL_USER", "circlek");
-define("MYSQL_PASS", "UUE1KwH0FccYtq6AXBHX");
-define("MYSQL_DB", "circlek");
+require_once("dbinfo.php");
 
 /** Function: array_orderby
  ** Parameters: None
