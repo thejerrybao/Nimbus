@@ -110,8 +110,8 @@ $customJS = true;
                                     <div class="form-group">
                                         <label>Color</label>
                                         <select name="color" class="form-control" required>
-                                            <? $colors = array('Blue' => 0,'Red' => 1,'Grey' => 2,'Orange' => 3, 'Green' => 4 ); ?>
-                                            <? foreach (array('Blue','Red','Grey','Orange','Green') as $color) { ?>
+                                            <? $colors = array('Blue' => 0,'Red' => 1,'Grey' => 2,'Orange' => 3, 'Green' => 4, 'Purple' => 5 ); ?>
+                                            <? foreach (array('Blue','Red','Grey','Orange','Green','Purple') as $color) { ?>
                                                 <option value="<?= $colors[$color] ?>"><?= $color ?></option>
                                             <? } ?>
                                         </select>
@@ -523,10 +523,10 @@ $customJS = true;
                                                                             <div class="form-group">
                                         <label>Color</label>
                                         <select name="color" class="form-control" required>
-                                            <? $colors = array('Blue' => 0,'Red' => 1,'Grey' => 2,'Orange' => 3, 'Green' => 4 ); ?>
-                                            <? $col2 = array(0 => 'Blue',1 => 'Red',2 => 'Grey',3 => 'Orange', 4 => 'Green' ); ?>
+                                            <? $colors = array('Blue' => 0,'Red' => 1,'Grey' => 2,'Orange' => 3, 'Green' => 4, 'Purple'=> 5 ); ?>
+                                            <? $col2 = array(0 => 'Blue',1 => 'Red',2 => 'Grey',3 => 'Orange', 4 => 'Green', 5 => 'Purple' ); ?>
                                             <option value="<?= $event['color']; ?>"><?= $col2[$event['color']] ?></option>
-                                            <? foreach (array('Blue','Red','Grey','Orange','Green') as $color) { ?>
+                                            <? foreach (array('Blue','Red','Grey','Orange','Green','Purple') as $color) { ?>
                                                 <option value="<?= $colors[$color] ?>"><?= $color ?></option>
                                             <? } ?>
                                         </select>

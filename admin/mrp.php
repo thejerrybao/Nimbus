@@ -12,7 +12,6 @@
 ini_set('display_errors', 1);
 session_start();
 if (!isset($_SESSION['nimbus_user_id'])) { header('Location: login.php'); }
-else if ($_SESSION['nimbus_access'] == 0) { echo "You don't have access to this page."; exit; }
 require_once("dbfunc.php");
 $userdb = new UserFunctions;
 $eventdb = new EventFunctions;
@@ -47,7 +46,7 @@ $customJS = true;
     $events = array();
     foreach ($event_ids as $event_id) { 
         $event = $eventdb->getEventInfo($event_id); 
-        if($event['status'] >0){
+        if($event['status'] >1){
             $events[] = $event;
         }
     }
@@ -60,6 +59,7 @@ $customJS = true;
             $mde += 1;
         } 
         if(in_array(12, $tags)){
+
             $fund += 1;
         } 
         if(in_array(5, $tags)){
