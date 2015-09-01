@@ -5,16 +5,14 @@
  ** Author: Jerry Bao (jbao@berkeley.edu)
  ** Author: Robert Rodriguez (rob.rodriguez@berkeley.edu)
  ** Author: Diyar Aniwar (diyaraniwar@berkeley.edu)
+ ** Author: Sock Ryu (cki.sock@gmail.com)
  ** 
  ** CIRCLE K INTERNATIONAL
- ** COPYRIGHT 2014-2015 - ALL RIGHTS RESERVED
+ ** COPYRIGHT 2015-2016 - ALL RIGHTS RESERVED
  **/
 ini_set('display_errors', 1);
 
 require_once("passwordLib.php");
-
-// SQL Database Info
-require_once("dbinfo.php");
 
 /** Function: array_orderby
  ** Parameters: None
@@ -183,53 +181,71 @@ class UserFunctions extends Database {
     }
 
     /** Function: getTotalHours
-     ** Parameters: Type of hours (service, admin, social, all), and a User ID (default: null)
-     ** Return: Hours requested of a user or of the entire club.
-     ** 
+     ** Parameters: Type of hours (service, admin, social, all), User ID (default: null), Date in UNIX Time (default: null)
+     ** Return: Hours requested of a user or of the entire club, starting from a specified date or from the beginning.
+     **
      ** Calculates the total hours specified of either a user or the entire club.
      **/
-    public function getTotalHours($typeHours, $user_id = null) {
+    public function getTotalHours($typeHours, $user_id = null, $dateBegin = null) {
 
         $totalHours = array();
         $totalHours['service_hours'] = $totalHours['admin_hours'] = $totalHours['social_hours'] = 0.0;
 
-        if (!$user_id) {
+        $events = array();
 
-            $query = $this->db->prepare('SELECT * FROM `events`');
-            $query->setFetchMode(PDO::FETCH_OBJ);
-            $query->execute();
+         if (!$user_id) {
+            if ($dateBegin) {
+                $query = $this->db->prepare('SELECT * FROM `events`
+                WHERE start_datetime >= FROM_UNIXTIME(:dateBegin) ORDER BY `status` ASC, `start_datetime` ASC' );
+                $query->setFetchMode(PDO::FETCH_OBJ);
+                $query->execute(array(':dateBegin' => $dateBegin));
+            } else {
+                $query = $this->db->prepare('SELECT * FROM `events`');
+                $query->setFetchMode(PDO::FETCH_OBJ);
+                $query->execute();
+            }
 
             if ($query->rowCount() == 0) { return false; }
-            while ($row = $query->fetch()) {
+                while ($row = $query->fetch()) {
 
-                $numNonOverride = $row->num_attendees - $row->num_override_hours;
-                if ($row->num_override_hours > 0) {
-                    $queryOverrideHours = $this->db->prepare('SELECT SUM(service_hours) AS `service_hours`,
-                        SUM(admin_hours) AS `admin_hours`,
-                        SUM(social_hours) AS `social_hours` 
-                        FROM `event_override_hours` WHERE event_id=:event_id');
-                    $queryOverrideHours->setFetchMode(PDO::FETCH_OBJ);
-                    $queryOverrideHours->execute(array(
-                        ':event_id' => $row->event_id));
+                    $numNonOverride = $row->num_attendees - $row->num_override_hours;
+                    if ($row->num_override_hours > 0) {
+                        $queryOverrideHours = $this->db->prepare('SELECT SUM(service_hours) AS `service_hours`,
+                            SUM(admin_hours) AS `admin_hours`,
+                            SUM(social_hours) AS `social_hours` 
+                            FROM `event_override_hours` WHERE event_id=:event_id');
+                        $queryOverrideHours->setFetchMode(PDO::FETCH_OBJ);
+                        $queryOverrideHours->execute(array(
+                            ':event_id' => $row->event_id));
 
-                    $rowOverrideHours = $queryOverrideHours->fetch();
-                    $totalHours['service_hours'] += $rowOverrideHours->service_hours;
-                    $totalHours['admin_hours'] += $rowOverrideHours->admin_hours;
-                    $totalHours['social_hours'] += $rowOverrideHours->social_hours;
+                        $rowOverrideHours = $queryOverrideHours->fetch();
+                        $totalHours['service_hours'] += $rowOverrideHours->service_hours;
+                        $totalHours['admin_hours'] += $rowOverrideHours->admin_hours;
+                        $totalHours['social_hours'] += $rowOverrideHours->social_hours;
+                    }
+
+                    $totalHours['service_hours'] += $row->service_hours * $numNonOverride;
+                    $totalHours['admin_hours'] += $row->admin_hours * $numNonOverride;
+                    $totalHours['social_hours'] += $row->social_hours * $numNonOverride;
                 }
-
-                $totalHours['service_hours'] += $row->service_hours * $numNonOverride;
-                $totalHours['admin_hours'] += $row->admin_hours * $numNonOverride;
-                $totalHours['social_hours'] += $row->social_hours * $numNonOverride;
-            }
         } else {
             $userEventsID = $this->getUserEvents($user_id);
             if ($userEventsID) {
                 foreach ($userEventsID as $event_id) {
-                    $hours = $this->getUserHoursByEvent($user_id, $event_id);
-                    $totalHours['service_hours'] += $hours['service_hours'];
-                    $totalHours['admin_hours'] += $hours['admin_hours'];
-                    $totalHours['social_hours'] += $hours['social_hours'];
+                    if ($dateBegin) {
+                        $eventInfo = (new EventFunctions)->getEventInfo($event_id);
+                        if ($eventInfo['start_datetime'] > $dateBegin) {
+                            $hours = $this->getUserHoursByEvent($user_id, $event_id);
+                            $totalHours['service_hours'] += $hours['service_hours'];
+                            $totalHours['admin_hours'] += $hours['admin_hours'];
+                            $totalHours['social_hours'] += $hours['social_hours'];
+                        }
+                    } else {
+                        $hours = $this->getUserHoursByEvent($user_id, $event_id);
+                        $totalHours['service_hours'] += $hours['service_hours'];
+                        $totalHours['admin_hours'] += $hours['admin_hours'];
+                        $totalHours['social_hours'] += $hours['social_hours'];
+                    }
                 }
             }
         }
@@ -708,9 +724,8 @@ class EventFunctions extends Database {
             ':color' => $eventData['color'],
             ':online_signups' => $eventData['online_signups'],
             ':online_end_datetime' => date("Y-m-d H:i:00", $eventData['online_end_datetime'])))) {
-            $event_id = $this->db->lastInsertId();
-            $this->addEventAttendee($event_id, $eventData['chair_id']);
-            return $this->setEventTags($event_id, $tag_ids);
+            $this->addEventAttendee($this->db->lastInsertId(), $eventData['chair_id']);
+            return $this->setEventTags($this->db->lastInsertId(), $tag_ids);
         } else { return false; }
     }
 

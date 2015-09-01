@@ -11,7 +11,7 @@
     session_start();
     ini_set('display_errors', 1);
     include("head.php"); 
-    require_once("admin/dbfunc.php");
+    require_once("dbfunc.php");
     $eventdb = new EventFunctions;
     $userdb = new UserFunctions;
     $user = $userdb->getUserInfo($_SESSION['nimbus_user_id'], true);
@@ -37,7 +37,7 @@
                                                     $homeclub[] = $event;   
                                                 }
                                                 if(in_array(11, $tags)){
-                                                    $div[] = $event;
+                                                    $div[] = $event
                                                 }
                                                 if(in_array(9, $tags)){
                                                     $dist[] = $event;
@@ -50,11 +50,7 @@
                                                 }
                                             }
                                         }
-                                        usort($homeclub, 'dateOrder');
-                                        usort($div, 'dateOrder');
-                                        usort($dist, 'dateOrder');
-                                        usort($otherck, 'dateOrder');
-                                        usort($kfam, 'dateOrder');
+                                        usort($events, 'dateOrder')
                                     ?>
                                 
                                 <div  class="col-sm-8 col-sm-offset-2"style="background-color:rgba(255,255,255,0.98); border-radius: 25px;">
@@ -67,7 +63,7 @@
                                         <th>Social Hours</th>
                                     </tr>
                                     </thead>
-                                    <h1>Home Club Events</h1>
+                                    <h1>All events</h1>
                                     <tbody>
                                     <? foreach ($homeclub as $event) { ?>
                                         
@@ -91,151 +87,13 @@
 
                                     </tbody>
                                 </table>
-                                 
-                                </div>
-                                <div  class="col-sm-8 col-sm-offset-2"style="background-color:rgba(255,255,255,0.98); border-radius: 25px;">
-                                <table class="table" >
-                                    <thead>
-                                    <tr>
-                                        <th>Event</th>
-                                        <th>Service Hours</th>
-                                        <th>Admin Hours</th>
-                                        <th>Social Hours</th>
-                                    </tr>
-                                    </thead>
-                                    <h1>Division Events</h1>
-                                    <tbody>
-                                    <? foreach ($div as $event) { ?>
-                                        
-                                        <tr>
-                                            <td>
-                                            <? 
-
-                                            $hours = $userdb->getUserHoursByEvent($_SESSION['nimbus_user_id'],$event['event_id']); 
-                                                
-                                            ?>
-                                            <a onClick="javascript:usermodalOpen(<?= $event['event_id'] ?>);"> <? echo "[",date("M d", $event['start_datetime']), "] ", $event['name']; ?> </a>
-                                            <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
-                                            </td>
-                                            <td><? echo  $hours['service_hours']?></td>
-                                            <td><? echo  $hours['admin_hours']?></td>
-                                            <td><? echo  $hours['social_hours']?></td>
-
-                                            
-                                            </tr>
-                                    <? } ?>
-
-                                    </tbody>
-                                </table>
-                                
-                                </div>
-                                <div  class="col-sm-8 col-sm-offset-2"style="background-color:rgba(255,255,255,0.98); border-radius: 25px;">
-                                <table class="table" >
-                                    <thead>
-                                    <tr>
-                                        <th>Event</th>
-                                        <th>Service Hours</th>
-                                        <th>Admin Hours</th>
-                                        <th>Social Hours</th>
-                                    </tr>
-                                    </thead>
-                                    <h1>District Events</h1>
-                                    <tbody>
-                                    <? foreach ($dist as $event) { ?>
-                                        
-                                        <tr>
-                                            <td>
-                                            <? 
-
-                                            $hours = $userdb->getUserHoursByEvent($_SESSION['nimbus_user_id'],$event['event_id']); 
-                                                
-                                            ?>
-                                            <a onClick="javascript:usermodalOpen(<?= $event['event_id'] ?>);"> <? echo "[",date("M d", $event['start_datetime']), "] ", $event['name']; ?> </a>
-                                            <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
-                                            </td>
-                                            <td><? echo  $hours['service_hours']?></td>
-                                            <td><? echo  $hours['admin_hours']?></td>
-                                            <td><? echo  $hours['social_hours']?></td>
-
-                                            
-                                            </tr>
-                                    <? } ?>
-
-                                    </tbody>
-                                </table>
-                                
-                                </div>
-                                <div  class="col-sm-8 col-sm-offset-2"style="background-color:rgba(255,255,255,0.98); border-radius: 25px;">
-                                <table class="table" >
-                                    <thead>
-                                    <tr>
-                                        <th>Event</th>
-                                        <th>Service Hours</th>
-                                        <th>Admin Hours</th>
-                                        <th>Social Hours</th>
-                                    </tr>
-                                    </thead>
-                                    <h1>Other Club Events</h1>
-                                    <tbody>
-                                    <? foreach ($otherck as $event) { ?>
-                                        
-                                        <tr>
-                                            <td>
-                                            <? 
-
-                                            $hours = $userdb->getUserHoursByEvent($_SESSION['nimbus_user_id'],$event['event_id']); 
-                                                
-                                            ?>
-                                            <a onClick="javascript:usermodalOpen(<?= $event['event_id'] ?>);"> <? echo "[",date("M d", $event['start_datetime']), "] ", $event['name']; ?> </a>
-                                            <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
-                                            </td>
-                                            <td><? echo  $hours['service_hours']?></td>
-                                            <td><? echo  $hours['admin_hours']?></td>
-                                            <td><? echo  $hours['social_hours']?></td>
-
-                                            
-                                            </tr>
-                                    <? } ?>
-
-                                    </tbody>
-                                </table>
-                                
-                                </div>
-                                <div  class="col-sm-8 col-sm-offset-2"style="background-color:rgba(255,255,255,0.98); border-radius: 25px;">
-                                <table class="table" >
-                                    <thead>
-                                    <tr>
-                                        <th>Event</th>
-                                        <th>Service Hours</th>
-                                        <th>Admin Hours</th>
-                                        <th>Social Hours</th>
-                                    </tr>
-                                    </thead>
-                                    <h1>Kiwanis Family Events</h1>
-                                    <tbody>
-                                    <? foreach ($kfam as $event) { ?>
-                                        
-                                        <tr>
-                                            <td>
-                                            <? 
-
-                                            $hours = $userdb->getUserHoursByEvent($_SESSION['nimbus_user_id'],$event['event_id']); 
-                                                
-                                            ?>
-                                            <a onClick="javascript:usermodalOpen(<?= $event['event_id'] ?>);"> <? echo "[",date("M d", $event['start_datetime']), "] ", $event['name']; ?> </a>
-                                            <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
-                                            </td>
-                                            <td><? echo  $hours['service_hours']?></td>
-                                            <td><? echo  $hours['admin_hours']?></td>
-                                            <td><? echo  $hours['social_hours']?></td>
-
-                                            
-                                            </tr>
-                                    <? } ?>
-
-                                    </tbody>
-                                </table>
-                                
+                                <label>Service Hours:</label>
+                                    <p style="display: inline; margin-right: 50px;"><?= $user['hours']['service_hours'] ?></p>
+                                    <label>Admin Hours:</label>
+                                    <p style="display: inline; margin-right: 50px;"><?= $user['hours']['admin_hours'] ?></p>
+                                    <label>Social Hours:</label>
+                                    <p style="display: inline; margin-right: 50px;"><?= $user['hours']['social_hours'] ?></p>
+            
                                 </div>
         <div class="modal fade" id="usereventModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
 <script type="text/javascript">

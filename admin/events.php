@@ -88,7 +88,7 @@ $customJS = true;
                                     </div>
                                     <div class="form-group">
                                         <label>Description</label>
-                                        <textarea name="description" form="create_event" rows="3" class="form-control" required></textarea>
+                                        <textarea name="description" form="create_event" rows="3" placeholder="Add any links with the <a href='LINK'>LINK_TEXT</a> tags" class="form-control" required></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>Location</label>
@@ -111,7 +111,7 @@ $customJS = true;
                                         <label>Color</label>
                                         <select name="color" class="form-control" required>
                                             <? $colors = array('Blue' => 0,'Red' => 1,'Grey' => 2,'Orange' => 3, 'Green' => 4, 'Purple' => 5 ); ?>
-                                            <? foreach (array('Blue','Red','Grey','Orange','Green','Purple') as $color) { ?>
+                                            <? foreach (array('Club Service (Blue)','Club Social (Red)','Division/District Social (Grey)','Kiwanis Event (Orange)','Fundraising (Green)','Committee Meeting (Purple)') as $color) { ?>
                                                 <option value="<?= $colors[$color] ?>"><?= $color ?></option>
                                             <? } ?>
                                         </select>
@@ -144,7 +144,7 @@ $customJS = true;
                                 <label>End Date and Time</label>
                                 <p>End date and time of the event.</p>
                                 <label>Description</label>
-                                <p>Event Description. Be as descriptive as you like!</p>
+                                <p>Event Description. <b>If you would like to add a link for more info</b>, please paste the following into the field:<span style="font-family: 'Courier New', monospace"> &lt;a href='LINK' target='_blank'&gt;LINK_TEXT&lt;/a&gt; </span> .</p>
                                 <label>Location</label>
                                 <p>Actual location of the event.</p>
                                 <label>Meeting Location</label>
@@ -526,7 +526,7 @@ $customJS = true;
                                             <? $colors = array('Blue' => 0,'Red' => 1,'Grey' => 2,'Orange' => 3, 'Green' => 4, 'Purple'=> 5 ); ?>
                                             <? $col2 = array(0 => 'Blue',1 => 'Red',2 => 'Grey',3 => 'Orange', 4 => 'Green', 5 => 'Purple' ); ?>
                                             <option value="<?= $event['color']; ?>"><?= $col2[$event['color']] ?></option>
-                                            <? foreach (array('Blue','Red','Grey','Orange','Green','Purple') as $color) { ?>
+                                            <? foreach (array('Club Service (Blue)','Club Social (Red)','Division/District Social (Grey)','Kiwanis Event (Orange)','Fundraising (Green)','Committee Meeting (Purple)') as $color) { ?>
                                                 <option value="<?= $colors[$color] ?>"><?= $color ?></option>
                                             <? } ?>
                                         </select>

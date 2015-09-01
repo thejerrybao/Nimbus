@@ -5,9 +5,10 @@
  ** Author: Jerry Bao (jbao@berkeley.edu)
  ** Author: Robert Rodriguez (rob.rodriguez@berkeley.edu)
  ** Author: Diyar Aniwar (diyaraniwar@berkeley.edu)
+ ** Author: Sock Ryu (cki.sock@gmail.com)
  ** 
  ** CIRCLE K INTERNATIONAL
- ** COPYRIGHT 2014-2015 - ALL RIGHTS RESERVED
+ ** COPYRIGHT 2015-2016 - ALL RIGHTS RESERVED
  **/
 ini_set('display_errors', 1);
 session_start();
@@ -37,9 +38,7 @@ $customJS = true;
 <? require_once("header.php"); ?>
 
 <body>
-
     <div id="wrapper">
-
         <!-- Navigation -->
         <? require_once("nav.php"); ?>
 
@@ -84,12 +83,12 @@ $customJS = true;
                 
                                     <div class="form-group">
                                         <label>Story</label>
-                                        <textarea name="story" form="create_post" rows="3" id="story" class="form-control" required></textarea>
+                                        <textarea name="story" form="create_post" rows="3" id="story" class="form-control" placeholder="<img src='LINK_TO_IMAGE'> CONTENT" required></textarea>
                                     </div>
                                     <div class="form-group">
-                                        <label>Newsletter?</label>
+                                        <p><label>Newsletter?</label> (Don't check if you're writing a blog post) 
                                         <input type="hidden" name="newsletter" value="0">
-                                        <input type="checkbox" name="newsletter" class="newsletter-checkbox" value="1" checked>
+                                        <input type="checkbox" name="newsletter" class="newsletter-checkbox" value="1" unchecked></p>
                                     </div>
                                     <button type="submit" class="btn btn-primary">Post</button>
                                     <button type="reset" class="btn btn-primary">Reset Fields</button>
@@ -108,8 +107,8 @@ $customJS = true;
                                 <label>Publish</label>
                                 <p>Date and time story was published</p>
                                 <label>Story</label>
-                                <p>Write the story in this field! If you would like to add a picture to this story please paste:"&lt;img src='link to image' &gt;" to the front of the story.</p>
-                                
+                                <p>Write your post in this section! <b>If you would like to add a picture to this story</b> please paste the following:<span style="font-family: 'Courier New', monospace"> &lt;img src='LINK_TO_IMAGE'&gt; </span>in front of all the<span style="font-family: 'Courier New', monospace"> &lt;p&gt; </span> tags. Add <a href="#" title="This doesn't go anywhere" style="color: purple">links</a> by<span style="font-family: 'Courier New', monospace"> &lt;a href='LINK' target='_blank'&gt;LINK_TEXT&lt;/a&gt; </span>. Remember to enclose all necessary html tags. For more information, use <a href="http://www.w3schools.com/tags/" target="_blank" title="HTML reference">this page</a> as a reference.</p>
+                                <p>If you would like to style elements on the page (i.e., <span style="color: red";>change a text's color</span> or <span style="font-size: 16px">font-size</span>, <span style="background-color: yellow">highlight text</span>, etc.), surround the text to style like this:<span style="font-family: 'Courier New', monospace"> &lt;span style='STYLES'&gt;STYLED_CONTENT&lt;/span&gt; </span>. See <a href="http://www.w3schools.com/cssref/" target="_blank"  title="CSS reference">this page</a> for a reference on styles. Surround <b>bold text</b> like<span style="font-family: 'Courier New', monospace"> &lt;b&gt;BOLD_TEXT&lt;/b&gt; </span>, and <em>italic text</em> like<span style="font-family: 'Courier New', monospace"> &lt;em&gt;ITALIC_TEXT&lt;/em&gt; </span>. You can also use line breaks (<span style="font-family: 'Courier New', monospace"> &lt;br&gt; </span>, closing tag unnecessary).</p>
                         </div>
                     </div>
                 </div>
@@ -334,7 +333,8 @@ $customJS = true;
                                 <label>Publish</label>
                                 <p>Date and time story was published</p>
                                 <label>Story</label>
-                                <p>Write the story in this field! If you would like to add a picture to this story please paste:"&lt;img src='link to image' &gt;" to the front of the story.</p>
+                                <p>Write your post in this section! <b>If you would like to add a picture to this story</b> please paste the following:<span style="font-family: 'Courier New', monospace"> &lt;img src='LINK_TO_IMAGE'&gt; </span>in front of all the<span style="font-family: 'Courier New', monospace"> &lt;p&gt; </span> tags. Add <a href="#" title="This doesn't go anywhere" style="color: purple">links</a> by<span style="font-family: 'Courier New', monospace"> &lt;a href='LINK_TO_SITE' target='_blank'&gt;LINK_TEXT&lt;/a&gt; </span>. Remember to enclose all necessary html tags. For more information, use <a href="http://www.w3schools.com/tags/" target="_blank" title="HTML reference">this page</a> as a reference.</p>
+                                <p>If you would like to style elements on the page (i.e., <span style="color: red";>change a text's color</span> or <span style="font-size: 16px">font-size</span>, <span style="background-color: yellow">highlight text</span>, etc.), surround the text to style like this:<span style="font-family: 'Courier New', monospace"> &lt;span style='STYLES'&gt;STYLED_CONTENT&lt;/span&gt; </span>. See <a href="http://www.w3schools.com/cssref/" target="_blank"  title="CSS reference">this page</a> for a reference on styles. Surround <b>bold text</b> like<span style="font-family: 'Courier New', monospace"> &lt;b&gt;BOLD_TEXT&lt;/b&gt; </span>, and <em>italic text</em> like<span style="font-family: 'Courier New', monospace"> &lt;em&gt;ITALIC_TEXT&lt;/em&gt; </span>. You can also use line breaks (<span style="font-family: 'Courier New', monospace"> &lt;br&gt; </span>, closing tag unnecessary).</p>
                             </div>  
                         </div>
                     </div>

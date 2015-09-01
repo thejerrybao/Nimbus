@@ -1,13 +1,14 @@
 <?php 
 /** Project Name: Nimbus (Circle K Club Management)
- ** Administration Navigation (nav.php)
+ ** Database Functions (nav.php)
  **
  ** Author: Jerry Bao (jbao@berkeley.edu)
  ** Author: Robert Rodriguez (rob.rodriguez@berkeley.edu)
  ** Author: Diyar Aniwar (diyaraniwar@berkeley.edu)
+ ** Author: Sock Ryu (cki.sock@gmail.com)
  ** 
  ** CIRCLE K INTERNATIONAL
- ** COPYRIGHT 2014-2015 - ALL RIGHTS RESERVED
+ ** COPYRIGHT 2015-2016 - ALL RIGHTS RESERVED
  **/
 
 $valid_event_manage_views = ["list", "calendar", "event", "edit"];
@@ -31,10 +32,12 @@ $valid_mrp_views = ["mrpadd", "mrplist"];
         <!-- /.dropdown -->
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <?= $_SESSION['nimbus_first_name'] ?> <?= $_SESSION['nimbus_last_name'] ?> <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                <i class="fa fa-user fa-fw"></i> <?= $_SESSION['nimbus_first_name'] ?> <?= $_SESSION['nimbus_last_name'] ?> <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
-                <li><a href="logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                <li><a href="/~circlek/index.php"><i class="fa fa-home fa-fw"></i> Back to ucbcki.org</a></li>
+                <li><a href="/~circlek/selfinfo/events.php"><i class="fa fa-info-circle fa-fw"></i> My Events</a></li>
+                <li><a href="/~circlek/admin/logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
             </ul>
             <!-- /.dropdown-user -->
         </li>
